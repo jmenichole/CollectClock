@@ -1,69 +1,77 @@
-// Keep the casino data structure and savedData loading the same
+// Keep the casino <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollectClock - From One Gambler to Another - Wen Bonus?</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>CollectClock</h1>
+            <p class="tagline">From One Gambler to Another - Wen Bonus?</p>
+        </div>
+    </header>
 
-let currentDateTime = new Date('2025-01-05 05:16:48');
+    <main>
+        <div class="tracker-container">
+            <div class="donation-info">
+                <h3>Support CollectClock</h3>
+                <p>If you find this tool helpful, consider supporting:</p>
+                <div class="donate-options">
+                    <div class="donate-item">
+                        <a href="https://cash.app/$godzillamasters" target="_blank" class="donate-button cashapp-button">
+                            💸 Donate via CashApp
+                        </a>
+                        <div class="copy-wrapper">
+                            <span class="donate-address">$godzillamasters</span>
+                            <button class="copy-btn" onclick="copyToClipboard('$godzillamasters')">📋</button>
+                        </div>
+                    </div>
+                    <div class="donate-item">
+                        <a href="litecoin:MSfEK5UHm6efSC58q73RcPiAQNptef8bFE" target="_blank" class="donate-button crypto-button">
+                            🪙 Pay with Litecoin
+                        </a>
+                        <div class="copy-wrapper">
+                            <span class="donate-address">MSfEK5UHm6efSC58q73RcPiAQNptef8bFE</span>
+                            <button class="copy-btn" onclick="copyToClipboard('MSfEK5UHm6efSC58q73RcPiAQNptef8bFE')">📋</button>
+                        </div>
+                    </div>
+                    <div class="donate-item">
+                        <a href="https://github.com/sponsors/jmenichole" target="_blank" class="donate-button github-button">
+                            ❤️ Sponsor on GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-function updateTable() {
-    const tableBody = document.getElementById('casino-list');
-    tableBody.innerHTML = '';
+            <table class="tracker-table">
+                <thead>
+                    <tr>
+                        <th>Casino Name</th>
+                        <th>Last Collection</th>
+                        <th>Next Available</th>
+                        <th>Status</th>
+                        <th>Time Until Available</th>
+                        <th>Collect</th>
+                    </tr>
+                </thead>
+                <tbody id="casino-list">
+                    <!-- Casino rows will be added here via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
 
-    casinos.forEach(casino => {
-        const row = document.createElement('tr');
-        
-        let isAvailable = true;
-        let timeUntil = '';
-        
-        if (casino.lastCollection) {
-            const nextTime = new Date(casino.nextAvailable);
-            if (currentDateTime < nextTime) {
-                isAvailable = false;
-                timeUntil = getTimeUntil(nextTime, currentDateTime);
-            }
-        }
+    <footer>
+        <p>© 2025 CollectClock</p>
+    </footer>
 
-        row.innerHTML = `
-            <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
-            <td>${casino.lastCollection || '-'}</td>
-            <td>${casino.nextAvailable || '-'}</td>
-            <td class="status-${isAvailable ? 'available' : 'not-available'}">AVAILABLE</td>
-            <td>${!isAvailable ? timeUntil : ''}</td>
-            <td><button onclick="collect('${casino.name}')" ${!isAvailable ? 'disabled' : ''} style="cursor: pointer;">Collect</button></td>
-        `;
-        
-        tableBody.appendChild(row);
-    });
-}
+    <div class="copy-notification" id="copyNotification">Copied to clipboard!</div>
 
-function getTimeUntil(nextTime, currentTime) {
-    const diff = nextTime - currentTime;
-    
-    const totalHours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-    return `${totalHours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
-
-function collect(casinoName) {
-    const casino = casinos.find(c => c.name === casinoName);
-    if (casino) {
-        casino.lastCollection = currentDateTime.toISOString();
-        casino.nextAvailable = new Date(currentDateTime.getTime() + 24*60*60*1000).toISOString();
-        
-        // Start countdown immediately
-        updateTable();
-        
-        // Save to localStorage
-        localStorage.setItem('casinoData', JSON.stringify(casinos));
-    }
-}
-
-// Update time and table every second
-setInterval(() => {
-    currentDateTime = new Date(currentDateTime.getTime() + 1000);
-    updateTable();
-}, 1000);
-
-// Initial update
-document.addEventListener('DOMContentLoaded', () => {
-    updateTable();
-});
+    <script src="script.js"></script>
+</body>
+</html>
+ structure and savedData loading the same
