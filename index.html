@@ -3,24 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CollectClock - Social Casino Bonus Tracker</title>
+    <title>CollectClock - Because Time is Literally Money 💰</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>CollectClock</h1>
-        <p>Never miss a bonus again!</p>
+        <div class="header-content">
+            <h1>CollectClock</h1>
+        </div>
     </header>
 
     <main>
         <div class="tracker-container">
+            <div class="intro-message">
+                <p>From one gambler to another, let's make bonus collecting a streamlined process so nobody leaves money on the table! Support this and other project updates coming soon to make social casino side hustles and hobbies easier.</p>
+                <div class="support-options">
+                    <a href="https://github.com/sponsors/jmenichole" target="_blank" class="support-button github">
+                        ❤️ Support on GitHub
+                    </a>
+                    <a href="https://cash.app/$godzillamasters" target="_blank" class="support-button cashapp">
+                        💸 Support via CashApp
+                    </a>
+                    <a href="litecoin:MSfEK5UHm6efSC58q73RcPiAQNptef8bFE" class="support-button crypto">
+                        🪙 Support via LTC
+                        <div class="copy-wrapper">
+                            <button class="copy-btn" onclick="copyToClipboard('MSfEK5UHm6efSC58q73RcPiAQNptef8bFE')">📋</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
             <table class="tracker-table">
                 <thead>
                     <tr>
-                        <th>Casino Name</th>
-                        <th>Last Collection</th>
-                        <th>Next Available</th>
-                        <th>Status</th>
+                        <th>Casino</th>
                         <th>Time Until Available</th>
                         <th>Collect</th>
                     </tr>
@@ -30,11 +47,34 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="contact-section">
+            <h3>Contact Us</h3>
+            <form action="https://formsubmit.co/j.chapman7@yahoo.com" method="POST">
+                <input type="hidden" name="_subject" value="New CollectClock Contact">
+                <input type="hidden" name="_template" value="table">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
     </main>
 
     <footer>
         <p>© 2025 CollectClock</p>
     </footer>
+
+    <div class="copy-notification" id="copyNotification">Copied to clipboard!</div>
 
     <script src="script.js"></script>
 </body>
