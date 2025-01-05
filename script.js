@@ -1,4 +1,37 @@
-// Casino data structure
+// Casino // Update where we use Date objects
+const currentTime = new Date('2025-01-04 18:20:21');
+
+// And in the collect function:
+function collect(casinoName) {
+    const casino = casinos.find(c => c.name === casinoName);
+    if (casino) {
+        const now = new Date('2025-01-04 18:20:21');
+        casino.lastCollection = now.toISOString();
+        casino.nextAvailable = new Date(now.getTime() + 24*60*60*1000).toISOString();
+        
+        // Add this line for debugging
+        console.log(`Collected ${casinoName} at ${now}`);
+        
+        // Save to localStorage
+        localStorage.setItem('casinoData', JSON.stringify(casinos));
+        
+        updateTable();
+    }
+}
+
+// Add this at the start of your script
+// Load saved data
+const savedData = localStorage.getItem('casinoData');
+if (savedData) {
+    const loadedCasinos = JSON.parse(savedData);
+    casinos.forEach((casino, index) => {
+        if (loadedCasinos[index]) {
+            casino.lastCollection = loadedCasinos[index].lastCollection;
+            casino.nextAvailable = loadedCasinos[index].nextAvailable;
+        }
+    });
+}
+ structure
 const casinos = [
     { name: "Chumba Casino", url: "https://chumbacasino.com", lastCollection: null, nextAvailable: null },
     { name: "Fortune Coins", url: "https://fortunecoins.com", lastCollection: null, nextAvailable: null },
