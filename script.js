@@ -1,4 +1,48 @@
-// Casino // Update where we use Date objects
+// Casino //// Casino data structure
+const casinos = [
+    // Your casino list stays the same
+];
+
+// Update the table with casino data
+function updateTable() {
+    const tableBody = document.getElementById('casino-list');
+    tableBody.innerHTML = '';
+    
+    const currentTime = new Date('2025-01-04 18:21:53');
+
+    casinos.forEach(casino => {
+        const row = document.createElement('tr');
+        
+        // Changed this part to make initial status AVAILABLE
+        let status = casino.lastCollection ? 'WAITING' : 'AVAILABLE';
+        let timeUntil = '-';
+        
+        if (casino.lastCollection) {
+            const nextTime = new Date(casino.nextAvailable);
+            if (currentTime >= nextTime) {
+                status = 'AVAILABLE';
+                timeUntil = 'Ready Now!';
+            } else {
+                status = 'WAITING';
+                timeUntil = getTimeUntil(nextTime);
+            }
+        }
+
+        row.innerHTML = `
+            <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
+            <td>${casino.lastCollection || '-'}</td>
+            <td>${casino.nextAvailable || '-'}</td>
+            <td class="status-${status.toLowerCase()}">${status}</td>
+            <td>${timeUntil}</td>
+            <td><button onclick="collect('${casino.name}')" ${status === 'WAITING' ? 'disabled' : ''}>Collect</button></td>
+        `;
+        
+        tableBody.appendChild(row);
+    });
+}
+
+// Rest of your code stays the same
+Update where we use Date objects
 const currentTime = new Date('2025-01-04 18:20:21');
 
 // And in the collect function:
