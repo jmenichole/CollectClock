@@ -1,17 +1,4 @@
-
-// Add this at the start of your script
-// Load saved data
-const savedData = localStorage.getItem('casinoData');
-if (savedData) {
-    const loadedCasinos = JSON.parse(savedData);
-    casinos.forEach((casino, index) => {
-        if (loadedCasinos[index]) {
-            casino.lastCollection = loadedCasinos[index].lastCollection;
-            casino.nextAvailable = loadedCasinos[index].nextAvailable;
-        }
-    });
-}
- structure
+// Casino data structure
 const casinos = [
     { name: "Chumba Casino", url: "https://chumbacasino.com", lastCollection: null, nextAvailable: null },
     { name: "Fortune Coins", url: "https://fortunecoins.com", lastCollection: null, nextAvailable: null },
@@ -36,23 +23,29 @@ const casinos = [
     { name: "MyVegas Slots", url: "https://myvegas.com", lastCollection: null, nextAvailable: null }
 ];
 
-// Update the table with casino data
-// Casino data structure
-const casinos = [
-    // Your casino list stays the same
-];
+// Load saved data
+const savedData = localStorage.getItem('casinoData');
+if (savedData) {
+    const loadedCasinos = JSON.parse(savedData);
+    casinos.forEach((casino, index) => {
+        if (loadedCasinos[index]) {
+            casino.lastCollection = loadedCasinos[index].lastCollection;
+            casino.nextAvailable = loadedCasinos[index].nextAvailable;
+        }
+    });
+}
 
 // Update the table with casino data
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
     tableBody.innerHTML = '';
     
-    const currentTime = new Date('2025-01-04 18:21:53');
+    const currentTime = new Date('2025-01-04 18:24:58');
 
     casinos.forEach(casino => {
         const row = document.createElement('tr');
         
-        // Changed this part to make initial status AVAILABLE
+        // Set initial status to AVAILABLE if not collected
         let status = casino.lastCollection ? 'WAITING' : 'AVAILABLE';
         let timeUntil = '-';
         
@@ -80,47 +73,9 @@ function updateTable() {
     });
 }
 
-// Rest of your code stays the same
-function updateTable() {
-    const tableBody = document.getElementById('casino-list');
-    tableBody.innerHTML = '';
-    
-    const currentTime = new Date('2025-01-04 18:08:11');
-
-    casinos.forEach(casino => {
-        const row = document.createElement('tr');
-        
-        // Calculate status and time until available
-        let status = 'Not Started';
-        let timeUntil = '-';
-        
-        if (casino.lastCollection) {
-            const nextTime = new Date(casino.nextAvailable);
-            if (currentTime >= nextTime) {
-                status = 'AVAILABLE';
-                timeUntil = 'Ready Now!';
-            } else {
-                status = 'WAITING';
-                timeUntil = getTimeUntil(nextTime);
-            }
-        }
-
-        row.innerHTML = `
-            <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
-            <td>${casino.lastCollection || '-'}</td>
-            <td>${casino.nextAvailable || '-'}</td>
-            <td class="status-${status.toLowerCase()}">${status}</td>
-            <td>${timeUntil}</td>
-            <td><button onclick="collect('${casino.name}')" ${status !== 'AVAILABLE' ? 'disabled' : ''}>Collect</button></td>
-        `;
-        
-        tableBody.appendChild(row);
-    });
-}
-
 // Calculate time until next available
 function getTimeUntil(nextTime) {
-    const now = new Date('2025-01-04 18:08:11');
+    const now = new Date('2025-01-04 18:24:58');
     const diff = nextTime - now;
     
     const hours = Math.floor(diff / (1000 * 60 * 60));
@@ -134,9 +89,13 @@ function getTimeUntil(nextTime) {
 function collect(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        const now = new Date('2025-01-04 18:08:11');
+        const now = new Date('2025-01-04 18:24:58');
         casino.lastCollection = now.toISOString();
         casino.nextAvailable = new Date(now.getTime() + 24*60*60*1000).toISOString();
+        
+        // Save to localStorage
+        localStorage.setItem('casinoData', JSON.stringify(casinos));
+        
         updateTable();
     }
 }
