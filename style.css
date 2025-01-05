@@ -27,6 +27,34 @@ header {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* New Table Styles */
+.tracker-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tracker-table th,
+.tracker-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tracker-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.status-available {
+    color: green;
+    font-weight: bold;
+}
+
+.status-waiting {
+    color: orange;
+}
+
 footer {
     text-align: center;
     padding: 1rem;
