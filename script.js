@@ -35,28 +35,27 @@ if (savedData) {
     });
 }
 
-// Update the table with casino data
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
     tableBody.innerHTML = '';
     
-    const currentTime = new Date('2025-01-04 18:24:58');
+    const currentTime = new Date('2025-01-05 05:12:05');
 
     casinos.forEach(casino => {
         const row = document.createElement('tr');
         
-        // Set initial status to AVAILABLE if not collected
-        let status = casino.lastCollection ? 'WAITING' : 'AVAILABLE';
-        let timeUntil = '-';
+        // Always set initial status to AVAILABLE
+        let status = 'AVAILABLE';
+        let timeUntil = 'Ready Now!';
         
         if (casino.lastCollection) {
             const nextTime = new Date(casino.nextAvailable);
-            if (currentTime >= nextTime) {
+            if (currentTime < nextTime) {
+                status = 'WAITING';
+                timeUntil = getTimeUntil(nextTime, currentTime);
+            } else {
                 status = 'AVAILABLE';
                 timeUntil = 'Ready Now!';
-            } else {
-                status = 'WAITING';
-                timeUntil = getTimeUntil(nextTime);
             }
         }
 
@@ -66,30 +65,29 @@ function updateTable() {
             <td>${casino.nextAvailable || '-'}</td>
             <td class="status-${status.toLowerCase()}">${status}</td>
             <td>${timeUntil}</td>
-            <td><button onclick="collect('${casino.name}')" ${status === 'WAITING' ? 'disabled' : ''}>Collect</button></td>
+            <td><button onclick="collect('${casino.name}')" ${status === 'WAITING' ? 'disabled' : ''} style="cursor: pointer;">Collect</button></td>
         `;
         
         tableBody.appendChild(row);
     });
 }
 
-// Calculate time until next available
-function getTimeUntil(nextTime) {
-    const now = new Date('2025-01-04 18:24:58');
-    const diff = nextTime - now;
+function getTimeUntil(nextTime, currentTime) {
+    const diff = nextTime - currentTime;
     
-    const hours = Math.floor(diff / (1000 * 60 * 60));
+    // Convert total time to hours (including hours beyond 24)
+    const totalHours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
     
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    // Format with leading zeros
+    return `${totalHours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-// Handle collection
 function collect(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        const now = new Date('2025-01-04 18:24:58');
+        const now = new Date('2025-01-05 05:12:05');
         casino.lastCollection = now.toISOString();
         casino.nextAvailable = new Date(now.getTime() + 24*60*60*1000).toISOString();
         
@@ -100,8 +98,11 @@ function collect(casinoName) {
     }
 }
 
-// Update table every second
-setInterval(updateTable, 1000);
+// Update table every second with current time
+setInterval(() => {
+    const newTime = new Date(new Date('2025-01-05 05:12:05').getTime() + 1000);
+    updateTable(newTime);
+}, 1000);
 
 // Initial update
 document.addEventListener('DOMContentLoaded', updateTable);
