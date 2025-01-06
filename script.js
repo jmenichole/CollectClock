@@ -1,5 +1,4 @@
-// Casinolet currentDateTime = new Date('2025-01-06 12:21:53');
-data structure
+// Casino data structure
 const casinos = [
     // Casinos with Referral Links
     { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
@@ -42,7 +41,7 @@ if (savedData) {
     });
 }
 
-let currentDateTime = new Date('2025-01-06 12:16:11');
+let currentDateTime = new Date('2025-01-06 12:31:05');
 
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
@@ -65,7 +64,7 @@ function updateTable() {
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
             <td>${isAvailable ? 'AVAILABLE' : timeUntil}</td>
-            <td><input type="checkbox" disabled ${!isAvailable ? 'checked' : ''} style="cursor: not-allowed;"></td>
+            <td><input type="checkbox" onclick="return false;" readonly ${!isAvailable ? 'checked' : ''} style="pointer-events: none;"></td>
         `;
         
         tableBody.appendChild(row);
