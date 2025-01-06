@@ -1,274 +1,98 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
-
+/* Update the base colors */
 body {
-    line-height: 1.6;
-    background-color: #f0f2f5;
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
-/* Header Styling */
+/* Header styling */
 header {
-    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-    color: white;
-    padding: 3rem 0;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #000000, #1a1a1a);
 }
 
-.header-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
+/* Main content backgrounds */
+.intro-message,
+.coming-soon,
+.support-message,
+.contact-section {
+    background: linear-gradient(135deg, #1a1a1a, #242424);
+    color: #e0e0e0;
 }
 
-.header-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-}
-
-/* Main Content Styling */
-.tracker-container {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 0 20px;
-}
-
-.intro-message {
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
-    padding: 2rem;
-    border-radius: 15px;
-    margin: 2rem auto;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    max-width: 800px;
-    line-height: 1.8;
-}
-
-/* Table Styling */
+/* Table styling */
 .tracker-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin: 2rem 0;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
 }
 
 .tracker-table th {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 1.2rem;
-    font-weight: 600;
-    color: #2d2d2d;
+    background: linear-gradient(135deg, #242424, #1a1a1a);
+    color: #00b4d8;  /* Teal accent */
 }
 
 .tracker-table td {
-    padding: 1.2rem;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.tracker-table tr:last-child td {
-    border-bottom: none;
+    border-bottom: 1px solid #333;
 }
 
 .tracker-table tr:hover {
-    background-color: #f8f9fa;
+    background-color: #242424;
 }
 
-/* Support Section Styling */
-.support-message {
-    max-width: 800px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+/* Links */
+a {
+    color: #00b4d8;  /* Teal accent */
 }
 
-.support-options {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
+a:hover {
+    color: #48cae4;  /* Lighter teal */
 }
 
-.support-button {
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.support-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.github {
-    background-color: #2ea44f;
-}
-
-.cashapp {
-    background-color: #00D632;
-}
-
-.crypto {
-    background-color: #345D9D;
-}
-
-/* .coming-soon {
-    max-width: 800px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.coming-soon h3 {
-    color: #2d2d2d;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-}
-
-.coming-soon ul {
-    list-style: none;
-    padding: 0;
-}
-
-.coming-soon li {
-    margin: 1rem 0;
-    font-size: 1.2rem;
-    color: #666;
-}
- Form Styling */
-.contact-section {
-    max-width: 600px;
-    margin: 3rem auto;
-    padding: 2.5rem;
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.contact-section h3 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #2d2d2d;
-    font-size: 1.8rem;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
+/* Form elements */
 .form-group input,
 .form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+    background-color: #242424;
+    border: 2px solid #333;
+    color: #e0e0e0;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-    outline: none;
-    border-color: #4CAF50;
+    border-color: #00b4d8;  /* Teal accent */
 }
 
-.form-group textarea {
-    height: 150px;
-    resize: vertical;
+/* Support buttons */
+.github {
+    background-color: #006d77;  /* Dark teal */
 }
 
+.cashapp {
+    background-color: #0096c7;  /* Medium teal */
+}
+
+.crypto {
+    background-color: #00b4d8;  /* Bright teal */
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #1a1a1a, #242424);
+    color: #888;
+}
+
+/* Coming soon items */
+.coming-soon li {
+    color: #b0b0b0;
+}
+
+/* Submit button */
 .submit-btn {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, #4CAF50, #45a049);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    background: linear-gradient(135deg, #006d77, #00b4d8);
 }
 
 .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+    background: linear-gradient(135deg, #00b4d8, #48cae4);
 }
 
-/* Footer Styling */
-footer {
-    margin-top: auto;
-    text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    color: #6c757d;
-}
-
-/* Notification Styling */
+/* Notification */
 .copy-notification {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background-color: #333;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.copy-notification.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-}
-
-/* Checkbox Styling */
-input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    cursor: not-allowed;
-    margin: 0 auto;
-    display: block;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .tracker-container {
-        padding: 0 15px;
-    }
-    
-    .support-options {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .support-button {
-        width: 100%;
-        justify-content: center;
-    }
+    background-color: #00b4d8;
 }
