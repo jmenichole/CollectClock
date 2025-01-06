@@ -133,7 +133,33 @@ header {
     background-color: #345D9D;
 }
 
-/* Contact Form Styling */
+/* .coming-soon {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.coming-soon h3 {
+    color: #2d2d2d;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.coming-soon ul {
+    list-style: none;
+    padding: 0;
+}
+
+.coming-soon li {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    color: #666;
+}
+ Form Styling */
 .contact-section {
     max-width: 600px;
     margin: 3rem auto;
