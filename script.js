@@ -1,4 +1,5 @@
-// Casino data structure
+// Casinolet currentDateTime = new Date('2025-01-06 12:21:53');
+data structure
 const casinos = [
     // Casinos with Referral Links
     { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
