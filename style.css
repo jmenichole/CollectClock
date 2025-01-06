@@ -24,7 +24,7 @@ header {
 }
 
 .header-content {
-    max-width: 800px; /* Reduced from 1200px for better text width */
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -37,7 +37,7 @@ header {
 
 /* Main Content Styling */
 .tracker-container {
-    max-width: 1000px; /* Reduced for better readability */
+    max-width: 1000px;
     margin: 2rem auto;
     padding: 0 20px;
 }
@@ -83,6 +83,54 @@ header {
 
 .tracker-table tr:hover {
     background-color: #f8f9fa;
+}
+
+/* Support Section Styling */
+.support-message {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.support-options {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.support-button {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.support-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.github {
+    background-color: #2ea44f;
+}
+
+.cashapp {
+    background-color: #00D632;
+}
+
+.crypto {
+    background-color: #345D9D;
 }
 
 /* Contact Form Styling */
@@ -145,32 +193,6 @@ header {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
-/* Support Buttons Styling */
-.support-options {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin: 2rem 0;
-    flex-wrap: wrap;
-}
-
-.support-button {
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.support-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
 /* Footer Styling */
 footer {
     margin-top: auto;
@@ -178,6 +200,34 @@ footer {
     padding: 2rem;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     color: #6c757d;
+}
+
+/* Notification Styling */
+.copy-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background-color: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.copy-notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    cursor: not-allowed;
+    margin: 0 auto;
+    display: block;
 }
 
 /* Responsive Design */
