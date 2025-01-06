@@ -1,5 +1,4 @@
 // Casino data structure
-// Casino data structure
 const casinos = [
     // Casinos with Referral Links
     { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
@@ -20,8 +19,6 @@ const casinos = [
     { name: "Jackpota", url: "https://www.jackpota.com/?r=85453282", lastCollection: null, nextAvailable: null },
     { name: "Zula Casino", url: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", lastCollection: null, nextAvailable: null },
     { name: "DingDingDing", url: "https://dingdingding.com/?referral=190cd69a-5af4-51bf-b418-9a35effcdf04", lastCollection: null, nextAvailable: null },
-    { name: "Cases.gg", url: "https://cases.gg/r/JMENICHOLE", lastCollection: null, nextAvailable: null },
-    { name: "TrustDice", url: "https://trustdice.win/faucet/?ref=u_jmenichole", lastCollection: null, nextAvailable: null },
     { name: "Punt Casino", url: "https://punt.com/c/cg60pd", lastCollection: null, nextAvailable: null },
     { name: "Fortune Wheelz", url: "https://fortunewheelz.com/?invited_by=P36ZS6", lastCollection: null, nextAvailable: null },
     { name: "Zoot", url: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", lastCollection: null, nextAvailable: null },
@@ -44,7 +41,7 @@ if (savedData) {
     });
 }
 
-let currentDateTime = new Date('2025-01-05 17:07:39');
+let currentDateTime = new Date('2025-01-06 12:16:11');
 
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
@@ -67,7 +64,7 @@ function updateTable() {
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
             <td>${isAvailable ? 'AVAILABLE' : timeUntil}</td>
-            <td><input type="checkbox" onclick="collect('${casino.name}')" ${!isAvailable ? 'disabled checked' : ''} style="cursor: pointer;"></td>
+            <td><input type="checkbox" disabled ${!isAvailable ? 'checked' : ''} style="cursor: not-allowed;"></td>
         `;
         
         tableBody.appendChild(row);
