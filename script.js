@@ -41,7 +41,7 @@ if (savedData) {
     });
 }
 
-let currentDateTime = new Date('2025-01-06 20:02:10');
+let currentDateTime = new Date('2025-01-06 20:09:53');
 
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
@@ -64,7 +64,14 @@ function updateTable() {
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
             <td>${isAvailable ? 'AVAILABLE' : timeUntil}</td>
-            <td><input type="checkbox" onclick="collect('${casino.name}')" ${!isAvailable ? 'checked disabled' : ''} style="cursor: ${isAvailable ? 'pointer' : 'not-allowed'};"></td>
+            <td>
+                <input 
+                    type="checkbox" 
+                    onchange="collect('${casino.name}', this)" 
+                    ${!isAvailable ? 'checked' : ''} 
+                    ${!isAvailable ? 'disabled' : ''}
+                >
+            </td>
         `;
         
         tableBody.appendChild(row);
@@ -81,12 +88,11 @@ function getTimeUntil(nextTime, currentTime) {
     return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-function collect(casinoName) {
+function collect(casinoName, checkbox) {
     const casino = casinos.find(c => c.name === casinoName);
-    if (casino) {
+    if (casino && checkbox.checked) {
         casino.lastCollection = currentDateTime.toISOString();
         casino.nextAvailable = new Date(currentDateTime.getTime() + 24*60*60*1000).toISOString();
-        
         localStorage.setItem('casinoData', JSON.stringify(casinos));
         updateTable();
     }
