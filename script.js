@@ -41,7 +41,7 @@ if (savedData) {
     });
 }
 
-let currentDateTime = new Date('2025-01-06 20:09:53');
+let currentDateTime = new Date('2025-01-06 20:12:23');
 
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
@@ -61,20 +61,32 @@ function updateTable() {
             }
         }
 
+        // Create unique ID for each checkbox
+        const checkboxId = `checkbox-${casino.name.replace(/\s+/g, '-').toLowerCase()}`;
+        
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
             <td>${isAvailable ? 'AVAILABLE' : timeUntil}</td>
             <td>
                 <input 
                     type="checkbox" 
-                    onchange="collect('${casino.name}', this)" 
-                    ${!isAvailable ? 'checked' : ''} 
-                    ${!isAvailable ? 'disabled' : ''}
+                    id="${checkboxId}"
+                    ${!isAvailable ? 'checked disabled' : ''}
                 >
             </td>
         `;
         
         tableBody.appendChild(row);
+
+        // Add event listener after creating the element
+        const checkbox = document.getElementById(checkboxId);
+        if (checkbox && isAvailable) {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    collect(casino.name);
+                }
+            });
+        }
     });
 }
 
@@ -88,9 +100,9 @@ function getTimeUntil(nextTime, currentTime) {
     return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-function collect(casinoName, checkbox) {
+function collect(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
-    if (casino && checkbox.checked) {
+    if (casino) {
         casino.lastCollection = currentDateTime.toISOString();
         casino.nextAvailable = new Date(currentDateTime.getTime() + 24*60*60*1000).toISOString();
         localStorage.setItem('casinoData', JSON.stringify(casinos));
