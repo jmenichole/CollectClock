@@ -41,7 +41,7 @@ if (savedData) {
     });
 }
 
-let currentDateTime = new Date('2025-01-06 12:31:05');
+let currentDateTime = new Date('2025-01-06 20:02:10');
 
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
@@ -64,7 +64,7 @@ function updateTable() {
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank">${casino.name}</a></td>
             <td>${isAvailable ? 'AVAILABLE' : timeUntil}</td>
-            <td><input type="checkbox" onclick="return false;" readonly ${!isAvailable ? 'checked' : ''} style="pointer-events: none;"></td>
+            <td><input type="checkbox" onclick="collect('${casino.name}')" ${!isAvailable ? 'checked disabled' : ''} style="cursor: ${isAvailable ? 'pointer' : 'not-allowed'};"></td>
         `;
         
         tableBody.appendChild(row);
