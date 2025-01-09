@@ -1,224 +1,136 @@
 :root {
-    --background: #121212;     /* Main background - Very dark gray, almost black */
-    --surface: #1a1a1a;        /* Card/element background - Dark gray */
-    --surface-2: #242424;      /* Secondary surface - Slightly lighter gray */
-    --primary: #00b4d8;        /* Primary teal - Used for buttons and accents */
-    --primary-dark: #006d77;   /* Darker teal - Used for hover states */
-    --primary-light: #48cae4;  /* Lighter teal - Used for highlights */
-    --text: #e0e0e0;          /* Main text - Off-white */
-    --text-secondary: #b0b0b0; /* Secondary text - Light gray */
-    --border: #333;           /* Border color - Dark gray */
+    --rich-gold: #B8860B;
+    --light-gold: #FFD700;
+    --pale-gold: #F0E68C;
+    --deep-black: #0A0A0A;
+    --soft-black: #1A1A1A;
+    --accent-gold: #DAA520;
+    --text-gold: #F8F0E3;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
-
+/* Base Styles */
 body {
-    line-height: 1.6;
-    background-color: var(--background);
-    color: var(--text);
+    background: var(--deep-black);
+    color: var(--text-gold);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
-/* Header Styling */
-header {
-    background: linear-gradient(135deg, #000000, var(--surface));
-    color: var(--text);
-    padding: 3rem 0;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.header-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.header-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-    color: var(--primary-light);
-}
-
-/* Main Content Styling */
-.tracker-container {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 0 20px;
-}
-
-/* Common card styling */
-.intro-message,
-.coming-soon,
-.support-message,
-.contact-section {
-    background: linear-gradient(135deg, var(--surface), var(--surface-2));
-    padding: 2rem;
-    border-radius: 15px;
-    margin: 2rem auto;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    color: var(--text);
-    max-width: 800px;
-}
-
-/* Table Styling */
+/* Table Styles */
 .tracker-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: var(--surface);
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    margin: 2rem 0;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid var(--rich-gold);
+}
+
+.tracker-table th, 
+.tracker-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid var(--rich-gold);
+    color: var(--text-gold);
 }
 
 .tracker-table th {
-    background: linear-gradient(135deg, var(--surface-2), var(--surface));
-    padding: 1.2rem;
-    font-weight: 600;
-    color: var(--primary);
+    background: var(--soft-black);
+    color: var(--light-gold);
 }
 
-.tracker-table td {
-    padding: 1.2rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
+/* Checkbox Container Styles */
+.checkbox-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: rgba(10, 10, 10, 0.5);
+    border-radius: 15px;
+    border: 1px solid var(--rich-gold);
 }
 
-.tracker-table tr:last-child td {
-    border-bottom: none;
-}
-
-.tracker-table tr:hover {
-    background-color: var(--surface-2);
-}
-
-/* Links */
-a {
-    color: var(--primary);
-    text-decoration: none;
-}
-
-a:hover {
-    color: var(--primary-light);
-}
-
-/* Support Buttons */
-.support-options {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.support-button {
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    color: var(--text);
-    font-weight: 500;
-    transition: transform 0.2s, box-shadow 0.2s;
+.checkbox-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
-.support-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    text-decoration: none;
+.checkbox-item:hover {
+    background: rgba(184, 134, 11, 0.1);
 }
 
-.github {
-    background-color: var(--primary-dark);
-}
-
-.cashapp {
-    background-color: var(--primary);
-}
-
-.crypto {
-    background-color: var(--primary-light);
-}
-
-.copy-btn {
-    background: none;
-    border: none;
+.timer-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--rich-gold);
+    border-radius: 4px;
+    margin-right: 1rem;
     cursor: pointer;
-    padding: 4px;
-    color: var(--text);
+    position: relative;
+    transition: all 0.3s ease;
 }
 
-/* Form Styling */
-.form-group {
-    margin-bottom: 1.5rem;
+.timer-checkbox:checked {
+    background-color: var(--rich-gold);
 }
 
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--surface-2);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+.timer-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: var(--deep-black);
+    font-size: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-}
-
-.form-group textarea {
-    height: 150px;
-    resize: vertical;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-    color: var(--text);
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 500;
+.checkbox-item label {
+    color: var(--text-gold);
+    margin-right: 1rem;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+.availability-status {
+    color: var(--light-gold);
+    margin-left: auto;
+    font-size: 0.9rem;
 }
 
 /* Coming Soon Section */
+.coming-soon {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(10, 10, 10, 0.5);
+    border-radius: 15px;
+    border: 1px solid var(--rich-gold);
+}
+
+.coming-soon h3 {
+    color: var(--light-gold);
+    margin-bottom: 1rem;
+}
+
 .coming-soon ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
 }
 
 .coming-soon li {
-    margin: 1rem 0;
-    font-size: 1.2rem;
-    color: var(--text-secondary);
+    color: var(--text-gold);
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.coming-soon li::before {
+    content: '•';
+    color: var(--rich-gold);
+    position: absolute;
+    left: 0;
 }
 
 /* Footer */
