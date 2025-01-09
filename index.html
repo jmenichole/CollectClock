@@ -1,126 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CollectClock - Because Time is Literally Money 💰</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>CollectClock</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>CollectClock</h1>
-        </div>
-    </header>
-
-    <main>
-        <div class="tracker-container">
-            <div class="intro-message">
-                <p>Click, collect, and maximize your rewards with perfect timing - no bonus left behind!</p>
+    <div class="title-message">
+        <h1>CollectClock</h1>
+        <p>Click, collect, and maximize your rewards with perfect timing - no bonus</p>
+        <div class="title-graphic">
+            <div class="clock-face">
+                <div class="clock-center"></div>
+                <div class="clock-hand hour-hand"></div>
+                <div class="clock-hand minute-hand"></div>
+                <div class="clock-hand second-hand"></div>
             </div>
-
-            <table class="tracker-table">
-                <thead>
-                    <tr>
-                        <th>Casino</th>
-                        <th>Time Until Available</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="casino-list">
-                    <!-- Casino rows will be added here via JavaScript -->
-                </tbody>
-            </table>
-                    </table>
-    </div>
-
-    <div class="checkbox-container">
-        <div class="checkbox-item">
-            <input type="checkbox" id="checkbox1" class="timer-checkbox">
-            <label for="checkbox1">Time Block 1</label>
-            <span class="availability-status">Available</span>
-        </div>
-        <div class="checkbox-item">
-            <input type="checkbox" id="checkbox2" class="timer-checkbox">
-            <label for="checkbox2">Time Block 2</label>
-            <span class="availability-status">Available</span>
-        </div>
-        <div class="checkbox-item">
-            <input type="checkbox" id="checkbox3" class="timer-checkbox">
-            <label for="checkbox3">Time Block 3</label>
-            <span class="availability-status">Available</span>
         </div>
     </div>
 
-        <div class="coming-soon">
-            <h3>Coming Soon</h3>
-            <ul>
-                <li>📊 Bonus Summary</li>
-                <li>📅 Monthly Date Prediction</li>
-                <li>✨ And More!</li>
-            </ul>
-        </div>
+    <table class="tracker-table">
+        <thead>
+            <tr>
+                <th>Casino</th>
+                <th>Time Until Available</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="casino-list">
+            <!-- Casino rows will be added here via JavaScript -->
+        </tbody>
+    </table>
 
-        <div class="support-message">
-            <p>Support the development of more tools and features by contributing below:</p>
-            <div class="support-options">
-                <a href="https://github.com/sponsors/jmenichole" target="_blank" class="support-button github">
-                    <span>❤️ GitHub Sponsors</span>
-                </a>
-                <a href="https://cash.app/$godzillamasters" target="_blank" class="support-button cashapp">
-                    <span>💸 Support via CashApp</span>
-                </a>
-                <a href="https://live.blockcypher.com/ltc/address/MSfEK5UHm6efSC58q73RcPiAQNptef8bFE" target="_blank" class="support-button crypto">
-                    <span>🪙 Pay with LTC</span>
-                    <div class="copy-wrapper">
-                        <button class="copy-btn" onclick="copyToClipboard('MSfEK5UHm6efSC58q73RcPiAQNptef8bFE')">📋</button>
-                    </div>
-                </a>
-            </div>
-        </div>
+    <div class="coming-soon">
+        <h3>Coming Soon</h3>
+        <ul>
+            <li>📊 Bonus Summary</li>
+            <li>📈 Monthly Data Prediction</li>
+            <li>✨ And More!</li>
+        </ul>
+    </div>
 
-        <div class="contact-section">
-            <h3>Contact Us</h3>
-            <form action="https://formsubmit.co/j.chapman7@yahoo.com" method="POST">
-                <input type="hidden" name="_subject" value="New CollectClock Contact">
-                <input type="hidden" name="_template" value="table">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                </div>
-                <div class="form-group">
-                    <input type="tel" name="phone" placeholder="Phone Number" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="Email Address" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" placeholder="Your Message" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-        </div>
-    </main>
-<script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: 'uysfliausn',
-    });
-</script>
-<a href="https://freebitco.in/?r=52448026" target="_blank">
-  <img src="https://static1.freebitco.in/banners/728x90-3.png" alt="FreeBitco.in Banner" style="max-width:100%; height:auto; display:block; margin:0 auto;">
-</a>
-    <footer>
-        <p>© 2025 CollectClock</p>
-    </footer>
-
-    <div class="copy-notification" id="copyNotification">Copied to clipboard!</div>
-
-   <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: '2qr1itnirm',
-    });
-</script>
- <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
