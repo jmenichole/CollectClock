@@ -29,7 +29,20 @@ const casinos = [
     { name: "Global Poker", url: "https://www.globalpoker.com", lastCollection: null, nextAvailable: null }
 ];
 
-// Load saved data
+// Casino data structure
+const casinos = [
+    // Your existing casino data array remains unchanged
+    // ... (keep all your casino entries as they are)
+];
+
+// Timer Variables
+let timer;
+let isRunning = false;
+let timeLeft = 0;
+let totalTime = 0;
+let activeTimers = new Map();
+
+// Load saved casino data
 const savedData = localStorage.getItem('casinoData');
 if (savedData) {
     const loadedCasinos = JSON.parse(savedData);
@@ -43,6 +56,119 @@ if (savedData) {
 
 let currentDateTime = new Date('2025-01-06 20:12:23');
 
+// Timer Functions
+function updateCircleProgress(percentage) {
+    const circle = document.querySelector('.progress-bar');
+    const circumference = 283;
+    const offset = circumference - (percentage / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+}
+
+function formatTime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+function updateDisplay() {
+    document.querySelector('.timer-display').textContent = formatTime(timeLeft);
+    const percentage = (timeLeft / totalTime) * 100 || 0;
+    updateCircleProgress(percentage);
+}
+
+function startTimer() {
+    if (!isRunning && timeLeft > 0) {
+        isRunning = true;
+        timer = setInterval(() => {
+            timeLeft--;
+            updateDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                isRunning = false;
+                timeLeft = 0;
+                updateDisplay();
+            }
+        }, 1000);
+    }
+}
+
+function pauseTimer() {
+    clearInterval(timer);
+    isRunning = false;
+}
+
+function resetTimer() {
+    clearInterval(timer);
+    isRunning = false;
+    timeLeft = totalTime;
+    updateDisplay();
+    resetCheckboxes();
+}
+
+// Checkbox Functions
+function initializeCheckboxes() {
+    document.querySelectorAll('.timer-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            handleCheckboxChange(this);
+        });
+    });
+}
+
+function handleCheckboxChange(checkbox) {
+    const statusSpan = checkbox.parentElement.querySelector('.availability-status');
+    const timerId = checkbox.id;
+
+    if (checkbox.checked) {
+        startCheckboxTimer(timerId, statusSpan);
+    } else {
+        stopCheckboxTimer(timerId, statusSpan);
+    }
+}
+
+function startCheckboxTimer(timerId, statusSpan) {
+    if (!activeTimers.has(timerId)) {
+        statusSpan.textContent = formatTime(timeLeft);
+        activeTimers.set(timerId, {
+            timeLeft: timeLeft,
+            timer: setInterval(() => {
+                updateCheckboxTimer(timerId, statusSpan);
+            }, 1000)
+        });
+    }
+}
+
+function updateCheckboxTimer(timerId, statusSpan) {
+    const timerData = activeTimers.get(timerId);
+    timerData.timeLeft--;
+    statusSpan.textContent = formatTime(timerData.timeLeft);
+    
+    if (timerData.timeLeft <= 0) {
+        const checkbox = document.getElementById(timerId);
+        checkbox.checked = false;
+        stopCheckboxTimer(timerId, statusSpan);
+    }
+}
+
+function stopCheckboxTimer(timerId, statusSpan) {
+    if (activeTimers.has(timerId)) {
+        clearInterval(activeTimers.get(timerId).timer);
+        activeTimers.delete(timerId);
+    }
+    statusSpan.textContent = 'Available';
+}
+
+function resetCheckboxes() {
+    document.querySelectorAll('.timer-checkbox').forEach(checkbox => {
+        checkbox.checked = false;
+        checkbox.parentElement.querySelector('.availability-status').textContent = 'Available';
+    });
+    
+    activeTimers.forEach(timerData => clearInterval(timerData.timer));
+    activeTimers.clear();
+}
+
+// Casino Table Functions
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
     tableBody.innerHTML = '';
@@ -61,7 +187,6 @@ function updateTable() {
             }
         }
 
-        // Create unique ID for each checkbox
         const checkboxId = `checkbox-${casino.name.replace(/\s+/g, '-').toLowerCase()}`;
         
         row.innerHTML = `
@@ -78,7 +203,6 @@ function updateTable() {
         
         tableBody.appendChild(row);
 
-        // Add event listener after creating the element
         const checkbox = document.getElementById(checkboxId);
         if (checkbox && isAvailable) {
             checkbox.addEventListener('change', function() {
@@ -110,25 +234,15 @@ function collect(casinoName) {
     }
 }
 
-// Copy to clipboard function
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        const notification = document.getElementById('copyNotification');
-        notification.classList.add('show');
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 2000);
-    }).catch(err => {
-        console.error('Failed to copy:', err);
-    });
-}
+// Initialize everything when the document loads
+document.addEventListener('DOMContentLoaded', () => {
+    initializeCheckboxes();
+    updateDisplay();
+    updateTable();
+});
 
 // Update time and table every second
 setInterval(() => {
     currentDateTime = new Date(currentDateTime.getTime() + 1000);
     updateTable();
 }, 1000);
-
-// Initial update
-document.addEventListener('DOMContentLoaded', updateTable);
