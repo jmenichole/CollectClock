@@ -195,14 +195,30 @@ function updateTable() {
                 <input 
                     type="checkbox" 
                     id="${checkboxId}"
-                    ${!isAvailable ? 'checked disabled' : ''}
-                    disabled
+                    ${!isAvailable ? 'checked' : ''}
+                    style="${isAvailable ? 'background-color: green;' : ''}"
+                    onclick="handleCheckboxClick('${casino.name}', this)"
                 >
             </td>
         `;
         
         tableBody.appendChild(row);
     });
+}
+
+function handleCheckboxClick(casinoName, checkbox) {
+    const casino = casinos.find(c => c.name === casinoName);
+    if (casino) {
+        checkbox.checked = !checkbox.checked;
+        if (checkbox.checked) {
+            collect(casinoName);
+        } else {
+            casino.lastCollection = null;
+            casino.nextAvailable = null;
+            localStorage.setItem('casinoData', JSON.stringify(casinos));
+            updateTable();
+        }
+    }
 }
 
 function handleCasinoClick(casinoName, event) {
