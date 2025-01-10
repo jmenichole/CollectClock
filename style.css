@@ -156,8 +156,11 @@ body {
 .contact-us p, .donate p {
     color: var(--pale-gold);
 }
-
-.donate-button {
+.contact-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+}.donate-button {
     display: inline-block;
     background: var(--rich-gold);
     color: var(--deep-black);
