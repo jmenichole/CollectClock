@@ -29,6 +29,8 @@ body {
 .title-message h1 {
     color: var(--rich-gold);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
 }
 
 .title-graphic {
@@ -163,11 +165,6 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.coming-soon li::before {
-    content: '•';
-    color: var(--rich-gold);
 }
 
 .disabled-link {
