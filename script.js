@@ -1,5 +1,4 @@
-// 
-       // Casino data array with referral links
+// Casino data array with referral links
 const casinos = [
     {
         name: "Fortune Coins",
@@ -147,7 +146,7 @@ const casinos = [
     }
 ];
 
-// Load saved casino data from localStorage
+// Load saved casino data
 const savedData = localStorage.getItem('casinoData');
 if (savedData) {
     const loadedCasinos = JSON.parse(savedData);
@@ -160,9 +159,8 @@ if (savedData) {
 }
 
 // Set current date/time
-let currentDateTime = new Date('2025-01-09 14:10:53');
+let currentDateTime = new Date('2025-01-09 20:29:25');
 
-// Update table with casino data
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
     tableBody.innerHTML = '';
@@ -207,7 +205,6 @@ function updateTable() {
     });
 }
 
-// Handle casino link clicks
 function handleCasinoClick(casinoName, event) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
@@ -220,7 +217,6 @@ function handleCasinoClick(casinoName, event) {
     }
 }
 
-// Handle collection and timer
 function collect(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
@@ -247,7 +243,6 @@ function collect(casinoName) {
     }
 }
 
-// Format time until next available
 function getTimeUntil(nextTime, currentTime) {
     const diff = nextTime - currentTime;
     
