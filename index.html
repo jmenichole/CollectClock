@@ -5,13 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CollectClock</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #ffd700;
+            font-family: Arial, sans-serif;
+        }
+        .title-message h1 {
+            color: #ffd700;
+        }
+        .tracker-table th, .tracker-table td {
+            border: 1px solid #ffd700;
+        }
+        .tracker-table th {
+            background-color: #333;
+        }
+        .tracker-table td {
+            background-color: #111;
+            text-align: center;
+        }
+        .tracker-table input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+        .contact-us a, .donate a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        .donate-button {
+            background-color: #333;
+            border: 1px solid #ffd700;
+            padding: 10px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            background-color: #7289DA; /* Discord blue */
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .contact-icon img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
 </head>
-<body><script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: '1bjv9bkwbg',
-    });
-</script>
-
+<body>
     <div class="title-message">
         <h1>CollectClock</h1>
         <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
@@ -34,21 +77,33 @@
             </tr>
         </thead>
         <tbody id="casino-list">
-            <!-- Casino rows will be added here via JavaScript -->
+            <tr>
+                <td><a href="https://casino1.com" target="_blank">Casino 1</a></td>
+                <td id="timer1">24:00:00</td>
+                <td><input type="checkbox" id="checkbox1" onclick="startTimer('timer1', 'checkbox1')"></td>
+            </tr>
+            <tr>
+                <td><a href="https://casino2.com" target="_blank">Casino 2</a></td>
+                <td id="timer2">24:00:00</td>
+                <td><input type="checkbox" id="checkbox2" onclick="startTimer('timer2', 'checkbox2')"></td>
+            </tr>
         </tbody>
     </table>
-<div class="contact-us">
-    <h2>Contact Us</h2>
-    <a href="https://discordapp.com/users/JMENICHOLE" target="_blank">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="contact-icon">
-    </a>
-</div>
 
-<div class="donate">
-    <h2>Support Us</h2>
-    <a href="https://github.com/sponsors/jmenichole0" class="donate-button" target="_blank">Sponsor on GitHub</a>
-    <a href="https://cash.app/$godzillamasters" class="donate-button" target="_blank">Donate via Cash App</a>
-</div>    <div class="coming-soon">
+    <div class="contact-us">
+        <h2>Contact Us</h2>
+        <a href="https://discordapp.com/users/JMENICHOLE" target="_blank" class="contact-icon">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord">
+        </a>
+    </div>
+
+    <div class="donate">
+        <h2>Support Us</h2>
+        <a href="https://github.com/sponsors/jmenichole0" class="donate-button" target="_blank">Sponsor on GitHub</a>
+        <a href="https://cash.app/$godzillamasters" class="donate-button" target="_blank">Donate via Cash App</a>
+    </div>
+
+    <div class="coming-soon">
         <h3>Coming Soon</h3>
         <ul>
             <li>📊 Bonus Summary</li>
@@ -57,6 +112,29 @@
         </ul>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function startTimer(timerId, checkboxId) {
+            const timerElement = document.getElementById(timerId);
+            let time = 24 * 60 * 60; // 24 hours in seconds
+
+            if (document.getElementById(checkboxId).checked) {
+                const interval = setInterval(() => {
+                    if (time <= 0) {
+                        clearInterval(interval);
+                        timerElement.innerHTML = "AVAILABLE";
+                    } else {
+                        time--;
+                        const hours = Math.floor(time / 3600);
+                        const minutes = Math.floor((time % 3600) / 60);
+                        const seconds = time % 60;
+                        timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    }
+                }, 1000);
+            } else {
+                clearInterval(interval);
+                timerElement.innerHTML = "24:00:00";
+            }
+        }
+    </script>
 </body>
 </html>
