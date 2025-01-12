@@ -1,4 +1,3 @@
-// Casino data array with referral // Load saved casino data
 // Casino data array with referral links
 const casinos = [
     {
@@ -196,7 +195,7 @@ function updateTable() {
                    target="_blank" 
                    onclick="handleCasinoClick('${casino.name}', event)"
                    ${!isAvailable ? 'class="disabled-link"' : ''}>
-                    ${casino.name}
+                   ${casino.name}
                 </a>
             </td>
             <td>${isAvailable ? 'AVAILABLE' : timeUntil}</td>
@@ -218,7 +217,6 @@ function updateTable() {
 function handleCheckboxClick(casinoName, checkbox) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        checkbox.checked = !checkbox.checked;
         if (checkbox.checked) {
             collect(casinoName);
         } else {
@@ -276,4 +274,4 @@ function getTimeUntil(nextTime, currentTime) {
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
     return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
+}/ Casino data array with referral // Load saved casino data
