@@ -1,3 +1,4 @@
+// Casino data array with referral // Load saved casino data
 // Casino data array with referral links
 const casinos = [
     {
@@ -159,7 +160,16 @@ if (savedData) {
 }
 
 // Set current date/time
-let currentDateTime = new Date('2025-01-09 20:29:25');
+let currentDateTime = new Date();
+
+// Update table every second
+setInterval(() => {
+    currentDateTime = new Date(currentDateTime.getTime() + 1000);
+    updateTable();
+}, 1000);
+
+// Initial table update
+updateTable();
 
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
@@ -167,10 +177,9 @@ function updateTable() {
 
     casinos.forEach(casino => {
         const row = document.createElement('tr');
-        
         let isAvailable = true;
         let timeUntil = '';
-        
+
         if (casino.lastCollection) {
             const nextTime = new Date(casino.nextAvailable);
             if (currentDateTime < nextTime) {
@@ -180,7 +189,7 @@ function updateTable() {
         }
 
         const checkboxId = `checkbox-${casino.name.replace(/\s+/g, '-').toLowerCase()}`;
-        
+
         row.innerHTML = `
             <td>
                 <a href="${casino.url}" 
@@ -201,7 +210,7 @@ function updateTable() {
                 >
             </td>
         `;
-        
+
         tableBody.appendChild(row);
     });
 }
@@ -238,15 +247,15 @@ function collect(casinoName) {
     if (casino) {
         const collectionTime = new Date(currentDateTime.getTime() + 60000); // 1 minute buffer
         casino.lastCollection = collectionTime.toISOString();
-        casino.nextAvailable = new Date(collectionTime.getTime() + 24*60*60*1000).toISOString();
+        casino.nextAvailable = new Date(collectionTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
         localStorage.setItem('casinoData', JSON.stringify(casinos));
-        
+
         const row = document.querySelector(`#checkbox-${casino.name.replace(/\s+/g, '-').toLowerCase()}`).closest('tr');
         const statusCell = row.querySelector('td:nth-child(2)');
-        
+
         let bufferSeconds = 60;
         statusCell.innerHTML = `<span class="buffer-countdown">Collection window: ${bufferSeconds} seconds</span>`;
-        
+
         const bufferTimer = setInterval(() => {
             bufferSeconds--;
             if (bufferSeconds > 0) {
@@ -261,19 +270,10 @@ function collect(casinoName) {
 
 function getTimeUntil(nextTime, currentTime) {
     const diff = nextTime - currentTime;
-    
+
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
+
     return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
-
-// Update time and table every second
-setInterval(() => {
-    currentDateTime = new Date(currentDateTime.getTime() + 1000);
-    updateTable();
-}, 1000);
-
-// Initial table update
-updateTable();
