@@ -77,16 +77,7 @@
             </tr>
         </thead>
         <tbody id="casino-list">
-            <tr>
-                <td><a href="https://casino1.com" target="_blank">Casino 1</a></td>
-                <td id="timer1">24:00:00</td>
-                <td><input type="checkbox" id="checkbox1" onclick="startTimer('timer1', 'checkbox1')"></td>
-            </tr>
-            <tr>
-                <td><a href="https://casino2.com" target="_blank">Casino 2</a></td>
-                <td id="timer2">24:00:00</td>
-                <td><input type="checkbox" id="checkbox2" onclick="startTimer('timer2', 'checkbox2')"></td>
-            </tr>
+            <!-- Casino rows will be added here via JavaScript -->
         </tbody>
     </table>
 
@@ -112,29 +103,6 @@
         </ul>
     </div>
 
-    <script>
-        function startTimer(timerId, checkboxId) {
-            const timerElement = document.getElementById(timerId);
-            let time = 24 * 60 * 60; // 24 hours in seconds
-
-            if (document.getElementById(checkboxId).checked) {
-                const interval = setInterval(() => {
-                    if (time <= 0) {
-                        clearInterval(interval);
-                        timerElement.innerHTML = "AVAILABLE";
-                    } else {
-                        time--;
-                        const hours = Math.floor(time / 3600);
-                        const minutes = Math.floor((time % 3600) / 60);
-                        const seconds = time % 60;
-                        timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    }
-                }, 1000);
-            } else {
-                clearInterval(interval);
-                timerElement.innerHTML = "24:00:00";
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
