@@ -166,6 +166,16 @@ body {
     width: 40px;
     height: 40px;
     margin-top: 10px;
+    display: inline-block;
+    background-color: #7289DA; /* Discord blue */
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.contact-icon img {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .donate-button {
