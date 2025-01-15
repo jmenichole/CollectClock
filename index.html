@@ -6,66 +6,60 @@
     <title>CollectClock</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            background-color: #000;
-            color: #ffd700;
-            font-family: Arial, sans-serif;
-        }
-        .title-message h1 {
-            color: #ffd700;
-        }
-        .tracker-table th, .tracker-table td {
-            border: 1px solid #ffd700;
-        }
-        .tracker-table th {
-            background-color: #333;
-        }
-        .tracker-table td {
-            background-color: #111;
-            text-align: center;
-        }
-        .tracker-table input[type="checkbox"] {
-            transform: scale(1.5);
+        .menu-icon {
+            display: none;
             cursor: pointer;
+            font-size: 24px;
         }
-        .contact-us a, .donate a {
-            color: #ffd700;
-            text-decoration: none;
+
+        .menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
         }
-        .donate-button {
-            background-color: #333;
-            border: 1px solid #ffd700;
-            padding: 10px;
-            display: inline-block;
-            margin: 5px 0;
-        }
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            display: inline-block;
-            background-color: #7289DA; /* Discord blue */
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        .contact-icon img {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ffd700;
-        }
-        .footer a {
-            color: #ffd700;
-            text-decoration: none;
+
+        .menu li {
             margin: 0 10px;
+        }
+
+        .menu a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .menu {
+                display: none;
+                flex-direction: column;
+                background-color: #333;
+                position: absolute;
+                top: 50px;
+                width: 100%;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .menu li {
+                margin: 10px 0;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul class="menu" id="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="submit-win.html">Submit Your Win</a></li>
+            <li><a href="contests.html">Contests</a></li>
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="collaborate.html">Collaborate</a></li>
+        </ul>
+    </header>
     <div class="title-message">
         <h1>CollectClock</h1>
         <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
@@ -78,7 +72,6 @@
             </div>
         </div>
     </div>
-
     <table class="tracker-table">
         <thead>
             <tr>
@@ -91,20 +84,6 @@
             <!-- Casino rows will be added here via JavaScript -->
         </tbody>
     </table>
-
-    <div class="contact-us">
-        <h2>Contact Us</h2>
-        <a href="https://discordapp.com/users/JMENICHOLE" target="_blank" class="contact-icon">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord">
-        </a>
-    </div>
-
-    <div class="donate">
-        <h2>Support Us</h2>
-        <a href="https://github.com/sponsors/jmenichole0" class="donate-button" target="_blank">Sponsor on GitHub</a>
-        <a href="https://cash.app/$godzillamasters" class="donate-button" target="_blank">Donate via Cash App</a>
-    </div>
-
     <div class="coming-soon">
         <h3>Coming Soon</h3>
         <ul>
@@ -113,11 +92,16 @@
             <li>✨ And More!</li>
         </ul>
     </div>
-
-    <div class="footer">
-        <p>Looking for collaboration opportunities! <a href="mailto:j.chapman7@yahoo.com">📧</a> <a href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/right-arrow/right-arrow-original.svg" alt="Right Arrow" width="20"></a></p>
-    </div>
-
     <script src="script.js"></script>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'flex';
+            }
+        }
+    </script>
 </body>
 </html>
