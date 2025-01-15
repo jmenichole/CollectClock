@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Your Win</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul class="menu" id="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="submit-win.html">Submit Your Win</a></li>
+            <li><a href="contests.html">Contests</a></li>
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="collaborate.html">Collaborate</a></li>
+        </ul>
+    </header>
+    <h1>Submit Your Win</h1>
+    <p>Share your biggest wins from daily bonus funds with us!</p>
+    <form action="mailto:j.chapman7@yahoo.com" method="post" enctype="text/plain">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+        <label for="casino">Casino:</label><br>
+        <input type="text" id="casino" name="casino"><br>
+        <label for="win">Win Amount:</label><br>
+        <input type="text" id="win" name="win"><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+    <script src="script.js"></script>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
