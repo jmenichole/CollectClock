@@ -284,4 +284,48 @@ button {
 button:hover {
     background-color: var(--accent-gold);
     box-shadow: 0 0 10px 5px rgba(255, 223, 0, 0.75);
+
+}
+/* Add your existing styles here */
+
+/* Add styles for the hamburger menu */
+.menu-icon {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin: 0 10px;
+}
+
+.menu a {
+    color: #ffd700;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .menu {
+        display: none;
+        flex-direction: column;
+        background-color: #333;
+        position: absolute;
+        top: 50px;
+        width: 100%;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .menu li {
+        margin: 10px 0;
+        text-align: center;
+    }
 }
