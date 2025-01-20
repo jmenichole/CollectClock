@@ -213,8 +213,6 @@ function updateTable() {
     localStorage.setItem('casinoData', JSON.stringify(casinos));
 }
 
-       
-
 function handleCheckboxClick(casinoName, checkbox) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
