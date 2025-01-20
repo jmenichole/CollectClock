@@ -268,3 +268,60 @@ function toggleMenu() {
         menu.style.display = 'flex';
     }
 }
+
+// Fetch odds for upcoming sports games
+async function fetchOdds() {
+    const apiKey = 'cf97eedbe621ffabed7e15b6282cbafe'; // Replace with your OddsAPI key
+    const response = await fetch(`https://api.the-odds-api.com/v4/sports/upcoming/odds/?apiKey=${apiKey}&regions=us&markets=h2h&dateFormat=iso&oddsFormat=decimal`);
+    const data = await response.json();
+    return data;
+}
+
+// Create ticker element
+function createTicker() {
+    const ticker = document.createElement('div');
+    ticker.id = 'odds-ticker';
+    ticker.style.position = 'fixed';
+    ticker.style.bottom = '0';
+    ticker.style.width = '100%';
+    ticker.style.backgroundColor = '#333';
+    ticker.style.color = '#fff';
+    ticker.style.overflow = 'hidden';
+    ticker.style.whiteSpace = 'nowrap';
+    ticker.style.boxSizing = 'border-box';
+    ticker.style.padding = '10px';
+    document.body.appendChild(ticker);
+}
+
+// Update ticker with odds data
+function updateTicker(odds) {
+    const ticker = document.getElementById('odds-ticker');
+    if (!ticker) return;
+
+    let tickerContent = '';
+    odds.forEach(game => {
+        tickerContent += `${game.home_team} vs ${game.away_team}: `;
+        game.bookmakers[0].markets[0].outcomes.forEach(outcome => {
+            tickerContent += `${outcome.name} @ ${outcome.price} `;
+        });
+        tickerContent += ' | ';
+    });
+
+    ticker.textContent = tickerContent;
+}
+
+// Initialize and update the ticker
+async function initTicker() {
+    createTicker();
+    const odds = await fetchOdds();
+    updateTicker(odds);
+
+    // Update the ticker every hour
+    setInterval(async () => {
+        const newOdds = await fetchOdds();
+        updateTicker(newOdds);
+    }, 3600000);
+}
+
+// Start the ticker
+initTicker();
