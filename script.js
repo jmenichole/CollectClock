@@ -168,8 +168,6 @@ setInterval(() => {
 }, 1000);
 
 // Initial table update
-updateTable();
-
 function updateTable() {
     const tableBody = document.getElementById('casino-list');
     tableBody.innerHTML = '';
@@ -193,8 +191,7 @@ function updateTable() {
             <td>
                 <a href="${casino.url}" 
                    target="_blank" 
-                   onclick="handleCasinoClick('${casino.name}', event)"
-                   ${!isAvailable ? 'class="disabled-link"' : ''}>
+                   onclick="handleCasinoClick('${casino.name}', event)">
                    ${casino.name}
                 </a>
             </td>
@@ -215,6 +212,8 @@ function updateTable() {
     // Save the current state of the casinos
     localStorage.setItem('casinoData', JSON.stringify(casinos));
 }
+
+       
 
 function handleCheckboxClick(casinoName, checkbox) {
     const casino = casinos.find(c => c.name === casinoName);
