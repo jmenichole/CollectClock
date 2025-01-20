@@ -3,36 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Your Win</title>
+    <title>CollectClock</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu li {
+            margin: 0 10px;
+        }
+
+        .menu a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .menu {
+                display: none;
+                flex-direction: column;
+                background-color: #333;
+                position: absolute;
+                top: 50px;
+                width: 100%;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .menu li {
+                margin: 10px 0;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
         <ul class="menu" id="menu">
             <li><a href="index.html">Home</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="submit-win.html">Submit Your Win</a></li>
             <li><a href="contests.html">Contests</a></li>
             <li><a href="articles.html">Articles</a></li>
-            <li><a href="collaborate.html">Collaborate</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
         </ul>
     </header>
-    <h1>Submit Your Win</h1>
-    <p>Share your biggest wins from daily bonus funds with us!</p>
-    <form action="mailto:j.chapman7@yahoo.com" method="post" enctype="text/plain">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="casino">Casino:</label><br>
-        <input type="text" id="casino" name="casino"><br>
-        <label for="win">Win Amount:</label><br>
-        <input type="text" id="win" name="win"><br>
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message"></textarea><br>
-        <input type="submit" value="Submit">
-    </form>
+    <div class="title-message">
+        <h1>CollectClock</h1>
+        <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
+        <div class="title-graphic">
+            <div class="clock-face">
+                <div class="clock-center"></div>
+                <div class="clock-hand hour-hand"></div>
+                <div class="clock-hand minute-hand"></div>
+                <div class="clock-hand second-hand"></div>
+            </div>
+        </div>
+    </div>
+    <table class="tracker-table">
+        <thead>
+            <tr>
+                <th>Casino</th>
+                <th>Time Until Available</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="casino-list">
+            <!-- Casino rows will be added here via JavaScript -->
+        </tbody>
+    </table>
+    <div class="coming-soon">
+        <h3>Coming Soon</h3>
+        <ul>
+            <li>📊 Bonus Summary</li>
+            <li>📈 Monthly Data Prediction</li>
+            <li>✨ And More!</li>
+        </ul>
+    </div>
     <script src="script.js"></script>
     <script>
         function toggleMenu() {
