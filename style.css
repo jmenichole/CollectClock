@@ -329,3 +329,15 @@ button:hover {
         text-align: center;
     }
 }
+#odds-ticker {
+    animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
