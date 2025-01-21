@@ -153,17 +153,7 @@ const casinos = [
     }
 ];
 
-// API Configuration
-const API_CONFIG = {
-    key: 'cf97eedbe621ffabed7e15b6282cbafe',
-    baseUrl: 'https://api.the-odds-api.com/v4',
-    sports: ['upcoming', 'in_play'],
-    regions: 'us',
-    markets: 'h2h',
-    oddsFormat: 'decimal'
-};
-
-// Load saved casino data
+// Load saved data
 const savedData = localStorage.getItem('casinoData');
 if (savedData) {
     const loadedCasinos = JSON.parse(savedData);
@@ -174,9 +164,6 @@ if (savedData) {
         }
     });
 }
-
-// Set current date/time
-let currentDateTime = new Date();
 
 // Update casino display
 function updateCasinoDisplay() {
@@ -196,7 +183,7 @@ function updateCasinoDisplay() {
             <a href="${casino.url}" 
                target="_blank" 
                onclick="handleCasinoClick('${casino.name}', event)"
-               class="${!isAvailable ? 'disabled-link' : ''}">
+               style="color: #B8860B; text-decoration: none;">
                Collect Bonus
             </a>
         `;
@@ -207,81 +194,29 @@ function updateCasinoDisplay() {
     localStorage.setItem('casinoData', JSON.stringify(casinos));
 }
 
-// Time display functions
-function updateTimeDisplay() {
-    const timeDisplay = document.querySelector('.time-display');
-    if (timeDisplay) {
-        timeDisplay.textContent = currentDateTime.toLocaleTimeString();
-    }
-}
-
-// Update time every second
-setInterval(() => {
-    currentDateTime = new Date(currentDateTime.getTime() + 1000);
-    updateTimeDisplay();
-    updateCasinoDisplay();
-}, 1000);
-
-// Sports odds functions
-async function fetchOdds() {
-    try {
-        const response = await fetch(
-            `${API_CONFIG.baseUrl}/sports/${API_CONFIG.sports[0]}/odds/?` + 
-            `apiKey=${API_CONFIG.key}&` +
-            `regions=${API_CONFIG.regions}&` +
-            `markets=${API_CONFIG.markets}&` +
-            `oddsFormat=${API_CONFIG.oddsFormat}`
-        );
-
-        if (!response.ok) throw new Error(`API Error: ${response.status}`);
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching odds:', error);
-        return [];
-    }
-}
-
-async function initializeTicker() {
-    const tickerContainer = document.getElementById('ticker-container');
-    if (!tickerContainer) return;
-
-    const odds = await fetchOdds();
-    
-    if (odds.length > 0) {
-        const ticker = document.createElement('div');
-        ticker.id = 'odds-ticker';
-        ticker.innerHTML = `
-            <div class="ticker-content">
-                ${odds.map(game => 
-                    `${game.sport_title}: ${game.home_team} vs ${game.away_team}`
-                ).join(' || ')}
-            </div>
-        `;
-        tickerContainer.appendChild(ticker);
-    }
-}
-
-// Event Handlers
+// Handle casino clicks
 function handleCasinoClick(casinoName, event) {
     const casino = casinos.find(c => c.name === casinoName);
-    if (casino && casino.nextAvailable && currentDateTime < new Date(casino.nextAvailable)) {
+    if (casino && casino.nextAvailable && new Date() < new Date(casino.nextAvailable)) {
         event.preventDefault();
         return;
     }
     collect(casinoName);
 }
 
+// Collect bonus
 function collect(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        casino.lastCollection = currentDateTime.toISOString();
-        casino.nextAvailable = new Date(currentDateTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
+        const now = new Date();
+        casino.lastCollection = now.toISOString();
+        casino.nextAvailable = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString();
         localStorage.setItem('casinoData', JSON.stringify(casinos));
         updateCasinoDisplay();
     }
 }
 
-// Utility Functions
+// Get time until next collection
 function getTimeUntil(nextTime, currentTime) {
     const diff = nextTime - currentTime;
     const hours = Math.floor(diff / (1000 * 60 * 60));
@@ -290,16 +225,44 @@ function getTimeUntil(nextTime, currentTime) {
     return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-function toggleMenu() {
-    const menu = document.getElementById('menu');
-    menu.classList.toggle('active');
+// Sports odds ticker
+async function initializeTicker() {
+    const tickerContainer = document.getElementById('ticker-container');
+    if (!tickerContainer) return;
+
+    try {
+        const response = await fetch(
+            `https://api.the-odds-api.com/v4/sports/upcoming/odds/?apiKey=cf97eedbe621ffabed7e15b6282cbafe&regions=us&markets=h2h`
+        );
+        
+        if (!response.ok) throw new Error('API Error');
+        
+        const odds = await response.json();
+        
+        if (odds.length > 0) {
+            const ticker = document.createElement('div');
+            ticker.id = 'odds-ticker';
+            ticker.innerHTML = `
+                <div class="ticker-content">
+                    ${odds.map(game => 
+                        `${game.sport_title}: ${game.home_team} vs ${game.away_team}`
+                    ).join(' || ')}
+                </div>
+            `;
+            tickerContainer.appendChild(ticker);
+        }
+    } catch (error) {
+        console.error('Error fetching odds:', error);
+    }
 }
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    updateTimeDisplay();
     updateCasinoDisplay();
     initializeTicker();
+    
+    // Update display every minute
+    setInterval(updateCasinoDisplay, 60000);
     
     // Refresh odds every 5 minutes
     setInterval(initializeTicker, 300000);
