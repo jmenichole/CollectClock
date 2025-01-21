@@ -1,210 +1,164 @@
-:root {
-    --rich-gold: #FFD700;
-    --deep-gold: #B8860B;
-    --pale-gold: #FFF8DC;
-    --dark-bg: #1A1A1A;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollectClock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+</head>
+<body>
+    <style>
+        :root {
+            --rich-gold: #FFD700;
+            --deep-gold: #B8860B;
+            --pale-gold: #FFF8DC;
+            --dark-bg: #1A1A1A;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(145deg, var(--rich-gold), var(--deep-gold));
+            color: var(--dark-bg);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(145deg, var(--rich-gold), var(--deep-gold));
-    color: var(--dark-bg);
-    line-height: 1.6;
-    min-height: 100vh;
-    padding: 20px;
-}
+        .title-message {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: var(--rich-gold);
+        }
 
-/* Navigation Styles */
-.nav-menu {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-}
+        .casino-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
 
-.menu {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-    justify-content: center;
-}
+        .casino-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-.nav-link {
-    position: relative;
-    color: var(--rich-gold);
-    text-decoration: none;
-    padding: 8px 16px;
-    transition: color 0.3s ease;
-}
+        .casino-card:hover {
+            transform: translateY(-5px);
+        }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--rich-gold);
-    transition: width 0.3s ease;
-}
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
 
-.nav-link:hover::after {
-    width: 100%;
-}
+        .status-available {
+            background: #50C878;
+            color: white;
+        }
 
-/* Title and Clock Styles */
-.title-message {
-    text-align: center;
-    margin-bottom: 40px;
-}
+        .status-waiting {
+            background: #FFB347;
+            color: #333;
+        }
 
-.time-display {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 1.2em;
-    background: rgba(0, 0, 0, 0.8);
-    color: var(--rich-gold);
-    padding: 8px 16px;
-    border-radius: 4px;
-    letter-spacing: 2px;
-    display: inline-block;
-    margin: 20px 0;
-}
+        .contact-footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            text-align: center;
+            color: var(--rich-gold);
+        }
 
-.clock-face {
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(145deg, var(--rich-gold), var(--deep-gold));
-    border-radius: 50%;
-    position: relative;
-    margin: 0 auto;
-    box-shadow: 
-        inset 0 0 20px rgba(0, 0, 0, 0.2),
-        0 0 30px rgba(255, 215, 0, 0.3);
-    animation: pulse 2s infinite ease-in-out;
-}
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
 
-/* Casino Grid Styles */
-.casino-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
+        .contact-method {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(145deg, var(--rich-gold), var(--deep-gold));
+            color: var(--dark-bg);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
 
-.casino-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
+        .contact-method:hover {
+            transform: translateY(-2px);
+        }
 
-.casino-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(184, 134, 11, 0.2);
-}
+        .discord-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
 
-/* Status Indicators */
-.status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.8em;
-    display: inline-block;
-    margin-top: 10px;
-}
+        #odds-ticker {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--rich-gold);
+            padding: 12px;
+            font-size: 14px;
+        }
 
-.status-available {
-    background: #50C878;
-    color: white;
-    animation: glow 1.5s infinite alternate;
-}
+        @media (max-width: 600px) {
+            .casino-grid {
+                grid-template-columns: 1fr;
+            }
 
-.status-waiting {
-    background: #FFB347;
-    color: #333;
-}
+            .contact-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 
-/* Ticker Styles */
-#odds-ticker {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    color: var(--rich-gold);
-    padding: 12px;
-    font-size: 14px;
-    z-index: 1000;
-    overflow: hidden;
-}
+    <div class="title-message">
+        <h1>CollectClock</h1>
+        <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
+    </div>
 
-.ticker-content {
-    display: inline-block;
-    white-space: nowrap;
-    animation: ticker 30s linear infinite;
-}
+    <div id="casino-list" class="casino-grid">
+        <!-- Casino cards will be generated here via JavaScript -->
+    </div>
 
-/* Animations */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
+    <div id="ticker-container">
+        <!-- Sports odds ticker will be inserted here -->
+    </div>
 
-@keyframes glow {
-    from { box-shadow: 0 0 5px #50C878; }
-    to { box-shadow: 0 0 15px #50C878; }
-}
+    <footer class="contact-footer">
+        <h3>Contact Us</h3>
+        <div class="contact-methods">
+            <a href="mailto:j.chapman7@yahoo.com" class="contact-method">
+                <i class="fas fa-envelope"></i> Email
+            </a>
+            <a href="https://discordapp.com/users/JMENICHOLE" target="_blank" class="contact-method">
+                <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" 
+                     alt="Discord"
+                     class="discord-icon">
+                Discord: JMENICHOLE
+            </a>
+        </div>
+    </footer>
 
-@keyframes ticker {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(var(--rich-gold), var(--deep-gold));
-    border-radius: 6px;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .menu-icon {
-        display: block;
-    }
-
-    .menu {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.9);
-    }
-
-    .menu.active {
-        display: flex;
-    }
-
-    .casino-grid {
-        grid-template-columns: 1fr;
-    }
-}
+    <script src="script.js"></script>
+</body>
+</html>
