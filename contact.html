@@ -3,46 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Contact Us - CollectClock</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        <ul class="menu" id="menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="contests.html">Contests</a></li>
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
+        <nav class="nav-menu">
+            <ul class="menu" id="menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="contests.html" class="nav-link">Contests</a></li>
+                <li><a href="articles.html" class="nav-link">Articles</a></li>
+                <li><a href="contact.html" class="nav-link">Contact Us</a></li>
+            </ul>
+        </nav>
     </header>
-    <h1>Contact Us</h1>
-    <p>Looking for collaboration opportunities! Feel free to reach out to us via email or Discord.</p>
-    <form action="mailto:j.chapman7@yahoo.com" method="post" enctype="text/plain">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message"></textarea><br>
-        <input type="submit" value="Send">
-    </form>
+
     <div class="contact-us">
         <h2>Contact Us</h2>
-        <a href="https://discordapp.com/users/JMENICHOLE" target="_blank" class="contact-icon">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord">
-        </a>
+        <div class="contact-methods">
+            <a href="mailto:j.chapman7@yahoo.com" class="contact-method">
+                <i class="fas fa-envelope"></i> Email
+            </a>
+            <a href="https://discordapp.com/users/JMENICHOLE" target="_blank" class="contact-method">
+                <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" 
+                     alt="Discord"
+                     class="discord-icon">
+                Discord
+            </a>
+        </div>
     </div>
+
     <script src="script.js"></script>
-    <script>
-        function toggleMenu() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'flex') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'flex';
-            }
-        }
-    </script>
 </body>
 </html>
