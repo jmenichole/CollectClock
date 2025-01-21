@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CollectClock</title>
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(145deg, #FFD700, #000000);
+            font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            background: #000000;
             margin: 0;
             padding: 20px;
-            min-height: 100vh;
+            color: #FFD700;
         }
 
         .title-message {
@@ -21,88 +22,73 @@
 
         .title-message h1 {
             color: #FFD700;
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: 2.5em;
         }
 
         .title-message p {
             color: #FFD700;
+            margin: 10px 0;
+        }
+
+        .clock-container {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
         }
 
         .clock-face {
-            width: 150px;
-            height: 150px;
-            border: 4px solid #FFD700;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #FFD700;
             border-radius: 50%;
             position: relative;
-            background: rgba(0, 0, 0, 0.7);
-            margin: 20px auto;
+            background: transparent;
         }
 
-        .clock-hand {
-            position: absolute;
-            background: #FFD700;
-            transform-origin: bottom center;
-            bottom: 50%;
-            left: 50%;
-        }
-
-        .hour-hand {
-            width: 4px;
-            height: 35%;
-            animation: rotate 43200s linear infinite;
-        }
-
-        .minute-hand {
-            width: 3px;
-            height: 45%;
-            animation: rotate 3600s linear infinite;
-        }
-
-        .second-hand {
-            width: 2px;
-            height: 48%;
-            background: #FFD700;
-            animation: rotate 60s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .casino-list {
+        .casino-table {
+            width: 100%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 20px auto;
+            border-collapse: collapse;
         }
 
-        .casino-item {
-            background: rgba(255, 255, 255, 0.9);
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .casino-table th {
+            background: #FFD700;
+            color: #000000;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .casino-table td {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+            color: #FFD700;
+        }
+
+        .casino-table tr:hover {
+            background: rgba(255, 215, 0, 0.1);
         }
 
         .status-available {
-            background: #50C878;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
+            color: #50C878;
+            font-weight: bold;
         }
 
         .status-waiting {
-            background: #FFB347;
-            color: black;
-            padding: 5px 15px;
-            border-radius: 15px;
+            color: #FFD700;
+            font-weight: bold;
         }
 
         .collect-bonus {
-            color: #B8860B;
+            color: #FFD700;
             text-decoration: none;
-            font-weight: bold;
+        }
+
+        .collect-bonus:hover {
+            text-decoration: underline;
         }
 
         #odds-ticker {
@@ -113,32 +99,15 @@
             background: rgba(0, 0, 0, 0.9);
             color: #FFD700;
             padding: 10px;
-            white-space: nowrap;
-            overflow: hidden;
+            border-top: 1px solid #FFD700;
         }
 
-        .ticker-content {
-            display: inline-block;
-            animation: ticker 30s linear infinite;
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .contact-footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #FFD700;
-        }
-
-        .contact-method {
-            display: inline-block;
-            margin: 10px;
-            color: #FFD700;
-            text-decoration: none;
+        @media (max-width: 600px) {
+            .casino-table th, 
+            .casino-table td {
+                padding: 8px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -146,25 +115,23 @@
     <div class="title-message">
         <h1>CollectClock</h1>
         <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
-        <div class="clock-face">
-            <div class="clock-hand hour-hand"></div>
-            <div class="clock-hand minute-hand"></div>
-            <div class="clock-hand second-hand"></div>
-        </div>
     </div>
 
-    <div class="casino-list" id="casino-list">
-        <!-- Casino items will be generated here via JavaScript -->
-    </div>
+    <table class="casino-table">
+        <thead>
+            <tr>
+                <th>Casino</th>
+                <th>Time Until Available</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="casino-list">
+            <!-- Casino rows will be generated here -->
+        </tbody>
+    </table>
 
     <div id="ticker-container">
         <!-- Sports odds ticker will be inserted here -->
-    </div>
-
-    <div class="contact-footer">
-        <a href="mailto:j.chapman7@yahoo.com" class="contact-method">Email</a>
-        <span style="color: #FFD700; margin: 0 10px;">|</span>
-        <a href="https://discordapp.com/users/JMENICHOLE" class="contact-method">Discord: JMENICHOLE</a>
     </div>
 
     <script src="script.js"></script>
