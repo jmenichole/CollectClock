@@ -5,6 +5,13 @@ acScript.type = 'text/javascript';
 acScript.src = '//acscdn.com/script/aclib.js';
 document.head.appendChild(acScript);
 
+// AdCash Integration
+const acScript = document.createElement('script');
+acScript.id = 'aclib';
+acScript.type = 'text/javascript';
+acScript.src = '//acscdn.com/script/aclib.js';
+document.head.appendChild(acScript);
+
 // Casino Data Array
 const casinos = [
     {
@@ -229,45 +236,8 @@ function getTimeUntil(nextTime, currentTime) {
     return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-// Sports odds ticker
-async function initializeTicker() {
-    const tickerContainer = document.getElementById('ticker-container');
-    if (!tickerContainer) return;
-
-    try {
-        const response = await fetch(
-            `https://api.the-odds-api.com/v4/sports/upcoming/odds/?apiKey=cf97eedbe621ffabed7e15b6282cbafe&regions=us&markets=h2h`
-        );
-        
-        if (!response.ok) throw new Error('API Error');
-        
-        const odds = await response.json();
-        
-        if (odds.length > 0) {
-            const ticker = document.createElement('div');
-            ticker.id = 'odds-ticker';
-            ticker.innerHTML = `
-                <div class="ticker-content">
-                    ${odds.map(game => 
-                        `${game.sport_title}: ${game.home_team} vs ${game.away_team}`
-                    ).join(' || ')}
-                </div>
-            `;
-            tickerContainer.appendChild(ticker);
-        }
-    } catch (error) {
-        console.error('Error fetching odds:', error);
-    }
-}
-
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     updateCasinoDisplay();
-    initializeTicker();
-    
-    // Update display every second
     setInterval(updateCasinoDisplay, 1000);
-    
-    // Refresh odds every 5 minutes
-    setInterval(initializeTicker, 300000);
 });
