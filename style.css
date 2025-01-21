@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
 :root {
     --rich-gold: #D4AF37;
     --pale-gold: #FFE5B4;
@@ -10,13 +12,15 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Luckiest Guy', cursive, 'Arial', sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background: linear-gradient(145deg, var(--rich-gold), var(--deep-black));
     color: var(--pale-gold);
     line-height: 1.6;
+    background-image: url('https://example.com/glitter-background.jpg');
+    background-size: cover;
 }
 
 .title-message {
@@ -33,7 +37,7 @@ body {
     margin-bottom: 10px;
 }
 
-.title-graphic {
+.clock-container {
     margin: 30px auto;
     width: 150px;
     height: 150px;
@@ -87,6 +91,15 @@ body {
     background: var(--accent-gold);
     transform: translateX(-50%) rotate(90deg);
     animation: tick 60s linear infinite;
+}
+
+@keyframes tick {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .tracker-table {
@@ -150,7 +163,7 @@ body {
 }
 
 .contact-us h2, .donate h2 {
-    color: var(--rich-gold);
+    color: var (--rich-gold);
     border-bottom: 2px solid var(--deep-gold);
     padding-bottom: 10px;
     margin-bottom: 20px;
@@ -225,15 +238,6 @@ body {
     color: var(--deep-gold);
     opacity: 0.6;
     pointer-events: none;
-}
-
-@keyframes tick {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .card {
