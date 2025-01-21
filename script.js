@@ -183,43 +183,4 @@ function updateCasinoDisplay() {
                 <input type="checkbox" 
                        ${!isAvailable ? 'checked' : ''}
                        style="transform: scale(1.2);"
-                       onclick="handleCheckboxClick('${casino.name}', this)">
-            </td>
-        `;
-
-        casinoList.appendChild(row);
-    });
-
-    localStorage.setItem('casinoData', JSON.stringify(casinos));
-}
-
-// Handle checkbox clicks
-function handleCheckboxClick(casinoName, checkbox) {
-    if (checkbox.checked) {
-        collect(casinoName);
-    } else {
-        const casino = casinos.find(c => c.name === casinoName);
-        if (casino) {
-            casino.lastCollection = null;
-            casino.nextAvailable = null;
-            localStorage.setItem('casinoData', JSON.stringify(casinos));
-            updateCasinoDisplay();
-        }
-    }
-}
-
-// Collect bonus
-function collect(casinoName) {
-    const casino = casinos.find(c => c.name === casinoName);
-    if (casino) {
-        const now = new Date();
-        casino.lastCollection = now.toISOString();
-        casino.nextAvailable = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString();
-        localStorage.setItem('casinoData', JSON.stringify(casinos));
-        updateCasinoDisplay();
-    }
-}
-
-// Get time until next collection
-function getTimeUntil(nextTime, currentTime) {
-    const diff = nextTime - currentTime;
+                       onclick="handleCheckboxClick('${casino.name
