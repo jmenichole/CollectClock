@@ -5,62 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CollectClock</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .menu-icon {
-            display: none;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .menu {
-            display: flex;
-            list-style: none;
-            padding: 0;
-        }
-
-        .menu li {
-            margin: 0 10px;
-        }
-
-        .menu a {
-            color: #ffd700;
-            text-decoration: none;
-        }
-
-        @media (max-width: 600px) {
-            .menu {
-                display: none;
-                flex-direction: column;
-                background-color: #333;
-                position: absolute;
-                top: 50px;
-                width: 100%;
-            }
-
-            .menu-icon {
-                display: block;
-            }
-
-            .menu li {
-                margin: 10px 0;
-                text-align: center;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        <ul class="menu" id="menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="contests.html">Contests</a></li>
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
+        <nav class="nav-menu">
+            <ul class="menu" id="menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="contests.html" class="nav-link">Contests</a></li>
+                <li><a href="articles.html" class="nav-link">Articles</a></li>
+                <li><a href="contact.html" class="nav-link">Contact Us</a></li>
+            </ul>
+        </nav>
     </header>
+
     <div class="title-message">
         <h1>CollectClock</h1>
         <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
+        <div class="time-display"></div>
         <div class="title-graphic">
             <div class="clock-face">
                 <div class="clock-center"></div>
@@ -70,18 +33,17 @@
             </div>
         </div>
     </div>
-    <table class="tracker-table">
-        <thead>
-            <tr>
-                <th>Casino</th>
-                <th>Time Until Available</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="casino-list">
-            <!-- Casino rows will be added here via JavaScript -->
-        </tbody>
-    </table>
+
+    <div class="casino-grid">
+        <div id="casino-list">
+            <!-- Casino cards will be generated here via JavaScript -->
+        </div>
+    </div>
+
+    <div id="ticker-container">
+        <!-- Sports odds ticker will be inserted here -->
+    </div>
+
     <div class="coming-soon">
         <h3>Coming Soon</h3>
         <ul>
@@ -90,16 +52,7 @@
             <li>✨ And More!</li>
         </ul>
     </div>
+
     <script src="script.js"></script>
-    <script>
-        function toggleMenu() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'flex') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'flex';
-            }
-        }
-    </script>
 </body>
 </html>
