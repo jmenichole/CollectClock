@@ -5,13 +5,6 @@ acScript.type = 'text/javascript';
 acScript.src = '//acscdn.com/script/aclib.js';
 document.head.appendChild(acScript);
 
-// AdCash Integration
-const acScript = document.createElement('script');
-acScript.id = 'aclib';
-acScript.type = 'text/javascript';
-acScript.src = '//acscdn.com/script/aclib.js';
-document.head.appendChild(acScript);
-
 // Casino Data Array
 const casinos = [
     {
