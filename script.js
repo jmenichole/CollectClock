@@ -172,23 +172,23 @@ function updateCasinoDisplay() {
 
     casinos.forEach(casino => {
         const isAvailable = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
-        const card = document.createElement('div');
-        card.className = 'casino-card';
+        const item = document.createElement('div');
+        item.className = 'casino-item';
         
-        card.innerHTML = `
-            <h3>${casino.name}</h3>
-            <div class="status-badge ${isAvailable ? 'status-available' : 'status-waiting'}">
+        item.innerHTML = `
+            <span class="casino-name">${casino.name}</span>
+            <span class="${isAvailable ? 'status-available' : 'status-waiting'}">
                 ${isAvailable ? 'AVAILABLE' : getTimeUntil(new Date(casino.nextAvailable), new Date())}
-            </div>
+            </span>
             <a href="${casino.url}" 
+               class="collect-bonus"
                target="_blank" 
-               onclick="handleCasinoClick('${casino.name}', event)"
-               style="color: #B8860B; text-decoration: none;">
+               onclick="handleCasinoClick('${casino.name}', event)">
                Collect Bonus
             </a>
         `;
 
-        casinoList.appendChild(card);
+        casinoList.appendChild(item);
     });
 
     localStorage.setItem('casinoData', JSON.stringify(casinos));
