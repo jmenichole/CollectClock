@@ -183,4 +183,8 @@ function updateCasinoDisplay() {
                 <input type="checkbox" 
                        ${!isAvailable ? 'checked' : ''}
                        style="transform: scale(1.2);"
-                       onclick="handleCheckboxClick('${casino.name
+                       onclick="handleCheckboxClick('${casino.name}', this)">
+            </td>
+        `;
+
+        casinoList.appendChild(row);
