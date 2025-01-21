@@ -137,7 +137,7 @@ body {
     padding: 4px 8px;
     border-radius: 4px;
     background: rgba(80, 200, 120, 0.1);
-    border: 1px solid var(--emerald);
+    border: 1px solid var (--emerald);
 }
 
 .contact-us, .donate {
