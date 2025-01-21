@@ -172,36 +172,40 @@ function updateCasinoDisplay() {
 
     casinos.forEach(casino => {
         const isAvailable = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
-        const item = document.createElement('div');
-        item.className = 'casino-item';
+        const row = document.createElement('tr');
         
-        item.innerHTML = `
-            <span class="casino-name">${casino.name}</span>
-            <span class="${isAvailable ? 'status-available' : 'status-waiting'}">
+        row.innerHTML = `
+            <td style="color: #FFD700;">${casino.name}</td>
+            <td style="color: ${isAvailable ? '#50C878' : '#FFD700'};">
                 ${isAvailable ? 'AVAILABLE' : getTimeUntil(new Date(casino.nextAvailable), new Date())}
-            </span>
-            <a href="${casino.url}" 
-               class="collect-bonus"
-               target="_blank" 
-               onclick="handleCasinoClick('${casino.name}', event)">
-               Collect Bonus
-            </a>
+            </td>
+            <td>
+                <input type="checkbox" 
+                       ${!isAvailable ? 'checked' : ''}
+                       style="transform: scale(1.2);"
+                       onclick="handleCheckboxClick('${casino.name}', this)">
+            </td>
         `;
 
-        casinoList.appendChild(item);
+        casinoList.appendChild(row);
     });
 
     localStorage.setItem('casinoData', JSON.stringify(casinos));
 }
 
-// Handle casino clicks
-function handleCasinoClick(casinoName, event) {
-    const casino = casinos.find(c => c.name === casinoName);
-    if (casino && casino.nextAvailable && new Date() < new Date(casino.nextAvailable)) {
-        event.preventDefault();
-        return;
+// Handle checkbox clicks
+function handleCheckboxClick(casinoName, checkbox) {
+    if (checkbox.checked) {
+        collect(casinoName);
+    } else {
+        const casino = casinos.find(c => c.name === casinoName);
+        if (casino) {
+            casino.lastCollection = null;
+            casino.nextAvailable = null;
+            localStorage.setItem('casinoData', JSON.stringify(casinos));
+            updateCasinoDisplay();
+        }
     }
-    collect(casinoName);
 }
 
 // Collect bonus
@@ -261,8 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCasinoDisplay();
     initializeTicker();
     
-    // Update display every minute
-    setInterval(updateCasinoDisplay, 60000);
+    // Update display every second
+    setInterval(updateCasinoDisplay, 1000);
     
     // Refresh odds every 5 minutes
     setInterval(initializeTicker, 300000);
