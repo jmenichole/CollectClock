@@ -223,14 +223,3 @@ function collect(casinoName) {
 // Get time until next collection
 function getTimeUntil(nextTime, currentTime) {
     const diff = nextTime - currentTime;
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    updateCasinoDisplay();
-    setInterval(updateCasinoDisplay, 1000);
-});
