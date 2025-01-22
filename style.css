@@ -244,7 +244,277 @@ body {
     font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;600;700&display=swap');
 
+:root {
+    --rich-gold: #D4AF37;
+    --pale-gold: #FFE5B4;
+    --deep-gold: #996515;
+    --accent-gold: #FBD975;
+    --deep-black: #0A0A0A;
+    --soft-black: #1A1A1A;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(145deg, var(--rich-gold), var(--deep-black));
+    color: var(--pale-gold);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.title-message {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.title-message h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 3.5rem;
+    color: var(--rich-gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.title-message p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    letter-spacing: 0.3px;
+}
+
+.clock-container {
+    margin: 2rem auto;
+    width: 200px;
+    height: 200px;
+}
+
+.clock-face {
+    width: 100%;
+    height: 100%;
+    border: 6px solid var(--rich-gold);
+    border-radius: 50%;
+    position: relative;
+    background: linear-gradient(145deg, var(--soft-black), var(--deep-black));
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.clock-center {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--rich-gold);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.clock-hand {
+    position: absolute;
+    background: var(--rich-gold);
+    transform-origin: bottom center;
+    bottom: 50%;
+    left: 50%;
+}
+
+.hour-hand {
+    width: 4px;
+    height: 35%;
+    transform: translateX(-50%);
+}
+
+.minute-hand {
+    width: 3px;
+    height: 45%;
+    transform: translateX(-50%);
+}
+
+.second-hand {
+    width: 2px;
+    height: 48%;
+    background: var(--accent-gold);
+    transform: translateX(-50%);
+}
+
+.casino-list-container {
+    margin: 2rem auto;
+    max-width: 800px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.casino-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.casino-table th,
+.casino-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--deep-gold);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.casino-table th {
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: var(--rich-gold);
+    color: var(--deep-black);
+    letter-spacing: 0.5px;
+}
+
+.casino-table td {
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+}
+
+.casino-table tr:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.casino-table a {
+    color: var(--rich-gold);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.casino-table a:hover {
+    color: var(--accent-gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.discord-section {
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: linear-gradient(145deg, rgba(114, 137, 218, 0.1), rgba(0, 0, 0, 0.3));
+    border-radius: 10px;
+    border: 1px solid var(--rich-gold);
+    max-width: 400px;
+}
+
+.discord-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--rich-gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+.discord-container {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.discord-container iframe {
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.discord-container iframe:hover {
+    transform: scale(1.02);
+}
+
+.server-stats {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    line-height: 1.8;
+}
+
+.support-section {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.support-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--rich-gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.support-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.support-icon {
+    color: var(--pale-gold);
+    font-size: 2rem;
+    transition: color 0.3s ease;
+}
+
+.support-icon:hover {
+    color: var(--accent-gold);
+}
+
+.status-available {
+    color: #4CAF50;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.status-unavailable {
+    color: var(--pale-gold);
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .title-message h1 {
+        font-size: 2.5rem;
+    }
+
+    .title-message p {
+        font-size: 1rem;
+    }
+
+    .casino-table th,
+    .casino-table td {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+
+    .discord-section h2,
+    .support-section h2 {
+        font-size: 1.5rem;
+    }
+}
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
