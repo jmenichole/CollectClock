@@ -251,6 +251,58 @@ async function fetchDiscordStats() {
     }
 }
 
+// Clock functionality
+function updateClock() {
+    const clock = document.querySelector('.clock-container');
+    const now = new Date();
+    
+    // Clear existing hands
+    clock.innerHTML = `
+        <div class="hand hour-hand"></div>
+        <div class="hand minute-hand"></div>
+        <div class="hand second-hand"></div>
+    `;
+    
+    // Calculate rotations
+    const seconds = now.getSeconds() * 6;
+    const minutes = now.getMinutes() * 6 + seconds / 60;
+    const hours = now.getHours() * 30 + minutes / 12;
+    
+    // Apply rotations
+    document.querySelector('.hour-hand').style.transform = `rotate(${hours}deg)`;
+    document.querySelector('.minute-hand').style.transform = `rotate(${minutes}deg)`;
+    document.querySelector('.second-hand').style.transform = `rotate(${seconds}deg)`;
+}
+
+// Initialize event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // Update HTML structure to include links
+    const casinoRows = document.querySelectorAll('.casino-row');
+    
+    casinoRows.forEach(row => {
+        const casinoName = row.querySelector('.casino-name');
+        const checkbox = row.querySelector('.status-checkbox');
+        
+        // Convert casino name to link if it's not already
+        if (!casinoName.querySelector('a')) {
+            const text = casinoName.textContent;
+            casinoName.innerHTML = `<a href="#" class="casino-link">${text}</a>`;
+        }
+
+        // Add click handler for casino links
+        const link = casinoName.querySelector('a');
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            if (!checkbox.checked) {
+                checkbox.checked = true;
+            }
+        });
+    });
+
+    // Start clock updates
+    setInterval(updateClock, 1000);
+    updateClock();
+});
 // Initialize page
 function initializePage() {
     updateCasinoDisplay();
@@ -269,3 +321,4 @@ function initializePage() {
 
 // Start everything when the page loads
 document.addEventListener('DOMContentLoaded', initializePage);
+
