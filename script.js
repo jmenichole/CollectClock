@@ -1,10 +1,3 @@
-// AdCash Integration
-const acScript = document.createElement('script');
-acScript.id = 'aclib';
-acScript.type = 'text/javascript';
-acScript.src = '//acscdn.com/script/aclib.js';
-document.head.appendChild(acScript);
-
 // Casino Data Array
 const casinos = [
     {
@@ -175,7 +168,11 @@ function updateCasinoDisplay() {
         const row = document.createElement('tr');
         
         row.innerHTML = `
-            <td style="color: #FFD700;">${casino.name}</td>
+            <td>
+                <a href="${casino.url}" target="_blank" style="color: #FFD700; text-decoration: none;">
+                    ${casino.name}
+                </a>
+            </td>
             <td style="color: ${isAvailable ? '#50C878' : '#FFD700'};">
                 ${isAvailable ? 'AVAILABLE' : getTimeUntil(new Date(casino.nextAvailable), new Date())}
             </td>
@@ -188,3 +185,87 @@ function updateCasinoDisplay() {
         `;
 
         casinoList.appendChild(row);
+    });
+}
+
+// Handle checkbox clicks
+function handleCheckboxClick(casinoName, checkbox) {
+    const casino = casinos.find(c => c.name === casinoName);
+    if (!casino) return;
+
+    if (checkbox.checked) {
+        casino.lastCollection = new Date().toISOString();
+        casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours from now
+    } else {
+        casino.lastCollection = null;
+        casino.nextAvailable = null;
+    }
+
+    localStorage.setItem('casinoData', JSON.stringify(casinos));
+    updateCasinoDisplay();
+}
+
+// Calculate time until next available
+function getTimeUntil(futureDate, currentDate) {
+    const diff = futureDate - currentDate;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+}
+
+// Update clock hands
+function updateClock() {
+    const now = new Date();
+    const seconds = now.getSeconds();
+    const minutes = now.getMinutes();
+    const hours = now.getHours() % 12;
+
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.minute-hand');
+    const hourHand = document.querySelector('.hour-hand');
+
+    const secondDeg = ((seconds / 60) * 360) + 90;
+    const minuteDeg = ((minutes / 60) * 360) + ((seconds/60)*6) + 90;
+    const hourDeg = ((hours / 12) * 360) + ((minutes/60)*30) + 90;
+
+    secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+    hourHand.style.transform = `rotate(${hourDeg}deg)`;
+}
+
+// Discord Widget API Integration
+async function fetchDiscordStats() {
+    try {
+        const response = await fetch('https://discord.com/api/guilds/1329107627829104783/widget.json');
+        const data = await response.json();
+        
+        const statsContainer = document.getElementById('server-stats');
+        if (statsContainer) {
+            statsContainer.innerHTML = `
+                <div>🟢 ${data.members.length} members online</div>
+                <div>🎮 Currently active channels: ${data.channels.length}</div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error fetching Discord stats:', error);
+    }
+}
+
+// Initialize page
+function initializePage() {
+    updateCasinoDisplay();
+    updateClock();
+    fetchDiscordStats();
+    
+    // Update clock every second
+    setInterval(updateClock, 1000);
+    
+    // Update casino display every minute
+    setInterval(updateCasinoDisplay, 60000);
+    
+    // Update Discord stats every 14 hours (14 * 60 * 60 * 1000 = 50400000 milliseconds)
+    setInterval(fetchDiscordStats, 50400000);
+}
+
+// Start everything when the page loads
+document.addEventListener('DOMContentLoaded', initializePage);
