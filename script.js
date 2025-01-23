@@ -1,4 +1,3 @@
-// Casino Data Array
 const casinos = [
     {
         name: "Fortune Coins",
@@ -6,7 +5,7 @@ const casinos = [
         lastCollection: null,
         nextAvailable: null
     },
-    {
+      {
         name: "Pulsz",
         url: "https://www.pulsz.com/?invited_by=utfk4r",
         lastCollection: null,
@@ -158,7 +157,38 @@ if (savedData) {
     });
 }
 
-// Update casino display
+function createHourMarks() {
+    const hourMarksContainer = document.querySelector('.hour-marks');
+    for (let i = 0; i < 12; i++) {
+        const mark = document.createElement('div');
+        mark.className = 'hour-mark';
+        mark.style.transform = `rotate(${i * 30}deg)`;
+        hourMarksContainer.appendChild(mark);
+    }
+}
+
+function updateClock() {
+    const now = new Date();
+    const seconds = now.getSeconds();
+    const minutes = now.getMinutes();
+    const hours = now.getHours() % 12;
+
+    // Calculate angles
+    const secondDegrees = ((seconds / 60) * 360);
+    const minuteDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6);
+    const hourDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30);
+
+    // Update hand positions
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.minute-hand');
+    const hourHand = document.querySelector('.hour-hand');
+
+    // Apply rotations
+    secondHand.style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
+    minuteHand.style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
+    hourHand.style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
+}
+
 function updateCasinoDisplay() {
     const casinoList = document.getElementById('casino-list');
     casinoList.innerHTML = '';
@@ -188,14 +218,13 @@ function updateCasinoDisplay() {
     });
 }
 
-// Handle checkbox clicks
 function handleCheckboxClick(casinoName, checkbox) {
     const casino = casinos.find(c => c.name === casinoName);
     if (!casino) return;
 
     if (checkbox.checked) {
         casino.lastCollection = new Date().toISOString();
-        casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours from now
+        casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
     } else {
         casino.lastCollection = null;
         casino.nextAvailable = null;
@@ -205,7 +234,6 @@ function handleCheckboxClick(casinoName, checkbox) {
     updateCasinoDisplay();
 }
 
-// Calculate time until next available
 function getTimeUntil(futureDate, currentDate) {
     const diff = futureDate - currentDate;
     const hours = Math.floor(diff / (1000 * 60 * 60));
@@ -213,27 +241,6 @@ function getTimeUntil(futureDate, currentDate) {
     return `${hours}h ${minutes}m`;
 }
 
-// Update clock hands
-function updateClock() {
-    const now = new Date();
-    const seconds = now.getSeconds();
-    const minutes = now.getMinutes();
-    const hours = now.getHours() % 12;
-
-    const secondHand = document.querySelector('.second-hand');
-    const minuteHand = document.querySelector('.minute-hand');
-    const hourHand = document.querySelector('.hour-hand');
-
-    const secondDeg = ((seconds / 60) * 360) + 90;
-    const minuteDeg = ((minutes / 60) * 360) + ((seconds/60)*6) + 90;
-    const hourDeg = ((hours / 12) * 360) + ((minutes/60)*30) + 90;
-
-    secondHand.style.transform = `rotate(${secondDeg}deg)`;
-    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-    hourHand.style.transform = `rotate(${hourDeg}deg)`;
-}
-
-// Discord Widget API Integration
 async function fetchDiscordStats() {
     try {
         const response = await fetch('https://discord.com/api/guilds/1329107627829104783/widget.json');
@@ -251,74 +258,24 @@ async function fetchDiscordStats() {
     }
 }
 
-// Clock functionality
-function updateClock() {
-    const clock = document.querySelector('.clock-container');
-    const now = new Date();
-    
-    // Clear existing hands
-    clock.innerHTML = `
-        <div class="hand hour-hand"></div>
-        <div class="hand minute-hand"></div>
-        <div class="hand second-hand"></div>
-    `;
-    
-    // Calculate rotations
-    const seconds = now.getSeconds() * 6;
-    const minutes = now.getMinutes() * 6 + seconds / 60;
-    const hours = now.getHours() * 30 + minutes / 12;
-    
-    // Apply rotations
-    document.querySelector('.hour-hand').style.transform = `rotate(${hours}deg)`;
-    document.querySelector('.minute-hand').style.transform = `rotate(${minutes}deg)`;
-    document.querySelector('.second-hand').style.transform = `rotate(${seconds}deg)`;
+function initClock() {
+    createHourMarks();
+    updateClock();
+    setInterval(updateClock, 1000);
 }
 
-// Initialize event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // Update HTML structure to include links
-    const casinoRows = document.querySelectorAll('.casino-row');
-    
-    casinoRows.forEach(row => {
-        const casinoName = row.querySelector('.casino-name');
-        const checkbox = row.querySelector('.status-checkbox');
-        
-        // Convert casino name to link if it's not already
-        if (!casinoName.querySelector('a')) {
-            const text = casinoName.textContent;
-            casinoName.innerHTML = `<a href="#" class="casino-link">${text}</a>`;
-        }
-
-        // Add click handler for casino links
-        const link = casinoName.querySelector('a');
-        link.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default link behavior
-            if (!checkbox.checked) {
-                checkbox.checked = true;
-            }
-        });
-    });
-
-    // Start clock updates
-    setInterval(updateClock, 1000);
-    updateClock();
-});
 // Initialize page
 function initializePage() {
+    initClock();
     updateCasinoDisplay();
-    updateClock();
     fetchDiscordStats();
-    
-    // Update clock every second
-    setInterval(updateClock, 1000);
     
     // Update casino display every minute
     setInterval(updateCasinoDisplay, 60000);
     
-    // Update Discord stats every 14 hours (14 * 60 * 60 * 1000 = 50400000 milliseconds)
+    // Update Discord stats every 14 hours
     setInterval(fetchDiscordStats, 50400000);
 }
 
 // Start everything when the page loads
 document.addEventListener('DOMContentLoaded', initializePage);
-
