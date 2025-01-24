@@ -77,18 +77,27 @@
         </section>
     </main>
 
-    <div id="donation-popup" class="popup-overlay" aria-hidden="true">
-        <div class="popup-content" role="dialog" aria-labelledby="popup-title">
-            <h2 id="popup-title">Enjoying CollectClock?</h2>
-            <p>You've visited 5 casinos! Consider supporting our project to help keep it running.</p>
-            <div class="donation-buttons">
-                <a href="https://cash.app/$godzillamasters" 
-                   class="donate-button" 
-                   target="_blank" 
-                   rel="noopener noreferrer">
-                    <i class="fas fa-dollar-sign" aria-hidden="true"></i>
-                    Support via CashApp
-                </a>
+    <div class="support-dialog">
+    <h2>Enjoying CollectClock?</h2>
+    
+    <p class="message">
+        You've visited 5 casinos! Consider supporting our project to help keep it running.
+    </p>
+    
+    <div class="support-links">
+        <a href="#" class="support-button github">
+            <img src="github-icon.svg" alt="GitHub">
+            Become a Sponsor
+        </a>
+        <a href="#" class="support-button cashapp">
+            <img src="cashapp-icon.svg" alt="CashApp">
+            Support via CashApp
+        </a>
+    </div>
+    
+    <button class="dismiss-button">Maybe Later</button>
+</div>
+
                 <a href="https://github.com/sponsors/jmenichole" 
                    class="donate-button" 
                    target="_blank" 
