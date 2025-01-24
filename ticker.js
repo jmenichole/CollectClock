@@ -6,7 +6,6 @@ class SportsTicker {
         this.retryCount = 0;
         this.maxRetries = 3;
     }
-    
 
     async initialize() {
         try {
@@ -56,7 +55,6 @@ class SportsTicker {
         this.tickerElement.textContent = content || 'Loading sports updates...';
     }
 
-    
     handleError() {
         if (this.retryCount < this.maxRetries) {
             this.retryCount++;
