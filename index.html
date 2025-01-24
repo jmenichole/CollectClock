@@ -6,10 +6,7 @@
     <meta name="description" content="CollectClock - Track and collect your daily casino bonuses with perfect timing">
     <title>CollectClock</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
-          integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" 
-          crossorigin="anonymous" 
-          referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <main class="container">
@@ -18,28 +15,25 @@
             <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
         </header>
 
-        <section class="clock-container" aria-label="Clock Display">
+        <section class="clock-container">
             <div class="clock-face">
-                <div class="hour-marks" aria-hidden="true"></div>
-                <div class="clock-center" aria-hidden="true"></div>
-                <div class="hand hour-hand" aria-label="Hour hand"></div>
-                <div class="hand minute-hand" aria-label="Minute hand"></div>
-                <div class="hand second-hand" aria-label="Second hand"></div>
+                <div class="clock-center"></div>
+                <div class="hand hour-hand"></div>
+                <div class="hand minute-hand"></div>
+                <div class="hand second-hand"></div>
             </div>
         </section>
 
         <section class="casino-list-container">
-            <table class="casino-table" aria-label="Casino Availability List">
+            <table class="casino-table">
                 <thead>
                     <tr>
-                        <th scope="col">Casino</th>
-                        <th scope="col">Time Until Available</th>
-                        <th scope="col">Status</th>
+                        <th>Casino</th>
+                        <th>Time Until Available</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
-                <tbody id="casino-list">
-                    <!-- Casino rows will be generated here -->
-                </tbody>
+                <tbody id="casino-list"></tbody>
             </table>
         </section>
 
@@ -53,11 +47,9 @@
                     allowtransparency="true" 
                     loading="lazy"
                     frameborder="0" 
-                    title="Discord Community Widget"
                     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
                 </iframe>
             </div>
-            <div id="server-stats" class="server-stats"></div>
         </section>
 
         <section class="support-section">
@@ -66,29 +58,24 @@
                 <a href="https://github.com/sponsors/jmenichole" 
                    class="support-icon" 
                    target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Support on GitHub">
-                    <i class="fab fa-github" aria-hidden="true"></i>
+                   rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
                 </a>
                 <a href="https://cash.app/$godzillamasters" 
                    class="support-icon" 
                    target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Support via CashApp">
-                    <i class="fas fa-dollar-sign" aria-hidden="true"></i>
+                   rel="noopener noreferrer">
+                    <i class="fas fa-dollar-sign"></i>
                 </a>
             </div>
         </section>
     </main>
 
+    <div class="dialog-overlay"></div>
     <div class="support-dialog">
         <h2>Enjoying CollectClock?</h2>
-        
-        <p class="message">
-            You've visited 5 casinos! Consider supporting our project to help keep it running.
-        </p>
-        
-        <div class="support-links">
+        <p>You've visited 5 casinos! Consider supporting our project to help keep it running.</p>
+        <div class="support-buttons">
             <a href="https://github.com/sponsors/jmenichole" 
                class="support-button github"
                target="_blank" 
@@ -104,13 +91,17 @@
                 Support via CashApp
             </a>
         </div>
-        
         <button class="dismiss-button">Maybe Later</button>
     </div>
 
-    <script src="script.js" defer></script>
-    <script src="ticker.js" defer></script>
+    <div id="sports-ticker" class="sports-ticker">
+        <div class="ticker-content">
+            <div class="ticker-scroll"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="ticker.js"></script>
 </body>
 </html>
-
 
