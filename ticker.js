@@ -6,6 +6,7 @@ class SportsTicker {
         this.retryCount = 0;
         this.maxRetries = 3;
     }
+    
 
     async initialize() {
         try {
