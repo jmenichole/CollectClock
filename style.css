@@ -206,7 +206,6 @@ body {
     width: 90%;
     max-width: 400px;
 }
-
 .sports-ticker {
     position: fixed;
     bottom: 0;
@@ -222,49 +221,32 @@ body {
 .ticker-content {
     height: 100%;
     width: 100%;
+    position: relative;
     overflow: hidden;
 }
 
 .ticker-scroll {
-    display: inline-block;
+    position: absolute;
     white-space: nowrap;
     padding: 10px;
     color: var(--pale-gold);
     font-weight: 600;
     font-size: 14px;
-    animation: ticker 45s linear infinite;
+    will-change: transform;
+    animation: tickerMove 45s linear infinite;
 }
 
-.ticker-scroll:hover {
-    animation-play-state: paused;
-}
-
-@keyframes ticker {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-@media (min-width: 1200px) {
-    .ticker-scroll {
-        animation-duration: 60s;
+@keyframes tickerMove {
+    0% {
+        transform: translate3d(100%, 0, 0);
+    }
+    100% {
+        transform: translate3d(-100%, 0, 0);
     }
 }
 
+/* Mobile optimizations */
 @media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-
-    .title-message h1 {
-        font-size: 2.5rem;
-    }
-
-    .casino-table th,
-    .casino-table td {
-        padding: 0.75rem;
-        font-size: 0.9rem;
-    }
-
     .sports-ticker {
         height: 30px;
     }
@@ -272,6 +254,17 @@ body {
     .ticker-scroll {
         font-size: 12px;
         padding: 8px;
+        animation-duration: 30s;
     }
 }
 
+/* Add touch interaction */
+@media (hover: none) {
+    .ticker-scroll {
+        animation-play-state: running !important;
+    }
+    
+    .ticker-content:active .ticker-scroll {
+        animation-play-state: paused;
+    }
+}
