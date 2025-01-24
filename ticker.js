@@ -48,12 +48,14 @@ class SportsTicker {
             const homeTeam = event.home_team;
             const awayTeam = event.away_team;
             const sport = event.sport_title;
-            return `${sport}: ${homeTeam} vs ${awayTeam} | `;
+            const startTime = new Date(event.commence_time).toLocaleTimeString();
+            return `${sport}: ${awayTeam} @ ${homeTeam} (${startTime}) | `;
         }).join('');
 
         this.tickerElement.textContent = content || 'Loading sports updates...';
     }
 
+    
     handleError() {
         if (this.retryCount < this.maxRetries) {
             this.retryCount++;
@@ -65,17 +67,7 @@ class SportsTicker {
         }
     }
 }
-/* Optional: Add smooth pause on hover */
-.ticker-scroll:hover {
-    animation-play-state: paused;
-}
 
-/* Optional: Add slower speed for wider screens */
-@media (min-width: 1200px) {
-    .ticker-scroll {
-        animation-duration: 60s; /* Even slower on larger screens */
-    }
-}
 // Initialize the ticker
 document.addEventListener('DOMContentLoaded', () => {
     const ticker = new SportsTicker('cf97eedbe621ffabed7e15b6282cbafe');
