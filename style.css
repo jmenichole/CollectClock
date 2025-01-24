@@ -29,7 +29,6 @@ body {
     padding: 2rem;
 }
 
-/* Title Section */
 .title-message {
     text-align: center;
     margin-bottom: 3rem;
@@ -42,7 +41,6 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Clock Styles */
 .clock-container {
     width: 200px;
     height: 200px;
@@ -98,7 +96,6 @@ body {
     background: var(--accent-gold);
 }
 
-/* Casino List Styles */
 .casino-list-container {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -118,9 +115,15 @@ body {
     border-bottom: 1px solid var(--deep-gold);
 }
 
-.casino-table th {
+.casino-name {
+    color: var(--pale-gold);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.casino-name:hover {
     color: var(--rich-gold);
-    font-weight: 600;
+    text-decoration: underline;
 }
 
 .collect-button {
@@ -142,7 +145,42 @@ body {
     cursor: not-allowed;
 }
 
-/* Support Dialog */
+.discord-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+    max-width: 400px;
+}
+
+.discord-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.support-section {
+    text-align: center;
+    margin: 2rem auto;
+}
+
+.support-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.support-icon {
+    color: var(--pale-gold);
+    font-size: 2rem;
+    transition: color 0.3s ease;
+}
+
+.support-icon:hover {
+    color: var(--rich-gold);
+}
+
 .dialog-overlay {
     display: none;
     position: fixed;
@@ -169,47 +207,6 @@ body {
     max-width: 400px;
 }
 
-.support-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin: 1.5rem 0;
-}
-
-.support-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.support-button.github {
-    background: #2EA043;
-    color: white;
-}
-
-.support-button.cashapp {
-    background: #00D54B;
-    color: black;
-}
-
-.dismiss-button {
-    width: 100%;
-    padding: 1rem;
-    background: transparent;
-    border: 2px solid var(--rich-gold);
-    color: var(--pale-gold);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Sports Ticker */
 .sports-ticker {
     position: fixed;
     bottom: 0;
@@ -234,7 +231,12 @@ body {
     padding: 10px;
     color: var(--pale-gold);
     font-weight: 600;
-    animation: ticker 30s linear infinite;
+    font-size: 14px;
+    animation: ticker 45s linear infinite;
+}
+
+.ticker-scroll:hover {
+    animation-play-state: paused;
 }
 
 @keyframes ticker {
@@ -242,7 +244,12 @@ body {
     100% { transform: translateX(-100%); }
 }
 
-/* Mobile Responsiveness */
+@media (min-width: 1200px) {
+    .ticker-scroll {
+        animation-duration: 60s;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
