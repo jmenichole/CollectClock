@@ -71,4 +71,3 @@ document.addEventListener('DOMContentLoaded', () => {
     const ticker = new SportsTicker('cf97eedbe621ffabed7e15b6282cbafe');
     ticker.initialize();
 });
-
