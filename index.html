@@ -9,37 +9,37 @@
 </head>
 <body>
     <div class="container">
-        <div class="title-message">
+        <header class="title-message">
             <h1>CollectClock</h1>
             <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
-        </div>
+        </header>
 
-        <div class="clock-container">
+        <section class="clock-container" aria-label="Clock Display">
             <div class="clock-face">
-                <div class="hour-marks"></div>
-                <div class="clock-center"></div>
-                <div class="hand hour-hand"></div>
-                <div class="hand minute-hand"></div>
-                <div class="hand second-hand"></div>
+                <div class="hour-marks" aria-hidden="true"></div>
+                <div class="clock-center" aria-hidden="true"></div>
+                <div class="hand hour-hand" aria-label="Hour hand"></div>
+                <div class="hand minute-hand" aria-label="Minute hand"></div>
+                <div class="hand second-hand" aria-label="Second hand"></div>
             </div>
-        </div>
+        </section>
 
-        <div class="casino-list-container">
-            <table class="casino-table">
+        <section class="casino-list-container">
+            <table class="casino-table" aria-label="Casino Availability List">
                 <thead>
                     <tr>
-                        <th>Casino</th>
-                        <th>Time Until Available</th>
-                        <th>Status</th>
+                        <th scope="col">Casino</th>
+                        <th scope="col">Time Until Available</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody id="casino-list">
                     <!-- Casino rows will be generated here -->
                 </tbody>
             </table>
-        </div>
+        </section>
 
-        <div class="discord-section">
+        <section class="discord-section">
             <h2>Join Our BetCollective Community</h2>
             <div class="discord-container">
                 <iframe 
@@ -48,41 +48,54 @@
                     height="500" 
                     allowtransparency="true" 
                     frameborder="0" 
+                    title="Discord Community Widget"
                     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
                 </iframe>
             </div>
             <div id="server-stats" class="server-stats"></div>
-        </div>
+        </section>
 
-        <div class="support-section">
+        <section class="support-section">
             <h2>Support Our Project</h2>
             <div class="support-links">
-                <a href="https://github.com/sponsors/jmenichole" class="support-icon">
-                    <i class="fab fa-github"></i>
+                <a href="https://github.com/sponsors/jmenichole" 
+                   class="support-icon" 
+                   aria-label="Support on GitHub">
+                    <i class="fab fa-github" aria-hidden="true"></i>
                 </a>
-                <a href="https://cash.app/$godzillamasters" class="support-icon">
-                    <i class="fas fa-dollar-sign"></i>
+                <a href="https://cash.app/$godzillamasters" 
+                   class="support-icon" 
+                   aria-label="Support via CashApp">
+                    <i class="fas fa-dollar-sign" aria-hidden="true"></i>
                 </a>
             </div>
+        </section>
+    </div>
+
+    <div id="donation-popup" class="popup-overlay" aria-hidden="true">
+        <div class="popup-content" role="dialog" aria-labelledby="popup-title">
+            <h2 id="popup-title">Enjoying CollectClock?</h2>
+            <p>You've visited 5 casinos! Consider supporting our project to help keep it running.</p>
+            <div class="donation-buttons">
+                <a href="https://cash.app/$godzillamasters" 
+                   class="donate-button" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    <i class="fas fa-dollar-sign" aria-hidden="true"></i>
+                    Support via CashApp
+                </a>
+                <a href="https://github.com/sponsors/jmenichole" 
+                   class="donate-button" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    <i class="fab fa-github" aria-hidden="true"></i>
+                    Become a Sponsor
+                </a>
+            </div>
+            <button class="close-popup">Maybe Later</button>
         </div>
     </div>
-<!-- Donation Popup -->
-<div id="donation-popup" class="popup-overlay">
-    <div class="popup-content">
-        <h2>Enjoying CollectClock?</h2>
-        <p>You've visited 5 casinos! Consider supporting our project to help keep it running.</p>
-        <div class="donation-buttons">
-            <a href="https://cash.app/$godzillamasters" class="donate-button" target="_blank">
-                <i class="fas fa-dollar-sign"></i> Support via CashApp
-            </a>
-            <a href="https://github.com/sponsors/jmenichole" class="donate-button" target="_blank">
-                <i class="fab fa-github"></i> Become a Sponsor
-            </a>
-        </div>
-        <button class="close-popup">Maybe Later</button>
-    </div>
-</div>
-    <script src="script.js"></script>
+
+    <script src="script.js" defer></script>
 </body>
 </html>
-
