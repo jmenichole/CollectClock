@@ -31,113 +31,128 @@ const casinos = [
   }
 ];
 
-// Add these utility functions
+// Utility functions
 function updateCollection(casinoName) {
-  const casino = casinos.find(c => c.name === casinoName);
-  if (casino) {
-    const now = new Date();
-    casino.lastCollection = now;
-    casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000)); // Add 24 hours
-    saveToLocalStorage();
-    updateDisplay();
-  }
+    const casino = casinos.find(c => c.name === casinoName);
+    if (casino) {
+        const now = new Date();
+        casino.lastCollection = now;
+        casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000));
+        saveToLocalStorage();
+        updateDisplay();
+    }
 }
 
 function formatTimeRemaining(targetDate) {
-  if (!targetDate) return 'Ready to collect!';
-  
-  const now = new Date();
-  const diff = targetDate - now;
-  
-  if (diff <= 0) return 'Ready to collect!';
-  
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  return `${hours}h ${minutes}m remaining`;
+    if (!targetDate) return 'Ready to collect!';
+    
+    const now = new Date();
+    const diff = targetDate - now;
+    
+    if (diff <= 0) return 'Ready to collect!';
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m remaining`;
 }
 
 function saveToLocalStorage() {
-  localStorage.setItem('casinoData', JSON.stringify(casinos));
+    localStorage.setItem('casinoData', JSON.stringify(casinos));
 }
 
 function loadFromLocalStorage() {
-  const saved = localStorage.getItem('casinoData');
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    parsed.forEach((casino, index) => {
-      casinos[index].lastCollection = casino.lastCollection ? new Date(casino.lastCollection) : null;
-      casinos[index].nextAvailable = casino.nextAvailable ? new Date(casino.nextAvailable) : null;
-    });
-  }
+    const saved = localStorage.getItem('casinoData');
+    if (saved) {
+        const parsed = JSON.parse(saved);
+        parsed.forEach((casino, index) => {
+            casinos[index].lastCollection = casino.lastCollection ? new Date(casino.lastCollection) : null;
+            casinos[index].nextAvailable = casino.nextAvailable ? new Date(casino.nextAvailable) : null;
+        });
+    }
 }
 
 function updateDisplay() {
-  const container = document.getElementById('casino-list');
-  container.innerHTML = '';
-  
-  casinos.forEach(casino => {
-    const div = document.createElement('div');
-    div.className = 'casino-item';
+    const container = document.getElementById('casino-list');
+    container.innerHTML = '';
     
-    const timeRemaining = casino.nextAvailable ? 
-      formatTimeRemaining(new Date(casino.nextAvailable)) : 
-      'Ready to collect!';
-    
-    const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
-    
-    div.innerHTML = `
-      <h3>${casino.name}</h3>
-      <p class="timer ${isReady ? 'ready' : ''}">${timeRemaining}</p>
-      <button 
-        onclick="window.open('${casino.url}', '_blank'); updateCollection('${casino.name}');"
-        ${!isReady ? 'disabled' : ''}
-      >
-        Collect
-      </button>
-    `;
-    
-    container.appendChild(div);
-  });
+    casinos.forEach(casino => {
+        const row = document.createElement('tr');
+        
+        const timeRemaining = casino.nextAvailable ? 
+            formatTimeRemaining(new Date(casino.nextAvailable)) : 
+            'Ready to collect!';
+        
+        const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
+        
+        row.innerHTML = `
+            <td>${casino.name}</td>
+            <td class="timer ${isReady ? 'ready' : ''}">${timeRemaining}</td>
+            <td>
+                <button 
+                    onclick="window.open('${casino.url}', '_blank'); updateCollection('${casino.name}');"
+                    class="collect-button ${!isReady ? 'disabled' : ''}"
+                    ${!isReady ? 'disabled' : ''}
+                >
+                    Collect
+                </button>
+            </td>
+        `;
+        
+        container.appendChild(row);
+    });
 }
 
-// Add this CSS to your stylesheet
-const styles = `
-  .casino-item {
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 5px;
-  }
-  
-  .timer.ready {
-    color: green;
-    font-weight: bold;
-  }
-  
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
+// Initialize clock
+function initClock() {
+    const hourHand = document.querySelector('.hour-hand');
+    const minuteHand = document.querySelector('.minute-hand');
+    const secondHand = document.querySelector('.second-hand');
+
+    function updateClock() {
+        const now = new Date();
+        
+        const seconds = now.getSeconds();
+        const secondsDegrees = ((seconds / 60) * 360) + 90;
+        secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+        
+        const minutes = now.getMinutes();
+        const minutesDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
+        minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+        
+        const hours = now.getHours();
+        const hoursDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
+        hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+}
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
-  // Create style element
-  const styleSheet = document.createElement('style');
-  styleSheet.textContent = styles;
-  document.head.appendChild(styleSheet);
-  
-  // Create container if it doesn't exist
-  if (!document.getElementById('casino-list')) {
-    const container = document.createElement('div');
-    container.id = 'casino-list';
-    document.body.appendChild(container);
-  }
-  
-  // Load saved data and start updates
-  loadFromLocalStorage();
-  updateDisplay();
-  
-  // Update display every minute
-  setInterval(updateDisplay, 60000);
+    loadFromLocalStorage();
+    updateDisplay();
+    initClock();
+    
+    // Update display every minute
+    setInterval(updateDisplay, 60000);
+    
+    // Handle support dialog
+    const dialog = document.querySelector('.support-dialog');
+    const dismissButton = document.querySelector('.dismiss-button');
+    
+    if (dismissButton) {
+        dismissButton.addEventListener('click', () => {
+            dialog.style.display = 'none';
+            localStorage.setItem('dialogDismissed', 'true');
+        });
+    }
+    
+    // Show dialog if not dismissed before
+    if (!localStorage.getItem('dialogDismissed')) {
+        setTimeout(() => {
+            dialog.style.display = 'block';
+        }, 60000); // Show after 1 minute
+    }
 });
+
