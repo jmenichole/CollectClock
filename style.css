@@ -64,52 +64,6 @@ body {
     box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 
-.hour-marks {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-}
-
-.hour-mark {
-    position: absolute;
-    width: 2px;
-    height: 15px;
-    background: var(--rich-gold);
-    left: 50%;
-    transform-origin: 50% 100px;
-}
-
-.clock-hand {
-    position: absolute;
-    transform-origin: 50% 100%;
-    bottom: 50%;
-    left: 50%;
-    border-radius: 4px;
-}
-
-.hour-hand {
-    width: 4px;
-    height: 35%;
-    background: var(--rich-gold);
-    transform: translateX(-50%);
-}
-
-.minute-hand {
-    width: 3px;
-    height: 45%;
-    background: var(--rich-gold);
-    transform: translateX(-50%);
-}
-
-.second-hand {
-    width: 2px;
-    height: 48%;
-    background: var(--accent-gold);
-    transform: translateX(-50%);
-}
-
 .clock-center {
     position: absolute;
     width: 12px;
@@ -119,7 +73,36 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
+    z-index: 3;
+}
+
+.clock-hand {
+    position: absolute;
+    transform-origin: 50% 100%;
+    left: 50%;
+    bottom: 50%;
+    z-index: 2;
+}
+
+.hour-hand {
+    width: 4px;
+    height: 35%;
+    background: var(--rich-gold);
+    margin-left: -2px;
+}
+
+.minute-hand {
+    width: 3px;
+    height: 45%;
+    background: var(--rich-gold);
+    margin-left: -1.5px;
+}
+
+.second-hand {
+    width: 2px;
+    height: 48%;
+    background: var(--accent-gold);
+    margin-left: -1px;
 }
 
 .casino-list-container {
