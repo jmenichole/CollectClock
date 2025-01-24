@@ -5,12 +5,14 @@ class SportsTicker {
         this.odds = [];
         this.retryCount = 0;
         this.maxRetries = 3;
+        this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     }
+
     async initialize() {
         try {
             this.createTickerElement();
             await this.fetchOdds();
-            this.startTicker();
+            this.setupTicker();
             
             // Update odds every 6 hours
             setInterval(() => this.fetchOdds(), 6 * 60 * 60 * 1000);
@@ -24,6 +26,29 @@ class SportsTicker {
         const ticker = document.querySelector('.ticker-scroll');
         if (!ticker) throw new Error('Ticker element not found');
         this.tickerElement = ticker;
+        
+        // Add touch events for mobile
+        if (this.isMobile) {
+            const tickerContent = document.querySelector('.ticker-content');
+            if (tickerContent) {
+                tickerContent.addEventListener('touchstart', () => {
+                    this.tickerElement.style.animationPlayState = 'paused';
+                });
+                
+                tickerContent.addEventListener('touchend', () => {
+                    this.tickerElement.style.animationPlayState = 'running';
+                });
+            }
+        }
+    }
+
+    setupTicker() {
+        // Reset animation when it completes
+        this.tickerElement.addEventListener('animationend', () => {
+            this.tickerElement.style.animation = 'none';
+            this.tickerElement.offsetHeight; // Trigger reflow
+            this.tickerElement.style.animation = null;
+        });
     }
 
     async fetchOdds() {
@@ -32,7 +57,7 @@ class SportsTicker {
             if (!response.ok) throw new Error('Failed to fetch odds');
             
             const data = await response.json();
-            this.odds = data.slice(0, 10); // Limit to 10 events
+            this.odds = data.slice(0, this.isMobile ? 5 : 10); // Show fewer items on mobile
             this.updateTickerContent();
         } catch (error) {
             console.error('Error fetching odds:', error);
@@ -47,11 +72,19 @@ class SportsTicker {
             const homeTeam = event.home_team;
             const awayTeam = event.away_team;
             const sport = event.sport_title;
-            const startTime = new Date(event.commence_time).toLocaleTimeString();
-            return `${sport}: ${awayTeam} @ ${homeTeam} (${startTime}) | `;
+            const startTime = new Date(event.commence_time).toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+            
+            // Shorter format for mobile
+            return this.isMobile ? 
+                `${awayTeam} @ ${homeTeam} (${startTime}) | ` :
+                `${sport}: ${awayTeam} @ ${homeTeam} (${startTime}) | `;
         }).join('');
 
-        this.tickerElement.textContent = content || 'Loading sports updates...';
+        // Repeat content for smoother loop
+        this.tickerElement.textContent = content.repeat(2);
     }
 
     handleError() {
@@ -60,14 +93,44 @@ class SportsTicker {
             setTimeout(() => this.fetchOdds(), 5000 * this.retryCount);
         } else {
             if (this.tickerElement) {
-                this.tickerElement.textContent = 'Sports updates temporarily unavailable';
+                this.tickerElement.textContent = this.isMobile ? 
+                    'Updates unavailable' : 
+                    'Sports updates temporarily unavailable';
             }
         }
     }
 }
 
-// Initialize the ticker
+// Initialize the ticker with performance monitoring
 document.addEventListener('DOMContentLoaded', () => {
     const ticker = new SportsTicker('cf97eedbe621ffabed7e15b6282cbafe');
-    ticker.initialize();
+
+    
+    // Check for animation performance
+    const checkPerformance = () => {
+        const ticker = document.querySelector('.ticker-scroll');
+        if (ticker && ticker.getAnimations) {
+            const animation = ticker.getAnimations()[0];
+            if (animation && animation.playState === 'pending') {
+                // Fallback to simpler animation if performance is poor
+                ticker.style.animation = 'none';
+                ticker.style.transform = 'translateX(-100%)';
+                ticker.style.transition = 'transform 30s linear';
+                setInterval(() => {
+                    ticker.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        ticker.style.transition = 'none';
+                        ticker.style.transform = 'translateX(-100%)';
+                        setTimeout(() => {
+                            ticker.style.transition = 'transform 30s linear';
+                        }, 50);
+                    }, 30000);
+                }, 30050);
+            }
+        }
+    };
+
+    ticker.initialize().then(() => {
+        setTimeout(checkPerformance, 1000);
+    });
 });
