@@ -65,7 +65,17 @@ class SportsTicker {
         }
     }
 }
+/* Optional: Add smooth pause on hover */
+.ticker-scroll:hover {
+    animation-play-state: paused;
+}
 
+/* Optional: Add slower speed for wider screens */
+@media (min-width: 1200px) {
+    .ticker-scroll {
+        animation-duration: 60s; /* Even slower on larger screens */
+    }
+}
 // Initialize the ticker
 document.addEventListener('DOMContentLoaded', () => {
     const ticker = new SportsTicker('cf97eedbe621ffabed7e15b6282cbafe');
