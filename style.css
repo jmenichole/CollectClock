@@ -9,69 +9,19 @@
     --soft-black: #1A1A1A;
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
+* {
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
     background: linear-gradient(145deg, var(--rich-gold), var(--deep-black));
     color: var(--pale-gold);
-    line-height: 1.6;
-    padding-bottom: 40px; /* Added to accommodate ticker */
+    min-height: 100vh;
+    padding-bottom: 40px;
 }
-
-/* [Previous CSS remains the same until the end] */
-
-/* Add new ticker styles */
-.sports-ticker {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: var(--deep-black);
-    border-top: 2px solid var(--rich-gold);
-    height: 40px;
-    overflow: hidden;
-    z-index: 1000;
-}
-
-.ticker-content {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
-.ticker-scroll {
-    display: inline-block;
-    white-space: nowrap;
-    padding: 10px;
-    color: var(--pale-gold);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-
-    .title-message h1 {
-        font-size: 2.5rem;
-    }
-
-    .sports-ticker {
-        height: 30px;
-    }
-
-    .ticker-scroll {
-        font-size: 12px;
-        padding: 8px;
-    }
-}
-/* Add after the existing CSS */
 
 .container {
     max-width: 1200px;
@@ -79,6 +29,7 @@ body {
     padding: 2rem;
 }
 
+/* Title Section */
 .title-message {
     text-align: center;
     margin-bottom: 3rem;
@@ -89,14 +40,13 @@ body {
     font-size: 3.5rem;
     color: var(--rich-gold);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin: 0;
-    letter-spacing: 1px;
 }
 
+/* Clock Styles */
 .clock-container {
-    margin: 2rem auto;
     width: 200px;
     height: 200px;
+    margin: 2rem auto;
     position: relative;
 }
 
@@ -105,11 +55,50 @@ body {
     height: 100%;
     border: 6px solid var(--rich-gold);
     border-radius: 50%;
+    background: var(--deep-black);
     position: relative;
-    background: linear-gradient(145deg, var(--soft-black), var(--deep-black));
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 
+.clock-center {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--rich-gold);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: 50% 100%;
+    background: var(--rich-gold);
+}
+
+.hour-hand {
+    width: 4px;
+    height: 60px;
+    margin-left: -2px;
+}
+
+.minute-hand {
+    width: 3px;
+    height: 80px;
+    margin-left: -1.5px;
+}
+
+.second-hand {
+    width: 2px;
+    height: 90px;
+    margin-left: -1px;
+    background: var(--accent-gold);
+}
+
+/* Casino List Styles */
 .casino-list-container {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -127,6 +116,11 @@ body {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid var(--deep-gold);
+}
+
+.casino-table th {
+    color: var(--rich-gold);
+    font-weight: 600;
 }
 
 .collect-button {
@@ -148,9 +142,16 @@ body {
     cursor: not-allowed;
 }
 
-.timer.ready {
-    color: var(--accent-gold);
-    font-weight: 600;
+/* Support Dialog */
+.dialog-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999;
 }
 
 .support-dialog {
@@ -163,18 +164,27 @@ body {
     padding: 2rem;
     border-radius: 10px;
     border: 2px solid var(--rich-gold);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    z-index: 1001;
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+}
+
+.support-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
 }
 
 .support-button {
-    display: block;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     padding: 1rem;
-    margin: 0.5rem 0;
     border-radius: 5px;
     text-decoration: none;
-    text-align: center;
+    font-weight: 600;
     transition: all 0.3s ease;
 }
 
@@ -191,7 +201,6 @@ body {
 .dismiss-button {
     width: 100%;
     padding: 1rem;
-    margin-top: 1rem;
     background: transparent;
     border: 2px solid var(--rich-gold);
     color: var(--pale-gold);
@@ -200,7 +209,62 @@ body {
     transition: all 0.3s ease;
 }
 
-.dismiss-button:hover {
-    background: rgba(212, 175, 55, 0.1);
+/* Sports Ticker */
+.sports-ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--deep-black);
+    border-top: 2px solid var(--rich-gold);
+    height: 40px;
+    overflow: hidden;
+    z-index: 998;
+}
+
+.ticker-content {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ticker-scroll {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 10px;
+    color: var(--pale-gold);
+    font-weight: 600;
+    animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .title-message h1 {
+        font-size: 2.5rem;
+    }
+
+    .casino-table th,
+    .casino-table td {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .sports-ticker {
+        height: 30px;
+    }
+
+    .ticker-scroll {
+        font-size: 12px;
+        padding: 8px;
+    }
 }
 
