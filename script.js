@@ -222,7 +222,9 @@ const casinos = [
     }
 ];
 
-// Utility functions
+// Your existing casino list remains at the top
+// Then continue with this code:
+
 function updateCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
@@ -258,8 +260,10 @@ function loadFromLocalStorage() {
     if (saved) {
         const parsed = JSON.parse(saved);
         parsed.forEach((casino, index) => {
-            casinos[index].lastCollection = casino.lastCollection ? new Date(casino.lastCollection) : null;
-            casinos[index].nextAvailable = casino.nextAvailable ? new Date(casino.nextAvailable) : null;
+            if (casinos[index]) { // Check if casino exists in current list
+                casinos[index].lastCollection = casino.lastCollection ? new Date(casino.lastCollection) : null;
+                casinos[index].nextAvailable = casino.nextAvailable ? new Date(casino.nextAvailable) : null;
+            }
         });
     }
 }
@@ -280,7 +284,15 @@ function updateDisplay() {
         const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
         
         row.innerHTML = `
-            <td>${casino.name}</td>
+            <td>
+                <a href="${casino.url}" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="casino-name"
+                   title="Visit ${casino.name}">
+                    ${casino.name}
+                </a>
+            </td>
             <td class="timer ${isReady ? 'ready' : ''}">${timeRemaining}</td>
             <td>
                 <button 
@@ -365,3 +377,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
