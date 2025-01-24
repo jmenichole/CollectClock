@@ -166,27 +166,25 @@ function createHourMarks() {
         hourMarksContainer.appendChild(mark);
     }
 }
-
 function updateClock() {
     const now = new Date();
     const seconds = now.getSeconds();
     const minutes = now.getMinutes();
     const hours = now.getHours() % 12;
 
-    // Calculate angles
-    const secondDegrees = ((seconds / 60) * 360);
-    const minuteDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6);
-    const hourDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30);
-
-    // Update hand positions
     const secondHand = document.querySelector('.second-hand');
     const minuteHand = document.querySelector('.minute-hand');
     const hourHand = document.querySelector('.hour-hand');
 
+    // Calculate degrees
+    const secondDeg = (seconds / 60) * 360;
+    const minuteDeg = ((minutes + seconds/60) / 60) * 360;
+    const hourDeg = ((hours + minutes/60) / 12) * 360;
+
     // Apply rotations
-    secondHand.style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
-    minuteHand.style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
-    hourHand.style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
+    secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+    hourHand.style.transform = `rotate(${hourDeg}deg)`;
 }
 
 function updateCasinoDisplay() {
