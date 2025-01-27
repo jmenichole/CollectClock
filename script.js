@@ -359,6 +359,13 @@ function showSupportDialog() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const collectButton = document.getElementById('collect-button');
+    collectButton.addEventListener('click', function() {
+        const isDisabled = collectButton.disabled;
+        collectButton.disabled = !isDisabled;
+    });
+});
 document.addEventListener('DOMContentLoaded', () => {
     loadFromLocalStorage();
     updateDisplay();
