@@ -222,9 +222,6 @@ const casinos = [
     }
 ];
 
-// Your existing casino list remains at the top
-// Then continue with this code:
-
 function updateCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
@@ -358,12 +355,7 @@ function showSupportDialog() {
         localStorage.setItem('dialogShown', 'true');
     }
 }
-document.addEventListener('DOMContentLoaded', function() {
-    const collectButton = document.getElementById('collect-button');
-    collectButton.addEventListener('click', function() {
-        const isDisabled = collectButton.disabled;
-        collectButton.disabled = !isDisabled;
-});
+
 document.addEventListener('DOMContentLoaded', () => {
     loadFromLocalStorage();
     updateDisplay();
@@ -382,5 +374,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-
