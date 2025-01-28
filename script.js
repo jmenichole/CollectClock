@@ -227,7 +227,7 @@ function updateCollection(casinoName) {
     if (casino) {
         const now = new Date();
         casino.lastCollection = now;
-        casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000));
+        casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000)); // 24 hours later
         saveToLocalStorage();
         updateDisplay();
         checkVisitCount();
@@ -293,7 +293,7 @@ function updateDisplay() {
             <td class="timer ${isReady ? 'ready' : ''}">${timeRemaining}</td>
             <td>
                 <button 
-                    onclick="window.open('${casino.url}', '_blank'); updateCollection('${casino.name}');"
+                    onclick="collectBonus('${casino.name}');"
                     class="collect-button ${!isReady ? 'disabled' : ''}"
                     ${!isReady ? 'disabled' : ''}
                 >
@@ -304,6 +304,18 @@ function updateDisplay() {
         
         container.appendChild(row);
     });
+}
+
+function collectBonus(casinoName) {
+    const casino = casinos.find(c => c.name === casinoName);
+    if (casino) {
+        // Simulate bonus collection
+        updateCollection(casinoName);
+        setTimeout(() => {
+            // Enable the button again after some time (e.g., 2 seconds)
+            updateDisplay();
+        }, 2000);
+    }
 }
 
 function initClock() {
