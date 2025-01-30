@@ -222,6 +222,7 @@ const casinos = [
     }
 ];
 
+
 function updateCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
