@@ -14,14 +14,14 @@
     box-sizing: border-box;
 }
 
+
 body {
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(145deg, var(--casino-gold), var(--casino-black));
+    background: linear-gradient(145deg, var(--casino-black), var(--casino-gold));
     color: var(--casino-white);
     min-height: 100vh;
     padding-bottom: 40px;
 }
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
