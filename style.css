@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap');
 
 :root {
     --casino-green: #0B3D91;
@@ -13,7 +13,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 
 body {
     font-family: 'Montserrat', sans-serif;
@@ -34,7 +33,7 @@ body {
 }
 
 .title-message h1 {
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Grand Casino', cursive;
     font-size: 3.5rem;
     color: var(--casino-gold);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -133,6 +132,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-right: 0.5rem;
 }
 
 .collect-button:hover {
@@ -247,6 +247,28 @@ body {
         font-size: 12px;
         padding: 8px;
         animation-duration: 60s;
+    }
+
+    .title-message {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .casino-table th,
+    .casino-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--casino-gold);
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .collect-button,
+    .undo-button {
+        display: inline-block;
+        margin-right: 0.5rem;
     }
 }
 
