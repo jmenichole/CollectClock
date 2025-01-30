@@ -266,21 +266,31 @@ function loadFromLocalStorage() {
     }
 }
 
+function undoCollection(casinoName) {
+    const casino = casinos.find(c => c.name === casinoName);
+    if (casino && casino.lastCollection) {
+        casino.lastCollection = null;
+        casino.nextAvailable = null;
+        saveToLocalStorage();
+        updateDisplay();
+    }
+}
+
 function updateDisplay() {
     const container = document.getElementById('casino-list');
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
     casinos.forEach(casino => {
         const row = document.createElement('tr');
-        
+
         const timeRemaining = casino.nextAvailable ? 
             formatTimeRemaining(new Date(casino.nextAvailable)) : 
             'Ready to collect!';
-        
+
         const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
-        
+
         row.innerHTML = `
             <td>
                 <a href="${casino.url}" 
@@ -300,13 +310,18 @@ function updateDisplay() {
                 >
                     Collect
                 </button>
+                <button 
+                    onclick="undoCollection('${casino.name}');"
+                    class="collect-button"
+                >
+                    Undo
+                </button>
             </td>
         `;
-        
+
         container.appendChild(row);
     });
 }
-
 function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
