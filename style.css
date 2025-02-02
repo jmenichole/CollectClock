@@ -1,5 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap');
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .casino-table th,
+    .casino-table td {
+        padding: 0.5rem; /* Reduced padding */
+        text-align: left;
+        border-bottom: 1px solid var(--casino-gold);
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 0.875rem; /* Smaller font size */
+    }
 
+    .collect-button,
+    .undo-button {
+        display: inline-block;
+        margin-right: 0.25rem; /* Reduced margin */
+        padding: 0.25rem 0.5rem; /* Reduced padding */
+        font-size: 0.875rem; /* Smaller font size */
+    }
+}
 :root {
     --casino-green: #0B3D91;
     --casino-gold: #C5B358;
