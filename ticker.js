@@ -105,24 +105,23 @@ class SportsTicker {
 document.addEventListener('DOMContentLoaded', () => {
     const ticker = new SportsTicker('cf97eedbe621ffabed7e15b6282cbafe');
 
-    
     // Check for animation performance
     const checkPerformance = () => {
-        const ticker = document.querySelector('.ticker-scroll');
-        if (ticker && ticker.getAnimations) {
-            const animation = ticker.getAnimations()[0];
+        const tickerElement = document.querySelector('.ticker-scroll');
+        if (tickerElement && tickerElement.getAnimations) {
+            const animation = tickerElement.getAnimations()[0];
             if (animation && animation.playState === 'pending') {
                 // Fallback to simpler animation if performance is poor
-                ticker.style.animation = 'none';
-                ticker.style.transform = 'translateX(-100%)';
-                ticker.style.transition = 'transform 30s linear';
+                tickerElement.style.animation = 'none';
+                tickerElement.style.transform = 'translateX(-100%)';
+                tickerElement.style.transition = 'transform 30s linear';
                 setInterval(() => {
-                    ticker.style.transform = 'translateX(100%)';
+                    tickerElement.style.transform = 'translateX(100%)';
                     setTimeout(() => {
-                        ticker.style.transition = 'none';
-                        ticker.style.transform = 'translateX(-100%)';
+                        tickerElement.style.transition = 'none';
+                        tickerElement.style.transform = 'translateX(-100%)';
                         setTimeout(() => {
-                            ticker.style.transition = 'transform 30s linear';
+                            tickerElement.style.transition = 'transform 30s linear';
                         }, 50);
                     }, 30000);
                 }, 30050);
