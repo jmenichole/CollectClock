@@ -322,15 +322,31 @@ function updateDisplay() {
         container.appendChild(row);
     });
 }
+
+let collectClickCount = 0;
+
 function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
         // Simulate bonus collection
         updateCollection(casinoName);
+        playCollectSound(); // Play sound on collect
+        collectClickCount++;
+        if (collectClickCount >= 4) {
+            showSupportDialog();
+            collectClickCount = 0; // Reset the counter
+        }
         setTimeout(() => {
             // Enable the button again after some time (e.g., 2 seconds)
             updateDisplay();
         }, 2000);
+    }
+}
+
+function playCollectSound() {
+    const sound = document.getElementById('collect-sound');
+    if (sound) {
+        sound.play();
     }
 }
 
