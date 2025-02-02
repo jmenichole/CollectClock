@@ -21,6 +21,7 @@ body {
     min-height: 100vh;
     padding-bottom: 40px;
 }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -169,7 +170,7 @@ body {
 }
 
 .support-icon:hover {
-    color: var (--casino-gold);
+    color: var(--casino-gold);
 }
 
 .dialog-overlay {
@@ -189,7 +190,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: var (--casino-black);
+    background: var(--casino-black);
     padding: 2rem;
     border-radius: 10px;
     border: 2px solid var(--casino-gold);
@@ -208,6 +209,8 @@ body {
     height: 40px;
     overflow: hidden;
     z-index: 998;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
 }
 
 .ticker-content {
@@ -225,7 +228,16 @@ body {
     font-weight: 600;
     font-size: 14px;
     will-change: transform;
-    animation: tickerMove 90s linear infinite;
+    animation: tickerMove 120s linear infinite, shimmer 2s infinite;
+}
+
+.ticker-scroll:hover {
+    animation-play-state: paused;
+}
+
+.ticker-separator {
+    margin: 0 10px;
+    color: gold;
 }
 
 @keyframes tickerMove {
@@ -234,6 +246,24 @@ body {
     }
     100% {
         transform: translate3d(-100%, 0, 0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 10px rgba(255, 215, 0, 1);
+    }
+    100% {
+        text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
     }
 }
 
@@ -246,7 +276,7 @@ body {
     .ticker-scroll {
         font-size: 12px;
         padding: 8px;
-        animation-duration: 60s;
+        animation-duration: 90s;
     }
 
     .title-message {
