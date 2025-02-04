@@ -6,20 +6,12 @@
     <meta name="description" content="CollectClock - Track and collect your daily casino bonuses with perfect timing">
     <title>CollectClock</title>
     <link rel="stylesheet" href="style.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5675619814800203" crossorigin="anonymous"></script>
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-    <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "pz2prp8k2x");
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap" rel="stylesheet">
 </head>
 <body>
     <main class="container">
         <header class="title-message">
-            <h1 style="font-family: 'Grand Casino', cursive;">CollectClock</h1>
+            <h1>CollectClock</h1>
             <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
         </header>
 
@@ -33,58 +25,35 @@
         </section>
 
         <section class="casino-list-container">
-            <table class="casino-table">
-                <thead>
-                    <tr>
-                        <th>Casino</th>
-                        <th>Time Until Available</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="casino-list"></tbody>
-            </table>
-        </section>
-
-        <section class="discord-section">
-            <h2>Contact us via Discord</h2>
-            <a href="https://discord.gg/26TZJyqn" target="_blank" rel="noopener noreferrer">
-                <img src="https://discord.com/assets/cb48d2f7a7e4d0a5c6e7f7d2b5a9b9ff.png" alt="Discord">
-            </a>
+            <div class="casino-grid" id="casino-list"></div>
         </section>
     </main>
 
     <div class="dialog-overlay"></div>
     <div class="support-dialog">
         <h2>Enjoying CollectClock?</h2>
-        <p>You've visited 5 casinos! Consider supporting our project to help keep it running.</p>
+        <p>Consider supporting our project to help keep it running.</p>
         <div class="support-buttons">
-            <a href="https://github.com/sponsors/jmenichole" 
-               class="support-button github"
-               target="_blank" 
-               rel="noopener noreferrer">
-                <i class="fab fa-github"></i>
+            <a href="https://github.com/sponsors/jmenichole" class="support-button github" target="_blank" rel="noopener noreferrer">
                 Become a Sponsor
             </a>
-            <a href="https://cash.app/$godzillamasters" 
-               class="support-button cashapp"
-               target="_blank" 
-               rel="noopener noreferrer">
-                <i class="fas fa-dollar-sign"></i>
+            <a href="https://cash.app/$godzillamasters" class="support-button cashapp" target="_blank" rel="noopener noreferrer">
                 Support via CashApp
             </a>
         </div>
         <button class="dismiss-button">Maybe Later</button>
     </div>
 
-    <div id="sports-ticker" class="sports-ticker">
+    <div class="sports-ticker">
         <div class="ticker-content">
             <div class="ticker-scroll"></div>
         </div>
     </div>
 
     <audio id="collect-sound" src="sound/collect.mp3" preload="auto"></audio>
-
     <script src="script.js"></script>
     <script src="ticker.js"></script>
 </body>
 </html>
+
+
