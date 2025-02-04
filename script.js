@@ -273,53 +273,46 @@ function undoCollection(casinoName) {
         casino.nextAvailable = null;
         saveToLocalStorage();
         updateDisplay();
-    }
-}
-
-function updateDisplay() {
+ function updateDisplay() {
     const container = document.getElementById('casino-list');
     if (!container) return;
 
     container.innerHTML = '';
 
     casinos.forEach(casino => {
-        const row = document.createElement('tr');
-
         const timeRemaining = casino.nextAvailable ? 
             formatTimeRemaining(new Date(casino.nextAvailable)) : 
             'Ready to collect!';
 
         const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
 
-        row.innerHTML = `
-            <td>
-                <a href="${casino.url}" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="casino-name"
-                   title="Visit ${casino.name}">
-                    ${casino.name}
-                </a>
-            </td>
-            <td class="timer ${isReady ? 'ready' : ''}">${timeRemaining}</td>
-            <td>
+        const card = document.createElement('div');
+        card.className = 'casino-card';
+        
+        card.innerHTML = `
+            <a href="${casino.url}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="casino-name">
+                ${casino.name}
+            </a>
+            <div class="casino-timer ${isReady ? 'ready' : ''}">${timeRemaining}</div>
+            <div class="button-container">
                 <button 
                     onclick="collectBonus('${casino.name}');"
                     class="collect-button ${!isReady ? 'disabled' : ''}"
-                    ${!isReady ? 'disabled' : ''}
-                >
+                    ${!isReady ? 'disabled' : ''}>
                     Collect
                 </button>
                 <button 
                     onclick="undoCollection('${casino.name}');"
-                    class="collect-button"
-                >
+                    class="undo-button">
                     Undo
                 </button>
-            </td>
+            </div>
         `;
 
-        container.appendChild(row);
+        container.appendChild(card);
     });
 }
 
