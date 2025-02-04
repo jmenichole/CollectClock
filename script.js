@@ -273,7 +273,9 @@ function undoCollection(casinoName) {
         casino.nextAvailable = null;
         saveToLocalStorage();
         updateDisplay();
- function updateDisplay() {
+    }
+}
+ function updateDisplay() 
     const container = document.getElementById('casino-list');
     if (!container) return;
 
