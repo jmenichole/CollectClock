@@ -344,8 +344,17 @@ body {
     display: inline-block;
     padding: 10px 0;
     color: var(--casino-gold);
-    animation: ticker 30s linear infinite;
+    animation: ticker 60s linear infinite; /* Changed from 30s to 60s */
     white-space: nowrap;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 @keyframes ticker {
