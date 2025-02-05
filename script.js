@@ -221,25 +221,7 @@ const casinos = [
         tier: 6
     }
 ];
-function openMiniPortal(url) {
-    const iframe = document.getElementById('mini-portal');
-    const overlay = document.getElementById('portal-overlay');
-    if (iframe && overlay) {
-        iframe.src = url;
-        iframe.style.display = 'block';
-        overlay.style.display = 'block';
-    }
-}
 
-function closeMiniPortal() {
-    const iframe = document.getElementById('mini-portal');
-    const overlay = document.getElementById('portal-overlay');
-    if (iframe && overlay) {
-        iframe.style.display = 'none';
-        overlay.style.display = 'none';
-        iframe.src = ''; // Clear the iframe content
-    }
-}
 
 function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
