@@ -275,7 +275,7 @@ function undoCollection(casinoName) {
         updateDisplay();
     }
 }
- function updateDisplay() 
+function updateDisplay() {
     const container = document.getElementById('casino-list');
     if (!container) return;
 
@@ -317,7 +317,6 @@ function undoCollection(casinoName) {
         container.appendChild(card);
     });
 }
-
 let collectClickCount = 0;
 
 function collectBonus(casinoName) {
