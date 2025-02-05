@@ -222,6 +222,54 @@ const casinos = [
     }
 ];
 
+// Add this at the start of your script, after the casinos array
+function createAudioElement() {
+    // Remove any existing audio element
+    const existingAudio = document.getElementById('collect-sound');
+    if (existingAudio) {
+        existingAudio.remove();
+    }
+
+    // Create new audio element
+    const audio = document.createElement('audio');
+    audio.id = 'collect-sound';
+    
+    // This is a short "success" sound encoded in base64
+    audio.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQwAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAASAAAhIAAYGBgYJCQkJCQwMDAwMDw8PDw8SUlJSUlVVVVVVWFhYWFhbW1tbW15eXl5eYaGhoaGkpKSkpKenp6enqqqqqqqtra2trbDw8PDw8/Pz8/P29vb29vn5+fn5/Pz8/Pz//////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAISCCxk6QAAAAAAAAAAAAAAAA//tQxAADwAABpAAAACAAADSAAAAETEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
+    
+    // Append to document body
+    document.body.appendChild(audio);
+}
+
+// Add this to your existing DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+    loadFromLocalStorage();
+    updateDisplay();
+    initClock();
+    setInterval(updateDisplay, 60000);
+    createAudioElement(); // Add this line
+    
+    const dismissButton = document.querySelector('.dismiss-button');
+    const dialog = document.querySelector('.support-dialog');
+    const overlay = document.querySelector('.dialog-overlay');
+    if (dismissButton && dialog && overlay) {
+        dismissButton.addEventListener('click', () => {
+            dialog.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+    }
+});
+
+// Update your existing playCollectSound function
+function playCollectSound() {
+    const sound = document.getElementById('collect-sound');
+    if (sound) {
+        sound.currentTime = 0; // Reset sound to start
+        sound.play().catch(error => {
+            console.log('Error playing sound:', error);
+        });
+    }
+}
 
 
 function collectBonus(casinoName) {
