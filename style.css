@@ -132,7 +132,6 @@ body {
         margin: 0.5rem 0;
     }
 }
-
 .portal-overlay {
     position: fixed;
     top: 0;
@@ -171,4 +170,3 @@ body {
     padding: 10px;
     cursor: pointer;
 }
-
