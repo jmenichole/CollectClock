@@ -224,12 +224,12 @@ const casinos = [
 
 
 
-.function collectBonus(casinoName) {
+function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
         // Open the link in a new window
         window.open(casino.url, '_blank');
-        
+
         // Simulate bonus collection
         updateCollection(casinoName);
         playCollectSound(); // Play sound on collect
