@@ -133,4 +133,42 @@ body {
     }
 }
 
+.portal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.portal-content {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.mini-portal {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.close-portal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
 
