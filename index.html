@@ -6,7 +6,17 @@
     <meta name="description" content="CollectClock - Track and collect your daily casino bonuses with perfect timing">
     <title>CollectClock</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MGW03QSJ9B"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MGW03QSJ9B');
+    </script>
 </head>
 <body>
     <main class="container">
@@ -15,49 +25,56 @@
             <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
         </header>
 
-        
-<!-- Existing HTML content -->
         <section class="clock-container">
             <div class="clock-face">
-                <div class="clock-center"></div>
                 <div class="hand hour-hand"></div>
                 <div class="hand minute-hand"></div>
                 <div class="hand second-hand"></div>
+                <div class="clock-center"></div>
             </div>
         </section>
 
         <section class="casino-list-container">
-            <div class="casino-grid" id="casino-list"></div>
+            <div class="casino-grid" id="casino-list">
+                <!-- Casino cards will be dynamically inserted here -->
+            </div>
         </section>
     </main>
 
+    <!-- Support Dialog -->
     <div class="dialog-overlay"></div>
     <div class="support-dialog">
         <h2>Enjoying CollectClock?</h2>
-        <p>Consider supporting our project to help keep it running.</p>
+        <p>Consider supporting our project to help keep it running and improving!</p>
         <div class="support-buttons">
-            <a href="https://github.com/sponsors/jmenichole" class="support-button github" target="_blank" rel="noopener noreferrer">
-                Become a Sponsor
+            <a href="https://github.com/sponsors/jmenichole" 
+               class="support-button github" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                Become a GitHub Sponsor
             </a>
-            <a href="https://cash.app/$godzillamasters" class="support-button cashapp" target="_blank" rel="noopener noreferrer">
+            <a href="https://cash.app/$godzillamasters" 
+               class="support-button cashapp" 
+               target="_blank" 
+               rel="noopener noreferrer">
                 Support via CashApp
             </a>
         </div>
         <button class="dismiss-button">Maybe Later</button>
     </div>
-<button onclick="collectBonus('${casino.name}');" class="collect-button ${!isReady ? 'disabled' : ''}" ${!isReady ? 'disabled' : ''}>
-    Collect
-</button>
+
+    <!-- Sports Ticker -->
     <div class="sports-ticker">
         <div class="ticker-content">
-            <div class="ticker-scroll"></div>
+            <div class="ticker-scroll">
+                <!-- Ticker content will be dynamically inserted here -->
+            </div>
         </div>
     </div>
 
-    <audio id="collect-sound" src="sound/collect.mp3" preload="auto"></audio>
+    <!-- Scripts -->
     <script src="script.js"></script>
     <script src="ticker.js"></script>
 </body>
 </html>
-
 
