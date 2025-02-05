@@ -174,54 +174,87 @@ const casinos = [
     }
 ];
 
+// Utility Functions
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+function sanitizeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function showNotification(message, type) {
+    const existingNotifications = document.querySelectorAll('.success-message, .undo-message');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = type === 'success' ? 'success-message' : 'undo-message';
+    notification.textContent = sanitizeHTML(message);
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+}
+
 let collectClickCount = 0;
 
 function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        // First, open the casino URL
-        window.open(casino.url, '_blank');
-        
-        // Show confirmation dialog
-        const confirmCollect = confirm(
-            "Did you collect the bonus?\n\n" +
-            "• Click 'OK' if you collected the bonus (starts 24h timer)\n" +
-            "• Click 'Cancel' if you just wanted to visit the site"
-        );
-        
-        if (confirmCollect) {
-            // User confirmed they collected the bonus
-            updateCollection(casinoName);
-            playCollectSound();
+        try {
+            // First, open the casino URL
+            window.open(casino.url, '_blank');
             
-            // Increment support dialog counter
-            collectClickCount++;
-            if (collectClickCount >= 4) {
-                showSupportDialog();
-                collectClickCount = 0;
+            // Show confirmation dialog
+            const confirmCollect = confirm(
+                "Did you collect the bonus?\n\n" +
+                "• Click 'OK' if you collected the bonus (starts 24h timer)\n" +
+                "• Click 'Cancel' if you just wanted to visit the site"
+            );
+            
+            if (confirmCollect) {
+                updateCollection(casinoName);
+                
+                // Increment support dialog counter
+                collectClickCount++;
+                if (collectClickCount >= 4) {
+                    showSupportDialog();
+                    collectClickCount = 0;
+                }
+                
+                showNotification(`${casinoName} bonus collected! Timer started.`, 'success');
             }
-            
-            // Show success message
-            const successMessage = document.createElement('div');
-            successMessage.className = 'success-message';
-            successMessage.textContent = `${casinoName} bonus collected! Timer started.`;
-            document.body.appendChild(successMessage);
-            setTimeout(() => successMessage.remove(), 3000);
+        } catch (error) {
+            console.error('Error in collectBonus:', error);
+            showNotification('Error collecting bonus. Please try again.', 'error');
         }
         
-        updateDisplay();
+        debouncedUpdateDisplay();
     }
 }
 
 function updateCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        const now = new Date();
-        casino.lastCollection = now;
-        casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000)); // 24 hours later
-        saveToLocalStorage();
-        updateDisplay();
-        checkVisitCount();
+        try {
+            const now = new Date();
+            casino.lastCollection = now;
+            casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000));
+            saveToLocalStorage();
+            updateDisplay();
+            checkVisitCount();
+        } catch (error) {
+            console.error('Error updating collection:', error);
+            showNotification('Error updating timer. Please try again.', 'error');
+        }
     }
 }
 
@@ -241,101 +274,109 @@ function formatTimeRemaining(targetDate) {
 function undoCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino && casino.lastCollection) {
-        // Show confirmation dialog
-        const confirmUndo = confirm(
-            "Undo bonus collection?\n\n" +
-            "• Click 'OK' if you didn't actually collect the bonus\n" +
-            "• Click 'Cancel' to keep the timer running"
-        );
-        
-        if (confirmUndo) {
-            casino.lastCollection = null;
-            casino.nextAvailable = null;
-            saveToLocalStorage();
-            updateDisplay();
+        try {
+            const confirmUndo = confirm(
+                "Undo bonus collection?\n\n" +
+                "• Click 'OK' if you didn't actually collect the bonus\n" +
+                "• Click 'Cancel' to keep the timer running"
+            );
             
-            // Show undo confirmation message
-            const undoMessage = document.createElement('div');
-            undoMessage.className = 'undo-message';
-            undoMessage.textContent = `${casinoName} timer reset`;
-            document.body.appendChild(undoMessage);
-            setTimeout(() => undoMessage.remove(), 3000);
+            if (confirmUndo) {
+                casino.lastCollection = null;
+                casino.nextAvailable = null;
+                saveToLocalStorage();
+                updateDisplay();
+                showNotification(`${casinoName} timer reset`, 'undo');
+            }
+        } catch (error) {
+            console.error('Error in undoCollection:', error);
+            showNotification('Error resetting timer. Please try again.', 'error');
         }
     }
 }
 
 function saveToLocalStorage() {
-    localStorage.setItem('casinoData', JSON.stringify(casinos));
-    localStorage.setItem('visitCount', getVisitCount());
+    try {
+        localStorage.setItem('casinoData', JSON.stringify(casinos));
+        localStorage.setItem('visitCount', getVisitCount());
+    } catch (error) {
+        console.error('Error saving to localStorage:', error);
+        showNotification('Error saving data. Please try again.', 'error');
+    }
 }
 
 function loadFromLocalStorage() {
-    const saved = localStorage.getItem('casinoData');
-    if (saved) {
-        const parsed = JSON.parse(saved);
-        parsed.forEach((casino, index) => {
-            if (casinos[index]) {
-                casinos[index].lastCollection = casino.lastCollection ? new Date(casino.lastCollection) : null;
-                casinos[index].nextAvailable = casino.nextAvailable ? new Date(casino.nextAvailable) : null;
-            }
-        });
+    try {
+        const saved = localStorage.getItem('casinoData');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            parsed.forEach((casino, index) => {
+                if (casinos[index]) {
+                    casinos[index].lastCollection = casino.lastCollection ? new Date(casino.lastCollection) : null;
+                    casinos[index].nextAvailable = casino.nextAvailable ? new Date(casino.nextAvailable) : null;
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error loading from localStorage:', error);
+        showNotification('Error loading saved data.', 'error');
     }
 }
+
+const debouncedUpdateDisplay = debounce(updateDisplay, 100);
 
 function updateDisplay() {
     const container = document.getElementById('casino-list');
     if (!container) return;
 
-    container.innerHTML = '';
+    try {
+        container.innerHTML = '';
 
-    casinos.forEach(casino => {
-        const timeRemaining = casino.nextAvailable ? 
-            formatTimeRemaining(new Date(casino.nextAvailable)) : 
-            'Ready to collect!';
+        casinos.forEach(casino => {
+            const timeRemaining = casino.nextAvailable ? 
+                formatTimeRemaining(new Date(casino.nextAvailable)) : 
+                'Ready to collect!';
 
-        const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
+            const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
 
-        const card = document.createElement('div');
-        card.className = 'casino-card';
-        
-        card.innerHTML = `
-            <a href="${casino.url}" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="casino-name" 
-               title="Click to visit ${casino.name}">
-                ${casino.name}
-            </a>
-            <div class="casino-timer ${isReady ? 'ready' : ''}" 
-                 title="${isReady ? 'Ready to collect!' : 'Time until next bonus'}">
-                ${timeRemaining}
-            </div>
-            <div class="button-container">
-                <button 
-                    onclick="collectBonus('${casino.name}');"
-                    class="collect-button ${!isReady ? 'disabled' : ''}"
-                    ${!isReady ? 'disabled' : ''}
-                    title="${isReady ? 'Click to collect bonus' : 'Wait for timer to reset'}">
-                    Collect
-                </button>
-                <button 
-                    onclick="undoCollection('${casino.name}');"
-                    class="undo-button"
-                    title="Reset timer if bonus wasn't collected"
-                    ${!casino.lastCollection ? 'disabled' : ''}>
-                    Undo
-                </button>
-            </div>
-        `;
+            const card = document.createElement('div');
+            card.className = 'casino-card';
+            
+            card.innerHTML = `
+                <a href="${casino.url}" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="casino-name" 
+                   title="Click to visit ${sanitizeHTML(casino.name)}">
+                    ${sanitizeHTML(casino.name)}
+                </a>
+                <div class="casino-timer ${isReady ? 'ready' : ''}" 
+                     title="${isReady ? 'Ready to collect!' : 'Time until next bonus'}">
+                    ${timeRemaining}
+                </div>
+                <div class="button-container">
+                    <button 
+                        onclick="collectBonus('${casino.name}');"
+                        class="collect-button ${!isReady ? 'disabled' : ''}"
+                        ${!isReady ? 'disabled' : ''}
+                        title="${isReady ? 'Click to collect bonus' : 'Wait for timer to reset'}">
+                        Collect
+                    </button>
+                    <button 
+                        onclick="undoCollection('${casino.name}');"
+                        class="undo-button"
+                        title="Reset timer if bonus wasn't collected"
+                        ${!casino.lastCollection ? 'disabled' : ''}>
+                        Undo
+                    </button>
+                </div>
+            `;
 
-        container.appendChild(card);
-    });
-}
-
-function playCollectSound() {
-    const sound = document.getElementById('collect-sound');
-    if (sound) {
-        sound.play().catch(error => console.log('Sound play failed:', error));
+            container.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error updating display:', error);
+        showNotification('Error updating display. Please refresh the page.', 'error');
     }
 }
 
@@ -347,19 +388,23 @@ function initClock() {
     if (!hourHand || !minuteHand || !secondHand) return;
 
     function updateClock() {
-        const now = new Date();
-        
-        const seconds = now.getSeconds();
-        const secondsDegrees = ((seconds / 60) * 360) + 90;
-        secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
-        
-        const minutes = now.getMinutes();
-        const minutesDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
-        minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
-        
-        const hours = now.getHours();
-        const hoursDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
-        hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+        try {
+            const now = new Date();
+            
+            const seconds = now.getSeconds();
+            const secondsDegrees = ((seconds / 60) * 360) + 90;
+            secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+            
+            const minutes = now.getMinutes();
+            const minutesDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
+            minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+            
+            const hours = now.getHours();
+            const hoursDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
+            hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+        } catch (error) {
+            console.error('Error updating clock:', error);
+        }
     }
 
     setInterval(updateClock, 1000);
@@ -371,11 +416,15 @@ function getVisitCount() {
 }
 
 function checkVisitCount() {
-    const visitCount = getVisitCount() + 1;
-    localStorage.setItem('visitCount', visitCount);
-    
-    if (visitCount >= 5 && !localStorage.getItem('dialogShown')) {
-        showSupportDialog();
+    try {
+        const visitCount = getVisitCount() + 1;
+        localStorage.setItem('visitCount', visitCount);
+        
+        if (visitCount >= 5 && !localStorage.getItem('dialogShown')) {
+            showSupportDialog();
+        }
+    } catch (error) {
+        console.error('Error checking visit count:', error);
     }
 }
 
@@ -389,22 +438,37 @@ function showSupportDialog() {
     }
 }
 
+let tickerUpdateInterval;
+
 document.addEventListener('DOMContentLoaded', () => {
-    loadFromLocalStorage();
-    updateDisplay();
-    initClock();
-    
-    setInterval(updateDisplay, 60000); // Update display every minute
-    
-    const dismissButton = document.querySelector('.dismiss-button');
-    const dialog = document.querySelector('.support-dialog');
-    const overlay = document.querySelector('.dialog-overlay');
-    
-    if (dismissButton && dialog && overlay) {
-        dismissButton.addEventListener('click', () => {
-            dialog.style.display = 'none';
-            overlay.style.display = 'none';
-        });
+    try {
+        loadFromLocalStorage();
+        updateDisplay();
+        initClock();
+        
+        // Clear existing interval if it exists
+        if (tickerUpdateInterval) clearInterval(tickerUpdateInterval);
+        tickerUpdateInterval = setInterval(debouncedUpdateDisplay, 60000);
+        
+        // Setup support dialog
+        const dismissButton = document.querySelector('.dismiss-button');
+        const dialog = document.querySelector('.support-dialog');
+        const overlay = document.querySelector('.dialog-overlay');
+        
+        if (dismissButton && dialog && overlay) {
+            dismissButton.addEventListener('click', () => {
+                dialog.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        }
+    } catch (error) {
+        console.error('Error initializing application:', error);
+        showNotification('Error loading application. Please refresh the page.', 'error');
     }
+});
+
+// Cleanup on page hide/unload
+window.addEventListener('pagehide', () => {
+    if (tickerUpdateInterval) clearInterval(tickerUpdateInterval);
 });
 
