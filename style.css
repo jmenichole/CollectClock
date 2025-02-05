@@ -153,49 +153,83 @@ body {
     margin-top: 0.5rem;
 }
 
-.collect-button,
-.undo-button {
+/* Update the collect button styles */
+.collect-button {
+    background: linear-gradient(145deg, var(--casino-gold), #D4C16B);
+    color: var(--casino-black);
+    font-weight: bold;
+    text-transform: uppercase;
     padding: 0.8rem 1.2rem;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
-    flex: 1;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.collect-button {
-    background: var(--casino-gold);
-    color: var(--casino-black);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .collect-button:hover:not(:disabled) {
-    background: #D4C16B;
+    background: linear-gradient(145deg, #D4C16B, var(--casino-gold));
     transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(197, 179, 88, 0.3);
+    box-shadow: 0 4px 8px rgba(197, 179, 88, 0.4);
 }
 
+.collect-button:disabled {
+    background: #666;
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    border: 1px solid #444;
+}
+
+/* Add a collected state */
+.collect-button.collected {
+    background: var(--casino-green);
+    color: var(--casino-white);
+    opacity: 0.8;
+}
+
+/* Make the undo button more visible when needed */
 .undo-button {
     background: rgba(255, 255, 255, 0.1);
     color: var(--casino-white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+    padding: 0.8rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .undo-button:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.collect-button:disabled,
 .undo-button:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.1);
 }
+
+/* Add active states for better feedback */
+.collect-button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.undo-button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+/* Add focus states for accessibility */
+.collect-button:focus,
+.undo-button:focus {
+    outline: 2px solid var(--casino-gold);
+    outline-offset: 2px;
+}
+
 
 /* Support Dialog */
 .dialog-overlay {
