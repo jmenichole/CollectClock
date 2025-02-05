@@ -222,13 +222,12 @@ const casinos = [
     }
 ];
 
-
 function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        // Open the link in the mini portal
-        openMiniPortal(casino.url);
-        
+        // Open the link in a new window
+        window.open(casino.url, '_blank');
+
         // Simulate bonus collection
         updateCollection(casinoName);
         playCollectSound(); // Play sound on collect
@@ -242,32 +241,7 @@ function collectBonus(casinoName) {
             updateDisplay();
         }, 2000);
     }
-}
-
-// Existing code...
-
-function collectBonus(casinoName) {
-    const casino = casinos.find(c => c.name === casinoName);
-    if (casino) {
-        // Open the link in the mini portal
-        openMiniPortal(casino.url);
-        
-        // Simulate bonus collection
-        updateCollection(casinoName);
-        playCollectSound(); // Play sound on collect
-        collectClickCount++;
-        if (collectClickCount >= 4) {
-            showSupportDialog();
-            collectClickCount = 0; // Reset the counter
-        }
-        setTimeout(() => {
-            // Enable the button again after some time (e.g., 2 seconds)
-            updateDisplay();
-        }, 2000);
-    }
-}
-
-// Existing code...
+}// Existing code...
 function updateCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
