@@ -210,17 +210,18 @@ function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
         try {
-            // First, open the casino URL
-            window.open(casino.url, '_blank');
-            
-            // Show confirmation dialog
+            // Show confirmation dialog first
             const confirmCollect = confirm(
-                "Did you collect the bonus?\n\n" +
-                "• Click 'OK' if you collected the bonus (starts 24h timer)\n" +
-                "• Click 'Cancel' if you just wanted to visit the site"
+                "Would you like to:\n\n" +
+                "• Visit the casino site AND start the timer (OK)\n" +
+                "• Just visit the site without starting the timer (Cancel)"
             );
             
+            // Always open the URL
+            window.open(casino.url, '_blank');
+            
             if (confirmCollect) {
+                // User confirmed they want to collect the bonus
                 updateCollection(casinoName);
                 
                 // Increment support dialog counter
@@ -237,7 +238,7 @@ function collectBonus(casinoName) {
             showNotification('Error collecting bonus. Please try again.', 'error');
         }
         
-        debouncedUpdateDisplay();
+        updateDisplay();
     }
 }
 
