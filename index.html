@@ -45,7 +45,9 @@
         </div>
         <button class="dismiss-button">Maybe Later</button>
     </div>
-
+<button onclick="collectBonus('${casino.name}');" class="collect-button ${!isReady ? 'disabled' : ''}" ${!isReady ? 'disabled' : ''}>
+    Collect
+</button>
     <div class="sports-ticker">
         <div class="ticker-content">
             <div class="ticker-scroll"></div>
