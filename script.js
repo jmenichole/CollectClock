@@ -35,7 +35,6 @@ const casinos = [
         nextAvailable: null,
         tier: 1
     },
-
     // Tier 2 - Established Secondary Casinos
     {
         name: "Mega Bonanza",
@@ -72,7 +71,6 @@ const casinos = [
         nextAvailable: null,
         tier: 2
     },
-
     // Tier 3 - Newer/Growing Platforms
     {
         name: "Real Prize",
@@ -109,7 +107,6 @@ const casinos = [
         nextAvailable: null,
         tier: 3
     },
-
     // Tier 4 - Additional Options
     {
         name: "Jackpota",
@@ -153,7 +150,6 @@ const casinos = [
         nextAvailable: null,
         tier: 4
     },
-
     // Tier 5 - Traditional Sweeps Casinos
     {
         name: "Luckyland Slots",
@@ -175,121 +171,45 @@ const casinos = [
         lastCollection: null,
         nextAvailable: null,
         tier: 5
-    },
-
-    // Tier 6 - New/Upcoming Platforms
-    {
-        name: "Pulsz Bingo",
-        url: "https://www.pulszbingo.com",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 6
-    },
-    {
-        name: "Money Factory",
-        url: "https://www.themoneyfactory.com",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 6
-    },
-    {
-        name: "Razed",
-        url: "https://www.razed.com",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 6
-    },
-    {
-        name: "Spin Blitz",
-        url: "https://www.spinblitz.com",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 6
-    },
-    {
-        name: "My Prize",
-        url: "https://www.myprize.us",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 6
-    },
-    {
-        name: "Meta Win",
-        url: "https://www.metawin.com",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 6
     }
 ];
 
-// Add this at the start of your script, after the casinos array
-function createAudioElement() {
-    // Remove any existing audio element
-    const existingAudio = document.getElementById('collect-sound');
-    if (existingAudio) {
-        existingAudio.remove();
-    }
-
-    // Create new audio element
-    const audio = document.createElement('audio');
-    audio.id = 'collect-sound';
-    
-    // This is a short "success" sound encoded in base64
-    audio.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQwAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAASAAAhIAAYGBgYJCQkJCQwMDAwMDw8PDw8SUlJSUlVVVVVVWFhYWFhbW1tbW15eXl5eYaGhoaGkpKSkpKenp6enqqqqqqqtra2trbDw8PDw8/Pz8/P29vb29vn5+fn5/Pz8/Pz//////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAISCCxk6QAAAAAAAAAAAAAAAA//tQxAADwAABpAAAACAAADSAAAAETEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
-    
-    // Append to document body
-    document.body.appendChild(audio);
-}
-
-// Add this to your existing DOMContentLoaded event listener
-document.addEventListener('DOMContentLoaded', () => {
-    loadFromLocalStorage();
-    updateDisplay();
-    initClock();
-    setInterval(updateDisplay, 60000);
-    createAudioElement(); // Add this line
-    
-    const dismissButton = document.querySelector('.dismiss-button');
-    const dialog = document.querySelector('.support-dialog');
-    const overlay = document.querySelector('.dialog-overlay');
-    if (dismissButton && dialog && overlay) {
-        dismissButton.addEventListener('click', () => {
-            dialog.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-    }
-});
-
-// Update your existing playCollectSound function
-function playCollectSound() {
-    const sound = document.getElementById('collect-sound');
-    if (sound) {
-        sound.currentTime = 0; // Reset sound to start
-        sound.play().catch(error => {
-            console.log('Error playing sound:', error);
-        });
-    }
-}
-
+let collectClickCount = 0;
 
 function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
-        // Open the link in a new window
+        // First, open the casino URL
         window.open(casino.url, '_blank');
-
-        // Simulate bonus collection
-        updateCollection(casinoName);
-        playCollectSound(); // Play sound on collect
-        collectClickCount++;
-        if (collectClickCount >= 4) {
-            showSupportDialog();
-            collectClickCount = 0; // Reset the counter
+        
+        // Show confirmation dialog
+        const confirmCollect = confirm(
+            "Did you collect the bonus?\n\n" +
+            "• Click 'OK' if you collected the bonus (starts 24h timer)\n" +
+            "• Click 'Cancel' if you just wanted to visit the site"
+        );
+        
+        if (confirmCollect) {
+            // User confirmed they collected the bonus
+            updateCollection(casinoName);
+            playCollectSound();
+            
+            // Increment support dialog counter
+            collectClickCount++;
+            if (collectClickCount >= 4) {
+                showSupportDialog();
+                collectClickCount = 0;
+            }
+            
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = `${casinoName} bonus collected! Timer started.`;
+            document.body.appendChild(successMessage);
+            setTimeout(() => successMessage.remove(), 3000);
         }
-        setTimeout(() => {
-            // Enable the button again after some time (e.g., 2 seconds)
-            updateDisplay();
-        }, 2000);
+        
+        updateDisplay();
     }
 }
 
@@ -318,6 +238,32 @@ function formatTimeRemaining(targetDate) {
     return `${hours}h ${minutes}m remaining`;
 }
 
+function undoCollection(casinoName) {
+    const casino = casinos.find(c => c.name === casinoName);
+    if (casino && casino.lastCollection) {
+        // Show confirmation dialog
+        const confirmUndo = confirm(
+            "Undo bonus collection?\n\n" +
+            "• Click 'OK' if you didn't actually collect the bonus\n" +
+            "• Click 'Cancel' to keep the timer running"
+        );
+        
+        if (confirmUndo) {
+            casino.lastCollection = null;
+            casino.nextAvailable = null;
+            saveToLocalStorage();
+            updateDisplay();
+            
+            // Show undo confirmation message
+            const undoMessage = document.createElement('div');
+            undoMessage.className = 'undo-message';
+            undoMessage.textContent = `${casinoName} timer reset`;
+            document.body.appendChild(undoMessage);
+            setTimeout(() => undoMessage.remove(), 3000);
+        }
+    }
+}
+
 function saveToLocalStorage() {
     localStorage.setItem('casinoData', JSON.stringify(casinos));
     localStorage.setItem('visitCount', getVisitCount());
@@ -328,21 +274,11 @@ function loadFromLocalStorage() {
     if (saved) {
         const parsed = JSON.parse(saved);
         parsed.forEach((casino, index) => {
-            if (casinos[index]) { // Check if casino exists in current list
+            if (casinos[index]) {
                 casinos[index].lastCollection = casino.lastCollection ? new Date(casino.lastCollection) : null;
                 casinos[index].nextAvailable = casino.nextAvailable ? new Date(casino.nextAvailable) : null;
             }
         });
-    }
-}
-
-function undoCollection(casinoName) {
-    const casino = casinos.find(c => c.name === casinoName);
-    if (casino && casino.lastCollection) {
-        casino.lastCollection = null;
-        casino.nextAvailable = null;
-        saveToLocalStorage();
-        updateDisplay();
     }
 }
 
@@ -366,20 +302,27 @@ function updateDisplay() {
             <a href="${casino.url}" 
                target="_blank" 
                rel="noopener noreferrer" 
-               class="casino-name">
+               class="casino-name" 
+               title="Click to visit ${casino.name}">
                 ${casino.name}
             </a>
-            <div class="casino-timer ${isReady ? 'ready' : ''}">${timeRemaining}</div>
+            <div class="casino-timer ${isReady ? 'ready' : ''}" 
+                 title="${isReady ? 'Ready to collect!' : 'Time until next bonus'}">
+                ${timeRemaining}
+            </div>
             <div class="button-container">
                 <button 
                     onclick="collectBonus('${casino.name}');"
                     class="collect-button ${!isReady ? 'disabled' : ''}"
-                    ${!isReady ? 'disabled' : ''}>
+                    ${!isReady ? 'disabled' : ''}
+                    title="${isReady ? 'Click to collect bonus' : 'Wait for timer to reset'}">
                     Collect
                 </button>
                 <button 
                     onclick="undoCollection('${casino.name}');"
-                    class="undo-button">
+                    class="undo-button"
+                    title="Reset timer if bonus wasn't collected"
+                    ${!casino.lastCollection ? 'disabled' : ''}>
                     Undo
                 </button>
             </div>
@@ -389,11 +332,10 @@ function updateDisplay() {
     });
 }
 
-
 function playCollectSound() {
     const sound = document.getElementById('collect-sound');
     if (sound) {
-        sound.play();
+        sound.play().catch(error => console.log('Sound play failed:', error));
     }
 }
 
@@ -452,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplay();
     initClock();
     
-    setInterval(updateDisplay, 60000);
+    setInterval(updateDisplay, 60000); // Update display every minute
     
     const dismissButton = document.querySelector('.dismiss-button');
     const dialog = document.querySelector('.support-dialog');
@@ -465,3 +407,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
