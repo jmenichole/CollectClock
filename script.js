@@ -222,12 +222,14 @@ const casinos = [
     }
 ];
 
-function collectBonus(casinoName) {
+
+
+.function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
         // Open the link in a new window
         window.open(casino.url, '_blank');
-
+        
         // Simulate bonus collection
         updateCollection(casinoName);
         playCollectSound(); // Play sound on collect
@@ -241,7 +243,8 @@ function collectBonus(casinoName) {
             updateDisplay();
         }, 2000);
     }
-}// Existing code...
+}
+
 function updateCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
