@@ -393,4 +393,46 @@ body {
         text-align: center;
     }
 }
+/* Add these new sections to the end of your existing style.css */
+
+/* Performance Improvements */
+.casino-card {
+    will-change: transform;
+}
+
+/* Accessibility Improvements */
+.collect-button:focus,
+.undo-button:focus {
+    outline: 2px solid var(--casino-gold);
+    outline-offset: 2px;
+}
+
+/* Motion Reduction */
+@media (prefers-reduced-motion: reduce) {
+    .casino-card,
+    .collect-button,
+    .undo-button,
+    .support-button {
+        transition: none;
+    }
+    
+    .ticker-scroll {
+        animation: none;
+        transform: none;
+    }
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 480px) {
+    .button-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .success-message,
+    .undo-message {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+}
 
