@@ -180,35 +180,24 @@ function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
         try {
-            // First open the URL directly
-            const newWindow = window.open(casino.url, '_blank');
-            if (newWindow) {
-                newWindow.focus();
-            }
+            // Embed the casino link in an iframe
+            const iframeContainer = document.getElementById('iframe-container');
+            iframeContainer.innerHTML = `<iframe src="${casino.url}" width="100%" height="500px"></iframe>`;
             
-            // Then handle the timer confirmation
-            setTimeout(() => {
-                const confirmCollect = confirm(
-                    "Would you like to start the 24-hour timer for this bonus?\n\n" +
-                    "• Click 'OK' to start the timer\n" +
-                    "• Click 'Cancel' if you haven't collected yet"
-                );
-                
-                if (confirmCollect) {
-                    updateCollection(casinoName);
-                    collectClickCount++;
-                    if (collectClickCount >= 4) {
-                        showSupportDialog();
-                        collectClickCount = 0;
-                    }
-                    showNotification(`${casinoName} timer started!`, 'success');
-                }
-            }, 500);
+            // Directly start the timer without confirmation
+            updateCollection(casinoName);
+            collectClickCount++;
+            if (collectClickCount >= 4) {
+                showSupportDialog();
+                collectClickCount = 0;
+            }
+            showNotification(`${casinoName} timer started!`, 'success');
             
         } catch (error) {
             console.error('Error in collectBonus:', error);
-            showNotification('Error opening casino. Please try clicking the casino name instead.', 'error');
-        }
+            showNotification('Error embedding casino. Please try clicking the casino name instead.', 'error');
+        
+}
         
         updateDisplay();
     }
