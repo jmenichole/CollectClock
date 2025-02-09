@@ -39,8 +39,13 @@
             </div>
         </section>
 
-        <!-- Iframe Container -->
-        <div id="iframe-container"></div>
+        <!-- Popup Window -->
+        <div id="popup-window" class="popup-window">
+            <div class="popup-content">
+                <span class="close-button">&times;</span>
+                <iframe id="popup-iframe" src="" width="100%" height="500px"></iframe>
+            </div>
+        </div>
     </main>
 
     <!-- Support Dialog -->
@@ -50,15 +55,15 @@
         <p>Consider supporting our project to help keep it running and improving!</p>
         <div class="support-buttons">
             <a href="https://github.com/sponsors/jmenichole" 
-               class="support-button github" 
-               target="_blank" 
-               rel="noopener noreferrer">
+                class="support-button github" 
+                target="_blank" 
+                rel="noopener noreferrer">
                 Become a GitHub Sponsor
             </a>
             <a href="https://cash.app/$godzillamasters" 
-               class="support-button cashapp" 
-               target="_blank" 
-               rel="noopener noreferrer">
+                class="support-button cashapp" 
+                target="_blank" 
+                rel="noopener noreferrer">
                 Support via CashApp
             </a>
         </div>
@@ -79,3 +84,34 @@
     <script src="ticker.js"></script>
 </body>
 </html>
+
+<style>
+/* Add this to your CSS file */
+.popup-window {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: relative;
+    margin: 10% auto;
+    padding: 20px;
+    width: 80%;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+</style>
