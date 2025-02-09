@@ -172,9 +172,6 @@ const casinos = [
         nextAvailable: null,
         tier: 5
     }
-    };
-const casinos = [
-    // Your casino data here
 ];
 
 let collectClickCount = 0;
@@ -228,12 +225,12 @@ function updateCollection(casinoName) {
 
 function formatTimeRemaining(targetDate) {
     if (!targetDate) return 'Ready to collect!';
-    
+
     const now = new Date();
     const diff = targetDate - now;
-    
+
     if (diff <= 0) return 'Ready to collect!';
-    
+
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     return `${hours}h ${minutes}m remaining`;
@@ -247,7 +244,7 @@ function undoCollection(casinoName) {
             "• Click 'OK' if you didn't actually collect the bonus\n" +
             "• Click 'Cancel' to keep the timer running"
         );
-        
+
         if (confirmUndo) {
             casino.lastCollection = null;
             casino.nextAvailable = null;
@@ -287,15 +284,15 @@ function updateDisplay() {
     container.innerHTML = '';
 
     casinos.forEach(casino => {
-        const timeRemaining = casino.nextAvailable ? 
-            formatTimeRemaining(new Date(casino.nextAvailable)) : 
+        const timeRemaining = casino.nextAvailable ?
+            formatTimeRemaining(new Date(casino.nextAvailable)) :
             'Ready to collect!';
 
         const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
 
         const card = document.createElement('div');
         card.className = 'casino-card';
-        
+
         card.innerHTML = `
             <a href="javascript:void(0);" 
                 onclick="collectBonus('${casino.name}')"
@@ -340,15 +337,15 @@ function initClock() {
 
     function updateClock() {
         const now = new Date();
-        
+
         const seconds = now.getSeconds();
         const secondsDegrees = ((seconds / 60) * 360) + 90;
         secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
-        
+
         const minutes = now.getMinutes();
         const minutesDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
         minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
-        
+
         const hours = now.getHours();
         const hoursDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
         hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
@@ -365,7 +362,7 @@ function getVisitCount() {
 function checkVisitCount() {
     const visitCount = getVisitCount() + 1;
     localStorage.setItem('visitCount', visitCount);
-    
+
     if (visitCount >= 5 && !localStorage.getItem('dialogShown')) {
         showSupportDialog();
     }
@@ -384,7 +381,7 @@ function showSupportDialog() {
 function showNotification(message, type) {
     const existingNotifications = document.querySelectorAll('.success-message, .undo-message');
     existingNotifications.forEach(notification => notification.remove());
-    
+
     const notification = document.createElement('div');
     notification.className = type === 'success' ? 'success-message' : 'undo-message';
     notification.textContent = message;
@@ -396,13 +393,13 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFromLocalStorage();
     updateDisplay();
     initClock();
-    
+
     setInterval(updateDisplay, 60000);
-    
+
     const dismissButton = document.querySelector('.dismiss-button');
     const dialog = document.querySelector('.support-dialog');
     const overlay = document.querySelector('.dialog-overlay');
-    
+
     if (dismissButton && dialog && overlay) {
         dismissButton.addEventListener('click', () => {
             dialog.style.display = 'none';
