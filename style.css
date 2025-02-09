@@ -478,4 +478,60 @@ body {
         padding: 0.8rem 1rem;
     }
 }
+/* ... existing styles ... */
+
+/* Popup Window */
+.popup-window {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    padding: 1rem;  /* Add padding for better spacing on mobile */
+}
+
+.popup-content {
+    position: relative;
+    margin: 10% auto;
+    padding: 20px;
+    width: 90%;  /* Adjust width for mobile devices */
+    max-width: 500px;  /* Set a maximum width */
+    height: auto;  /* Adjust height for mobile devices */
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid var(--casino-gold);  /* Add border for visibility */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);  /* Add shadow for better visibility */
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #000;  /* Change color to black for better visibility */
+    background-color: #fff;  /* Add background color */
+    border-radius: 50%;  /* Make it circular */
+    border: 2px solid var(--casino-gold);  /* Add border for visibility */
+    padding: 5px;  /* Add padding */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);  /* Add shadow for better visibility */
+}
+
+/* Ensure the popup is responsive */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 100%;  /* Full width on smaller screens */
+        height: auto;
+    }
+
+    .close-button {
+        font-size: 25px;  /* Slightly smaller on mobile */
+        padding: 8px;
+    }
+}
+
+/* ... remaining styles ... */
 
