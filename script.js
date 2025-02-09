@@ -236,25 +236,6 @@ function formatTimeRemaining(targetDate) {
     return `${hours}h ${minutes}m remaining`;
 }
 
-function undoCollection(casinoName) {
-    const casino = casinos.find(c => c.name === casinoName);
-    if (casino && casino.lastCollection) {
-        const confirmUndo = confirm(
-            "Undo bonus collection?\n\n" +
-            "• Click 'OK' if you didn't actually collect the bonus\n" +
-            "• Click 'Cancel' to keep the timer running"
-        );
-
-        if (confirmUndo) {
-            casino.lastCollection = null;
-            casino.nextAvailable = null;
-            saveToLocalStorage();
-            updateDisplay();
-            showNotification(`${casinoName} timer reset`, 'undo');
-        }
-    }
-}
-
 function saveToLocalStorage() {
     try {
         localStorage.setItem('casinoData', JSON.stringify(casinos));
@@ -283,6 +264,8 @@ function updateDisplay() {
 
     container.innerHTML = '';
 
+    const list = document.createElement('ul'); // Create a single list
+
     casinos.forEach(casino => {
         const timeRemaining = casino.nextAvailable ?
             formatTimeRemaining(new Date(casino.nextAvailable)) :
@@ -290,10 +273,10 @@ function updateDisplay() {
 
         const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
 
-        const card = document.createElement('div');
-        card.className = 'casino-card';
+        const listItem = document.createElement('li'); // Create list item
+        listItem.className = 'casino-card';
 
-        card.innerHTML = `
+        listItem.innerHTML = `
             <a href="javascript:void(0);" 
                 onclick="collectBonus('${casino.name}')"
                 class="casino-name" 
@@ -308,24 +291,17 @@ function updateDisplay() {
                 <button 
                     type="button"
                     onclick="collectBonus('${casino.name}')"
-                    class="collect-button ${!isReady ? 'disabled' : ''}"
-                    ${!isReady ? 'disabled' : ''}
-                    title="${isReady ? 'Click to collect bonus' : 'Wait for timer to reset'}">
+                    class="collect-button"
+                    title="${isReady ? 'Click to collect bonus' : 'Click to reset timer'}">
                     Collect
-                </button>
-                <button 
-                    type="button"
-                    onclick="undoCollection('${casino.name}')"
-                    class="undo-button"
-                    title="Reset timer if bonus wasn't collected"
-                    ${!casino.lastCollection ? 'disabled' : ''}>
-                    Undo
                 </button>
             </div>
         `;
 
-        container.appendChild(card);
+        list.appendChild(listItem);
     });
+    
+    container.appendChild(list); // Append the list to the container
 }
 
 function initClock() {
