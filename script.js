@@ -1,12 +1,6 @@
 const casinos = [
     // Tier 1 - Major Sweeps Casinos
-    {
-        name: "Stake.us",
-        url: "stake.us/?c=Jmenichole",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 1
-    },
+   
     {
         name: "Pulsz",
         url: "https://www.pulsz.com/?invited_by=utfk4r",
@@ -79,7 +73,13 @@ const casinos = [
         nextAvailable: null,
         tier: 3
     },
-    {
+     {
+        name: "Stake.us",
+        url: "stake.us/?c=Jmenichole",
+        lastCollection: null,
+        nextAvailable: null,
+        tier: 1
+    },    {
         name: "Clubs Poker",
         url: "https://play.clubs.poker/?referralCode=104192",
         lastCollection: null,
