@@ -172,15 +172,9 @@ const casinos = [
         nextAvailable: null,
         tier: 5
     }
-];
+    };
 const casinos = [
-    // Casino data
-    // ...
-];
-
-const casinos = [
-    // Casino data
-    // ...
+    // Your casino data here
 ];
 
 let collectClickCount = 0;
@@ -303,9 +297,8 @@ function updateDisplay() {
         card.className = 'casino-card';
         
         card.innerHTML = `
-            <a href="${casino.url}" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+            <a href="javascript:void(0);" 
+                onclick="collectBonus('${casino.name}')"
                 class="casino-name" 
                 title="Click to visit ${casino.name}">
                 ${casino.name}
