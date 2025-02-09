@@ -2,7 +2,7 @@ const casinos = [
     // Tier 1 - Major Sweeps Casinos
     {
         name: "Stake.us",
-        url: "https://stake.us/?c=Jmenichole",
+        url: "stake.us/?c=Jmenichole",
         lastCollection: null,
         nextAvailable: null,
         tier: 1
