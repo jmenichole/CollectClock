@@ -210,6 +210,15 @@ function collectBonus(casinoName) {
         updateDisplay();
     }
 }
+function preloadPopupContent(url) {
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+}
+
+// Preload popup content for all casinos
+casinos.forEach(casino => preloadPopupContent(casino.url));
 
 function updateCollection(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
