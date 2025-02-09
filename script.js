@@ -173,6 +173,10 @@ const casinos = [
         tier: 5
     }
 ];
+const casinos = [
+    // Casino data
+    // ...
+];
 
 let collectClickCount = 0;
 
@@ -180,10 +184,19 @@ function collectBonus(casinoName) {
     const casino = casinos.find(c => c.name === casinoName);
     if (casino) {
         try {
-            // Embed the casino link in an iframe
-            const iframeContainer = document.getElementById('iframe-container');
-            iframeContainer.innerHTML = `<iframe src="${casino.url}" width="100%" height="500px"></iframe>`;
-            
+            // Open the popup window with the casino link
+            const popupWindow = document.getElementById('popup-window');
+            const popupIframe = document.getElementById('popup-iframe');
+            popupIframe.src = casino.url;
+            popupWindow.style.display = 'block';
+
+            // Close the popup window when the close button is clicked
+            const closeButton = document.querySelector('.close-button');
+            closeButton.onclick = function() {
+                popupWindow.style.display = 'none';
+                popupIframe.src = '';
+            };
+
             // Directly start the timer without confirmation
             updateCollection(casinoName);
             collectClickCount++;
@@ -192,13 +205,12 @@ function collectBonus(casinoName) {
                 collectClickCount = 0;
             }
             showNotification(`${casinoName} timer started!`, 'success');
-            
+
         } catch (error) {
             console.error('Error in collectBonus:', error);
-            showNotification('Error embedding casino. Please try clicking the casino name instead.', 'error');
-        
-}
-        
+            showNotification('Error opening popup. Please try clicking the casino name instead.', 'error');
+        }
+
         updateDisplay();
     }
 }
@@ -287,14 +299,14 @@ function updateDisplay() {
         
         card.innerHTML = `
             <a href="${casino.url}" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="casino-name" 
-               title="Click to visit ${casino.name}">
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="casino-name" 
+                title="Click to visit ${casino.name}">
                 ${casino.name}
             </a>
             <div class="casino-timer ${isReady ? 'ready' : ''}" 
-                 title="${isReady ? 'Ready to collect!' : 'Time until next bonus'}">
+                title="${isReady ? 'Ready to collect!' : 'Time until next bonus'}">
                 ${timeRemaining}
             </div>
             <div class="button-container">
@@ -400,4 +412,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
