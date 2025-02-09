@@ -178,6 +178,11 @@ const casinos = [
     // ...
 ];
 
+const casinos = [
+    // Casino data
+    // ...
+];
+
 let collectClickCount = 0;
 
 function collectBonus(casinoName) {
