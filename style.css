@@ -18,12 +18,20 @@ body {
     color: var(--casino-white);
     min-height: 100vh;
     padding-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .title-message {
@@ -98,12 +106,14 @@ body {
 
 /* Casino Grid and Cards */
 .casino-grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .casino-card {
+    width: 100%;
+    max-width: 500px;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 1.5rem;
@@ -113,6 +123,7 @@ body {
     backdrop-filter: blur(5px);
     border: 1px solid rgba(197, 179, 88, 0.2);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 1rem;
 }
 
 .casino-card:hover {
@@ -188,48 +199,6 @@ body {
     color: var(--casino-white);
     opacity: 0.8;
 }
-
-/* Make the undo button more visible when needed */
-.undo-button {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--casino-white);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    font-weight: 500;
-    padding: 0.8rem 1.2rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.undo-button:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-}
-
-.undo-button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Add active states for better feedback */
-.collect-button:active:not(:disabled) {
-    transform: translateY(1px);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.undo-button:active:not(:disabled) {
-    transform: translateY(1px);
-}
-
-/* Add focus states for accessibility */
-.collect-button:focus,
-.undo-button:focus {
-    outline: 2px solid var(--casino-gold);
-    outline-offset: 2px;
-}
-
 
 /* Support Dialog */
 .dialog-overlay {
@@ -391,15 +360,6 @@ body {
     }
 }
 
-@keyframes ticker {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -436,7 +396,6 @@ body {
         text-align: center;
     }
 }
-/* Add these new sections to the end of your existing style.css */
 
 /* Performance Improvements */
 .casino-card {
@@ -458,7 +417,7 @@ body {
     .support-button {
         transition: none;
     }
-    
+
     .ticker-scroll {
         animation: none;
         transform: none;
@@ -471,14 +430,13 @@ body {
         flex-direction: column;
         gap: 0.5rem;
     }
-    
+
     .success-message,
     .undo-message {
         font-size: 0.9rem;
         padding: 0.8rem 1rem;
     }
 }
-/* ... existing styles ... */
 
 /* Popup Window */
 .popup-window {
@@ -532,6 +490,3 @@ body {
         padding: 8px;
     }
 }
-
-/* ... remaining styles ... */
-
