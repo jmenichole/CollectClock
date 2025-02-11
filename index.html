@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="script.js"></script>
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="bc63713f-5362-46e1-83bf-104132ccafae" type="text/javascript" async></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CollectClock - Track and collect your daily casino bonuses with perfect timing">
     <title>CollectClock</title>
+
+    <!-- CSS and Fonts -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap" rel="stylesheet">
+
+    <!-- Scripts -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MGW03QSJ9B"></script>
+    <script async src="script.js"></script>
+    <script async src="ticker.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-MGW03QSJ9B');
     </script>
 </head>
+
 <body>
+    <!-- Page Title and Introduction -->
     <main class="container">
         <header class="title-message">
             <h1>CollectClock</h1>
             <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
         </header>
 
+        <!-- Analog Clock Display -->
         <section class="clock-container">
             <div class="clock-face">
                 <div class="hand hour-hand"></div>
@@ -34,13 +41,12 @@
             </div>
         </section>
 
+        <!-- Casino List Grid -->
         <section class="casino-list-container">
-            <div class="casino-grid" id="casino-list">
-                <!-- Casino cards will be dynamically inserted here -->
-            </div>
+            <div class="casino-grid" id="casino-list"></div>
         </section>
 
-        <!-- Popup Window -->
+        <!-- Popup Window for Casino Links -->
         <div id="popup-window" class="popup-window">
             <div class="popup-content">
                 <span class="close-button">&times;</span>
@@ -56,15 +62,15 @@
         <p>Consider supporting our project to help keep it running and improving!</p>
         <div class="support-buttons">
             <a href="https://github.com/sponsors/jmenichole" 
-                class="support-button github" 
-                target="_blank" 
-                rel="noopener noreferrer">
+               class="support-button github" 
+               target="_blank" 
+               rel="noopener noreferrer">
                 Become a GitHub Sponsor
             </a>
             <a href="https://cash.app/$godzillamasters" 
-                class="support-button cashapp" 
-                target="_blank" 
-                rel="noopener noreferrer">
+               class="support-button cashapp" 
+               target="_blank" 
+               rel="noopener noreferrer">
                 Support via CashApp
             </a>
         </div>
@@ -75,44 +81,9 @@
     <div class="sports-ticker">
         <div class="ticker-content">
             <div class="ticker-scroll">
-                <!-- Ticker content will be dynamically inserted here -->
+                <!-- Ticker content is dynamically inserted here -->
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script src="script.js"></script>
-    <script src="ticker.js"></script>
 </body>
 </html>
-
-<style>
-/* Add this to your CSS file */
-.popup-window {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-.popup-content {
-    position: relative;
-    margin: 10% auto;
-    padding: 20px;
-    width: 80%;
-    background-color: #fff;
-    border-radius: 10px;
-}
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 30px;
-    cursor: pointer;
-}
-</style>
