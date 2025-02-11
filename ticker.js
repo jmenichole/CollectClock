@@ -48,7 +48,7 @@ class SportsTicker {
             "Made with ♥ by jmenichole | "
         ];
 
-        // Different messages for mobile
+        // Additional mobile-specific messages
         if (this.isMobile) {
             updates.push(
                 "Swipe to pause ticker | ",
@@ -61,7 +61,7 @@ class SportsTicker {
             );
         }
 
-        // Repeat the content multiple times for smooth scrolling
+        // Repeat content to allow for continuous scrolling
         this.tickerElement.textContent = updates.join('').repeat(3);
 
         // Add hover pause functionality for desktop
@@ -93,7 +93,7 @@ class SportsTicker {
     }
 }
 
-// Initialize the ticker with performance monitoring
+// Initialize the ticker on page load
 document.addEventListener('DOMContentLoaded', () => {
     const ticker = new SportsTicker();
 
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
         ticker.initialize();
 
-        // Check for animation performance
+        // Performance monitoring for animation
         const checkPerformance = () => {
             const tickerElement = document.querySelector('.ticker-scroll');
             if (tickerElement && tickerElement.getAnimations) {
@@ -133,4 +133,3 @@ document.addEventListener('DOMContentLoaded', () => {
         ticker.handleError();
     }
 });
-
