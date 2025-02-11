@@ -11,6 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap" rel="stylesheet">
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MGW03QSJ9B"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-MGW03QSJ9B');
+    </script>
+
     <!-- Scripts -->
     <script defer src="script.js"></script>
     <script defer src="ticker.js"></script>
@@ -38,14 +47,6 @@
             <div class="casino-grid" id="casino-list"></div>
         </section>
 
-        <!-- Removed the iframe and replaced with a simple message -->
-        <div id="popup-window" class="popup-window">
-            <div class="popup-content">
-                <span class="close-button">&times;</span>
-                <p>Redirecting you to the casino...</p>
-            </div>
-        </div>
-
         <!-- Sports Ticker -->
         <div class="sports-ticker">
             <div class="ticker-content">
@@ -55,3 +56,4 @@
     </main>
 </body>
 </html>
+
