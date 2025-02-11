@@ -1,6 +1,5 @@
 const casinos = [
     // Tier 1 - Major Sweeps Casinos
-   
     {
         name: "Pulsz",
         url: "https://www.pulsz.com/?invited_by=utfk4r",
@@ -29,14 +28,8 @@ const casinos = [
         nextAvailable: null,
         tier: 1
     },
+
     // Tier 2 - Established Secondary Casinos
-    {
-        name: "Mega Bonanza",
-        url: "https://www.megabonanza.com/?r=72781897",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 2
-    },
     {
         name: "High 5 Casino",
         url: "https://high5casino.com/gc?adId=INV001%3AJmenichole",
@@ -45,43 +38,45 @@ const casinos = [
         tier: 2
     },
     {
-        name: "Lucky Bird",
-        url: "https://luckybird.io/?c=c_jmenichole",
+        name: "Sidepot",
+        url: "https://sidepot.us",
         lastCollection: null,
         nextAvailable: null,
         tier: 2
     },
     {
-        name: "Spree",
-        url: "https://spree.com/?r=440894",
+        name: "Uptown Aces",
+        url: "https://uptownaces.eu",
         lastCollection: null,
         nextAvailable: null,
         tier: 2
     },
-    {
-        name: "Crown Coins",
-        url: "https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 2
-    },
+
     // Tier 3 - Newer/Growing Platforms
     {
-        name: "Real Prize",
-        url: "https://www.realprize.com/refer/317136",
+        name: "Mega Bonanza",
+        url: "https://www.megabonanza.com/?r=72781897",
         lastCollection: null,
         nextAvailable: null,
         tier: 3
     },
-     {
-        name: "Stake.us",
-        url: "stake.us/?c=Jmenichole",
+    {
+        name: "Lucky Bird",
+        url: "https://luckybird.io/?c=c_jmenichole",
         lastCollection: null,
         nextAvailable: null,
-        tier: 1
-    },    {
-        name: "Clubs Poker",
-        url: "https://play.clubs.poker/?referralCode=104192",
+        tier: 3
+    },
+    {
+        name: "Sportzino",
+        url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4",
+        lastCollection: null,
+        nextAvailable: null,
+        tier: 3
+    },
+    {
+        name: "MyPrize",
+        url: "https://myprize.us",
         lastCollection: null,
         nextAvailable: null,
         tier: 3
@@ -94,23 +89,24 @@ const casinos = [
         tier: 3
     },
     {
-        name: "Chanced",
-        url: "https://chanced.com/c/m9q2mi",
+        name: "Clubs Poker",
+        url: "https://play.clubs.poker/?referralCode=104192",
         lastCollection: null,
         nextAvailable: null,
         tier: 3
     },
-    {
-        name: "Play Fame",
-        url: "https://www.playfame.com/?r=1275975417",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 3
-    },
+
     // Tier 4 - Additional Options
     {
-        name: "Jackpota",
-        url: "https://www.jackpota.com/?r=85453282",
+        name: "Shuffle",
+        url: "https://shuffle.com?r=jHR7JnWRPF",
+        lastCollection: null,
+        nextAvailable: null,
+        tier: 4
+    },
+    {
+        name: "Crown Coins",
+        url: "https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends",
         lastCollection: null,
         nextAvailable: null,
         tier: 4
@@ -122,34 +118,7 @@ const casinos = [
         nextAvailable: null,
         tier: 4
     },
-    {
-        name: "Ding Ding Ding",
-        url: "https://dingdingding.com/?referral=190cd69a-5af4-51bf-b418-9a35effcdf04",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 4
-    },
-    {
-        name: "Punt",
-        url: "https://punt.com/c/cg60pd",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 4
-    },
-    {
-        name: "Fortune Wheelz",
-        url: "https://fortunewheelz.com/?invited_by=P36ZS6",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 4
-    },
-    {
-        name: "Zoot",
-        url: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE",
-        lastCollection: null,
-        nextAvailable: null,
-        tier: 4
-    },
+
     // Tier 5 - Traditional Sweeps Casinos
     {
         name: "Luckyland Slots",
@@ -186,20 +155,21 @@ function collectBonus(casinoName) {
             popupIframe.src = casino.url;
             popupWindow.style.display = 'block';
 
-            // Close the popup window when the close button is clicked
+            // Close popup window when the close button is clicked
             const closeButton = document.querySelector('.close-button');
-            closeButton.onclick = function() {
+            closeButton.onclick = function () {
                 popupWindow.style.display = 'none';
                 popupIframe.src = '';
             };
 
-            // Directly start the timer without confirmation
+            // Start timer for the casino
             updateCollection(casinoName);
             collectClickCount++;
             if (collectClickCount >= 4) {
                 showSupportDialog();
                 collectClickCount = 0;
             }
+
             showNotification(`${casinoName} timer started!`, 'success');
 
         } catch (error) {
@@ -210,6 +180,7 @@ function collectBonus(casinoName) {
         updateDisplay();
     }
 }
+
 function preloadPopupContent(url) {
     const iframe = document.createElement('iframe');
     iframe.src = url;
@@ -225,7 +196,7 @@ function updateCollection(casinoName) {
     if (casino) {
         const now = new Date();
         casino.lastCollection = now;
-        casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000));
+        casino.nextAvailable = new Date(now.getTime() + (24 * 60 * 60 * 1000)); // 24-hour reset
         saveToLocalStorage();
         updateDisplay();
         checkVisitCount();
@@ -267,77 +238,41 @@ function loadFromLocalStorage() {
     }
 }
 
-function updateDisplay() {
+function updateDisplay(filter = 'all') {
     const container = document.getElementById('casino-list');
     if (!container) return;
 
     container.innerHTML = '';
 
-    const list = document.createElement('ul'); // Create a single list
+    const list = document.createElement('ul');
 
-    casinos.forEach(casino => {
-        const timeRemaining = casino.nextAvailable ?
-            formatTimeRemaining(new Date(casino.nextAvailable)) :
-            'Ready to collect!';
+    casinos
+        .filter(casino => filter === 'all' || `tier-${casino.tier}` === filter)
+        .forEach(casino => {
+            const timeRemaining = casino.nextAvailable
+                ? formatTimeRemaining(new Date(casino.nextAvailable))
+                : 'Ready to collect!';
+            const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
 
-        const isReady = !casino.nextAvailable || new Date() >= new Date(casino.nextAvailable);
+            const listItem = document.createElement('li');
+            listItem.className = 'casino-card';
+            listItem.innerHTML = `
+                <a href="javascript:void(0);" onclick="collectBonus('${casino.name}')" class="casino-name">
+                    ${casino.name}
+                </a>
+                <div class="casino-timer ${isReady ? 'ready' : ''}">
+                    ${timeRemaining}
+                </div>
+                <div class="button-container">
+                    <button type="button" onclick="collectBonus('${casino.name}')" class="collect-button">
+                        Collect
+                    </button>
+                </div>
+            `;
+            list.appendChild(listItem);
+        });
 
-        const listItem = document.createElement('li'); // Create list item
-        listItem.className = 'casino-card';
-
-        listItem.innerHTML = `
-            <a href="javascript:void(0);" 
-                onclick="collectBonus('${casino.name}')"
-                class="casino-name" 
-                title="Click to visit ${casino.name}">
-                ${casino.name}
-            </a>
-            <div class="casino-timer ${isReady ? 'ready' : ''}" 
-                title="${isReady ? 'Ready to collect!' : 'Time until next bonus'}">
-                ${timeRemaining}
-            </div>
-            <div class="button-container">
-                <button 
-                    type="button"
-                    onclick="collectBonus('${casino.name}')"
-                    class="collect-button"
-                    title="${isReady ? 'Click to collect bonus' : 'Click to reset timer'}">
-                    Collect
-                </button>
-            </div>
-        `;
-
-        list.appendChild(listItem);
-    });
-    
-    container.appendChild(list); // Append the list to the container
-}
-
-function initClock() {
-    const hourHand = document.querySelector('.hour-hand');
-    const minuteHand = document.querySelector('.minute-hand');
-    const secondHand = document.querySelector('.second-hand');
-
-    if (!hourHand || !minuteHand || !secondHand) return;
-
-    function updateClock() {
-        const now = new Date();
-
-        const seconds = now.getSeconds();
-        const secondsDegrees = ((seconds / 60) * 360) + 90;
-        secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
-
-        const minutes = now.getMinutes();
-        const minutesDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
-        minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
-
-        const hours = now.getHours();
-        const hoursDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
-        hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
-    }
-
-    setInterval(updateClock, 1000);
-    updateClock();
+    container.appendChild(list);
 }
 
 function getVisitCount() {
@@ -374,21 +309,9 @@ function showNotification(message, type) {
     setTimeout(() => notification.remove(), 3000);
 }
 
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadFromLocalStorage();
     updateDisplay();
-    initClock();
-
     setInterval(updateDisplay, 60000);
-
-    const dismissButton = document.querySelector('.dismiss-button');
-    const dialog = document.querySelector('.support-dialog');
-    const overlay = document.querySelector('.dialog-overlay');
-
-    if (dismissButton && dialog && overlay) {
-        dismissButton.addEventListener('click', () => {
-            dialog.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-    }
 });
