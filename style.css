@@ -141,3 +141,29 @@ body {
 .card-back {
     transform: rotateY(180deg);
 }
+.donation-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--pale-gold);
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    border-top: 2px solid var(--rich-gold);
+}
+
+.donate-button {
+    background: var(--rich-gold);
+    color: black;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.donate-button:hover {
+    background: var(--accent-gold);
+}
