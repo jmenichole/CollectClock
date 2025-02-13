@@ -21,39 +21,40 @@
     </script>
 
     <!-- Scripts -->
-    <script defer src="script.js"></script>
-    <script defer src="ticker.js"></script>
-</head>
-
 <body>
-    <main class="container">
-        <header class="title-message">
-            <h1>CollectClock</h1>
-            <p>Click the link, collect your daily bonus, and maximize your rewards with perfect timing!</p>
-        </header>
 
-        <!-- Analog Clock Display -->
-        <section class="clock-container">
-            <div class="clock-face">
-                <div class="hand hour-hand"></div>
-                <div class="hand minute-hand"></div>
-                <div class="hand second-hand"></div>
-                <div class="clock-center"></div>
-            </div>
-        </section>
+    <div class="title-message">
+        <h1>CollectClock</h1>
+        <p>Click the links to collect your daily bonuses and maximize your rewards!</p>
+    </div>
 
-        <!-- Casino List Grid -->
-        <section class="casino-list-container">
-            <div class="casino-grid" id="casino-list"></div>
-        </section>
+    <table class="tracker-table">
+        <thead>
+            <tr>
+                <th>Casino</th>
+                <th>Bonus Status</th>
+                <th>Claimed</th>
+            </tr>
+        </thead>
+        <tbody id="casino-list">
+            <!-- Casino rows will be inserted dynamically -->
+        </tbody>
+    </table>
 
-        <!-- Sports Ticker -->
-        <div class="sports-ticker">
-            <div class="ticker-content">
-                <div class="ticker-scroll">Welcome to CollectClock! Collect your bonuses now!</div>
-            </div>
+    <!-- Progress Bar for Bonus Collection -->
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+
+    <!-- Flip Animation Example -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">🎰 Bonus Ready</div>
+            <div class="card-back">💰 Collected</div>
         </div>
-    </main>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
-
