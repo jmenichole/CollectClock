@@ -35,11 +35,14 @@ let casinos = [
 // Load saved casino data from localStorage
 const savedData = localStorage.getItem("casinoData");
 if (savedData) {
-    const parsedData = JSON.parse(savedData);
-    casinos = casinos.map(casino => {
-        const savedCasino = parsedData.find(c => c.name === casino.name);
-        return savedCasino ? savedCasino : casino;
-    });
+    try {
+        const parsedData = JSON.parse(savedData);
+        if (Array.isArray(parsedData) && parsedData.length > 0) {
+            casinos = parsedData;
+        }
+    } catch (error) {
+        console.error("Error parsing saved data:", error);
+    }
 }
 
 function updateTable() {
