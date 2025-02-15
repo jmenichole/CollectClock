@@ -41,7 +41,19 @@ body {
     text-align: left;
     margin-bottom: 80px; /* Space for footer */
 }
+/* Fix Table Headers for Mobile */
+.tracker-table th {
+    font-size: 15px; /* Adjust font size */
+    padding: 10px; /* Better spacing */
+    text-align: center;
+}
 
+/* Ensure Table Adjusts on Small Screens */
+@media (max-width: 768px) {
+    .tracker-table {
+        font-size: 14px;
+    }
+}
 .tracker-table th {
     background: linear-gradient(145deg, var(--rich-gold), var(--accent-gold));
     color: var(--deep-black);
@@ -151,6 +163,52 @@ body {
         gap: 8px;
     }
 }
+/* Donation Footer - Mobile Fix */
+.donation-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    color: var(--pale-gold);
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    border-top: 2px solid var(--rich-gold);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Better spacing */
+    flex-direction: column;
+}
+
+/* Ensure Buttons Stack on Mobile */
+.donate-button {
+    width: 90%;
+    max-width: 280px;
+    padding: 8px 12px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 8px;
+}
+
+/* Improve Mobile Layout */
+@media (max-width: 768px) {
+    .donation-footer {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .donate-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
 
 /* Checkbox Fade Effect */
 .fade-out {
