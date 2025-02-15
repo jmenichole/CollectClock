@@ -29,8 +29,8 @@ let casinos = [
     { name: "Get Zoot", url: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", lastCollection: null, nextAvailable: null },
     { name: "Luckyland Slots", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null },
     { name: "Chumba Casino", url: "https://chumbacasino.com", lastCollection: null, nextAvailable: null },
-    { name: "Global Poker", url: "https://globalpoker.com", lastCollection: null, nextAvailable: null }
-];
+    { name: "Global Poker", url: "https://globalpoker.com", lastCollection: null, nextAvailable: null },
+    { name: "Stake.com", url: "https://stake.com/?c=LAYP68hb", lastCollection: null, nextAvailable: null} ;
 
 // Load saved casino data from localStorage
 const savedData = localStorage.getItem("casinoData");
