@@ -150,6 +150,8 @@ body {
 }
 
 /* Donation Footer */
+
+/* Donation Footer */
 .donation-footer {
     position: fixed;
     bottom: 0;
@@ -166,11 +168,12 @@ body {
 .donate-button {
     background: var(--rich-gold);
     color: black;
-    padding: 8px 15px;
+    padding: 5px 12px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    margin-left: 10px;
+    margin: 0 5px;
+    display: inline-block;
 }
 
 .donate-button:hover {
