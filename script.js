@@ -34,7 +34,13 @@ let casinos = [
 
 // Load saved casino data from localStorage
 const savedData = localStorage.getItem("casinoData");
-if (savedData) casinos = JSON.parse(savedData);
+if (savedData) {
+    const parsedData = JSON.parse(savedData);
+    casinos = casinos.map(casino => {
+        const savedCasino = parsedData.find(c => c.name === casino.name);
+        return savedCasino ? savedCasino : casino;
+    });
+}
 
 function updateTable() {
     const tableBody = document.getElementById("casino-list");
