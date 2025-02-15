@@ -130,6 +130,15 @@ body {
     transform: scale(1.1);
     box-shadow: 0 0 10px var(--accent-gold);
 }
+/* Fix Button Padding & Alignment */
+.donate-button {
+    padding: 8px 18px; /* More padding */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    font-size: 14px;
+}
+
 
 /* Checkbox Fade Effect */
 .fade-out {
