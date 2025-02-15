@@ -1,7 +1,7 @@
 // Casino data including referral links and last collection times
 let casinos = [
     { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
-    { name: "Sidepot", url: "https://sidepot.com", lastCollection: null, nextAvailable: null },
+    { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
     { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
     { name: "Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
     { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
