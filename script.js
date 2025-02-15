@@ -1,5 +1,5 @@
 // Casino data including referral links and last collection times
-let casinos= [
+let casinos = [
     { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
     { name: "Sidepot", url: "https://sidepot.com", lastCollection: null, nextAvailable: null },
     { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
@@ -32,22 +32,23 @@ let casinos= [
     { name: "Global Poker", url: "https://globalpoker.com", lastCollection: null, nextAvailable: null }
 ];
 
-// Load saved data from localStorage
+// Load saved casino data from localStorage
 const savedData = localStorage.getItem("casinoData");
 if (savedData) casinos = JSON.parse(savedData);
 
-const currentDateTime = new Date();
-
 function updateTable() {
     const tableBody = document.getElementById("casino-list");
+    if (!tableBody) return console.error("Table body element not found!");
+
     tableBody.innerHTML = "";
+    const currentDateTime = new Date();
 
     casinos.forEach((casino) => {
         const row = document.createElement("tr");
 
         let isAvailable = true;
         let timeUntil = "Bonus Ready!";
-        if (casino.lastCollection) {
+        if (casino.lastCollection && casino.nextAvailable) {
             const nextTime = new Date(casino.nextAvailable);
             if (currentDateTime < nextTime) {
                 isAvailable = false;
@@ -55,19 +56,10 @@ function updateTable() {
             }
         }
 
-        const checkboxId = `checkbox-${casino.name.replace(/\s+/g, "-").toLowerCase()}`;
-
         row.innerHTML = `
-            <td>
-                <a href="${casino.url}" target="_blank" class="casino-link">
-                    ${casino.name}
-                </a>
-            </td>
+            <td><a href="${casino.url}" target="_blank" class="casino-link">${casino.name}</a></td>
             <td class="${isAvailable ? 'bonus-ready' : 'waiting'}">${timeUntil}</td>
-            <td>
-                <input type="checkbox" id="${checkboxId}" ${isAvailable ? "" : "checked disabled"} 
-                    onclick="handleCheckboxClick('${casino.name}', this)">
-            </td>
+            <td><input type="checkbox" ${isAvailable ? "" : "checked disabled"} onclick="handleCheckboxClick('${casino.name}', this)"></td>
         `;
         tableBody.appendChild(row);
     });
@@ -75,17 +67,12 @@ function updateTable() {
 
 function handleCheckboxClick(casinoName, checkbox) {
     const casino = casinos.find((c) => c.name === casinoName);
-    if (casino) {
-        if (checkbox.checked) {
-            const collectionTime = new Date();
-            const nextAvailableTime = new Date(collectionTime.getTime() + 24 * 60 * 60 * 1000);
-            casino.lastCollection = collectionTime.toISOString();
-            casino.nextAvailable = nextAvailableTime.toISOString();
-            localStorage.setItem("casinoData", JSON.stringify(casinos));
-            updateTable();
-        } else {
-            checkbox.checked = true;
-        }
+    if (casino && checkbox.checked) {
+        const collectionTime = new Date();
+        casino.lastCollection = collectionTime.toISOString();
+        casino.nextAvailable = new Date(collectionTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
+        localStorage.setItem("casinoData", JSON.stringify(casinos));
+        updateTable();
     }
 }
 
@@ -96,5 +83,6 @@ function getTimeUntil(nextTime, currentTime) {
     return `${hours}h ${minutes}m`;
 }
 
-// Initial Table Update
-updateTable();
+// Initialize table on page load
+document.addEventListener("DOMContentLoaded", updateTable);
+
