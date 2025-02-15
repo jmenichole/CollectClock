@@ -64,6 +64,11 @@ body {
     background: rgba(255, 215, 0, 0.2);
 }
 
+/* Table Borders - Softer & Rounded */
+.tracker-table td {
+    border: 1px solid var(--rich-gold); /* Reduced thickness */
+    border-radius: 6px; /* Slightly rounded corners */
+}
 /* Icons for Bonus Status */
 .bonus-ready::before {
     content: "🟢 ";
