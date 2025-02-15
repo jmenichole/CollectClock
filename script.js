@@ -18,7 +18,7 @@ let casinos = [
     { name: "Clubs Poker", url: "https://play.clubs.poker/?referralCode=104192", lastCollection: null, nextAvailable: null },
     { name: "Hello Millions", url: "https://www.hellomillions.com/referred-by-friend?r=26d6760f%2F1236643867", lastCollection: null, nextAvailable: null },
     { name: "Chanced", url: "https://chanced.com/c/m9q2mi", lastCollection: null, nextAvailable: null },
-    { name: "Play Fame", url: "https://www.playfame.com/?r=1275975417", lastCollection: null, nextAvailable: null },
+    { name: "PlayFame", url: "https://www.playfame.com/?r=1275975417", lastCollection: null, nextAvailable: null },
     { name: "Jackpota", url: "https://www.jackpota.com/?r=85453282", lastCollection: null, nextAvailable: null },
     { name: "Zula Casino", url: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", lastCollection: null, nextAvailable: null },
     { name: "Ding Ding Ding", url: "https://dingdingding.com/?referral=190cd69a-5af4-51bf-b418-9a35effcdf04", lastCollection: null, nextAvailable: null },
@@ -26,11 +26,11 @@ let casinos = [
     { name: "Trust Dice", url: "https://trustdice.win/faucet/?ref=u_jmenichole", lastCollection: null, nextAvailable: null },
     { name: "Punt", url: "https://punt.com/c/cg60pd", lastCollection: null, nextAvailable: null },
     { name: "Fortune Wheelz", url: "https://fortunewheelz.com/?invited_by=P36ZS6", lastCollection: null, nextAvailable: null },
-    { name: "Get Zoot", url: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", lastCollection: null, nextAvailable: null },
-    { name: "Luckyland Slots", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null },
-    { name: "Chumba Casino", url: "https://chumbacasino.com", lastCollection: null, nextAvailable: null },
-    { name: "Global Poker", url: "https://globalpoker.com", lastCollection: null, nextAvailable: null },
-    { name: "Stake.com", url: "https://stake.com/?c=LAYP68hb", lastCollection: null, nextAvailable: null} ;
+    { name: "Zoot", url: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", lastCollection: null, nextAvailable: null },
+    { name: "Stake.com", url: "https://stake.com/?c=LAYP68hb", lastCollection: null, nextAvailable: null },
+    { name: "MyPrize.us", url: "https://myprize.us/invite/quietMorning197", lastCollection: null, nextAvailable: null },
+    { name: "Modo.us", url: "https://modo.us?referralCode=61MN6A", lastCollection: null, nextAvailable: null }
+];
 
 // Load saved casino data from localStorage
 const savedData = localStorage.getItem("casinoData");
@@ -45,6 +45,15 @@ if (savedData) {
     }
 }
 
+// Function to calculate time until next bonus
+function getTimeUntil(nextTime, currentTime) {
+    const diff = nextTime - currentTime;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+}
+
+// Function to update table
 function updateTable() {
     const tableBody = document.getElementById("casino-list");
     if (!tableBody) return console.error("Table body element not found!");
@@ -74,6 +83,7 @@ function updateTable() {
     });
 }
 
+// Function to handle checkbox click
 function handleCheckboxClick(casinoName, checkbox) {
     const casino = casinos.find((c) => c.name === casinoName);
     if (casino && checkbox.checked) {
@@ -85,30 +95,6 @@ function handleCheckboxClick(casinoName, checkbox) {
     }
 }
 
-function getTimeUntil(nextTime, currentTime) {
-    const diff = nextTime - currentTime;
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours}h ${minutes}m`;
-}
-
 // Initialize table on page load
 document.addEventListener("DOMContentLoaded", updateTable);
-
-document.addEventListener("DOMContentLoaded", updateTable);
-
-function handleCheckboxClick(casinoName, checkbox) {
-    const casino = casinos.find((c) => c.name === casinoName);
-    if (casino && checkbox.checked) {
-        const row = checkbox.closest("tr");
-        row.classList.add("fade-out");
-
-        const collectionTime = new Date();
-        casino.lastCollection = collectionTime.toISOString();
-        casino.nextAvailable = new Date(collectionTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
-        localStorage.setItem("casinoData", JSON.stringify(casinos));
-
-        setTimeout(updateTable, 600); // Slight delay to enhance effect
-    }
-}
 
