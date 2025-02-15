@@ -209,7 +209,58 @@ body {
     }
 }
 
+/* Donation Footer Improvements */
+.donation-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    color: var(--pale-gold);
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    border-top: 2px solid var(--rich-gold);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-direction: column;
+}
 
+/* CashApp Icon */
+.cashapp-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cashapp-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Donation Button Styling */
+.donate-button {
+    padding: 10px 14px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 8px;
+    background: var(--rich-gold);
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.donate-button:hover {
+    background: var(--accent-gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent-gold);
+}
 /* Checkbox Fade Effect */
 .fade-out {
     opacity: 0.5;
