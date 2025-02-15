@@ -138,7 +138,17 @@ body {
     gap: 8px; /* Space between icon and text */
     font-size: 14px;
 }
+/* Improve Casino Links */
+.casino-link {
+    text-decoration: none;
+    color: var(--rich-gold); /* Make links gold */
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
 
+.casino-link:hover {
+    color: var(--accent-gold); /* Lighter gold on hover */
+}
 
 /* Checkbox Fade Effect */
 .fade-out {
