@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CollectClock - Track and collect your daily casino bonuses with perfect timing">
     <title>CollectClock</title>
-
+    
     <!-- CSS and Fonts -->
-    <link rel="stylesheet" href="style-3.css"> <!-- Fixed reference -->
+    <link rel="stylesheet" href="style-3.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap" rel="stylesheet">
 
@@ -19,7 +19,7 @@
         gtag('js', new Date());
         gtag('config', 'G-MGW03QSJ9B');
     </script>
-</head> <!-- Corrected closing tag -->
+</head>
 
 <body>
 
@@ -36,7 +36,7 @@
                 <th>Claimed</th>
             </tr>
         </thead>
-        <tbody id="casinos">
+        <tbody id="casino-list"> 
             <!-- Casino rows will be inserted dynamically -->
         </tbody>
     </table>
@@ -46,17 +46,9 @@
         <div class="progress-bar"></div>
     </div>
 
-    <!-- Flip Animation Example -->
-    <div class="card">
-        <div class="card-inner">
-            <div class="card-front">🎰 Bonus Ready</div>
-            <div class="card-back">💰 Collected</div>
-        </div>
-    </div>
+    <script src="script.js"></script>
 
-    <script src="script.js"></script> <!-- Fixed reference -->
-    
-    <!-- Donation Section (Floating at Bottom) -->
+    <!-- Donation Section -->
     <div class="donation-footer">
         <p>
             <strong>CollectClock is free to use!</strong> Support our community by making a donation.  
@@ -65,7 +57,6 @@
             </a>
         </p>
     </div>
-    
 </body>
 </html>
 
