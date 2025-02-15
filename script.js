@@ -92,3 +92,20 @@ function getTimeUntil(nextTime, currentTime) {
 // Initialize table on page load
 document.addEventListener("DOMContentLoaded", updateTable);
 
+document.addEventListener("DOMContentLoaded", updateTable);
+
+function handleCheckboxClick(casinoName, checkbox) {
+    const casino = casinos.find((c) => c.name === casinoName);
+    if (casino && checkbox.checked) {
+        const row = checkbox.closest("tr");
+        row.classList.add("fade-out");
+
+        const collectionTime = new Date();
+        casino.lastCollection = collectionTime.toISOString();
+        casino.nextAvailable = new Date(collectionTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
+        localStorage.setItem("casinoData", JSON.stringify(casinos));
+
+        setTimeout(updateTable, 600); // Slight delay to enhance effect
+    }
+}
+
