@@ -1,4 +1,5 @@
 // Casino data including referral links and last collection times
+// Casino data including referral links and last collection times
 let casinos = [
     { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
     { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
