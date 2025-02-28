@@ -23,10 +23,39 @@
 </head>
 
 <body>
+    <div class="user-section">
+        <div id="login-section">
+            <button id="login-button" class="discord-button">Login with Discord</button>
+        </div>
+        <div id="user-info" style="display: none;">
+            <img id="user-avatar" alt="User Avatar" class="avatar">
+            <span id="username"></span>
+            <div class="streak-info">
+                <span>Current Streak: <span id="current-streak">0</span></span>
+                <span>Highest Streak: <span id="highest-streak">0</span></span>
+            </div>
+        </div>
+    </div>
 
     <div class="title-message">
         <h1>CollectClock</h1>
         <p>Click the links to collect your daily bonuses!</p>
+    </div>
+
+    <div class="leaderboard-section">
+        <h2>Top Collectors</h2>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>User</th>
+                    <th>Highest Streak</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-list">
+                <!-- Leaderboard entries will be added here via JavaScript -->
+            </tbody>
+        </table>
     </div>
 
     <table class="tracker-table">
@@ -59,10 +88,7 @@
             Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)
         </a>.
     </p>
-    <p class="copyright">© 2025 Jamie Vargas. All rights reserved.</p>
+    <p class="copyright"> 2025 Jamie Vargas. All rights reserved.</p>
 </div>
-    
-
-
 </body>
 </html>
