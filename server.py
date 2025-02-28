@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, jsonify, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from oauthlib.oauth2 import WebApplicationClient
+from flask_cors import CORS
 import os
 import requests
 from datetime import datetime, timedelta
@@ -12,6 +13,7 @@ app = Flask(__name__, static_url_path='')
 app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///collectclock.db'
 db = SQLAlchemy(app)
+CORS(app)  # Enable CORS for all routes
 
 # Discord OAuth2 credentials
 DISCORD_CLIENT_ID = os.getenv('DISCORD_CLIENT_ID')

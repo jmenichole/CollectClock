@@ -1,5 +1,4 @@
-// Casino data including referral links and last collection times
-// Casino data including referral links and last collection times
+// Casino data and user state
 let casinos = [
     { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
     { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
@@ -33,6 +32,8 @@ let casinos = [
     { name: "Modo.us", url: "https://modo.us?referralCode=61MN6A", lastCollection: null, nextAvailable: null }
 ];
 
+let currentUser = null;
+
 // Load saved casino data from localStorage
 const savedData = localStorage.getItem("casinoData");
 if (savedData) {
@@ -43,6 +44,81 @@ if (savedData) {
         }
     } catch (error) {
         console.error("Error parsing saved data:", error);
+    }
+}
+
+// Authentication functions
+async function checkAuthStatus() {
+    try {
+        const response = await fetch('http://localhost:5000/user');
+        if (response.ok) {
+            currentUser = await response.json();
+            updateUserInterface(true);
+            updateStreakDisplay();
+        } else {
+            updateUserInterface(false);
+        }
+    } catch (error) {
+        console.error('Error checking auth status:', error);
+        updateUserInterface(false);
+    }
+}
+
+function updateUserInterface(isLoggedIn) {
+    const loginSection = document.getElementById('login-section');
+    const userInfo = document.getElementById('user-info');
+    
+    if (isLoggedIn && currentUser) {
+        loginSection.style.display = 'none';
+        userInfo.style.display = 'flex';
+        
+        document.getElementById('user-avatar').src = 
+            `https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png`;
+        document.getElementById('username').textContent = currentUser.username;
+        updateStreakDisplay();
+    } else {
+        loginSection.style.display = 'block';
+        userInfo.style.display = 'none';
+    }
+}
+
+function updateStreakDisplay() {
+    if (currentUser) {
+        document.getElementById('current-streak').textContent = currentUser.current_streak;
+        document.getElementById('highest-streak').textContent = currentUser.highest_streak;
+    }
+}
+
+async function handleLogin() {
+    try {
+        const response = await fetch('http://localhost:5000/login');
+        const data = await response.json();
+        window.location.href = data.auth_url;
+    } catch (error) {
+        console.error('Error during login:', error);
+    }
+}
+
+// Leaderboard functionality
+async function updateLeaderboard() {
+    try {
+        const response = await fetch('http://localhost:5000/leaderboard');
+        const leaderboard = await response.json();
+        
+        const leaderboardList = document.getElementById('leaderboard-list');
+        leaderboardList.innerHTML = '';
+        
+        leaderboard.forEach((entry, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${entry.username}</td>
+                <td>${entry.highest_streak}</td>
+            `;
+            leaderboardList.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error updating leaderboard:', error);
     }
 }
 
@@ -64,38 +140,117 @@ function updateTable() {
 
     casinos.forEach((casino) => {
         const row = document.createElement("tr");
-
+        
         let isAvailable = true;
         let timeUntil = "Bonus Ready!";
         if (casino.lastCollection && casino.nextAvailable) {
             const nextTime = new Date(casino.nextAvailable);
-            if (currentDateTime < nextTime) {
+            if (nextTime > currentDateTime) {
                 isAvailable = false;
-                timeUntil = `Next in ${getTimeUntil(nextTime, currentDateTime)}`;
+                timeUntil = getTimeUntil(nextTime, currentDateTime);
             }
         }
 
-        row.innerHTML = `
-            <td><a href="${casino.url}" target="_blank" class="casino-link">${casino.name}</a></td>
-            <td class="${isAvailable ? 'bonus-ready' : 'waiting'}">${timeUntil}</td>
-            <td><input type="checkbox" ${isAvailable ? "" : "checked disabled"} onclick="handleCheckboxClick('${casino.name}', this)"></td>
-        `;
+        // Create casino name cell with link
+        const nameCell = document.createElement("td");
+        const link = document.createElement("a");
+        link.href = casino.url;
+        link.textContent = casino.name;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        nameCell.appendChild(link);
+
+        // Create status cell
+        const statusCell = document.createElement("td");
+        statusCell.textContent = timeUntil;
+        statusCell.className = isAvailable ? "available" : "unavailable";
+
+        // Create checkbox cell
+        const checkboxCell = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = !isAvailable;
+        checkbox.disabled = !isAvailable;
+        checkbox.addEventListener("click", () => handleCheckboxClick(casino.name, checkbox));
+        checkboxCell.appendChild(checkbox);
+
+        // Add cells to row
+        row.appendChild(nameCell);
+        row.appendChild(statusCell);
+        row.appendChild(checkboxCell);
         tableBody.appendChild(row);
     });
+
+    // Update progress bar
+    updateProgressBar();
 }
 
 // Function to handle checkbox click
-function handleCheckboxClick(casinoName, checkbox) {
-    const casino = casinos.find((c) => c.name === casinoName);
-    if (casino && checkbox.checked) {
-        const collectionTime = new Date();
-        casino.lastCollection = collectionTime.toISOString();
-        casino.nextAvailable = new Date(collectionTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
-        localStorage.setItem("casinoData", JSON.stringify(casinos));
-        updateTable();
+async function handleCheckboxClick(casinoName, checkbox) {
+    if (!currentUser) {
+        alert('Please login with Discord to track your collection streak!');
+        checkbox.checked = false;
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5000/collect', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            currentUser.current_streak = data.current_streak;
+            currentUser.highest_streak = data.highest_streak;
+            updateStreakDisplay();
+            updateLeaderboard();
+            
+            const casino = casinos.find(c => c.name === casinoName);
+            if (casino) {
+                casino.lastCollection = new Date();
+                casino.nextAvailable = new Date(casino.lastCollection.getTime() + 24 * 60 * 60 * 1000);
+                localStorage.setItem('casinoData', JSON.stringify(casinos));
+                updateTable();
+            }
+        } else {
+            const error = await response.json();
+            alert(error.error || 'Error collecting bonus');
+            checkbox.checked = false;
+        }
+    } catch (error) {
+        console.error('Error collecting bonus:', error);
+        checkbox.checked = false;
     }
 }
 
-// Initialize table on page load
-document.addEventListener("DOMContentLoaded", updateTable);
+// Function to update progress bar
+function updateProgressBar() {
+    const total = casinos.length;
+    const collected = casinos.filter(casino => 
+        casino.lastCollection && new Date(casino.nextAvailable) > new Date()
+    ).length;
+    
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        const percentage = (collected / total) * 100;
+        progressBar.style.width = `${percentage}%`;
+    }
+}
 
+// Initialize everything when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    const loginButton = document.getElementById('login-button');
+    if (loginButton) {
+        loginButton.addEventListener('click', handleLogin);
+    }
+    
+    checkAuthStatus();
+    updateLeaderboard();
+    updateTable();
+    
+    // Update the table every minute to keep times current
+    setInterval(updateTable, 60000);
+});
