@@ -329,3 +329,11 @@ main {
     background-color: var(--secondary-color);
     border-radius: 2px;
 }
+a {
+    color: var(--rich-gold);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: var(--accent-gold);
+}
