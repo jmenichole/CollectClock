@@ -1,5 +1,6 @@
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap');
 
 * {
     margin: 0;
@@ -8,7 +9,7 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: #0a0a0a;
     color: gold;
     text-align: center;
@@ -24,7 +25,7 @@ header {
 }
 
 h1 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Grand Casino', cursive;
     font-size: 2.5rem;
     text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.8);
 }
@@ -101,6 +102,36 @@ h1 {
     background: darkgoldenrod;
 }
 
+/* ---- LEADERBOARD STYLING ---- */
+.leaderboard-section {
+    margin: 30px auto;
+    max-width: 800px;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid gold;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.leaderboard-table th, .leaderboard-table td {
+    padding: 10px;
+    border-bottom: 1px solid gold;
+}
+
+.leaderboard-table th {
+    background: gold;
+    color: black;
+    font-weight: bold;
+}
+
+.leaderboard-table tr:hover {
+    background: rgba(255, 215, 0, 0.1);
+}
+
 /* ---- FOOTER ---- */
 footer {
     margin-top: 20px;
@@ -127,4 +158,3 @@ footer {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
-
