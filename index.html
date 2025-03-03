@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CollectClock - Track and collect your daily casino bonuses!">
+    <meta name="description" content="CollectClock - All in one place list for your daily casino bonuses!">
     <title>🎰 CollectClock 💰</title>
 
     <!-- CSS and Fonts -->
- 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/YOUR_FONT_AWESOME_KEY.js" crossorigin="anonymous"></script>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MGW03QSJ9B"></script>
@@ -22,17 +22,16 @@
     </script>
 </head>
 <body>
-    <!-- User Section -->
-    <div class="user-section">
-    <div id="login-section">
-        <a href="https://discord.gg/SqMzCy7u" class="discord-button">
-            <svg width="24" height="24" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.40[...]
-            </svg>
-            Login
+    <!-- Header Section -->
+    <header>
+        <h1>CollectClock</h1>
+        <a href="https://discord.gg/q4K9n9hEpR" class="discord-icon">
+            <i class="fab fa-discord"></i> Login
         </a>
-    </div>
-</div>
+    </header>
+
+    <!-- User Section -->
+    <div id="user-section">
         <div id="user-info" style="display: none;">
             <img id="user-avatar" alt="User Avatar" class="avatar">
             <div class="user-details">
@@ -84,7 +83,7 @@
                 </tr>
             </thead>
             <tbody id="casino-list">
-                <!-- Casino rows will be added here via JavaScript -->
+                <!-- Casino rows will be added dynamically via JavaScript -->
             </tbody>
         </table>
     </main>
@@ -92,7 +91,7 @@
     <!-- Bottom Bar -->
     <div class="bottom-bar">
         <a href="https://cash.app/$godzillamasters" class="support-button">💝 Support CollectClock</a>
-        <p class="copyright"> 2025 Jamie Vargas. All rights reserved.</p>
+        <p class="copyright">2025 Jamie Vargas. All rights reserved.</p>
     </div>
 
     <script src="script.js"></script>
