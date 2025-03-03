@@ -1,339 +1,130 @@
-/* Casino Theme Colors */
-:root {
-    --rich-gold: #D4AF37;
-    --pale-gold: #FFE5B4;
-    --deep-black: #0A0A0A;
-    --soft-black: #1A1A1A;
-    --accent-gold: #FBBD75;
-    --primary-color: #0A0A0A;
-    --secondary-color: #D4AF37;
-    --text-color: #fff;
-}
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;600&display=swap');
 
-/* Global Styles */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background: linear-gradient(145deg, var(--deep-black), var(--soft-black));
-    color: var(--pale-gold);
-    font-family: 'Montserrat', sans-serif;
-    max-width: 900px;
-    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+    background-color: #0a0a0a;
+    color: gold;
+    text-align: center;
+}
+
+/* ---- HEADER STYLING ---- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
-    text-align: center;
+    position: relative;
 }
 
-/* Fancy Casino Font for Title */
-.title-message h1 {
-    font-family: 'Grand Casino', cursive;
-    color: var(--rich-gold);
-    text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.5);
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    margin-bottom: 10px;
-    padding-top: 80px; /* Add space for fixed header */
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.8);
 }
 
-.title-message p {
-    font-size: clamp(0.9rem, 3vw, 1.2rem);
-    margin: 0 20px;
-}
-
-/* Table Styling */
-.tracker-table {
-    width: 100%;
-    max-width: 100%;
-    margin: 20px auto;
-    font-size: clamp(0.8rem, 2.5vw, 1rem);
-    border-collapse: separate;
-    border-spacing: 0 8px;
-    text-align: left;
-    margin-bottom: 80px; /* Space for footer */
-}
-
-.tracker-table th {
-    background: linear-gradient(145deg, var(--rich-gold), var(--accent-gold));
-    color: var(--deep-black);
-    padding: clamp(8px, 2vw, 15px);
+/* ---- DISCORD BUTTON (Top Right) ---- */
+.discord-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #5865F2;
+    color: white;
+    padding: 10px 15px;
     border-radius: 8px;
-    font-size: 16px;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.tracker-table td {
-    background: var(--soft-black);
-    color: var(--pale-gold);
-    padding: clamp(8px, 2vw, 15px);
-    border: 1px solid var(--rich-gold);
-    border-radius: 5px;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Hover effect on table rows */
-.tracker-table tr:hover {
-    background: rgba(255, 215, 0, 0.2);
-}
-
-/* Icons for Bonus Status */
-.bonus-ready::before {
-    content: "🟢 ";
-}
-
-.waiting::before {
-    content: "🔴 ";
-}
-
-/* Improve Casino Links */
-.casino-link {
-    text-decoration: none;
-    color: var(--rich-gold);
     font-weight: bold;
-    transition: color 0.3s ease-in-out;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0px 0px 10px rgba(88, 101, 242, 0.5);
+    transition: transform 0.2s ease-in-out, background 0.3s;
 }
 
-.casino-link:hover {
-    color: var(--accent-gold);
+.discord-icon:hover {
+    background: #4752C4;
+    transform: scale(1.05);
 }
 
-/* Progress Bar */
-.progress-container {
-    width: 100%;
-    height: 20px;
-    background-color: var(--soft-black);
-    border: 2px solid var(--rich-gold);
-    border-radius: 10px;
-    overflow: hidden;
+.discord-icon i {
+    font-size: 20px;
+}
+
+/* ---- BONUS LIST SECTION ---- */
+.bonus-container {
     margin-top: 20px;
 }
 
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(145deg, var(--rich-gold), var(--accent-gold));
-    transition: width 0.8s ease-in-out;
+.bonus-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive Grid */
+    gap: 15px;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
 }
 
-/* Bottom Bar for Contact & License */
-.bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--primary-color);
-    padding: 15px;
+/* ---- INDIVIDUAL BONUS ITEM ---- */
+.bonus-item {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid gold;
+    padding: 12px;
+    border-radius: 10px;
     text-align: center;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    transition: transform 0.2s ease-in-out, background 0.3s;
 }
 
-/* Support Button */
-.support-button {
-    display: inline-block;
-    background: var(--secondary-color);
-    color: var(--text-color);
-    padding: 10px 20px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+.bonus-item:hover {
+    transform: scale(1.05);
+    background: rgba(255, 215, 0, 0.1);
 }
 
-.support-button:hover {
-    background: transparent;
-    border-color: var(--secondary-color);
-    transform: translateY(-2px);
-}
-
-.license, .copyright {
-    font-size: 0.8rem;
-    opacity: 0.8;
-    margin: 5px 0;
-}
-
-/* User Section Styles */
-.user-section {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--primary-color);
-    padding: 10px;
-    display: flex;
-    justify-content: flex-end;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.discord-button {
-    background-color: #7289DA;
-    color: white;
+/* ---- BONUS BUTTON ---- */
+.bonus-item button {
+    background: gold;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 15px;
+    font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    font-family: 'Montserrat', sans-serif;
+    margin-top: 8px;
+    transition: background 0.3s ease-in-out;
 }
 
-.discord-button:hover {
-    background-color: #5b6eae;
+.bonus-item button:hover {
+    background: darkgoldenrod;
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+/* ---- FOOTER ---- */
+footer {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 215, 0, 0.1);
+    border-top: 2px solid gold;
+    font-size: 0.9rem;
 }
 
-#user-info {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.streak-info {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.9em;
-    color: #fff;
-    margin-left: 10px;
-}
-
-/* Leaderboard Styles */
-.leaderboard-section {
-    max-width: 800px;
-    margin: 20px auto;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 8px;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.leaderboard-section h2 {
-    text-align: center;
-    color: #fff;
-    margin-bottom: 15px;
-    font-family: 'Grand Casino', cursive;
-    font-size: 2em;
-}
-
-.leaderboard-table {
-    width: 100%;
-    max-width: 100%;
-    margin: 20px auto;
-    font-size: clamp(0.8rem, 2.5vw, 1rem);
-    border-collapse: collapse;
-    margin-top: 10px;
-    color: #fff;
-}
-
-.leaderboard-table th,
-.leaderboard-table td {
-    padding: clamp(8px, 2vw, 15px);
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.leaderboard-table th {
-    background-color: rgba(0, 0, 0, 0.2);
-    font-weight: bold;
-}
-
-.leaderboard-table tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.leaderboard-table tr:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Add margin to main content to prevent overlap with fixed elements */
-main {
-    margin-bottom: 150px; /* Space for bottom bar */
-    padding: 0 15px;
-}
-
-/* Responsive adjustments */
+/* ---- RESPONSIVE STYLING ---- */
 @media (max-width: 768px) {
-    .user-section {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .discord-icon {
+        top: 10px;
+        right: 10px;
         padding: 8px;
+        font-size: 14px;
     }
 
-    .discord-button {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
-
-    .discord-button svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    .tracker-table,
-    .leaderboard-table {
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .bottom-bar {
-        padding: 10px;
-    }
-
-    .support-button {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-        display: block;
-        margin: 10px auto;
-        max-width: 280px;
-    }
-
-    .license, .copyright {
-        font-size: 0.7rem;
-        margin: 3px 0;
-    }
-
-    /* Adjust table cell sizes for mobile */
-    .tracker-table td:first-child,
-    .leaderboard-table td:first-child {
-        max-width: 120px;
+    .bonus-list {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
 
-/* Hide scrollbar but keep functionality */
-.tracker-table::-webkit-scrollbar,
-.leaderboard-table::-webkit-scrollbar {
-    height: 4px;
-    background-color: var(--primary-color);
-}
-
-.tracker-table::-webkit-scrollbar-thumb,
-.leaderboard-table::-webkit-scrollbar-thumb {
-    background-color: var(--secondary-color);
-    border-radius: 2px;
-}
-a {
-    color: var(--rich-gold);
-    text-decoration: underline;
-}
-
-a:hover {
-    color: var(--accent-gold);
-}
