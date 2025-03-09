@@ -32,7 +32,7 @@ h1 {
 
 /* ---- DISCORD BUTTON (Top Right) ---- */
 .discord-icon {
-    position: absolute;
+    position: fixed; /* Changed from absolute to fixed */
     top: 15px;
     right: 15px;
     background: #5865F2;
@@ -100,6 +100,44 @@ h1 {
 
 .bonus-item button:hover {
     background: darkgoldenrod;
+}
+
+/* ---- COLLECT BUTTON ---- */
+.collect-button {
+    background: gold;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease-in-out;
+    z-index: 10; /* Ensure it is above other elements */
+}
+
+.collect-button.checked {
+    background: darkgoldenrod;
+}
+
+.collect-button:hover {
+    background: goldenrod;
+}
+
+/* ---- DAILY STREAK ---- */
+.daily-streak {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid gold;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: gold;
+}
+
+.daily-streak span {
+    font-weight: bold;
+    color: darkgoldenrod;
 }
 
 /* ---- LEADERBOARD STYLING ---- */

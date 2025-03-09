@@ -198,7 +198,8 @@ async function handleCheckboxClick(casinoName, checkbox) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ casinoName }) // Ensure the casino name is sent in the request body
         });
 
         if (response.ok) {
@@ -253,4 +254,32 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Update the table every minute to keep times current
     setInterval(updateTable, 60000);
+
+    const collectButton = document.querySelector('.collect-button');
+
+    if (collectButton) {
+        collectButton.addEventListener('click', () => {
+            collectButton.classList.toggle('checked');
+        });
+    }
+
+    const streakCountElement = document.getElementById('streak-count');
+    const lastLoginDate = localStorage.getItem('lastLoginDate');
+    const currentDate = new Date().toLocaleDateString();
+
+    if (lastLoginDate === currentDate) {
+        // User has already logged in today
+        streakCountElement.textContent = localStorage.getItem('streakCount');
+    } else {
+        // Update streak count
+        let streakCount = parseInt(localStorage.getItem('streakCount')) || 0;
+        if (new Date(lastLoginDate).getDate() === new Date(currentDate).getDate() - 1) {
+            streakCount++;
+        } else {
+            streakCount = 1; // Reset streak if not consecutive days
+        }
+        localStorage.setItem('streakCount', streakCount);
+        localStorage.setItem('lastLoginDate', currentDate);
+        streakCountElement.textContent = streakCount;
+    }
 });
