@@ -179,6 +179,39 @@ footer {
     font-size: 0.9rem;
 }
 
+/* ---- TICKER ---- */
+.ticker-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: gold;
+    padding: 10px 0;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 20s linear infinite;
+}
+
+.ticker-item {
+    display: inline-block;
+    padding: 0 50px;
+    font-size: 1rem;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
 /* ---- RESPONSIVE STYLING ---- */
 @media (max-width: 768px) {
     h1 {

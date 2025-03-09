@@ -282,4 +282,21 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('lastLoginDate', currentDate);
         streakCountElement.textContent = streakCount;
     }
+
+    // Initialize ticker
+    const ticker = document.getElementById('ticker');
+    const tickerItems = [
+        "Welcome to CollectClock!",
+        "Track your daily bonuses and compete for the highest streak!",
+        "Current Contest: Win a $100 Amazon Gift Card!",
+        "Join our Discord for the latest updates and support!",
+        "Support CollectClock by donating via Cash App: $godzillamasters"
+    ];
+
+    tickerItems.forEach(item => {
+        const tickerItem = document.createElement('div');
+        tickerItem.className = 'ticker-item';
+        tickerItem.textContent = item;
+        ticker.appendChild(tickerItem);
+    });
 });
