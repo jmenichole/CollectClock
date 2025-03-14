@@ -1,6 +1,14 @@
+
+// Load confetti library
+const confetti = (function () {
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.min.js";
+    document.head.appendChild(script);
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
     const casinoList = [
-        { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
+             { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
         { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
         { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
         { name: "Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
@@ -55,24 +63,24 @@ document.addEventListener("DOMContentLoaded", function () {
             casinoListContainer.appendChild(listItem);
         });
     }
-
-    // Streak Tracking
-    const userId = new URLSearchParams(window.location.search).get("user") || "Guest";
-    let streak = localStorage.getItem(`streak_${userId}`) || 0;
-    let lastVisit = localStorage.getItem(`lastVisit_${userId}`);
-    const today = new Date().toDateString();
-
-    if (lastVisit !== today) {
-        streak++;
-        localStorage.setItem(`streak_${userId}`, streak);
-        localStorage.setItem(`lastVisit_${userId}`, today);
-    }
-
-    document.getElementById("streak-count").innerText = streak;
-    document.getElementById("streak-progress").style.width = `${Math.min(streak * 10, 100)}%`;
 });
 
+// 🎉 Confetti when a bonus is collected
 function markCollected(linkId) {
-    document.getElementById(`bonus-${linkId}`).checked = true;
-}
+    const checkbox = document.getElementById(`bonus-${linkId}`);
 
+    if (checkbox.checked) {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#FFD700", "#FFAA00", "#FFF200"],
+            shapes: ["circle", "square"]
+        });
+
+        // 🎰 Bonus collected alert (optional)
+        setTimeout(() => {
+            alert("🎉 Bonus collected! Keep the streak going!");
+        }, 500);
+    }
+}
