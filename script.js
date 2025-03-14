@@ -299,9 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const tickerItems = [
         "Welcome to CollectClock!",
         "Track your daily bonuses and compete for the highest streak!",
-        "Current Contest: Win a $100 Amazon Gift Card!",
         "Join our Discord for the latest updates and support!",
-        "Support CollectClock by donating via Cash App: $godzillamasters"
+        "Donations appreciated & help fund Poker Tournament Prizes!"
     ];
 
     tickerItems.forEach(item => {
