@@ -9,8 +9,8 @@
 </head>
 <body>
     <header>
-        <h1>Welcome, <span id="username">Guest</span>!</h1>
-        <img id="user-avatar" class="avatar" alt="User Avatar">
+        <h1>Welcome, <span id="username">Loading...</span>!</h1>
+        <img id="user-avatar" class="avatar" src="https://via.placeholder.com/80" alt="User Avatar">
     </header>
 
     <div class="dashboard-container">
@@ -29,14 +29,6 @@
         </section>
     </div>
 
-    <!-- Ticker Section (Keeping your original design) -->
-    <div class="ticker-container">
-        <div class="ticker" id="ticker">
-            <!-- Your ticker items will be dynamically added here -->
-        </div>
-    </div>
-
-    <!-- Footer with Trademark (Keeping your original content) -->
     <footer>
         <p>© 2025 CollectClock. All rights reserved.</p>
     </footer>
@@ -44,22 +36,31 @@
     <script>
         // Extract user ID from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get("user") || "Guest";
+        const userId = urlParams.get("user");
 
-        function getUserData(userId) {
-            return {
-                name: userId !== "Guest" ? `User #${userId}` : "Guest",
-                avatar: userId !== "Guest"
-                    ? `https://cdn.discordapp.com/avatars/${userId}/avatar.png`
-                    : "https://via.placeholder.com/80"
-            };
+        if (userId && userId !== "Guest") {
+            // Construct Discord API URL to fetch user data
+            const apiURL = `https://discord.com/api/v10/users/${userId}`;
+
+            fetch(apiURL, {
+                headers: {
+                    "Authorization": "Bot YOUR_BOT_TOKEN"  // Replace with your bot token
+                }
+            })
+            .then(response => response.json())
+            .then(user => {
+                document.getElementById("username").innerText = user.username;
+                document.getElementById("user-avatar").src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+            })
+            .catch(error => {
+                console.error("Failed to load Discord user:", error);
+                document.getElementById("username").innerText = `User #${userId}`;
+            });
+        } else {
+            document.getElementById("username").innerText = "Guest";
         }
-
-        // Set user info
-        const user = getUserData(userId);
-        document.getElementById("username").innerText = user.name;
-        document.getElementById("user-avatar").src = user.avatar;
     </script>
 </body>
 </html>
+
 
