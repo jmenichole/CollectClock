@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your CollectClock Dashboard</title>
+    <script>
+        // Extract user ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get("user");
+
+        // Sample user data (replace with actual backend logic)
+        const users = {
+            "123456789012345678": { name: "Jamie", avatar: "https://cdn.discordapp.com/avatars/123456789012345678/avatar.png", streak: 5 }
+        };
+        
+        // Get user details
+        const user = users[userId] || { name: "Guest", avatar: "", streak: 0 };
+
+        // Inject user data into the page
+        window.onload = function() {
+            document.getElementById("username").innerText = user.name;
+            document.getElementById("user-avatar").src = user.avatar;
+            document.getElementById("streak-count").innerText = user.streak;
+        };
+
+        function markCollected(linkId) {
+            document.getElementById(`bonus-${linkId}`).checked = true;
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome, <span id="username"></span>!</h1>
+    <img id="user-avatar" width="80" height="80" style="border-radius:50%;" alt="User Avatar">
+    
+    <h2>🔥 Daily Streak: <span id="streak-count">0</span> days</h2>
+
+    <h2>💰 Bonuses Left to Collect</h2>
+    <ul>
+        <li>
+            <input type="checkbox" id="bonus-1" onclick="markCollected(1)">
+            <a href="https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029" target="_blank">Fortune Coins</a>
+        </li>
+        <li>
+            <input type="checkbox" id="bonus-2" onclick="markCollected(2)">
+            <a href="https://www.pulsz.com/?invited_by=utfk4r" target="_blank">Pulsz</a>
+        </li>
+        <li>
+            <input type="checkbox" id="bonus-3" onclick="markCollected(3)">
+            <a href="https://stake.us/?c=Jmenichole" target="_blank">Stake.us</a>
+        </li>
+    </ul>
+
+    <footer>
+        <p>© 2025 CollectClock. All rights reserved.</p>
+    </footer>
+</body>
+</html>
