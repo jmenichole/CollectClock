@@ -3,56 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your CollectClock Dashboard</title>
-    <script>
-        // Extract user ID from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get("user");
-
-        // Sample user data (replace with actual backend logic)
-        const users = {
-            "123456789012345678": { name: "Jamie", avatar: "https://cdn.discordapp.com/avatars/123456789012345678/avatar.png", streak: 5 }
-        };
-        
-        // Get user details
-        const user = users[userId] || { name: "Guest", avatar: "", streak: 0 };
-
-        // Inject user data into the page
-        window.onload = function() {
-            document.getElementById("username").innerText = user.name;
-            document.getElementById("user-avatar").src = user.avatar;
-            document.getElementById("streak-count").innerText = user.streak;
-        };
-
-        function markCollected(linkId) {
-            document.getElementById(`bonus-${linkId}`).checked = true;
-        }
-    </script>
+    <title>🎰 Your CollectClock Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script> <!-- Ensures casinos are loaded -->
 </head>
 <body>
-    <h1>Welcome, <span id="username"></span>!</h1>
-    <img id="user-avatar" width="80" height="80" style="border-radius:50%;" alt="User Avatar">
-    
-    <h2>🔥 Daily Streak: <span id="streak-count">0</span> days</h2>
+    <header>
+        <h1>Welcome, <span id="username">Guest</span>!</h1>
+        <img id="user-avatar" class="avatar" alt="User Avatar">
+    </header>
 
-    <h2>💰 Bonuses Left to Collect</h2>
-    <ul>
-        <li>
-            <input type="checkbox" id="bonus-1" onclick="markCollected(1)">
-            <a href="https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029" target="_blank">Fortune Coins</a>
-        </li>
-        <li>
-            <input type="checkbox" id="bonus-2" onclick="markCollected(2)">
-            <a href="https://www.pulsz.com/?invited_by=utfk4r" target="_blank">Pulsz</a>
-        </li>
-        <li>
-            <input type="checkbox" id="bonus-3" onclick="markCollected(3)">
-            <a href="https://stake.us/?c=Jmenichole" target="_blank">Stake.us</a>
-        </li>
-    </ul>
+    <div class="dashboard-container">
+        <section class="streak-section">
+            <h2>🔥 Streak: <span id="streak-count">0</span> Days</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="streak-progress"></div>
+            </div>
+        </section>
 
+        <section class="casino-list">
+            <h2>💰 Bonuses Left to Collect</h2>
+            <ul id="casino-list">
+                <!-- This will be populated by script.js -->
+            </ul>
+        </section>
+    </div>
+
+    <!-- Ticker Section (Keeping your original design) -->
+    <div class="ticker-container">
+        <div class="ticker" id="ticker">
+            <!-- Your ticker items will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Footer with Trademark (Keeping your original content) -->
     <footer>
         <p>© 2025 CollectClock. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Extract user ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get("user") || "Guest";
+
+        function getUserData(userId) {
+            return {
+                name: userId !== "Guest" ? `User #${userId}` : "Guest",
+                avatar: userId !== "Guest"
+                    ? `https://cdn.discordapp.com/avatars/${userId}/avatar.png`
+                    : "https://via.placeholder.com/80"
+            };
+        }
+
+        // Set user info
+        const user = getUserData(userId);
+        document.getElementById("username").innerText = user.name;
+        document.getElementById("user-avatar").src = user.avatar;
+    </script>
 </body>
 </html>
+
