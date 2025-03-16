@@ -3,64 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎰 Your CollectClock Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script> <!-- Ensures casinos are loaded -->
+    <title>🎰 CollectClock 💰</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Welcome, <span id="username">Loading...</span>!</h1>
-        <img id="user-avatar" class="avatar" src="https://via.placeholder.com/80" alt="User Avatar">
+        <h1>CollectClock</h1>
+        <div id="user-info" style="display: none;">
+            <img id="user-avatar" alt="User Avatar" class="avatar">
+            <div class="user-details">
+                <span id="username" class="username"></span>
+                <div class="streak-info">
+                    <span>Streak: <span id="current-streak">0</span></span>
+                    <span>Best: <span id="highest-streak">0</span></span>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <div class="dashboard-container">
-        <section class="streak-section">
-            <h2>🔥 Streak: <span id="streak-count">0</span> Days</h2>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="streak-progress"></div>
-            </div>
-        </section>
-
-        <section class="casino-list">
-            <h2>💰 Bonuses Left to Collect</h2>
-            <ul id="casino-list">
-                <!-- This will be populated by script.js -->
-            </ul>
-        </section>
+    <div class="daily-streak">
+        Daily Streak: <span id="streak-count">0</span> days
     </div>
 
+    <main>
+        <h2>🏆 Top Collectors</h2>
+        <div class="leaderboard-container">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Collector</th>
+                        <th>Best Streak</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-list">
+                    <!-- Leaderboard entries will be added here via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="casino-list-container">
+            <h3>Casino Bonus List</h3>
+            <table class="tracker-table">
+                <thead>
+                    <tr>
+                        <th>Casino</th>
+                        <th>Next Bonus</th>
+                        <th>✓</th>
+                    </tr>
+                </thead>
+                <tbody id="casino-list">
+                    <!-- Casino rows will be added dynamically via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
     <footer>
-        <p>© 2025 CollectClock. All rights reserved.</p>
+        <a href="https://cash.app/$godzillamasters" class="support-button">💝 Support CollectClock</a>
     </footer>
 
     <script>
-        // Extract user ID from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get("user");
-
-        if (userId && userId !== "Guest") {
-            // Construct Discord API URL to fetch user data
-            const apiURL = `https://discord.com/api/v10/users/${userId}`;
-
-            fetch(apiURL, {
-                headers: {
-                    "Authorization": "Bot YOUR_BOT_TOKEN"  // Replace with your bot token
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                let response = await fetch("/api/user"); // Fetch user info
+                let data = await response.json();
+                if (data.loggedIn) {
+                    document.getElementById("user-info").style.display = "block";
+                    document.getElementById("username").textContent = data.username;
+                    document.getElementById("current-streak").textContent = data.currentStreak;
+                    document.getElementById("highest-streak").textContent = data.highestStreak;
                 }
-            })
-            .then(response => response.json())
-            .then(user => {
-                document.getElementById("username").innerText = user.username;
-                document.getElementById("user-avatar").src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
-            })
-            .catch(error => {
-                console.error("Failed to load Discord user:", error);
-                document.getElementById("username").innerText = `User #${userId}`;
-            });
-        } else {
-            document.getElementById("username").innerText = "Guest";
-        }
+            } catch (error) {
+                console.error("Error fetching user info:", error);
+            }
+        });
     </script>
 </body>
 </html>
-
 
