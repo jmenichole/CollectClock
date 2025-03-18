@@ -4,14 +4,24 @@ from oauthlib.oauth2 import WebApplicationClient
 from flask_cors import CORS
 import os
 import requests
+import logging
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
 
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('collectclock')
+
 app = Flask(__name__, static_url_path='')
 app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///collectclock.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_recycle': 280,
+    'pool_timeout': 20
+}
 db = SQLAlchemy(app)
 CORS(app)  # Enable CORS for all routes
 
@@ -55,6 +65,10 @@ def login():
 @app.route('/callback')
 def callback():
     code = request.args.get('code')
+    if not code:
+        logger.error("No code provided in callback")
+        return jsonify({'error': 'Authorization failed'}), 400
+        
     token_url = f'{DISCORD_API_ENDPOINT}/oauth2/token'
     
     token_data = {
@@ -65,78 +79,123 @@ def callback():
         'redirect_uri': DISCORD_REDIRECT_URI
     }
     
-    token_response = requests.post(token_url, data=token_data)
-    token = token_response.json()
-    
-    user_response = requests.get(
-        f'{DISCORD_API_ENDPOINT}/users/@me',
-        headers={'Authorization': f'Bearer {token["access_token"]}'}
-    )
-    user_data = user_response.json()
-    
-    user = User.query.get(user_data['id'])
-    if not user:
-        user = User(
-            id=user_data['id'],
-            username=user_data['username'],
-            avatar=user_data['avatar']
+    try:
+        token_response = requests.post(token_url, data=token_data)
+        token_response.raise_for_status()  # Raise exception for HTTP errors
+        token = token_response.json()
+        
+        user_response = requests.get(
+            f'{DISCORD_API_ENDPOINT}/users/@me',
+            headers={'Authorization': f'Bearer {token["access_token"]}'}
         )
-        db.session.add(user)
-    db.session.commit()
-    
-    session['user_id'] = user.id
-    return redirect('/')
+        user_response.raise_for_status()
+        user_data = user_response.json()
+        
+        # Basic validation of user data
+        if not user_data.get('id') or not user_data.get('username'):
+            logger.error(f"Invalid user data received: {user_data}")
+            return jsonify({'error': 'Invalid user data'}), 400
+            
+        user = User.query.get(user_data['id'])
+        if not user:
+            user = User(
+                id=user_data['id'],
+                username=user_data['username'],
+                avatar=user_data.get('avatar', '')
+            )
+            db.session.add(user)
+        db.session.commit()
+        
+        session['user_id'] = user.id
+        return redirect('/')
+        
+    except requests.RequestException as e:
+        logger.error(f"Discord API error: {e}")
+        return jsonify({'error': 'Authentication service unavailable'}), 503
+    except Exception as e:
+        logger.error(f"Unexpected error during callback: {e}")
+        return jsonify({'error': 'An unexpected error occurred'}), 500
 
 @app.route('/user')
 def get_user():
     if 'user_id' not in session:
         return jsonify({'error': 'Not logged in'}), 401
-    user = User.query.get(session['user_id'])
-    return jsonify({
-        'id': user.id,
-        'username': user.username,
-        'avatar': user.avatar,
-        'current_streak': user.current_streak,
-        'highest_streak': user.highest_streak
-    })
+    try:
+        user = User.query.get(session['user_id'])
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+            
+        return jsonify({
+            'id': user.id,
+            'username': user.username,
+            'avatar': user.avatar,
+            'current_streak': user.current_streak,
+            'highest_streak': user.highest_streak,
+            'loggedIn': True
+        })
+    except Exception as e:
+        logger.error(f"Error retrieving user: {e}")
+        return jsonify({'error': 'Server error'}), 500
+
+@app.route('/api/user')
+def api_get_user():
+    # Added to support dashboard.html
+    return get_user()
 
 @app.route('/leaderboard')
 def get_leaderboard():
-    top_users = User.query.order_by(User.highest_streak.desc()).limit(10).all()
-    return jsonify([{
-        'username': user.username,
-        'highest_streak': user.highest_streak
-    } for user in top_users])
+    try:
+        top_users = User.query.order_by(User.highest_streak.desc()).limit(10).all()
+        return jsonify([{
+            'username': user.username,
+            'highest_streak': user.highest_streak
+        } for user in top_users])
+    except Exception as e:
+        logger.error(f"Error retrieving leaderboard: {e}")
+        return jsonify({'error': 'Server error'}), 500
 
 @app.route('/collect', methods=['POST'])
 def collect():
     if 'user_id' not in session:
         return jsonify({'error': 'Not logged in'}), 401
     
-    user = User.query.get(session['user_id'])
-    now = datetime.utcnow()
-    
-    if user.last_collection:
-        time_diff = now - user.last_collection
-        if time_diff < timedelta(hours=23):
-            return jsonify({'error': 'Too soon to collect'}), 400
-        elif time_diff > timedelta(hours=25):
-            user.current_streak = 1
-        else:
-            user.current_streak += 1
+    try:
+        user = User.query.get(session['user_id'])
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
             
-        if user.current_streak > user.highest_streak:
-            user.highest_streak = user.current_streak
-    else:
-        user.current_streak = 1
-    
-    user.last_collection = now
-    db.session.commit()
-    
-    return jsonify({
-        'current_streak': user.current_streak,
-        'highest_streak': user.highest_streak
-    })
+        now = datetime.utcnow()
+        
+        if user.last_collection:
+            time_diff = now - user.last_collection
+            if time_diff < timedelta(hours=23):
+                return jsonify({'error': 'Too soon to collect'}), 400
+            elif time_diff > timedelta(hours=25):
+                user.current_streak = 1
+            else:
+                user.current_streak += 1
+                
+            if user.current_streak > user.highest_streak:
+                user.highest_streak = user.current_streak
+        else:
+            user.current_streak = 1
+        
+        user.last_collection = now
+        db.session.commit()
+        
+        return jsonify({
+            'current_streak': user.current_streak,
+            'highest_streak': user.highest_streak
+        })
+    except Exception as e:
+        logger.error(f"Error during collection: {e}")
+        db.session.rollback()
+        return jsonify({'error': 'Server error'}), 500
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return jsonify({'success': True})
 
 if __name__ == '__main__':
     with app.app_context():
