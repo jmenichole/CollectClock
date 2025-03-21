@@ -1,4 +1,4 @@
-/* Professional styling for CollectClock with framed, askew boxes and mobile responsiveness */
+/* Professional styling for CollectClock without askew frames, fully responsive */
 
 body {
     font-family: 'Montserrat', sans-serif;
@@ -18,10 +18,9 @@ header h1 {
     margin-bottom: 0.5rem;
 }
 
-header p.subheading {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
+header h3 {
+    margin-top: 0.3rem;
+    color: gold;
 }
 
 .discord-icon {
@@ -38,103 +37,111 @@ header p.subheading {
     transition: transform 0.2s, background 0.3s;
     z-index: 10;
 }
-
 .discord-icon:hover {
     transform: scale(1.05);
     background: #4752C4;
 }
 
-.bonus-list, .tracker-table {
-    margin: 20px auto;
+.leaderboard-table, .tracker-table {
     width: 95%;
     max-width: 1200px;
+    margin: 20px auto;
+    border-collapse: collapse;
 }
 
-.bonus-item, .tracker-table tr {
+.leaderboard-table th, .tracker-table th {
     background: rgba(0, 0, 0, 0.7);
-    border: 2px solid gold;
-    border-radius: 12px;
-    margin: 16px;
-    padding: 16px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    transform: rotate(-1deg);
-    transition: transform 0.3s, box-shadow 0.3s;
+    border-bottom: 1px solid gold;
+    padding: 12px;
+    color: gold;
+    font-size: 1rem;
 }
 
-.bonus-item:nth-child(even), .tracker-table tr:nth-child(even) {
-    transform: rotate(1deg);
+.leaderboard-table td, .tracker-table td {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    padding: 10px;
+    font-size: 0.95rem;
 }
 
-.bonus-item:hover, .tracker-table tr:hover {
-    transform: rotate(0deg) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-    border-color: #ffcc00;
+.tracker-table tr:hover {
+    background: rgba(255, 215, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.bonus-item button, .collect-button {
-    background: linear-gradient(90deg, gold, darkgoldenrod);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: black;
-    font-weight: bold;
+.tracker-table a {
+    color: gold;
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+.tracker-table a:hover {
+    color: teal;
+}
+
+input[type=\"checkbox\"] {
+    transform: scale(1.4);
     cursor: pointer;
+}
+
+.support-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, gold, darkgoldenrod);
+    color: black;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
     transition: background 0.3s, transform 0.2s;
 }
-
-.bonus-item button:hover, .collect-button:hover {
+.support-button:hover {
     transform: scale(1.05);
     background: linear-gradient(90deg, darkgoldenrod, goldenrod);
 }
 
-footer, .bottom-bar {
+.bottom-bar {
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;
     border-top: 1px solid gold;
     color: gold;
     font-size: 0.9rem;
+    margin-top: 40px;
 }
 
-.leaderboard-table th, .leaderboard-table td {
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-    padding: 12px;
+.ticker-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    margin-top: 30px;
 }
-
-.leaderboard-table tr:hover {
-    background: rgba(255, 215, 0, 0.05);
-}
-
-.leaderboard-table th {
-    background: rgba(255, 215, 0, 0.1);
-}
-
-.bonus-item a, .tracker-table a {
+.ticker {
+    display: inline-block;
+    animation: ticker 25s linear infinite;
     color: gold;
-    text-decoration: underline;
-    transition: color 0.3s;
+    font-weight: 500;
+}
+@keyframes ticker {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
 }
 
-.bonus-item a:hover, .tracker-table a:hover {
-    color: teal;
-}
-
-* {
-    transition: all 0.2s ease-in-out;
+.countdown {
+    font-size: 0.9rem;
+    color: #FFD700;
 }
 
 @media (max-width: 768px) {
     header h1 {
         font-size: 2.2rem;
     }
-    .bonus-item, .tracker-table tr {
-        padding: 10px;
-        margin: 10px;
-    }
-    .bonus-item button, .collect-button {
-        padding: 8px 14px;
-    }
-    .discord-icon {
-        padding: 8px 12px;
+    .leaderboard-table th, .tracker-table th,
+    .leaderboard-table td, .tracker-table td {
+        padding: 8px;
         font-size: 0.9rem;
     }
+    .support-button {
+        padding: 8px 14px;
+        font-size: 0.95rem;
+    }
 }
+
