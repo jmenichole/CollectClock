@@ -22,6 +22,10 @@ header h3 {
     margin-top: 0.3rem;
     color: gold;
 }
+a:visited {
+    color: green;
+}
+
 
 .discord-icon {
     position: fixed;
@@ -145,3 +149,21 @@ input[type=\"checkbox\"] {
     }
 }
 
+.suggest-casino {
+    margin-top: 40px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 20px;
+    border-top: 1px solid gold;
+    font-size: 1rem;
+    color: gold;
+}
+
+.suggest-casino a {
+    color: gold;
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+
+.suggest-casino a:hover {
+    color: teal;
+}
