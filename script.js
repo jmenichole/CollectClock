@@ -1,16 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCasinoData();
     loadMostCollectedCasino();
-
-    document.querySelectorAll(".casino-link").forEach((link) => {
-        link.addEventListener("click", (event) => {
-            event.preventDefault();
-            startCountdown(event.target.dataset.id);
-            markCheckbox(event.target.dataset.id);
-            incrementClickCounter();
-            window.open(event.target.href, "_blank");
-        });
-    });
 });
 
 let clickCount = 0;
@@ -41,13 +31,7 @@ function showCongratsPopup() {
 function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
 
-    document.addEventListener("DOMContentLoaded", () => {
-    loadCasinoData();
-    loadMostCollectedCasino();
-});
-
-    // Example data (replace with API or backend data)
-    const casinos = [
+     const casinos = [
         { name: "Stake US", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
         { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
         { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
@@ -90,23 +74,34 @@ function loadCasinoData() {
 
             ];
 
-    
+    casinos.forEach((casino, index) => {
+        casino.id = `casino-${index + 1}`;
 
-    casinos.forEach((casino) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td><a href="${casino.link}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
-            <td>${casino.nextBonus}</td>
+            <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
+            <td>-</td>
             <td class="countdown" id="countdown-${casino.id}">-</td>
             <td><input type="checkbox" class="collect-checkbox" id="checkbox-${casino.id}"></td>
         `;
         casinoList.appendChild(row);
     });
+
+    document.querySelectorAll(".casino-link").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const casinoId = event.target.dataset.id;
+            startCountdown(casinoId);
+            markCheckbox(casinoId);
+            incrementClickCounter();
+            window.open(event.target.href, "_blank");
+        });
+    });
 }
 
 function startCountdown(casinoId) {
     const countdownEl = document.getElementById(`countdown-${casinoId}`);
-    let timeLeft = 86400; // 24 hours in seconds
+    let timeLeft = 86400;
 
     function updateCountdown() {
         let hours = Math.floor(timeLeft / 3600);
@@ -135,6 +130,6 @@ function loadMostCollectedCasino() {
     mostCollectedEl.textContent = "Loading...";
 
     setTimeout(() => {
-        mostCollectedEl.textContent = "Stake.us"; // Example; replace with real API if needed
+        mostCollectedEl.textContent = "Stake.us";
     }, 2000);
 }
