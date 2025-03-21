@@ -9,7 +9,6 @@
     <!-- CSS and Fonts -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Grand+Casino&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/YOUR_FONT_AWESOME_KEY.js" crossorigin="anonymous"></script>
 
     <!-- Google Analytics -->
@@ -30,6 +29,11 @@
         </a>
     </header>
 
+    <!-- Top Stats -->
+    <div id="top-stats">
+        <h3>🏆 Most Collected Casino: <span id="most-collected">Loading...</span></h3>
+    </div>
+
     <!-- User Section -->
     <div id="user-section">
         <div id="user-info" style="display: none;">
@@ -44,22 +48,7 @@
         </div>
     </div>
 
-    <div class="daily-streak">
-        Daily Streak: <span id="streak-count">0</span> days
-    </div>
-
     <main>
-        <!-- Title Section -->
-        <div class="title-message">
-            <h1>CollectClock</h1>
-            <p>Track your daily bonuses and compete for the highest streak!</p>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
-
         <!-- Leaderboard Section -->
         <div class="leaderboard-section">
             <h2>🏆 Top Collectors</h2>
@@ -83,6 +72,7 @@
                 <tr>
                     <th>Casino</th>
                     <th>Next Bonus</th>
+                    <th>Countdown</th>
                     <th>✓</th>
                 </tr>
             </thead>
@@ -100,7 +90,7 @@
 
     <!-- Bottom Bar -->
     <div class="bottom-bar">
-        <a href="https://cash.app/$godzillamasters" class="support-button">💝 Support CollectClock</a>
+        <a href="https://github.com/sponsors/jmenichole" class="support-button">💝 Support CollectClock</a>
         <p class="copyright">2025 Jamie Vargas. All rights reserved.</p>
     </div>
 
