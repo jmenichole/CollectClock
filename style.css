@@ -21,11 +21,6 @@ header h1 {
 header h3 {
     margin-top: 0.3rem;
     color: gold;
-}
-a:visited {
-    color: green;
-}
-
 
 .discord-icon {
     position: fixed;
@@ -166,4 +161,51 @@ input[type=\"checkbox\"] {
 
 .suggest-casino a:hover {
     color: teal;
+}
+
+.congrats-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-content {
+    background: #1f1f3d;
+    border: 2px solid gold;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    color: gold;
+}
+
+.popup-content img {
+    width: 250px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.popup-content button {
+    background: linear-gradient(90deg, gold, darkgoldenrod);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+.popup-content button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, darkgoldenrod, goldenrod);
+}
+
+a:visited {
+    color: green;
 }
