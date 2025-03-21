@@ -1,14 +1,14 @@
+document.addEventListener("DOMContentLoaded", () => {
+    loadCasinoData();
+    loadMostCollectedCasino();
+});
 
-// Load confetti library
-const confetti = (function () {
-    const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.min.js";
-    document.head.appendChild(script);
-})();
+function loadCasinoData() {
+    const casinoList = document.getElementById("casino-list");
 
-document.addEventListener("DOMContentLoaded", function () {
-    const casinoList = [
-             { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
+    // Example data (replace with API or backend data)
+    const casinos = [
+                    { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
         { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
         { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
         { name: "Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
@@ -50,37 +50,60 @@ document.addEventListener("DOMContentLoaded", function () {
         { name: "SpinBlitz", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null }
     ];
 
-    const casinoListContainer = document.getElementById("casino-list");
+    casinos.forEach((casino) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td><a href="${casino.link}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
+            <td>${casino.nextBonus}</td>
+            <td class="countdown" id="countdown-${casino.id}">-</td>
+            <td><input type="checkbox" class="collect-checkbox" id="checkbox-${casino.id}"></td>
+        `;
+        casinoList.appendChild(row);
+    });
 
-    if (casinoListContainer) {
-        casinoList.forEach((casino, index) => {
-            const listItem = document.createElement("li");
-            listItem.classList.add("casino-item");
-            listItem.innerHTML = `
-                <input type="checkbox" id="bonus-${index}" onclick="markCollected(${index})">
-                <a href="${casino.url}" target="_blank">${casino.name}</a>
-            `;
-            casinoListContainer.appendChild(listItem);
+    document.querySelectorAll(".casino-link").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            startCountdown(event.target.dataset.id);
+            markCheckbox(event.target.dataset.id);
+            window.open(event.target.href, "_blank");
         });
+    });
+}
+
+function startCountdown(casinoId) {
+    const countdownEl = document.getElementById(`countdown-${casinoId}`);
+    let timeLeft = 86400; // 24 hours in seconds
+
+    function updateCountdown() {
+        let hours = Math.floor(timeLeft / 3600);
+        let minutes = Math.floor((timeLeft % 3600) / 60);
+        let seconds = timeLeft % 60;
+
+        countdownEl.textContent = `${hours}h ${minutes}m ${seconds}s`;
+
+        if (timeLeft > 0) {
+            timeLeft--;
+            setTimeout(updateCountdown, 1000);
+        } else {
+            countdownEl.textContent = "AVAILABLE";
+        }
     }
-});
 
-// 🎉 Confetti when a bonus is collected
-function markCollected(linkId) {
-    const checkbox = document.getElementById(`bonus-${linkId}`);
+    updateCountdown();
+}
 
-    if (checkbox.checked) {
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ["#FFD700", "#FFAA00", "#FFF200"],
-            shapes: ["circle", "square"]
-        });
+function markCheckbox(casinoId) {
+    document.getElementById(`checkbox-${casinoId}`).checked = true;
+}
 
-        // 🎰 Bonus collected alert (optional)
-        setTimeout(() => {
-            alert("🎉 Bonus collected! Keep the streak going!");
-        }, 500);
-    }
+function loadMostCollectedCasino() {
+    const mostCollectedEl = document.getElementById("most-collected");
+
+    // Fetch this dynamically if you have backend tracking, otherwise use a placeholder
+    mostCollectedEl.textContent = "Loading...";
+    
+    setTimeout(() => {
+        mostCollectedEl.textContent = "Stake.us"; // Example, replace with actual API call
+    }, 2000);
 }
