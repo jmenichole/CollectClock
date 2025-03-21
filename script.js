@@ -1,21 +1,60 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCasinoData();
     loadMostCollectedCasino();
+
+    document.querySelectorAll(".casino-link").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            startCountdown(event.target.dataset.id);
+            markCheckbox(event.target.dataset.id);
+            incrementClickCounter();
+            window.open(event.target.href, "_blank");
+        });
+    });
 });
+
+let clickCount = 0;
+function incrementClickCounter() {
+    clickCount++;
+    if (clickCount === 10) {
+        showCongratsPopup();
+    }
+}
+
+function showCongratsPopup() {
+    const popup = document.createElement("div");
+    popup.classList.add("congrats-popup");
+    popup.innerHTML = `
+        <div class="popup-content">
+            <h2>💸 Way to get that money!</h2>
+            <img src="https://media.tenor.com/twtTj9mRY5kAAAAd/louknae.gif" alt="Congrats" />
+            <button id="close-popup">Keep Collecting!</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+
+    document.getElementById("close-popup").addEventListener("click", () => {
+        popup.remove();
+    });
+}
 
 function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
 
+    document.addEventListener("DOMContentLoaded", () => {
+    loadCasinoData();
+    loadMostCollectedCasino();
+});
+
     // Example data (replace with API or backend data)
     const casinos = [
-                    { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
-        { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
+        { name: "Stake US", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
+        { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
         { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
-        { name: "Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
+        { name: "SpinBlitz", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null },
         { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
         { name: "Pulsz", url: "https://www.pulsz.com/?invited_by=utfk4r", lastCollection: null, nextAvailable: null },
         { name: "Pulsz Bingo", url: "https://pulszbingo.com", lastCollection: null, nextAvailable: null },
-        { name: "Stake US", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
         { name: "Wow Vegas", url: "https://www.wowvegas.com/?raf=3615494", lastCollection: null, nextAvailable: null },
         { name: "McLuck", url: "https://www.mcluck.com/?r=908900038", lastCollection: null, nextAvailable: null },
         { name: "Mega Bonanza", url: "https://www.megabonanza.com/?r=72781897", lastCollection: null, nextAvailable: null },
@@ -39,7 +78,6 @@ function loadCasinoData() {
         { name: "MyPrize.us", url: "https://myprize.us/invite/quietMorning197", lastCollection: null, nextAvailable: null },
         { name: "Modo.us", url: "https://modo.us?referralCode=61MN6A", lastCollection: null, nextAvailable: null },
         { name: "Spinsala", url: "https://spinsala.com/en?invite=daym", lastCollection: null, nextAvailable: null },
-        { name: "Gamba", url: "https://gamba.com?c=Jme", lastCollection: null, nextAvailable: null },
         { name: "Clash.gg", url: "https://clash.gg/r/stakestats", lastCollection: null, nextAvailable: null },
         { name: "Chumba", url: "https://Chumbacasino.com", lastCollection: null, nextAvailable: null },
         { name: "Luckyland Slots", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null },
@@ -47,8 +85,12 @@ function loadCasinoData() {
         { name: "Legendz", url: "https://legendz.com/?referred_by_id=221602", lastCollection: null, nextAvailable: null },
         { name: "NoLimitCoins", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null },
         { name: "Goated", url: "https://www.goated.com/r/YDRZLJ", lastCollection: null, nextAvailable: null },
-        { name: "SpinBlitz", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null }
-    ];
+        { name: "Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
+        { name: "Gamba", url: "https://gamba.com?c=Jme", lastCollection: null, nextAvailable: null },
+
+            ];
+
+    
 
     casinos.forEach((casino) => {
         const row = document.createElement("tr");
@@ -59,15 +101,6 @@ function loadCasinoData() {
             <td><input type="checkbox" class="collect-checkbox" id="checkbox-${casino.id}"></td>
         `;
         casinoList.appendChild(row);
-    });
-
-    document.querySelectorAll(".casino-link").forEach((link) => {
-        link.addEventListener("click", (event) => {
-            event.preventDefault();
-            startCountdown(event.target.dataset.id);
-            markCheckbox(event.target.dataset.id);
-            window.open(event.target.href, "_blank");
-        });
     });
 }
 
@@ -99,11 +132,9 @@ function markCheckbox(casinoId) {
 
 function loadMostCollectedCasino() {
     const mostCollectedEl = document.getElementById("most-collected");
-
-    // Fetch this dynamically if you have backend tracking, otherwise use a placeholder
     mostCollectedEl.textContent = "Loading...";
-    
+
     setTimeout(() => {
-        mostCollectedEl.textContent = "Stake.us"; // Example, replace with actual API call
+        mostCollectedEl.textContent = "Stake.us"; // Example; replace with real API if needed
     }, 2000);
 }
