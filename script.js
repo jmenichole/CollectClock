@@ -119,6 +119,36 @@ function startCountdown(casinoId) {
     }
 
     updateCountdown();
+    document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".casino-checkbox");
+    const userId = getUserIdFromURL(); // Extract user ID from the URL
+
+    // Load saved selections
+    if (userId) {
+        const savedSelections = JSON.parse(localStorage.getItem(`casinoSelections_${userId}`)) || {};
+        checkboxes.forEach((checkbox) => {
+            if (savedSelections[checkbox.id]) {
+                checkbox.checked = true;
+            }
+        });
+    }
+
+    // Save selections when clicked
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", function () {
+            let selections = JSON.parse(localStorage.getItem(`casinoSelections_${userId}`)) || {};
+            selections[checkbox.id] = checkbox.checked;
+            localStorage.setItem(`casinoSelections_${userId}`, JSON.stringify(selections));
+        });
+    });
+});
+
+// Helper function to get user ID from the URL
+function getUserIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("user"); // This should match the ?user=USER_ID in the link sent by the bot
+}
+
 }
 
 function markCheckbox(casinoId) {
