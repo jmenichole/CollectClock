@@ -163,3 +163,72 @@ function loadMostCollectedCasino() {
         mostCollectedEl.textContent = "Stake.us";
     }, 2000);
 }
+document.addEventListener("DOMContentLoaded", async function () {
+    const loginButton = document.getElementById("login-button");
+    const userInfoContainer = document.getElementById("user-info");
+
+    // Check if user data is already stored
+    const storedUser = localStorage.getItem("discordUser");
+    if (storedUser) {
+        displayUserInfo(JSON.parse(storedUser));
+    } else {
+        // Check if there's an auth code in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        if (code) {
+            await fetchUserData(code);
+        }
+    }
+
+    async function fetchUserData(authCode) {
+        try {
+            const clientId = "1336968746450812928";
+            const clientSecret = "gR0uv3QZ0UL6xYW1U7nrXohtthpuU-Or";
+            const redirectUri = "https://jmenichole.github.io/CollectClock/";
+            
+            // Exchange the auth code for an access token
+            const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({
+                    client_id: clientId,
+                    client_secret: clientSecret,
+                    grant_type: "authorization_code",
+                    code: authCode,
+                    redirect_uri: redirectUri,
+                }),
+            });
+
+            const tokenData = await tokenResponse.json();
+            if (!tokenData.access_token) return;
+
+            // Fetch user info using the access token
+            const userResponse = await fetch("https://discord.com/api/users/@me", {
+                headers: { Authorization: `Bearer ${tokenData.access_token}` },
+            });
+
+            const userData = await userResponse.json();
+            localStorage.setItem("discordUser", JSON.stringify(userData));
+
+            displayUserInfo(userData);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    }
+
+    function displayUserInfo(user) {
+        loginButton.style.display = "none"; // Hide login button
+
+        userInfoContainer.innerHTML = `
+            <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" alt="Avatar" width="50">
+            <span>Welcome, ${user.username}!</span>
+            <button id="logout-button">Logout</button>
+        `;
+
+        document.getElementById("logout-button").addEventListener("click", function () {
+            localStorage.removeItem("discordUser");
+            window.location.href = "https://jmenichole.github.io/CollectClock/"; // Refresh
+        });
+    }
+});
+
