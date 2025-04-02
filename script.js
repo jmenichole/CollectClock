@@ -36,6 +36,7 @@ function loadCasinoData() {
         { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
         { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
         { name: "Rainbet", url: "https://rainbet.com/?r=jmenichole", lastCollection: null, nextAvailable: null},
+         { name: "Bitsler.io", url: "https://bitsler.io/?ref=jmenichole", lastCollection: null, nextAvailible: null },
         { name: "SpinBlitz", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null },
         { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
         { name: "Pulsz", url: "https://www.pulsz.com/?invited_by=utfk4r", lastCollection: null, nextAvailable: null },
