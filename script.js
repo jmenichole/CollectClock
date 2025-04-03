@@ -52,15 +52,22 @@ function loadCasinoData() {
         // Initialize all casinos with a neutral sort value
         casinoTimeData[casino.id] = { 
             timeLeft: -1,  // -1 means not set yet
-            status: "unknown" // "available", "countdown", or "unknown"
+            status: "unknown", // "available", "countdown", or "unknown"
+            hidden: false // New property to track if casino is hidden
         };
 
         const row = document.createElement("tr");
         row.id = `row-${casino.id}`;
+        row.className = "casino-row"; // Add class for animations
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
             <td class="countdown" id="countdown-${casino.id}">-</td>
             <td><input type="checkbox" class="collect-checkbox" id="checkbox-${casino.id}"></td>
+            <td class="action-buttons">
+                <button class="hide-button" data-id="${casino.id}">
+                    <i class="fas fa-eye-slash"></i>
+                </button>
+            </td>
         `;
         casinoList.appendChild(row);
     });
@@ -82,13 +89,61 @@ function loadCasinoData() {
         });
     });
 
+    // Add event listeners to hide buttons
+    document.querySelectorAll(".hide-button").forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const casinoId = event.currentTarget.dataset.id;
+            toggleCasinoVisibility(casinoId);
+        });
+    });
+
     // Load saved data after creating all casino elements
     const dataLoaded = loadSavedCasinoData();
     
     // If data was successfully loaded, sort the list
     if (dataLoaded) {
         sortCasinoList();
+        applyHiddenState(); // Apply hidden state after loading data
     }
+
+    // Set up automatic sorting every minute
+    setInterval(sortCasinoList, 60000);
+}
+
+// Function to toggle casino visibility
+function toggleCasinoVisibility(casinoId) {
+    const row = document.getElementById(`row-${casinoId}`);
+    
+    // Toggle the hidden state in our data structure
+    casinoTimeData[casinoId].hidden = !casinoTimeData[casinoId].hidden;
+    
+    // Apply visual change with animation
+    if (casinoTimeData[casinoId].hidden) {
+        row.classList.add("hiding");
+        setTimeout(() => {
+            row.classList.add("hidden");
+            row.classList.remove("hiding");
+        }, 500); // Match this to the CSS transition time
+    } else {
+        row.classList.remove("hidden");
+        row.classList.add("revealing");
+        setTimeout(() => {
+            row.classList.remove("revealing");
+        }, 500);
+    }
+    
+    // Save the updated state
+    saveCasinoData();
+}
+
+// Function to apply hidden state based on saved data
+function applyHiddenState() {
+    Object.keys(casinoTimeData).forEach(casinoId => {
+        const row = document.getElementById(`row-${casinoId}`);
+        if (row && casinoTimeData[casinoId].hidden) {
+            row.classList.add("hidden");
+        }
+    });
 }
 
 // Global object to store casino time data for sorting
@@ -128,9 +183,14 @@ function loadSavedCasinoData() {
         Object.keys(parsedData.casinoTimeData).forEach(casinoId => {
             const casinoData = parsedData.casinoTimeData[casinoId];
             
+            // Preserve hidden state if it exists in saved data
+            if (casinoData.hidden !== undefined) {
+                casinoTimeData[casinoId].hidden = casinoData.hidden;
+            }
+            
             // Skip if status is unknown
             if (casinoData.status === "unknown") {
-                casinoTimeData[casinoId] = casinoData;
+                casinoTimeData[casinoId].status = casinoData.status;
                 return;
             }
             
@@ -140,34 +200,33 @@ function loadSavedCasinoData() {
                 
                 if (newTimeLeft <= 0) {
                     // Timer has expired, mark as available
-                    casinoTimeData[casinoId] = {
-                        timeLeft: -1,
-                        status: "available"
-                    };
+                    casinoTimeData[casinoId].timeLeft = -1;
+                    casinoTimeData[casinoId].status = "available";
                     
                     // Update the countdown display
                     const countdownEl = document.getElementById(`countdown-${casinoId}`);
                     if (countdownEl) {
                         countdownEl.textContent = "AVAILABLE";
+                        countdownEl.classList.add("available"); // Add class for styling
                     }
                 } else {
                     // Timer still running
-                    casinoTimeData[casinoId] = {
-                        timeLeft: newTimeLeft,
-                        status: "countdown"
-                    };
+                    casinoTimeData[casinoId].timeLeft = newTimeLeft;
+                    casinoTimeData[casinoId].status = "countdown";
                     
                     // Restart the countdown with adjusted time
                     restartCountdown(casinoId, newTimeLeft);
                 }
             } else {
                 // For available status, just restore it
-                casinoTimeData[casinoId] = casinoData;
+                casinoTimeData[casinoId].timeLeft = casinoData.timeLeft;
+                casinoTimeData[casinoId].status = casinoData.status;
                 
                 // Update the countdown display
                 const countdownEl = document.getElementById(`countdown-${casinoId}`);
                 if (countdownEl && casinoData.status === "available") {
                     countdownEl.textContent = "AVAILABLE";
+                    countdownEl.classList.add("available"); // Add class for styling
                 }
             }
         });
@@ -177,6 +236,12 @@ function loadSavedCasinoData() {
             const checkbox = document.getElementById(`checkbox-${casinoId}`);
             if (checkbox) {
                 checkbox.checked = parsedData.checkboxes[casinoId];
+                
+                // Add visual indicator for checked items
+                const row = document.getElementById(`row-${casinoId}`);
+                if (row && parsedData.checkboxes[casinoId]) {
+                    row.classList.add("collected");
+                }
             }
         });
         
@@ -191,11 +256,22 @@ function startCountdown(casinoId) {
     const countdownEl = document.getElementById(`countdown-${casinoId}`);
     let timeLeft = 86400; // 24 hours in seconds
 
+    // Remove available class if it exists
+    countdownEl.classList.remove("available");
+
     // Update casino time data
     casinoTimeData[casinoId] = {
         timeLeft: timeLeft,
-        status: "countdown"
+        status: "countdown",
+        hidden: casinoTimeData[casinoId].hidden // Preserve hidden state
     };
+
+    // Add animation class to the row
+    const row = document.getElementById(`row-${casinoId}`);
+    row.classList.add("countdown-started");
+    setTimeout(() => {
+        row.classList.remove("countdown-started");
+    }, 1000);
 
     // Save data immediately when a countdown starts
     saveCasinoData();
@@ -222,8 +298,16 @@ function startCountdown(casinoId) {
             }
         } else {
             countdownEl.textContent = "AVAILABLE";
+            countdownEl.classList.add("available"); // Add class for styling
             casinoTimeData[casinoId].status = "available";
             casinoTimeData[casinoId].timeLeft = -1;
+            
+            // Add animation class for available notification
+            row.classList.add("countdown-finished");
+            setTimeout(() => {
+                row.classList.remove("countdown-finished");
+            }, 2000);
+            
             sortCasinoList();
             saveCasinoData();
         }
@@ -239,6 +323,9 @@ function restartCountdown(casinoId, savedTimeLeft) {
     if (!countdownEl) return;
     
     let timeLeft = savedTimeLeft;
+
+    // Remove available class if it exists
+    countdownEl.classList.remove("available");
 
     function updateCountdown() {
         let hours = Math.floor(timeLeft / 3600);
@@ -262,8 +349,17 @@ function restartCountdown(casinoId, savedTimeLeft) {
             }
         } else {
             countdownEl.textContent = "AVAILABLE";
+            countdownEl.classList.add("available"); // Add class for styling
             casinoTimeData[casinoId].status = "available";
             casinoTimeData[casinoId].timeLeft = -1;
+            
+            // Add animation class for available notification
+            const row = document.getElementById(`row-${casinoId}`);
+            row.classList.add("countdown-finished");
+            setTimeout(() => {
+                row.classList.remove("countdown-finished");
+            }, 2000);
+            
             sortCasinoList();
             saveCasinoData();
         }
@@ -282,8 +378,12 @@ function sortCasinoList() {
         const aId = a.id.replace('row-', '');
         const bId = b.id.replace('row-', '');
         
-        const aData = casinoTimeData[aId] || { status: "unknown", timeLeft: -1 };
-        const bData = casinoTimeData[bId] || { status: "unknown", timeLeft: -1 };
+        const aData = casinoTimeData[aId] || { status: "unknown", timeLeft: -1, hidden: false };
+        const bData = casinoTimeData[bId] || { status: "unknown", timeLeft: -1, hidden: false };
+        
+        // Hidden items go to the bottom
+        if (aData.hidden && !bData.hidden) return 1;
+        if (!aData.hidden && bData.hidden) return -1;
         
         // First sort by status: "available" > "countdown" > "unknown"
         if (aData.status === "available" && bData.status !== "available") return -1;
@@ -298,16 +398,76 @@ function sortCasinoList() {
         return 0;
     });
     
-    // Reappend the rows in the new order
-    rows.forEach(row => casinoList.appendChild(row));
+    // Reappend the rows in the new order with animation
+    rows.forEach(row => {
+        row.classList.add("sorting");
+        casinoList.appendChild(row);
+        // Remove the class after animation completes
+        setTimeout(() => {
+            row.classList.remove("sorting");
+        }, 300);
+    });
 }
 
 function markCheckbox(casinoId) {
-    document.getElementById(`checkbox-${casinoId}`).checked = true;
+    const checkbox = document.getElementById(`checkbox-${casinoId}`);
+    checkbox.checked = true;
+    
+    // Add visual indicator for collected items
+    const row = document.getElementById(`row-${casinoId}`);
+    row.classList.add("collected");
+    
     saveCasinoData(); // Save when a checkbox is checked
 }
 
 // Add an event listener to save data before the page is unloaded
 window.addEventListener('beforeunload', () => {
     saveCasinoData();
+});
+
+// Add button to toggle visibility of hidden casinos
+document.addEventListener("DOMContentLoaded", () => {
+    const controlsDiv = document.createElement("div");
+    controlsDiv.className = "controls";
+    controlsDiv.innerHTML = `
+        <button id="toggle-hidden" class="control-button">
+            <i class="fas fa-eye"></i> Show Hidden
+        </button>
+        <button id="reset-all" class="control-button">
+            <i class="fas fa-redo"></i> Reset All
+        </button>
+    `;
+    
+    document.querySelector("header").appendChild(controlsDiv);
+    
+    // Toggle hidden casinos
+    document.getElementById("toggle-hidden").addEventListener("click", () => {
+        const button = document.getElementById("toggle-hidden");
+        const hiddenRows = document.querySelectorAll(".hidden");
+        
+        if (button.classList.contains("showing-hidden")) {
+            // Hide them again
+            hiddenRows.forEach(row => {
+                row.style.display = "none";
+            });
+            button.innerHTML = '<i class="fas fa-eye"></i> Show Hidden';
+            button.classList.remove("showing-hidden");
+        } else {
+            // Show them
+            hiddenRows.forEach(row => {
+                row.style.display = "table-row";
+                row.style.opacity = "0.5";
+            });
+            button.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Hidden';
+            button.classList.add("showing-hidden");
+        }
+    });
+    
+    // Reset all button
+    document.getElementById("reset-all").addEventListener("click", () => {
+        if (confirm("Reset all timers and checkboxes?")) {
+            localStorage.removeItem(STORAGE_KEY);
+            location.reload();
+        }
+    });
 });
