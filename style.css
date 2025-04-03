@@ -63,6 +63,11 @@ header h3 {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* Make casino names align to the left */
+.tracker-table td:first-child {
+    text-align: left;
+}
+
 .tracker-table a {
     color: gold;
     text-decoration: underline;
@@ -204,5 +209,3 @@ input[type="checkbox"] {
 a:visited {
     color: white;
 }
-
-
