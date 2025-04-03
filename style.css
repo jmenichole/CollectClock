@@ -15,54 +15,74 @@ header h1 {
     font-weight: 700;
     color: gold;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .tracker-table {
     width: 95%;
-    max-width: 1200px;
+    max-width: 800px; /* Reduced from 1200px since we have fewer columns */
     margin: 20px auto;
     border-collapse: separate;
-    border-spacing: 0 10px; /* Creates vertical spacing between rows */
+    border-spacing: 0 12px; /* Creates vertical spacing between rows */
 }
 
 .tracker-table tr {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     border-radius: 8px;
     transition: transform 0.2s, box-shadow 0.3s;
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .tracker-table tr:hover {
     transform: scale(1.01);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
 }
 
-/* Make casino names align to the left */
+/* Make casino names align to the left and give them more space */
 .tracker-table td:first-child {
     text-align: left;
+    width: 60%; /* Give more width to the casino name column */
+    border-radius: 8px 0 0 8px; /* Round the left corners */
+}
+
+/* Style the countdown column */
+.tracker-table td.countdown {
+    width: 25%;
+    text-align: center;
+}
+
+/* Style the checkbox column */
+.tracker-table td:last-child {
+    width: 15%;
+    text-align: center;
+    border-radius: 0 8px 8px 0; /* Round the right corners */
 }
 
 /* Increase cell padding for better touch targets */
-.tracker-table td, 
-.tracker-table th {
-    padding: 12px 8px;
+.tracker-table td {
+    padding: 15px 12px;
 }
 
 .tracker-table a {
     color: gold;
-    text-decoration: underline;
+    text-decoration: none; /* Remove underline for cleaner look */
     transition: color 0.3s;
     display: block; /* Makes the entire area clickable */
     padding: 5px 0; /* Adds some vertical padding inside the link */
+    font-weight: 500; /* Make casino names slightly bolder */
+    font-size: 1.05rem; /* Slightly larger font for casino names */
 }
 
 .tracker-table a:hover {
-    color: teal;
+    color: #FFD700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); /* Subtle glow on hover */
 }
 
 input[type="checkbox"] {
-    transform: scale(1.4);
+    transform: scale(1.5);
     cursor: pointer;
+    accent-color: gold; /* Makes checked boxes gold colored */
 }
 
 .support-button {
@@ -98,10 +118,10 @@ input[type="checkbox"] {
 @media (max-width: 768px) {
     header h1 {
         font-size: 2.2rem;
+        margin-bottom: 1rem;
     }
-    .tracker-table th,
     .tracker-table td {
-        padding: 12px 6px; /* Maintain good vertical spacing on mobile */
+        padding: 12px 8px; /* Maintain good vertical spacing on mobile */
         font-size: 0.9rem;
     }
     .tracker-table {
