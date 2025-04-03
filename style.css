@@ -22,13 +22,13 @@ header h1 {
     width: 95%;
     max-width: 1200px;
     margin: 20px auto;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Creates vertical spacing between rows */
 }
 
 .tracker-table tr {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     border-radius: 8px;
-    margin-bottom: 10px;
     transition: transform 0.2s, box-shadow 0.3s;
 }
 
@@ -42,11 +42,20 @@ header h1 {
     text-align: left;
 }
 
+/* Increase cell padding for better touch targets */
+.tracker-table td, 
+.tracker-table th {
+    padding: 12px 8px;
+}
+
 .tracker-table a {
     color: gold;
     text-decoration: underline;
     transition: color 0.3s;
+    display: block; /* Makes the entire area clickable */
+    padding: 5px 0; /* Adds some vertical padding inside the link */
 }
+
 .tracker-table a:hover {
     color: teal;
 }
@@ -92,8 +101,14 @@ input[type="checkbox"] {
     }
     .tracker-table th,
     .tracker-table td {
-        padding: 8px;
+        padding: 12px 6px; /* Maintain good vertical spacing on mobile */
         font-size: 0.9rem;
+    }
+    .tracker-table {
+        border-spacing: 0 15px; /* Even more spacing on mobile */
+    }
+    .tracker-table a {
+        padding: 8px 0; /* Larger touch target on mobile */
     }
     .support-button {
         padding: 8px 14px;
