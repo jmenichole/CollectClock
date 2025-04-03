@@ -18,28 +18,21 @@ header h1 {
     margin-bottom: 0.5rem;
 }
 
-header h3 {
-    margin-top: 0.3rem;
-    color: gold;
-}
-
-.leaderboard-table, .tracker-table {
+.tracker-table {
     width: 95%;
     max-width: 1200px;
     margin: 20px auto;
     border-collapse: collapse;
 }
 
-.tracker-table tr,
-.leaderboard-table tr {
+.tracker-table tr {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     border-radius: 8px;
     margin-bottom: 10px;
     transition: transform 0.2s, box-shadow 0.3s;
 }
 
-.tracker-table tr:hover,
-.leaderboard-table tr:hover {
+.tracker-table tr:hover {
     transform: scale(1.01);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
@@ -88,23 +81,6 @@ input[type="checkbox"] {
     margin-top: 40px;
 }
 
-.ticker-container {
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-    margin-top: 30px;
-}
-.ticker {
-    display: inline-block;
-    animation: ticker 25s linear infinite;
-    color: gold;
-    font-weight: 500;
-}
-@keyframes ticker {
-    from { transform: translateX(100%); }
-    to { transform: translateX(-100%); }
-}
-
 .countdown {
     font-size: 0.9rem;
     color: #FFD700;
@@ -114,8 +90,8 @@ input[type="checkbox"] {
     header h1 {
         font-size: 2.2rem;
     }
-    .leaderboard-table th, .tracker-table th,
-    .leaderboard-table td, .tracker-table td {
+    .tracker-table th,
+    .tracker-table td {
         padding: 8px;
         font-size: 0.9rem;
     }
@@ -142,49 +118,6 @@ input[type="checkbox"] {
 
 .suggest-casino a:hover {
     color: teal;
-}
-
-.congrats-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.popup-content {
-    background: #1f1f3d;
-    border: 2px solid gold;
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
-    color: gold;
-}
-
-.popup-content img {
-    width: 250px;
-    margin: 20px 0;
-    border-radius: 8px;
-}
-
-.popup-content button {
-    background: linear-gradient(90deg, gold, darkgoldenrod);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-}
-.popup-content button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(90deg, darkgoldenrod, goldenrod);
 }
 
 a:visited {
