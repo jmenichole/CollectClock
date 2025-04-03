@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCasinoData();
     loadMostCollectedCasino();
+    initCryptoTicker();
 });
 
 let clickCount = 0;
@@ -190,73 +191,74 @@ function loadMostCollectedCasino() {
     }, 2000);
 }
 
-document.addEventListener("DOMContentLoaded", async function () {
-    const loginButton = document.getElementById("login-button");
-    const userInfoContainer = document.getElementById("user-info");
-
-    // Check if user data is already stored
-    const storedUser = localStorage.getItem("discordUser");
-    if (storedUser) {
-        displayUserInfo(JSON.parse(storedUser));
-    } else {
-        // Check if there's an auth code in the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get("code");
-        if (code) {
-            await fetchUserData(code);
-        }
-    }
-
-    async function fetchUserData(authCode) {
-        try {
-            const clientId = "1336968746450812928";
-            const clientSecret = "gR0uv3QZ0UL6xYW1U7nrXohtthpuU-Or";
-            const redirectUri = "https://jmenichole.github.io/CollectClock/";
-            
-            // Exchange the auth code for an access token
-            const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams({
-                    client_id: clientId,
-                    client_secret: clientSecret,
-                    grant_type: "authorization_code",
-                    code: authCode,
-                    redirect_uri: redirectUri,
-                }),
-            });
-
-            const tokenData = await tokenResponse.json();
-            if (!tokenData.access_token) return;
-
-            // Fetch user info using the access token
-            const userResponse = await fetch("https://discord.com/api/users/@me", {
-                headers: { Authorization: `Bearer ${tokenData.access_token}` },
-            });
-
-            const userData = await userResponse.json();
-            localStorage.setItem("discordUser", JSON.stringify(userData));
-
-            displayUserInfo(userData);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-        }
-    }
-
-    function displayUserInfo(user) {
-        if (!loginButton) return;
-        
-        loginButton.style.display = "none"; // Hide login button
-
-        userInfoContainer.innerHTML = `
-            <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" alt="Avatar" width="50">
-            <span>Welcome, ${user.username}!</span>
-            <button id="logout-button">Logout</button>
-        `;
-
-        document.getElementById("logout-button").addEventListener("click", function () {
-            localStorage.removeItem("discordUser");
-            window.location.href = "https://jmenichole.github.io/CollectClock/"; // Refresh
+// Function to initialize and update the crypto ticker
+function initCryptoTicker() {
+    const cryptoTicker = document.getElementById("crypto-ticker");
+    
+    // Sample crypto data (would be fetched from an API in production)
+    const cryptos = [
+        { symbol: "BTC", name: "Bitcoin", price: 67890.45, change: 2.34 },
+        { symbol: "ETH", name: "Ethereum", price: 3421.78, change: -1.25 },
+        { symbol: "SOL", name: "Solana", price: 142.35, change: 5.67 },
+        { symbol: "ADA", name: "Cardano", price: 0.45, change: 0.89 },
+        { symbol: "DOGE", name: "Dogecoin", price: 0.12, change: -3.45 },
+        { symbol: "DOT", name: "Polkadot", price: 6.78, change: 1.23 },
+        { symbol: "MATIC", name: "Polygon", price: 0.56, change: 4.56 },
+        { symbol: "AVAX", name: "Avalanche", price: 34.56, change: -2.34 },
+        { symbol: "LINK", name: "Chainlink", price: 14.32, change: 3.21 },
+        { symbol: "UNI", name: "Uniswap", price: 7.89, change: -0.67 }
+    ];
+    
+    // Create ticker content
+    let tickerContent = "";
+    cryptos.forEach(crypto => {
+        const changeClass = crypto.change >= 0 ? "crypto-up" : "crypto-down";
+        const changeSymbol = crypto.change >= 0 ? "▲" : "▼";
+        const formattedPrice = crypto.price.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         });
-    }
-});
+        const formattedChange = Math.abs(crypto.change).toFixed(2);
+        
+        tickerContent += `
+            <span class="crypto-item">
+                ${crypto.symbol}: $${formattedPrice} 
+                <span class="${changeClass}">${changeSymbol} ${formattedChange}%</span>
+            </span>
+        `;
+    });
+    
+    cryptoTicker.innerHTML = tickerContent + tickerContent; // Duplicate for smoother looping
+    
+    // Update crypto prices every 60 seconds in a real app
+    // This would involve fetching from a crypto API
+    setInterval(updateCryptoPrices, 60000);
+}
+
+// Function to update crypto prices (simulated)
+function updateCryptoPrices() {
+    const cryptoItems = document.querySelectorAll(".crypto-item");
+    
+    cryptoItems.forEach(item => {
+        // In a real app, you would fetch actual prices
+        // This is just simulating price changes
+        const currentPrice = parseFloat(item.textContent.match(/\$([0-9,.]+)/)[1].replace(/,/g, ''));
+        const randomChange = (Math.random() * 4 - 2) / 100; // Random change between -2% and 2%
+        const newPrice = currentPrice * (1 + randomChange);
+        
+        const changeClass = randomChange >= 0 ? "crypto-up" : "crypto-down";
+        const changeSymbol = randomChange >= 0 ? "▲" : "▼";
+        const formattedChange = Math.abs(randomChange * 100).toFixed(2);
+        
+        // Update the price display
+        const priceText = item.textContent.replace(/\$([0-9,.]+)/, `$${newPrice.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`);
+        
+        // Update the change indicator
+        const changeSpan = item.querySelector("span");
+        changeSpan.className = changeClass;
+        changeSpan.textContent = `${changeSymbol} ${formattedChange}%`;
+    });
+}
