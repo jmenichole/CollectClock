@@ -23,30 +23,12 @@
 <body>
     <!-- Header Section -->
     <header>
-        <h1>CollectClock Dashboard </h1>
-        <a href="https://discord.com/oauth2/authorize?client_id=1336968746450812928&redirect_uri=https%3A%2F%2Fjmenichole.github.io%2FCollectClock%2F&response_type=code&scope=identify" class="discord-icon">
-   <i class="fab fa-discord"></i> Login
-</a>
-
+        <h1>CollectClock Dashboard</h1>
     </header>
 
     <!-- Top Stats -->
     <div id="top-stats">
-        <h3>🏆 Most Collected:  <span id="most-collected">Loading...</span></h3>
-    </div>
-
-    <!-- User Section -->
-    <div id="user-section">
-        <div id="user-info" style="display: none;">
-            <img id="user-avatar" alt="User Avatar" class="avatar">
-            <div class="user-details">
-                <span id="username" class="username"></span>
-                <div class="streak-info">
-                    <span>Streak: <span id="current-streak">0</span></span>
-                    <span>Best: <span id="highest-streak">0</span></span>
-                </div>
-            </div>
-        </div>
+        <h3>🏆 Most Collected: <span id="most-collected">Loading...</span></h3>
     </div>
 
     <main>
@@ -83,14 +65,16 @@
         </table>
     </main>
 
-    <div class="ticker-container">
-        <div class="ticker" id="ticker">
-            <!-- Ticker items will be added dynamically via JavaScript -->
+    <div class="suggest-casino">
+        <p>🎲 Don't see your casino? <a href="https://discord.gg/q4K9n9hEpR" target="_blank">Send me a message on Discord</a> and we'll add it!</p>
+    </div>
+
+    <!-- Crypto Price Ticker -->
+    <div class="crypto-ticker-container">
+        <div class="crypto-ticker" id="crypto-ticker">
+            <!-- Crypto prices will be added dynamically via JavaScript -->
         </div>
     </div>
-<div class="suggest-casino">
-  <p>🎲 Don't see your casino? <a href="https://discord.gg/q4K9n9hEpR" target="_blank">Send me a message on Discord</a> and we'll add it!</p>
-</div>
 
     <!-- Bottom Bar -->
     <div class="bottom-bar">
