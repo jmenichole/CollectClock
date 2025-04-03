@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCasinoData();
-    loadMostCollectedCasino();
 });
 
 function loadCasinoData() {
@@ -307,15 +306,6 @@ function sortCasinoList() {
 function markCheckbox(casinoId) {
     document.getElementById(`checkbox-${casinoId}`).checked = true;
     saveCasinoData(); // Save when a checkbox is checked
-}
-
-function loadMostCollectedCasino() {
-    const mostCollectedEl = document.getElementById("most-collected");
-    mostCollectedEl.textContent = "Loading...";
-
-    setTimeout(() => {
-        mostCollectedEl.textContent = "Stake.us";
-    }, 2000);
 }
 
 // Add an event listener to save data before the page is unloaded
