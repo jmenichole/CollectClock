@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCasinoData();
     loadMostCollectedCasino();
-    initCryptoTicker();
 });
 
 function loadCasinoData() {
@@ -317,78 +316,6 @@ function loadMostCollectedCasino() {
     setTimeout(() => {
         mostCollectedEl.textContent = "Stake.us";
     }, 2000);
-}
-
-// Function to initialize and update the crypto ticker
-function initCryptoTicker() {
-    const cryptoTicker = document.getElementById("crypto-ticker");
-    
-    // Sample crypto data (would be fetched from an API in production)
-    const cryptos = [
-        { symbol: "BTC", name: "Bitcoin", price: 67890.45, change: 2.34 },
-        { symbol: "ETH", name: "Ethereum", price: 3421.78, change: -1.25 },
-        { symbol: "SOL", name: "Solana", price: 142.35, change: 5.67 },
-        { symbol: "ADA", name: "Cardano", price: 0.45, change: 0.89 },
-        { symbol: "DOGE", name: "Dogecoin", price: 0.12, change: -3.45 },
-        { symbol: "DOT", name: "Polkadot", price: 6.78, change: 1.23 },
-        { symbol: "MATIC", name: "Polygon", price: 0.56, change: 4.56 },
-        { symbol: "AVAX", name: "Avalanche", price: 34.56, change: -2.34 },
-        { symbol: "LINK", name: "Chainlink", price: 14.32, change: 3.21 },
-        { symbol: "UNI", name: "Uniswap", price: 7.89, change: -0.67 }
-    ];
-    
-    // Create ticker content
-    let tickerContent = "";
-    cryptos.forEach(crypto => {
-        const changeClass = crypto.change >= 0 ? "crypto-up" : "crypto-down";
-        const changeSymbol = crypto.change >= 0 ? "▲" : "▼";
-        const formattedPrice = crypto.price.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-        const formattedChange = Math.abs(crypto.change).toFixed(2);
-        
-        tickerContent += `
-            <span class="crypto-item">
-                ${crypto.symbol}: $${formattedPrice} 
-                <span class="${changeClass}">${changeSymbol} ${formattedChange}%</span>
-            </span>
-        `;
-    });
-    
-    cryptoTicker.innerHTML = tickerContent + tickerContent; // Duplicate for smoother looping
-    
-    // Update crypto prices every 60 seconds in a real app
-    // This would involve fetching from a crypto API
-    setInterval(updateCryptoPrices, 60000);
-}
-
-// Function to update crypto prices (simulated)
-function updateCryptoPrices() {
-    const cryptoItems = document.querySelectorAll(".crypto-item");
-    
-    cryptoItems.forEach(item => {
-        // In a real app, you would fetch actual prices
-        // This is just simulating price changes
-        const currentPrice = parseFloat(item.textContent.match(/\$([0-9,.]+)/)[1].replace(/,/g, ''));
-        const randomChange = (Math.random() * 4 - 2) / 100; // Random change between -2% and 2%
-        const newPrice = currentPrice * (1 + randomChange);
-        
-        const changeClass = randomChange >= 0 ? "crypto-up" : "crypto-down";
-        const changeSymbol = randomChange >= 0 ? "▲" : "▼";
-        const formattedChange = Math.abs(randomChange * 100).toFixed(2);
-        
-        // Update the price display
-        const priceText = item.textContent.replace(/\$([0-9,.]+)/, `$${newPrice.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}`);
-        
-        // Update the change indicator
-        const changeSpan = item.querySelector("span");
-        changeSpan.className = changeClass;
-        changeSpan.textContent = `${changeSymbol} ${formattedChange}%`;
-    });
 }
 
 // Add an event listener to save data before the page is unloaded
