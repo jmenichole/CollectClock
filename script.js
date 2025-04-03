@@ -59,7 +59,6 @@ function loadCasinoData() {
         row.id = `row-${casino.id}`;
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
-            <td>-</td>
             <td class="countdown" id="countdown-${casino.id}">-</td>
             <td><input type="checkbox" class="collect-checkbox" id="checkbox-${casino.id}"></td>
         `;
