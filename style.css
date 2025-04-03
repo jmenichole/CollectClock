@@ -123,7 +123,7 @@ input[type="checkbox"] {
 
 .crypto-ticker {
     display: inline-block;
-    animation: crypto-scroll 30s linear infinite;
+    animation: crypto-scroll 60s linear infinite; /* Slowed down from 30s to 60s */
     color: gold;
     font-weight: 500;
 }
