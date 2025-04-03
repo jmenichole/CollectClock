@@ -23,25 +23,6 @@ header h3 {
     color: gold;
 }
 
-.discord-icon {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    background: #5865F2;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 10px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s, background 0.3s;
-    z-index: 10;
-}
-.discord-icon:hover {
-    transform: scale(1.05);
-    background: #4752C4;
-}
-
 .leaderboard-table, .tracker-table {
     width: 95%;
     max-width: 1200px;
@@ -122,6 +103,50 @@ input[type="checkbox"] {
 @keyframes ticker {
     from { transform: translateX(100%); }
     to { transform: translateX(-100%); }
+}
+
+/* Crypto Ticker Styling */
+.crypto-ticker-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    padding: 12px 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    margin-top: 20px;
+    position: fixed;
+    bottom: 80px;
+    left: 0;
+    z-index: 100;
+}
+
+.crypto-ticker {
+    display: inline-block;
+    animation: crypto-scroll 30s linear infinite;
+    color: gold;
+    font-weight: 500;
+}
+
+@keyframes crypto-scroll {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
+.crypto-item {
+    display: inline-block;
+    margin: 0 25px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.crypto-up {
+    color: #00ff7f;
+}
+
+.crypto-down {
+    color: #ff4757;
 }
 
 .countdown {
