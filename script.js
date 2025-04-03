@@ -32,6 +32,99 @@ function showCongratsPopup() {
 // Global object to store casino time data for sorting
 const casinoTimeData = {};
 
+// Storage key for casino data
+const STORAGE_KEY = 'collectClockCasinoData';
+
+// Function to save casino data to localStorage
+function saveCasinoData() {
+    const dataToSave = {
+        casinoTimeData: casinoTimeData,
+        checkboxes: {},
+        lastUpdated: new Date().getTime()
+    };
+    
+    // Save checkbox states
+    document.querySelectorAll('.collect-checkbox').forEach(checkbox => {
+        const id = checkbox.id.replace('checkbox-', '');
+        dataToSave.checkboxes[id] = checkbox.checked;
+    });
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+}
+
+// Function to load casino data from localStorage
+function loadSavedCasinoData() {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (!savedData) return false;
+    
+    try {
+        const parsedData = JSON.parse(savedData);
+        const currentTime = new Date().getTime();
+        const elapsedTime = Math.floor((currentTime - parsedData.lastUpdated) / 1000); // in seconds
+        
+        // Restore casino time data
+        Object.keys(parsedData.casinoTimeData).forEach(casinoId => {
+            const casinoData = parsedData.casinoTimeData[casinoId];
+            
+            // Skip if status is unknown
+            if (casinoData.status === "unknown") {
+                casinoTimeData[casinoId] = casinoData;
+                return;
+            }
+            
+            // If it was in countdown status, adjust the time
+            if (casinoData.status === "countdown") {
+                const newTimeLeft = casinoData.timeLeft - elapsedTime;
+                
+                if (newTimeLeft <= 0) {
+                    // Timer has expired, mark as available
+                    casinoTimeData[casinoId] = {
+                        timeLeft: -1,
+                        status: "available"
+                    };
+                    
+                    // Update the countdown display
+                    const countdownEl = document.getElementById(`countdown-${casinoId}`);
+                    if (countdownEl) {
+                        countdownEl.textContent = "AVAILABLE";
+                    }
+                } else {
+                    // Timer still running
+                    casinoTimeData[casinoId] = {
+                        timeLeft: newTimeLeft,
+                        status: "countdown"
+                    };
+                    
+                    // Restart the countdown with adjusted time
+                    restartCountdown(casinoId, newTimeLeft);
+                }
+            } else {
+                // For available status, just restore it
+                casinoTimeData[casinoId] = casinoData;
+                
+                // Update the countdown display
+                const countdownEl = document.getElementById(`countdown-${casinoId}`);
+                if (countdownEl && casinoData.status === "available") {
+                    countdownEl.textContent = "AVAILABLE";
+                }
+            }
+        });
+        
+        // Restore checkbox states
+        Object.keys(parsedData.checkboxes).forEach(casinoId => {
+            const checkbox = document.getElementById(`checkbox-${casinoId}`);
+            if (checkbox) {
+                checkbox.checked = parsedData.checkboxes[casinoId];
+            }
+        });
+        
+        return true;
+    } catch (error) {
+        console.error("Error loading saved casino data:", error);
+        return false;
+    }
+}
+
 function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
 
@@ -106,6 +199,21 @@ function loadCasinoData() {
             window.open(event.target.href, "_blank");
         });
     });
+
+    // Add event listeners to checkboxes to save state when clicked
+    document.querySelectorAll(".collect-checkbox").forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+            saveCasinoData();
+        });
+    });
+
+    // Load saved data after creating all casino elements
+    const dataLoaded = loadSavedCasinoData();
+    
+    // If data was successfully loaded, sort the list
+    if (dataLoaded) {
+        sortCasinoList();
+    }
 }
 
 function startCountdown(casinoId) {
@@ -117,6 +225,9 @@ function startCountdown(casinoId) {
         timeLeft: timeLeft,
         status: "countdown"
     };
+
+    // Save data immediately when a countdown starts
+    saveCasinoData();
 
     function updateCountdown() {
         let hours = Math.floor(timeLeft / 3600);
@@ -135,17 +246,59 @@ function startCountdown(casinoId) {
             // Sort every minute (to avoid too frequent DOM updates)
             if (timeLeft % 60 === 0) {
                 sortCasinoList();
+                // Save data every minute
+                saveCasinoData();
             }
         } else {
             countdownEl.textContent = "AVAILABLE";
             casinoTimeData[casinoId].status = "available";
             casinoTimeData[casinoId].timeLeft = -1;
             sortCasinoList();
+            saveCasinoData();
         }
     }
 
     updateCountdown();
     sortCasinoList();
+}
+
+// Function to restart a countdown from a saved timeLeft value
+function restartCountdown(casinoId, savedTimeLeft) {
+    const countdownEl = document.getElementById(`countdown-${casinoId}`);
+    if (!countdownEl) return;
+    
+    let timeLeft = savedTimeLeft;
+
+    function updateCountdown() {
+        let hours = Math.floor(timeLeft / 3600);
+        let minutes = Math.floor((timeLeft % 3600) / 60);
+        let seconds = timeLeft % 60;
+
+        countdownEl.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        
+        // Update the timeLeft in our data structure for sorting
+        casinoTimeData[casinoId].timeLeft = timeLeft;
+
+        if (timeLeft > 0) {
+            timeLeft--;
+            setTimeout(updateCountdown, 1000);
+            
+            // Sort every minute (to avoid too frequent DOM updates)
+            if (timeLeft % 60 === 0) {
+                sortCasinoList();
+                // Save data every minute
+                saveCasinoData();
+            }
+        } else {
+            countdownEl.textContent = "AVAILABLE";
+            casinoTimeData[casinoId].status = "available";
+            casinoTimeData[casinoId].timeLeft = -1;
+            sortCasinoList();
+            saveCasinoData();
+        }
+    }
+
+    updateCountdown();
 }
 
 // Function to sort the casino list
@@ -180,6 +333,7 @@ function sortCasinoList() {
 
 function markCheckbox(casinoId) {
     document.getElementById(`checkbox-${casinoId}`).checked = true;
+    saveCasinoData(); // Save when a checkbox is checked
 }
 
 function loadMostCollectedCasino() {
@@ -262,3 +416,8 @@ function updateCryptoPrices() {
         changeSpan.textContent = `${changeSymbol} ${formattedChange}%`;
     });
 }
+
+// Add an event listener to save data before the page is unloaded
+window.addEventListener('beforeunload', () => {
+    saveCasinoData();
+});
