@@ -28,15 +28,18 @@ function showCongratsPopup() {
     });
 }
 
+// Global object to store casino time data for sorting
+const casinoTimeData = {};
+
 function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
 
-     const casinos = [
+    const casinos = [
         { name: "Stake US", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
         { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
         { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
         { name: "Rainbet", url: "https://rainbet.com/?r=jmenichole", lastCollection: null, nextAvailable: null},
-         { name: "Bitsler.io", url: "https://bitsler.io/?ref=jmenichole", lastCollection: null, nextAvailible: null },
+        { name: "Bitsler.io", url: "https://bitsler.io/?ref=jmenichole", lastCollection: null, nextAvailable: null },
         { name: "SpinBlitz", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null },
         { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
         { name: "Pulsz", url: "https://www.pulsz.com/?invited_by=utfk4r", lastCollection: null, nextAvailable: null },
@@ -71,13 +74,18 @@ function loadCasinoData() {
         { name: "Needs VPN Goated", url: "https://www.goated.com/r/YDRZLJ", lastCollection: null, nextAvailable: null },
         { name: "Needs VPN Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
         { name: "Needs VPN Gamba", url: "https://gamba.com?c=Jme", lastCollection: null, nextAvailable: null },
-
-            ];
+    ];
 
     casinos.forEach((casino, index) => {
         casino.id = `casino-${index + 1}`;
+        // Initialize all casinos with a neutral sort value
+        casinoTimeData[casino.id] = { 
+            timeLeft: -1,  // -1 means not set yet
+            status: "unknown" // "available", "countdown", or "unknown"
+        };
 
         const row = document.createElement("tr");
+        row.id = `row-${casino.id}`;
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
             <td>-</td>
@@ -101,7 +109,13 @@ function loadCasinoData() {
 
 function startCountdown(casinoId) {
     const countdownEl = document.getElementById(`countdown-${casinoId}`);
-    let timeLeft = 86400;
+    let timeLeft = 86400; // 24 hours in seconds
+
+    // Update casino time data
+    casinoTimeData[casinoId] = {
+        timeLeft: timeLeft,
+        status: "countdown"
+    };
 
     function updateCountdown() {
         let hours = Math.floor(timeLeft / 3600);
@@ -109,46 +123,58 @@ function startCountdown(casinoId) {
         let seconds = timeLeft % 60;
 
         countdownEl.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        
+        // Update the timeLeft in our data structure for sorting
+        casinoTimeData[casinoId].timeLeft = timeLeft;
 
         if (timeLeft > 0) {
             timeLeft--;
             setTimeout(updateCountdown, 1000);
+            
+            // Sort every minute (to avoid too frequent DOM updates)
+            if (timeLeft % 60 === 0) {
+                sortCasinoList();
+            }
         } else {
             countdownEl.textContent = "AVAILABLE";
+            casinoTimeData[casinoId].status = "available";
+            casinoTimeData[casinoId].timeLeft = -1;
+            sortCasinoList();
         }
     }
 
     updateCountdown();
-    document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll(".casino-checkbox");
-    const userId = getUserIdFromURL(); // Extract user ID from the URL
-
-    // Load saved selections
-    if (userId) {
-        const savedSelections = JSON.parse(localStorage.getItem(`casinoSelections_${userId}`)) || {};
-        checkboxes.forEach((checkbox) => {
-            if (savedSelections[checkbox.id]) {
-                checkbox.checked = true;
-            }
-        });
-    }
-
-    // Save selections when clicked
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", function () {
-            let selections = JSON.parse(localStorage.getItem(`casinoSelections_${userId}`)) || {};
-            selections[checkbox.id] = checkbox.checked;
-            localStorage.setItem(`casinoSelections_${userId}`, JSON.stringify(selections));
-        });
-    });
-});
-
-// Helper function to get user ID from the URL
-function getUserIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("user"); // This should match the ?user=USER_ID in the link sent by the bot
+    sortCasinoList();
 }
 
+// Function to sort the casino list
+function sortCasinoList() {
+    const casinoList = document.getElementById("casino-list");
+    const rows = Array.from(casinoList.querySelectorAll("tr"));
+    
+    // Sort the rows based on their status and timeLeft
+    rows.sort((a, b) => {
+        const aId = a.id.replace('row-', '');
+        const bId = b.id.replace('row-', '');
+        
+        const aData = casinoTimeData[aId] || { status: "unknown", timeLeft: -1 };
+        const bData = casinoTimeData[bId] || { status: "unknown", timeLeft: -1 };
+        
+        // First sort by status: "available" > "countdown" > "unknown"
+        if (aData.status === "available" && bData.status !== "available") return -1;
+        if (aData.status !== "available" && bData.status === "available") return 1;
+        
+        // If both are countdown, sort by timeLeft (ascending)
+        if (aData.status === "countdown" && bData.status === "countdown") {
+            return aData.timeLeft - bData.timeLeft;
+        }
+        
+        // If both are unknown or mix of countdown and unknown
+        return 0;
+    });
+    
+    // Reappend the rows in the new order
+    rows.forEach(row => casinoList.appendChild(row));
 }
 
 function markCheckbox(casinoId) {
@@ -163,6 +189,7 @@ function loadMostCollectedCasino() {
         mostCollectedEl.textContent = "Stake.us";
     }, 2000);
 }
+
 document.addEventListener("DOMContentLoaded", async function () {
     const loginButton = document.getElementById("login-button");
     const userInfoContainer = document.getElementById("user-info");
@@ -217,6 +244,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     function displayUserInfo(user) {
+        if (!loginButton) return;
+        
         loginButton.style.display = "none"; // Hide login button
 
         userInfoContainer.innerHTML = `
@@ -231,4 +260,3 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 });
-
