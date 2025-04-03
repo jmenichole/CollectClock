@@ -105,50 +105,6 @@ input[type="checkbox"] {
     to { transform: translateX(-100%); }
 }
 
-/* Crypto Ticker Styling */
-.crypto-ticker-container {
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-    padding: 12px 0;
-    background: rgba(0, 0, 0, 0.5);
-    border-top: 1px solid #444;
-    border-bottom: 1px solid #444;
-    margin-top: 20px;
-    position: fixed;
-    bottom: 80px;
-    left: 0;
-    z-index: 100;
-}
-
-.crypto-ticker {
-    display: inline-block;
-    animation: crypto-scroll 60s linear infinite; /* Slowed down from 30s to 60s */
-    color: gold;
-    font-weight: 500;
-}
-
-@keyframes crypto-scroll {
-    from { transform: translateX(100%); }
-    to { transform: translateX(-100%); }
-}
-
-.crypto-item {
-    display: inline-block;
-    margin: 0 25px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.crypto-up {
-    color: #00ff7f;
-}
-
-.crypto-down {
-    color: #ff4757;
-}
-
 .countdown {
     font-size: 0.9rem;
     color: #FFD700;
