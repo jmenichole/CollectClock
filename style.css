@@ -145,10 +145,23 @@ input[type="checkbox"] {
     color: gold;
 }
 
+.suggest-casino p {
+    margin: 10px 0;
+}
+
+.suggest-casino p:first-child {
+    margin-top: 0;
+}
+
+.suggest-casino p:last-child {
+    margin-bottom: 0;
+}
+
 .suggest-casino a {
     color: gold;
     text-decoration: underline;
     transition: color 0.3s;
+    font-weight: 500;
 }
 
 .suggest-casino a:hover {
