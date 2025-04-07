@@ -26,8 +26,6 @@ This project is licensed under the **Creative Commons Attribution-NonCommercial 
 
 ## Services & Contact
 
-### Discord Bot Development
-Starting at USD 99 - Custom Discord bot solutions tailored to your needs.
 
 ### Let's Connect!
 - GitHub: [jmenichole](https://github.com/jmenichole)
