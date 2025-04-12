@@ -4,8 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
+    const unusedCasinoList = document.getElementById("unused-casino-list");
 
-    console.log("Casino list element:", casinoList); // Debugging line
+    // Clear existing content
+    casinoList.innerHTML = "";
+    unusedCasinoList.innerHTML = "";
 
     const casinos = [
         // Regular Casinos
@@ -65,15 +68,15 @@ function loadCasinoData() {
         if (savedCasino) {
             casino.lastCollection = savedCasino.lastCollection;
             casino.nextAvailable = savedCasino.nextAvailable;
-            casino.hidden = savedCasino.hidden || false;
+            casino.unused = savedCasino.unused || false;
         } else {
-            casino.hidden = false;
+            casino.unused = false;
         }
     });
 
     // Sort casinos by nextAvailable time
     casinos.sort((a, b) => {
-        if (a.hidden !== b.hidden) return a.hidden ? 1 : -1;
+        if (a.unused !== b.unused) return a.unused ? 1 : -1;
         if (!a.nextAvailable || !b.nextAvailable) return 0;
         return new Date(a.nextAvailable) - new Date(b.nextAvailable);
     });
@@ -81,14 +84,14 @@ function loadCasinoData() {
     // Create category headers and add casinos
     let currentCategory = "";
     casinos.forEach((casino, index) => {
-        if (casino.hidden) return; // Skip hidden casinos
+        const targetList = casino.unused ? unusedCasinoList : casinoList;
 
-        if (casino.category !== currentCategory) {
+        if (!casino.unused && casino.category !== currentCategory) {
             currentCategory = casino.category;
             const headerRow = document.createElement("tr");
             headerRow.className = "category-header";
             headerRow.innerHTML = `<td colspan="4">${currentCategory}</td>`;
-            casinoList.appendChild(headerRow);
+            targetList.appendChild(headerRow);
         }
 
         casino.id = `casino-${index + 1}`;
@@ -99,21 +102,16 @@ function loadCasinoData() {
         row.innerHTML = `
             <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
             <td class="countdown" id="countdown-${casino.id}">${formatCountdown(casino.nextAvailable)}</td>
-            <td><input type="checkbox" class="collect-checkbox" id="checkbox-${casino.id}"></td>
-            <td class="action-buttons">
-                <button class="hide-button" data-id="${casino.id}">
-                    <i class="fas fa-eye-slash"></i>
-                </button>
-            </td>
+            <td><input type="checkbox" class="unused-checkbox" id="checkbox-${casino.id}" ${casino.unused ? "checked" : ""}></td>
         `;
-        console.log("Appending row for casino:", casino.name); // Debugging line
-        casinoList.appendChild(row);
+        targetList.appendChild(row);
 
-        // Add hide button functionality
-        row.querySelector(".hide-button").addEventListener("click", () => {
-            casino.hidden = true;
+        // Add event listener for the unused checkbox
+        const checkbox = document.getElementById(`checkbox-${casino.id}`);
+        checkbox.addEventListener("change", () => {
+            casino.unused = checkbox.checked;
             saveCasinoData(casinos);
-            row.remove();
+            loadCasinoData(); // Reload the list to reflect changes
         });
     });
 
@@ -136,21 +134,9 @@ function loadCasinoData() {
     // Loop countdown every second
     setInterval(updateCountdowns, 1000);
 
-    // Save data to localStorage
-    function saveCasinoData(casinos) {
-        const dataToSave = {};
-        casinos.forEach(casino => {
-            dataToSave[casino.name] = {
-                lastCollection: casino.lastCollection,
-                nextAvailable: casino.nextAvailable,
-                hidden: casino.hidden
-            };
-        });
-        localStorage.setItem("casinoData", JSON.stringify(dataToSave));
-    }
-
     // Format countdown time
     function formatCountdown(nextAvailable) {
+        if (!nextAvailable) return "Available!";
         const timeLeft = new Date(nextAvailable) - new Date();
         if (timeLeft <= 0) return "Available!";
         const hours = Math.floor(timeLeft / 3600000);
@@ -158,4 +144,17 @@ function loadCasinoData() {
         const seconds = Math.floor((timeLeft % 60000) / 1000);
         return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
     }
+}
+
+// Save data to localStorage
+function saveCasinoData(casinos) {
+    const dataToSave = {};
+    casinos.forEach(casino => {
+        dataToSave[casino.name] = {
+            lastCollection: casino.lastCollection,
+            nextAvailable: casino.nextAvailable,
+            unused: casino.unused
+        };
+    });
+    localStorage.setItem("casinoData", JSON.stringify(dataToSave));
 }

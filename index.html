@@ -27,12 +27,24 @@
     </header>
 
     <main>
-        <!-- Casino Tracker Table -->
-        <table class="tracker-table">
-            <tbody id="casino-list">
-                <!-- Casino rows will be added dynamically via JavaScript -->
-            </tbody>
-        </table>
+        <!-- Active Casino Links -->
+        <div class="tab-content active" id="tracker">
+            <table class="tracker-table">
+                <tbody id="casino-list">
+                    <!-- Casino rows will be added dynamically via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Unused Casino Links -->
+        <div class="tab-content" id="unused-casinos">
+            <h2>Unused Casino Links</h2>
+            <table class="tracker-table">
+                <tbody id="unused-casino-list">
+                    <!-- Unused casino rows will be added dynamically via JavaScript -->
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <div class="suggest-casino">
