@@ -1,5 +1,3 @@
-/* Professional styling for CollectClock without askew frames, fully responsive */
-
 body {
     font-family: 'Montserrat', sans-serif;
     background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
@@ -7,6 +5,17 @@ body {
     text-align: center;
     min-height: 100vh;
     margin: 0;
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+/* Top Banner or Logo Area */
+header {
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid gold;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 header h1 {
@@ -14,160 +23,157 @@ header h1 {
     font-size: 3rem;
     font-weight: 700;
     color: gold;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.4);
+    margin: 0;
 }
 
+/* Glassy container box for the table */
 .tracker-table {
     width: 95%;
-    max-width: 800px; /* Reduced from 1200px since we have fewer columns */
-    margin: 20px auto;
+    max-width: 800px;
+    margin: 30px auto;
     border-collapse: separate;
-    border-spacing: 0 12px; /* Creates vertical spacing between rows */
+    border-spacing: 0 15px;
+    backdrop-filter: blur(10px);
 }
 
+/* Row Styling */
 .tracker-table tr {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s, box-shadow 0.3s;
-    background: rgba(0, 0, 0, 0.3);
 }
 
 .tracker-table tr:hover {
-    transform: scale(1.01);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    background: rgba(0, 0, 0, 0.4);
+    transform: scale(1.015);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+    background: rgba(255, 255, 255, 0.07);
 }
 
-/* Make casino names align to the left and give them more space */
+/* Column Layout */
 .tracker-table td:first-child {
     text-align: left;
-    width: 60%; /* Give more width to the casino name column */
-    border-radius: 8px 0 0 8px; /* Round the left corners */
+    width: 60%;
+    border-radius: 12px 0 0 12px;
 }
 
-/* Style the countdown column */
 .tracker-table td.countdown {
     width: 25%;
     text-align: center;
+    font-weight: bold;
+    color: #00ffe0;
 }
 
-/* Style the checkbox column */
 .tracker-table td:last-child {
     width: 15%;
     text-align: center;
-    border-radius: 0 8px 8px 0; /* Round the right corners */
+    border-radius: 0 12px 12px 0;
 }
 
-/* Increase cell padding for better touch targets */
+/* Table Cell Padding */
 .tracker-table td {
-    padding: 15px 12px;
+    padding: 16px 14px;
 }
 
+/* Casino Links */
 .tracker-table a {
     color: gold;
-    text-decoration: none; /* Remove underline for cleaner look */
-    transition: color 0.3s;
-    display: block; /* Makes the entire area clickable */
-    padding: 5px 0; /* Adds some vertical padding inside the link */
-    font-weight: 500; /* Make casino names slightly bolder */
-    font-size: 1.05rem; /* Slightly larger font for casino names */
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+    display: block;
+    padding: 6px 0;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 .tracker-table a:hover {
-    color: #FFD700;
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); /* Subtle glow on hover */
+    color: #00ffe0;
+    text-shadow: 0 0 8px rgba(0, 255, 224, 0.6);
 }
 
+/* Checkboxes */
 input[type="checkbox"] {
-    transform: scale(1.5);
+    transform: scale(1.6);
     cursor: pointer;
-    accent-color: gold; /* Makes checked boxes gold colored */
+    accent-color: #FFD700;
 }
 
+/* Support Button */
 .support-button {
-    display: inline-block;
     margin-top: 20px;
-    padding: 10px 20px;
-    background: linear-gradient(90deg, gold, darkgoldenrod);
+    padding: 12px 24px;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
     color: black;
-    border-radius: 8px;
+    border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
-    transition: background 0.3s, transform 0.2s;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(255, 165, 0, 0.4);
+    transition: transform 0.2s, background 0.3s;
 }
 .support-button:hover {
     transform: scale(1.05);
-    background: linear-gradient(90deg, darkgoldenrod, goldenrod);
+    background: linear-gradient(90deg, #FFA500, #FFD700);
 }
 
+/* Footer Bar */
 .bottom-bar {
     background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
+    padding: 25px;
     border-top: 1px solid gold;
     color: gold;
-    font-size: 0.9rem;
-    margin-top: 40px;
+    font-size: 0.95rem;
+    margin-top: 60px;
+    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* Countdown Text */
 .countdown {
-    font-size: 0.9rem;
-    color: #FFD700;
+    font-size: 1rem;
+    color: #00ffe0;
+    text-shadow: 0 0 5px rgba(0, 255, 224, 0.5);
 }
 
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2.2rem;
-        margin-bottom: 1rem;
-    }
-    .tracker-table td {
-        padding: 12px 8px; /* Maintain good vertical spacing on mobile */
-        font-size: 0.9rem;
-    }
-    .tracker-table {
-        border-spacing: 0 15px; /* Even more spacing on mobile */
-    }
-    .tracker-table a {
-        padding: 8px 0; /* Larger touch target on mobile */
-    }
-    .support-button {
-        padding: 8px 14px;
-        font-size: 0.95rem;
-    }
-}
-
+/* Casino Suggest Box */
 .suggest-casino {
     margin-top: 40px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
     border-top: 1px solid gold;
     font-size: 1rem;
     color: gold;
-}
-
-.suggest-casino p {
-    margin: 10px 0;
-}
-
-.suggest-casino p:first-child {
-    margin-top: 0;
-}
-
-.suggest-casino p:last-child {
-    margin-bottom: 0;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 -2px 10px rgba(255, 215, 0, 0.2);
 }
 
 .suggest-casino a {
-    color: gold;
+    color: #FFD700;
     text-decoration: underline;
     transition: color 0.3s;
-    font-weight: 500;
 }
 
 .suggest-casino a:hover {
-    color: teal;
+    color: #00ffe0;
 }
 
+/* Visited Links */
 a:visited {
-    color: white;
+    color: #bbbbbb;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.3rem;
+    }
+    .tracker-table td {
+        font-size: 0.95rem;
+        padding: 10px 8px;
+    }
+    .support-button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+}
+/* Professional styling for CollectClock without askew frames, fully responsive */
