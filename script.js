@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
 
+    console.log("Casino list element:", casinoList); // Debugging line
+
     const casinos = [
         // Regular Casinos
         { name: "Stake US", category: "Casino", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
@@ -104,6 +106,7 @@ function loadCasinoData() {
                 </button>
             </td>
         `;
+        console.log("Appending row for casino:", casino.name); // Debugging line
         casinoList.appendChild(row);
 
         // Add hide button functionality
