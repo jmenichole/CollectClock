@@ -6,12 +6,6 @@ function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
 
     const casinos = [
-        // Sports Betting Sites
-        { name: "PrizePicks", category: "Sports", url: "https://prizepicks.com/sign-up?invite_code=PR-43MTIEY", lastCollection: null, nextAvailable: null },
-        { name: "Sleeper", category: "Sports", url: "https://sleeper.com/promo/RF-AKRAUS1298", lastCollection: null, nextAvailable: null },
-        { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/account/signup?coupon=em4919", lastCollection: null, nextAvailable: null },
-        { name: "Sportzino", category: "Sports", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
-        
         // Regular Casinos
         { name: "Stake US", category: "Casino", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
         { name: "SpinPals", category: "Casino", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null },
@@ -49,6 +43,14 @@ function loadCasinoData() {
         { name: "Luckyland Slots", category: "Casino", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null },
         { name: "Legendz", category: "Casino", url: "https://legendz.com/?referred_by_id=221602", lastCollection: null, nextAvailable: null },
         { name: "NoLimitCoins", category: "Casino", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null },
+
+          // Sports Betting Sites
+        { name: "PrizePicks", category: "Sports", url: "https://prizepicks.com/sign-up?invite_code=PR-43MTIEY", lastCollection: null, nextAvailable: null },
+        { name: "Sleeper", category: "Sports", url: "https://sleeper.com/promo/RF-AKRAUS1298", lastCollection: null, nextAvailable: null },
+        { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/account/signup?coupon=em4919", lastCollection: null, nextAvailable: null },
+        { name: "Sportzino", category: "Sports", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
+    
+
         
         // VPN Required Casinos
         { name: "Goated", category: "VPN Required", url: "https://www.goated.com/r/YDRZLJ", lastCollection: null, nextAvailable: null },
@@ -58,18 +60,14 @@ function loadCasinoData() {
 
     // Sort casinos by category
     casinos.sort((a, b) => {
-        // First sort by category
         if (a.category < b.category) return -1;
         if (a.category > b.category) return 1;
-        // Then by name within each category
         return a.name.localeCompare(b.name);
     });
 
     // Create category headers and add casinos
     let currentCategory = "";
-    
     casinos.forEach((casino, index) => {
-        // Add category header if it's a new category
         if (casino.category !== currentCategory) {
             currentCategory = casino.category;
             const headerRow = document.createElement("tr");
@@ -101,53 +99,54 @@ function loadCasinoData() {
         casinoList.appendChild(row);
     });
 
-    // ⏱️ Countdown logic for each timer cell
-function updateCountdowns() {
-  const countdowns = document.querySelectorAll(".countdown");
+    // Countdown logic for each timer cell
+    function updateCountdowns() {
+        const countdowns = document.querySelectorAll(".countdown");
 
-  countdowns.forEach(countdown => {
-    let timeParts = countdown.innerText.split(":");
-    let hours = parseInt(timeParts[0], 10);
-    let minutes = parseInt(timeParts[1], 10);
-    let seconds = parseInt(timeParts[2], 10);
+        countdowns.forEach(countdown => {
+            let timeParts = countdown.innerText.split(":");
+            let hours = parseInt(timeParts[0], 10);
+            let minutes = parseInt(timeParts[1], 10);
+            let seconds = parseInt(timeParts[2], 10);
 
-    let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+            let totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
-    if (totalSeconds > 0) {
-      totalSeconds--;
+            if (totalSeconds > 0) {
+                totalSeconds--;
+            }
+
+            let h = Math.floor(totalSeconds / 3600);
+            let m = Math.floor((totalSeconds % 3600) / 60);
+            let s = totalSeconds % 60;
+
+            countdown.innerText = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        });
     }
 
-    let h = Math.floor(totalSeconds / 3600);
-    let m = Math.floor((totalSeconds % 3600) / 60);
-    let s = totalSeconds % 60;
+    // Loop countdown every second
+    setInterval(updateCountdowns, 1000);
 
-    countdown.innerText = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-  });
+    // Auto-check when a link is clicked
+    document.querySelectorAll(".casino-link").forEach((link, index) => {
+        link.addEventListener("click", () => {
+            setTimeout(() => {
+                const checkbox = document.querySelectorAll(".claim-checkbox")[index];
+                if (checkbox) checkbox.checked = true;
+            }, 200);
+        });
+    });
+
+    // Easter egg after 10+ link clicks
+    let clickCount = 0;
+    document.querySelectorAll(".casino-link").forEach(link => {
+        link.addEventListener("click", () => {
+            clickCount++;
+            if (clickCount === 10) {
+                setTimeout(() => {
+                    alert("💸 Way to get your money! 🤑");
+                    window.open("https://tenor.com/view/louknae-gif-24423472", "_blank");
+                }, 300);
+            }
+        });
+    });
 }
-
-// Loop countdown every second
-setInterval(updateCountdowns, 1000);
-
-// ✅ Auto-check when a link is clicked
-document.querySelectorAll(".casino-link").forEach((link, index) => {
-  link.addEventListener("click", () => {
-    setTimeout(() => {
-      const checkbox = document.querySelectorAll(".claim-checkbox")[index];
-      if (checkbox) checkbox.checked = true;
-    }, 200); // Delay to simulate loading
-  });
-});
-
-// 💥 Easter egg after 10+ link clicks
-let clickCount = 0;
-document.querySelectorAll(".casino-link").forEach(link => {
-  link.addEventListener("click", () => {
-    clickCount++;
-    if (clickCount === 10) {
-      setTimeout(() => {
-        alert("💸 Way to get your money! 🤑");
-        window.open("https://tenor.com/view/louknae-gif-24423472", "_blank");
-      }, 300);
-    }
-  });
-});
