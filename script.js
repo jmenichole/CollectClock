@@ -12,10 +12,11 @@ function loadCasinoData() {
     unusedCasinoList.innerHTML = "";
 
     const casinos = [
-        // Regular Casinos
+        // Social Casinos
         { name: "Stake US", category: "Casino", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null, unused: false },
         { name: "SpinPals", category: "Casino", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null, unused: false },
         { name: "Casino Click", category: "Casino", url: "https://casino.click", lastCollection: null, nextAvailable: null, unused: false },
+        { name: "Sportzino", category: "Casino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null, unused: false }, // Moved here
         { name: "Rainbet", category: "Casino", url: "https://rainbet.com/?r=jmenichole", lastCollection: null, nextAvailable: null, unused: false },
         { name: "Bitsler.io", category: "Casino", url: "https://bitsler.io/?ref=jmenichole", lastCollection: null, nextAvailable: null, unused: false },
         { name: "SpinBlitz", category: "Casino", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null, unused: false },
@@ -50,16 +51,10 @@ function loadCasinoData() {
         { name: "Legendz", category: "Casino", url: "https://legendz.com/?referred_by_id=221602", lastCollection: null, nextAvailable: null, unused: false },
         { name: "NoLimitCoins", category: "Casino", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null, unused: false },
 
-        // Sports Betting Sites
-        { name: "PrizePicks", category: "Sports", url: "https://prizepicks.com/sign-up?invite_code=PR-43MTIEY", lastCollection: null, nextAvailable: null, unused: false },
-        { name: "Sleeper", category: "Sports", url: "https://sleeper.com/promo/RF-AKRAUS1298", lastCollection: null, nextAvailable: null, unused: false },
-        { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/account/signup?coupon=em4919", lastCollection: null, nextAvailable: null, unused: false },
-        { name: "Sportzino", category: "Sports", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null, unused: false },
-
-        // VPN Required Casinos
-        { name: "Goated", category: "VPN Required", url: "https://www.goated.com/r/YDRZLJ", lastCollection: null, nextAvailable: null, unused: false },
-        { name: "Shuffle", category: "VPN Required", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null, unused: false },
-        { name: "Gamba", category: "VPN Required", url: "https://gamba.com?c=Jme", lastCollection: null, nextAvailable: null, unused: false }
+        // Sports Betting Sites (no timer)
+        { name: "PrizePicks", category: "Sports", url: "https://prizepicks.com/sign-up?invite_code=PR-43MTIEY", unused: false },
+        { name: "Sleeper", category: "Sports", url: "https://sleeper.com/promo/RF-AKRAUS1298", unused: false },
+        { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/account/signup?coupon=em4919", unused: false }
     ];
 
     // Load saved data from localStorage
@@ -98,29 +93,41 @@ function loadCasinoData() {
         const row = document.createElement("tr");
         row.id = `row-${casino.id}`;
         row.className = "casino-row";
-        row.innerHTML = `
-            <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
-            <td class="countdown" id="countdown-${casino.id}">${formatCountdown(casino.nextAvailable)}</td>
-            <td><input type="checkbox" class="unused-checkbox" id="checkbox-${casino.id}" ${casino.unused ? "checked" : ""}></td>
-        `;
+
+        // Different rendering for sports betting sites (no timer)
+        if (casino.category === "Sports") {
+            row.innerHTML = `
+                <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
+                <td colspan="2" style="text-align: center;">Visit Site</td>
+            `;
+        } else {
+            row.innerHTML = `
+                <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
+                <td class="countdown" id="countdown-${casino.id}">${formatCountdown(casino.nextAvailable)}</td>
+                <td><input type="checkbox" class="unused-checkbox" id="checkbox-${casino.id}" ${casino.unused ? "checked" : ""}></td>
+            `;
+        }
+
         targetList.appendChild(row);
 
-        // Add event listener for the unused checkbox
-        const checkbox = document.getElementById(`checkbox-${casino.id}`);
-        checkbox.addEventListener("change", () => {
-            casino.unused = checkbox.checked;
-            saveCasinoData(casinos);
-            loadCasinoData(); // Reload the list to reflect changes
-        });
+        // Add event listener for the unused checkbox (only for non-sports casinos)
+        if (casino.category !== "Sports") {
+            const checkbox = document.getElementById(`checkbox-${casino.id}`);
+            checkbox.addEventListener("change", () => {
+                casino.unused = checkbox.checked;
+                saveCasinoData(casinos);
+                loadCasinoData(); // Reload the list to reflect changes
+            });
 
-        // Add event listener for the casino link
-        const link = document.querySelector(`a[data-id="${casino.id}"]`);
-        link.addEventListener("click", () => {
-            casino.lastCollection = new Date().toISOString();
-            casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours from now
-            saveCasinoData(casinos);
-            loadCasinoData(); // Reload the list to update the timer
-        });
+            // Add event listener for the casino link
+            const link = document.querySelector(`a[data-id="${casino.id}"]`);
+            link.addEventListener("click", () => {
+                casino.lastCollection = new Date().toISOString();
+                casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours from now
+                saveCasinoData(casinos);
+                loadCasinoData(); // Reload the list to update the timer
+            });
+        }
     });
 
     // Save the updated casino data
