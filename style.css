@@ -176,4 +176,10 @@ a:visited {
         padding: 10px 16px;
     }
 }
+
+/* Minimized state for casinos */
+.casino-row.hidden {
+    display: none;
+}
+
 /* Professional styling for CollectClock without askew frames, fully responsive */

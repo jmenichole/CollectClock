@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎰 CollectClock 💰</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css"> <!-- Fixed file name -->
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -72,8 +72,8 @@
                 if (data.loggedIn) {
                     document.getElementById("user-info").style.display = "block";
                     document.getElementById("username").textContent = data.username;
-                    document.getElementById("current-streak").textContent = data.currentStreak;
-                    document.getElementById("highest-streak").textContent = data.highestStreak;
+                    document.getElementById("current-streak").textContent = data.current_streak; // Fixed key name
+                    document.getElementById("highest-streak").textContent = data.highest_streak; // Fixed key name
                 }
             } catch (error) {
                 console.error("Error fetching user info:", error);
