@@ -101,5 +101,53 @@ function loadCasinoData() {
         casinoList.appendChild(row);
     });
 
-    // Rest of your existing code...
-    [REST OF THE EXISTING JAVASCRIPT CODE REMAINS THE SAME]
+    // ⏱️ Countdown logic for each timer cell
+function updateCountdowns() {
+  const countdowns = document.querySelectorAll(".countdown");
+
+  countdowns.forEach(countdown => {
+    let timeParts = countdown.innerText.split(":");
+    let hours = parseInt(timeParts[0], 10);
+    let minutes = parseInt(timeParts[1], 10);
+    let seconds = parseInt(timeParts[2], 10);
+
+    let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+    if (totalSeconds > 0) {
+      totalSeconds--;
+    }
+
+    let h = Math.floor(totalSeconds / 3600);
+    let m = Math.floor((totalSeconds % 3600) / 60);
+    let s = totalSeconds % 60;
+
+    countdown.innerText = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  });
+}
+
+// Loop countdown every second
+setInterval(updateCountdowns, 1000);
+
+// ✅ Auto-check when a link is clicked
+document.querySelectorAll(".casino-link").forEach((link, index) => {
+  link.addEventListener("click", () => {
+    setTimeout(() => {
+      const checkbox = document.querySelectorAll(".claim-checkbox")[index];
+      if (checkbox) checkbox.checked = true;
+    }, 200); // Delay to simulate loading
+  });
+});
+
+// 💥 Easter egg after 10+ link clicks
+let clickCount = 0;
+document.querySelectorAll(".casino-link").forEach(link => {
+  link.addEventListener("click", () => {
+    clickCount++;
+    if (clickCount === 10) {
+      setTimeout(() => {
+        alert("💸 Way to get your money! 🤑");
+        window.open("https://tenor.com/view/louknae-gif-24423472", "_blank");
+      }, 300);
+    }
+  });
+});
