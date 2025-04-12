@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadCasinoData();
+    setInterval(updateCountdowns, 1000); // Ensure countdowns are updated every second
 });
 
 function loadCasinoData() {
@@ -122,35 +123,38 @@ function loadCasinoData() {
         });
     });
 
-    // Countdown logic for each timer cell
-    function updateCountdowns() {
-        casinos.forEach(casino => {
-            if (!casino.nextAvailable) return;
-            const countdownElement = document.getElementById(`countdown-${casino.id}`);
-            if (!countdownElement) return;
+    // Save the updated casino data
+    saveCasinoData(casinos);
+}
 
-            const timeLeft = new Date(casino.nextAvailable) - new Date();
-            if (timeLeft > 0) {
-                countdownElement.innerText = formatCountdown(casino.nextAvailable);
-            } else {
-                countdownElement.innerText = "Available!";
-            }
-        });
-    }
+// Countdown logic for each timer cell
+function updateCountdowns() {
+    const casinos = JSON.parse(localStorage.getItem("casinoData")) || {};
+    Object.keys(casinos).forEach(casinoName => {
+        const casino = casinos[casinoName];
+        if (!casino.nextAvailable) return;
 
-    // Loop countdown every second
-    setInterval(updateCountdowns, 1000);
+        const countdownElement = document.getElementById(`countdown-${casinoName}`);
+        if (!countdownElement) return;
 
-    // Format countdown time
-    function formatCountdown(nextAvailable) {
-        if (!nextAvailable) return "Available!";
-        const timeLeft = new Date(nextAvailable) - new Date();
-        if (timeLeft <= 0) return "Available!";
-        const hours = Math.floor(timeLeft / 3600000);
-        const minutes = Math.floor((timeLeft % 3600000) / 60000);
-        const seconds = Math.floor((timeLeft % 60000) / 1000);
-        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-    }
+        const timeLeft = new Date(casino.nextAvailable) - new Date();
+        if (timeLeft > 0) {
+            countdownElement.innerText = formatCountdown(casino.nextAvailable);
+        } else {
+            countdownElement.innerText = "Available!";
+        }
+    });
+}
+
+// Format countdown time
+function formatCountdown(nextAvailable) {
+    if (!nextAvailable) return "Available!";
+    const timeLeft = new Date(nextAvailable) - new Date();
+    if (timeLeft <= 0) return "Available!";
+    const hours = Math.floor(timeLeft / 3600000);
+    const minutes = Math.floor((timeLeft % 3600000) / 60000);
+    const seconds = Math.floor((timeLeft % 60000) / 1000);
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
 // Save data to localStorage
