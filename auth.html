@@ -9,7 +9,7 @@
 
       if (!token) {
         document.body.innerHTML = "<p>❌ No access token found. Please try again.</p>";
-        return;
+      
       }
 
       fetch("https://discord.com/api/users/@me", {
