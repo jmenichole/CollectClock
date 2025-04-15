@@ -52,7 +52,7 @@ function loadCasinoData() {
         { name: "NoLimitCoins", category: "Casino", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null, unused: false },
 
         // Sports Betting Sites (no timer)
-        { name: "PrizePicks", category: "Sports", url: "https://prizepicks.com/sign-up?invite_code=PR-43MTIEY", unused: false },
+        { name: "PrizePicks", category: "Sports", url: "https://app.prizepicks.com/sign-up?invite_code=PR-43MTIEY", unused: false },
         { name: "Sleeper", category: "Sports", url: "https://sleeper.com/promo/RF-AKRAUS1298", unused: false },
         { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/account/signup?coupon=em4919", unused: false }
     ];
