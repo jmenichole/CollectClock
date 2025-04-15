@@ -1,37 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Logging in with Discord...</title>
-  </head>
+  <head><title>Discord Auth</title></head>
   <body>
-    <h2>Logging in with Discord...</h2>
+    <h2>Logging you in with Discord...</h2>
     <script>
       const params = new URLSearchParams(window.location.hash.slice(1));
-      const token = params.get('access_token');
+      const token = params.get("access_token");
 
       if (!token) {
-        document.body.innerHTML = "<p>⚠️ No access token found. Login may have failed.</p>";
-        throw new Error("No access token");
+        document.body.innerHTML = "<p>❌ No access token found. Please try again.</p>";
+        return;
       }
 
       fetch("https://discord.com/api/users/@me", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       })
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to fetch user");
-        return res.json();
-      })
+      .then(res => res.json())
       .then(user => {
         localStorage.setItem("discordUser", JSON.stringify(user));
-        // ✅ Redirect back to the live dashboard
         window.location.href = "https://jmenichole.github.io/CollectClock/";
       })
       .catch(err => {
-        console.error(err);
-        document.body.innerHTML = "<p>❌ Login failed. Please try again.</p>";
-        setTimeout(() => {
-          window.location.href = "https://jmenichole.github.io/CollectClock/";
-        }, 3000);
+        console.error("Error fetching user:", err);
+        document.body.innerHTML = "<p>⚠️ Failed to log in. Please try again later.</p>";
       });
     </script>
   </body>
