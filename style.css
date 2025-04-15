@@ -23,7 +23,7 @@ header h1 {
     font-size: 3rem;
     font-weight: 700;
     color: gold;
-    text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.4);
+    text-shadow: none;
     margin: 0;
 }
 
@@ -89,7 +89,7 @@ header h1 {
 
 .tracker-table a:hover {
     color: #00ffe0;
-    text-shadow: 0 0 8px rgba(0, 255, 224, 0.6);
+    text-shadow: none);
 }
 
 /* Checkboxes */
@@ -132,7 +132,7 @@ input[type="checkbox"] {
 .countdown {
     font-size: 1rem;
     color: #00ffe0;
-    text-shadow: 0 0 5px rgba(0, 255, 224, 0.5);
+    text-shadow: none);
 }
 
 /* Casino Suggest Box */
