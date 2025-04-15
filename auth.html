@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Logging in...</title>
+  </head>
+  <body>
+    <h2>Logging you in with Discord...</h2>
+    <script>
+      const params = new URLSearchParams(window.location.hash.slice(1));
+      const token = params.get('access_token');
+
+      if (token) {
+        fetch('https://discord.com/api/users/@me', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => res.json())
+        .then(user => {
+          localStorage.setItem('discordUser', JSON.stringify(user));
+          window.location.href = '/CollectClock/'; // Send back to main dashboard
+        })
+        .catch(err => {
+          alert('Error logging in');
+          window.location.href = '/CollectClock/';
+        });
+      } else {
+        window.location.href = '/CollectClock/';
+      }
+    </script>
+  </body>
+</html>
