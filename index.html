@@ -16,14 +16,28 @@
   }
 </script>
 
+<div id="login-button">
+  <a href="https://discord.com/oauth2/authorize?client_id=1336968746450812928&redirect_uri=https%3A%2F%2Fjmenichole.github.io%2FCollectClock%2Fauth.html&response_type=token&scope=identify">
+    <button>Login with Discord</button>
+  </a>
+</div>
 
+<script>
+  const user = JSON.parse(localStorage.getItem("discordUser"));
+  if (user) {
+    // Hide the login button
+    const loginBtn = document.querySelector("#login-button");
+    if (loginBtn) loginBtn.style.display = "none";
 
-   <a href="https://discord.com/oauth2/authorize?client_id=1336968746450812928&redirect_uri=https%3A%2F%2Fjmenichole.github.io%2FCollectClock%2Fauth.html&response_type=token&scope=identify">
-
-  <button style="padding: 10px 20px; font-size: 16px; background-color: #5865F2; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    Login with Discord
-  </button>
-</a>
+    // Show logged-in user info
+    document.body.insertAdjacentHTML("afterbegin", `
+      <div style="background: #222; color: #fff; padding: 10px; font-family: sans-serif;">
+        Logged in as ${user.username}#${user.discriminator}
+        <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="30" style="border-radius: 50%; vertical-align: middle; margin-left: 10px;" />
+      </div>
+    `);
+  }
+</script>
 
 
     <!-- CSS and Fonts -->
