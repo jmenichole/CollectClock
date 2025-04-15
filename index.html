@@ -11,6 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/YOUR_FONT_AWESOME_KEY.js" crossorigin="anonymous"></script>
 
+    <script>
+  const user = JSON.parse(localStorage.getItem('discordUser'));
+  if (user) {
+    document.body.insertAdjacentHTML('afterbegin',
+      `<p style="color: green;">Logged in as ${user.username}#${user.discriminator}</p>`);
+  }
+</script>
+
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MGW03QSJ9B"></script>
     <script>
