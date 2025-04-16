@@ -15,13 +15,13 @@
     `);
   }
 </script>
-
 <div id="login-button">
   <a href="https://discord.com/oauth2/authorize?client_id=1336968746450812928&redirect_uri=https%3A%2F%2Fjmenichole.github.io%2FCollectClock%2Fauth.html&response_type=token&scope=identify">
     <button>Login with Discord</button>
   </a>
 </div>
 
+    
 <script>
   const user = JSON.parse(localStorage.getItem("discordUser"));
   if (user) {
@@ -66,6 +66,25 @@
 </script>
     
 </head>
+    <script>
+  const user = JSON.parse(localStorage.getItem("discordUser"));
+  if (user && user.username) {
+    // Hide login button
+    const loginButton = document.getElementById("login-button");
+    if (loginButton) loginButton.style.display = "none";
+
+    // Show logged in user info
+    const banner = document.createElement("div");
+    banner.style = "background: #111; color: #fff; padding: 10px; font-size: 16px;";
+    banner.innerHTML = `
+      Logged in as <strong>${user.username}#${user.discriminator}</strong>
+      <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="30" style="vertical-align: middle; border-radius: 50%; margin-left: 10px;" />
+    `;
+    document.body.insertBefore(banner, document.body.firstChild);
+  }
+</script>
+
+    
 <body>
     <!-- Header Section -->
     <header>
