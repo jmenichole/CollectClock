@@ -14,8 +14,7 @@ function loadCasinoData() {
     const casinos = [
         // Social Casinos
         { name: "Stake US", category: "Casino", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null, unused: false },
-        { name: "Rolla", category: "Casino", url: "https://www.rolla.com/?raf=3873", lastCollection: nulll, nextCollection: null, unusd: false },  
-        { name: "SpinPals", category: "Casino", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null, unused: false },
+        { name: "Rolla", category: "Casino", url: "https://www.rolla.com/?raf=3873", lastCollection: null, nextCollection: null, unused: false },        { name: "SpinPals", category: "Casino", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null, unused: false },
         { name: "Casino Click", category: "Casino", url: "https://casino.click", lastCollection: null, nextAvailable: null, unused: false },
         { name: "Sportzino", category: "Casino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null, unused: false }, // Moved here
         { name: "Rainbet", category: "Casino", url: "https://rainbet.com/?r=jmenichole", lastCollection: null, nextAvailable: null, unused: false },
