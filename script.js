@@ -52,16 +52,6 @@ function loadCasinoData() {
         { name: "NoLimitCoins", category: "Casino", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null, unused: false },
     
 
-    
-<div class="promo-banner" style="text-align:center; margin: 20px 0;">
-  <a href="https://freebitco.in/?r=52448026" target="_blank">
-    <img src="https://static1.freebitco.in/banners/728x90-3.png" 
-         alt="FreeBitco.in - Win free bitcoins every hour!" 
-         style="max-width:100%; height:auto;">
-  </a>
-</div>
-
-
  
 
         // Sports Betting Sites (no timer)
