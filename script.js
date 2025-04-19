@@ -10,7 +10,7 @@ function loadCasinoData() {
     // Clear existing content
     casinoList.innerHTML = "";
     unusedCasinoList.innerHTML = "";
-
+<div id="casinos">
     const casinos = [
         // Social Casinos
         { name: "Stake US", category: "Casino", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null, unused: false },
@@ -50,8 +50,22 @@ function loadCasinoData() {
         { name: "Luckyland Slots", category: "Casino", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null, unused: false },
         { name: "Legendz", category: "Casino", url: "https://legendz.com/?referred_by_id=221602", lastCollection: null, nextAvailable: null, unused: false },
         { name: "NoLimitCoins", category: "Casino", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null, unused: false },
-      
+        </div>
+
+    
+<div class="promo-banner" style="text-align:center; margin: 20px 0;">
+  <a href="https://freebitco.in/?r=52448026" target="_blank">
+    <img src="https://static1.freebitco.in/banners/728x90-3.png" 
+         alt="FreeBitco.in - Win free bitcoins every hour!" 
+         style="max-width:100%; height:auto;">
+  </a>
+</div>
+
+<div id="sports">
+ 
+
         // Sports Betting Sites (no timer)
+   
         { name: "Slips", category: "Sports", url: "https://slips.com/invite?code=6901", unused: false },
         { name: "PrizePicks", category: "Sports", url: "https://app.prizepicks.com/sign-up?invite_code=PR-43MTIEY", unused: false },
         { name: "Dabble", category: "Sports", url: "https://click.dabble.com/GaFA/uurlzxu2", unused: false }, 
@@ -59,7 +73,7 @@ function loadCasinoData() {
            { name: "Sports Millions", category: "Sports", url: "https://www.sportsmillions.com/referred-by-friend?r=918d9a2f%2F1780990270", unused: false },
         { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/account/signup?coupon=em4919", unused: false }
     ];
-
+    </div>
     // Load saved data from localStorage
     const savedData = JSON.parse(localStorage.getItem("casinoData")) || {};
     casinos.forEach(casino => {
