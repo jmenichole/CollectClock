@@ -56,6 +56,7 @@ function loadCasinoData() {
         { name: "PrizePicks", category: "Sports", url: "https://app.prizepicks.com/sign-up?invite_code=PR-43MTIEY", unused: false },
         { name: "Dabble", category: "Sports", url: "https://click.dabble.com/GaFA/uurlzxu2", unused: false }, 
         { name: "Sleeper", category: "Sports", url: "https://sleeper.com/promo/RF-AKRAUS1298", unused: false },
+           { name: "Sports Millions", category: "Sports", url: "https://www.sportsmillions.com/referred-by-friend?r=918d9a2f%2F1780990270", unused: false },
         { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/account/signup?coupon=em4919", unused: false }
     ];
 
