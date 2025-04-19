@@ -50,7 +50,7 @@ function loadCasinoData() {
         { name: "Luckyland Slots", category: "Casino", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null, unused: false },
         { name: "Legendz", category: "Casino", url: "https://legendz.com/?referred_by_id=221602", lastCollection: null, nextAvailable: null, unused: false },
         { name: "NoLimitCoins", category: "Casino", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null, unused: false },
-
+        <br><br>
         // Sports Betting Sites (no timer)
         { name: "Slips", category: "Sports", url: "https://slips.com/invite?code=6901", unused: false },
         { name: "PrizePicks", category: "Sports", url: "https://app.prizepicks.com/sign-up?invite_code=PR-43MTIEY", unused: false },
