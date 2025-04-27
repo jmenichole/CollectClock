@@ -1,16 +1,67 @@
 document.addEventListener("DOMContentLoaded", () => {
+    checkUserLogin();
     loadCasinoData();
     setInterval(updateCountdowns, 1000); // Ensure countdowns are updated every second
 });
+
+// Check if user is logged in via Discord
+function checkUserLogin() {
+    const user = JSON.parse(localStorage.getItem('discordUser'));
+    const loginButton = document.getElementById('login-button');
+    
+    if (user && user.id) {
+        // User is logged in
+        console.log('User logged in:', user.username);
+        
+        // Hide login button if it exists
+        if (loginButton) {
+            loginButton.style.display = 'none';
+        }
+        
+        // Display user info
+        const userInfoHTML = `
+            <div class="user-info">
+                <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" 
+                     alt="${user.username}" 
+                     class="user-avatar" />
+                <div class="user-details">
+                    <span class="username">${user.username}</span>
+                    <button id="logout-button" class="logout-button">Logout</button>
+                </div>
+            </div>
+        `;
+        
+        // Insert user info at the top of the page
+        const header = document.querySelector('header');
+        if (header) {
+            header.insertAdjacentHTML('beforeend', userInfoHTML);
+            
+            // Add logout functionality
+            document.getElementById('logout-button').addEventListener('click', () => {
+                localStorage.removeItem('discordUser');
+                window.location.reload();
+            });
+        }
+    } else {
+        // User is not logged in
+        console.log('User not logged in');
+        
+        // Ensure login button is visible
+        if (loginButton) {
+            loginButton.style.display = 'block';
+        }
+    }
+}
 
 function loadCasinoData() {
     const casinoList = document.getElementById("casino-list");
     const unusedCasinoList = document.getElementById("unused-casino-list");
 
     // Clear existing content
-    casinoList.innerHTML = "";
-    unusedCasinoList.innerHTML = "";
+    if (casinoList) casinoList.innerHTML = "";
+    if (unusedCasinoList) unusedCasinoList.innerHTML = "";
 
+   
     const casinos = [
         // Social Casinos
         { name: "Stake US", category: "Casino", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null, unused: false },
@@ -85,67 +136,109 @@ function loadCasinoData() {
     });
 
     // Create category headers and add casinos
-    let currentCategory = "";
-    casinos.forEach((casino, index) => {
-        const targetList = casino.unused ? unusedCasinoList : casinoList;
+    if (casinoList && unusedCasinoList) {
+        let currentCategory = "";
+        casinos.forEach((casino, index) => {
+            const targetList = casino.unused ? unusedCasinoList : casinoList;
 
-        if (!casino.unused && casino.category !== currentCategory) {
-            currentCategory = casino.category;
-            const headerRow = document.createElement("tr");
-            headerRow.className = "category-header";
-            headerRow.innerHTML = `<td colspan="4">${currentCategory}</td>`;
-            targetList.appendChild(headerRow);
-        }
+            if (!casino.unused && casino.category !== currentCategory) {
+                currentCategory = casino.category;
+                const headerRow = document.createElement("tr");
+                headerRow.className = "category-header";
+                headerRow.innerHTML = `<td colspan="4">${currentCategory}</td>`;
+                targetList.appendChild(headerRow);
+            }
 
-        casino.id = `casino-${index + 1}`;
+            casino.id = `casino-${index + 1}`;
 
-        const row = document.createElement("tr");
-        row.id = `row-${casino.id}`;
-        row.className = "casino-row";
+            const row = document.createElement("tr");
+            row.id = `row-${casino.id}`;
+            row.className = "casino-row";
 
-        // Different rendering for sports betting sites (no timer)
-        if (casino.category === "Sports") {
-            row.innerHTML = `
-                <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
-                <td colspan="2" style="text-align: center;">Visit Site</td>
-            `;
-        } else {
-            row.innerHTML = `
-                <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
-                <td class="countdown" id="countdown-${casino.id}">${formatCountdown(casino.nextAvailable)}</td>
-                <td><input type="checkbox" class="unused-checkbox" id="checkbox-${casino.id}" ${casino.unused ? "checked" : ""}></td>
-            `;
-        }
+            // Different rendering for sports betting sites (no timer)
+            if (casino.category === "Sports") {
+                row.innerHTML = `
+                    <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
+                    <td colspan="2" style="text-align: center;">Visit Site</td>
+                `;
+            } else {
+                row.innerHTML = `
+                    <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
+                    <td class="countdown" id="countdown-${casino.id}">${formatCountdown(casino.nextAvailable)}</td>
+                    <td><input type="checkbox" class="unused-checkbox" id="checkbox-${casino.id}" ${casino.unused ? "checked" : ""}></td>
+                `;
+            }
 
-        targetList.appendChild(row);
+            targetList.appendChild(row);
 
-        // Add event listener for the unused checkbox (only for non-sports casinos)
-        if (casino.category !== "Sports") {
-            const checkbox = document.getElementById(`checkbox-${casino.id}`);
-            checkbox.addEventListener("change", () => {
-                casino.unused = checkbox.checked;
-                saveCasinoData(casinos);
-                loadCasinoData(); // Reload the list to reflect changes
-            });
+            // Add event listener for the unused checkbox (only for non-sports casinos)
+            if (casino.category !== "Sports") {
+                const checkbox = document.getElementById(`checkbox-${casino.id}`);
+                if (checkbox) {
+                    checkbox.addEventListener("change", () => {
+                        casino.unused = checkbox.checked;
+                        saveCasinoData(casinos);
+                        loadCasinoData(); // Reload the list to reflect changes
+                    });
+                }
 
-            // Add event listener for the casino link
-            const link = document.querySelector(`a[data-id="${casino.id}"]`);
-            link.addEventListener("click", () => {
-                casino.lastCollection = new Date().toISOString();
-                casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours from now
-                saveCasinoData(casinos);
-                loadCasinoData(); // Reload the list to update the timer
-            });
-        }
-    });
+                // Add event listener for the casino link
+                const link = document.querySelector(`a[data-id="${casino.id}"]`);
+                if (link) {
+                    link.addEventListener("click", () => {
+                        casino.lastCollection = new Date().toISOString();
+                        casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours from now
+                        saveCasinoData(casinos);
+                        
+                        // Attempt to update Discord streak if user is logged in
+                        updateStreak();
+                        
+                        // Reload the list to update the timer
+                        loadCasinoData(); 
+                    });
+                }
+            }
+        });
+    }
 
     // Save the updated casino data
     saveCasinoData(casinos);
 }
 
+// Function to update streak on the server if user is logged in
+function updateStreak() {
+    const user = JSON.parse(localStorage.getItem('discordUser'));
+    if (user && user.id) {
+        // If using the backend server, uncomment this:
+        /*
+        fetch('/collect', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Streak updated:', data);
+        })
+        .catch(error => {
+            console.error('Error updating streak:', error);
+        });
+        */
+        
+        // For GitHub Pages version (without backend), just log
+        console.log('Would update streak for user', user.username);
+    }
+}
+
 // Countdown logic for each timer cell
 function updateCountdowns() {
+    const countdownElements = document.querySelectorAll('.countdown');
+    if (countdownElements.length === 0) return;
+    
     const casinos = JSON.parse(localStorage.getItem("casinoData")) || {};
+    
     Object.keys(casinos).forEach(casinoName => {
         const casino = casinos[casinoName];
         if (!casino.nextAvailable) return;
@@ -185,3 +278,7 @@ function saveCasinoData(casinos) {
     });
     localStorage.setItem("casinoData", JSON.stringify(dataToSave));
 }
+
+
+
+
