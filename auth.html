@@ -1,30 +1,577 @@
+Jme
+j...
+Online
+
+Jme — 4/25/25, 10:41 PM
+I tried
+Lame lol
+Z... — 4/25/25, 10:43 PM
+Thanks for trying :D
+Jme — 2:29 AM
+i wanted to ask if there was ever a decision made on the mod position but didnt wanna corner u in vc about it 😂
+Z... — 2:34 AM
+Ohhhh no not yet. Idk why they wanted to try that new role first.. but it makes no sense because that doesnt help coverage which is the issue
+Jme — 2:35 AM
+i was jw cuz i noticed the mod struggle lol
+Z... — 2:40 AM
+Yeah I know, I dont get it tbh but I'll just keep doing the 12+ hour shifts 7 days a week I guess :kek:
+Jme — 2:42 AM
+more $ in ur pocket lol
+Z... — 2:43 AM
+😅
+salary
+Jme — 2:51 AM
+oh yikes
+that is gay
+Z... — 2:52 AM
+Its alright, I can ask Seal for pretty much anything I want or need and he will sen. So it works out. But thats pretty hard for someone who doesnt ask for money from people.... he had to ask me today if I needed money
+Jme — 3:00 AM
+literally i will say no when i need it and someone asks, i know exactly what you mean when u say that. u gotta do it to get thru the feeling like ugh about asking. cuz its more avoiding judgement from urself than the reaction of other people if u notice. bet seal was super cool about it, just anxiety loaded all over asking other people for help. probably from asking and having somebody not come thru or make u feel bad about it
+waaaay too many words. lol but u get what i meant i think lol
+Z... — 3:01 AM
+yeah hes one of the most generous and humble people I have ever met tbh. And even if I tell him I want to pay him back he tells me no.
+sometimes I make him let me though
+Jme — 3:30 AM
+hey , you know that collectclock thingy i sent u a while back, this casinos list for daily bonus collecting..how would i get the users discord to link to it like the login button takes you to the auth screen and it says it links but you can do that over and over again. jw how i would implement the login part. i need to add it to my portfolio project for class and am stuck.  sorry if thats a dumb question lol sometimes i skip foundational steps when finding solutions lol
+https://jmenichole.github.io/CollectClock/
+🎰 CollectClock 💰
+Collect your daily bonuses from the list of casinos below
+that^^
+Z... — 3:32 AM
+Can you send it again I am been fried lately looking at code XD
+thank you
+lol
+Jme — 3:32 AM
+no no , thank u]
+hang on thats probably not helpful, the repo link https://github.com/jmenichole/CollectClock
+GitHub
+GitHub - jmenichole/CollectClock: This project aims to streamline t...
+This project aims to streamline the bonus collection process and create an efficient system for timing multiple casino collections. - jmenichole/CollectClock
+GitHub - jmenichole/CollectClock: This project aims to streamline t...
+Z... — 3:32 AM
+Thats what I needed
+I was about to go look a different way XD
+Jme — 3:33 AM
+i thought about it after i sent the first one lol
+Z... — 3:33 AM
+give me a minute to look over what you have '
+Jme — 3:34 AM
+i prolly got some unused files and shit there, dont mind the mess i use AI alot lol
+Z... — 3:34 AM
+Okay before I do, try to reword what you're looking for for me XD I dont understand the exact idea
+or issue
+Discord to log in, I got that part
+Jme — 3:35 AM
+fkn discord login loops
+Z... — 3:35 AM
+ahh
+Jme — 3:35 AM
+so it seems like its not logging the user in
+i know i had the timers using local storage to save but
+Z... — 3:35 AM
+do me a favor
+you should take the env out of your github
+Jme — 3:36 AM
+ooof
+ok
+Z... — 3:36 AM
+lol
+Jme — 3:36 AM
+Z... — 3:36 AM
+put a placeholder, because I could get into your discord if I wanted now XD
+obv I wont
+Jme — 3:37 AM
+what env.
+wait
+i just deleted it..
+um
+did i break it
+Z... — 3:37 AM
+you need it in your personal one
+1 sec
+So they person who uses this, will need to input their own client id and secret key
+unless Im misunderstanding
+Jme — 3:39 AM
+it doesnt seem broken. hm. where does it get it from if i deleted it. lol im sorry, you're working and shit. my bad. its already late, it cant hurt more really. dont worry too much about it rn, if u have some free time maybe tmrw ? didnt mean to plague u with another thing to do fr i wasnt evern thinking about the level of envolvment i was asking from u. code can be a whole nother demension and swallow time haha
+Z... — 3:40 AM
+yeah everything on the site is working still
+Jme — 3:40 AM
+im not even sure i need the discord linking thing fr, if it saves the timers via local storage what reason do i have to need the discord linked besides to look fancy. from a user standpoint, would u care if it linked to ur discord?
+Z... — 3:41 AM
+Okay Im looking into the discord login stuff give me a few to look over it :)
+Jme — 3:41 AM
+i appreciate it. i know ur already multitasking so thanks for adding to ur to do list 😬
+Z... — 3:46 AM
+clever way for referral links btw
+Jme — 3:46 AM
+i made the list before i noticed that opportunity lol
+Z... — 3:47 AM
+keeping them off would be better if you want it to be more widely used. If you shared it in stakestats and it had those it would be problematic
+Jme — 3:47 AM
+hm
+i wonder if i still have the version without it
+wait
+i could share it in stakestats
+if i took them off
+Z... — 3:48 AM
+I would have to talk to Seal, but I dont see why not
+Jme — 3:49 AM
+so im torn between my want to just be helpful by providing the list and wanting to monetize it somehow to not miss out on that opportunity
+thoughts?
+im def gonna take ur advice on the referral links and remove them
+Z... — 3:51 AM
+so it looks like an auth issue with the redirect uri config
+just a weird flow with github
+Jme — 3:52 AM
+hm
+so github is the issue?
+Z... — 3:53 AM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Collect your daily bonuses from the list of casinos below">
+    <title>🎰 CollectClock 💰</title>
+    
+    <!-- CSS and Fonts -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VYYZY6RVS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4VYYZY6RVS');
+    </script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>CollectClock Dashboard</h1>
+        
+        <!-- Login button (will be hidden if user is logged in) -->
+        <div id="login-button" class="login-container">
+            <button class="discord-button" id="discord-login">Login with Discord</button>
+        </div>
+        
+        <!-- User info will be added here dynamically when logged in -->
+    </header>
+
+    <main>
+        <p><strong>Hide casinos you don't use</strong> – check the boxes to move them to the bottom of the list.</p>
+        
+        <!-- Active Casino Links -->
+        <div class="tab-content active" id="tracker">
+            <table class="tracker-table">
+                <tbody id="casino-list">
+                    <!-- Casino rows will be added dynamically via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Unused Casino Links -->
+        <div class="tab-content" id="unused-casinos">
+            <h2>Unused Casino Links</h2>
+            <table class="tracker-table">
+                <tbody id="unused-casino-list">
+                    <!-- Unused casino rows will be added dynamically via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div class="suggest-casino">
+        <p>🎲 Don't see your casino? <a href="https://discord.gg/q4K9n9hEpR" target="_blank">Send me a message on Discord</a> and we'll add it!</p>
+        <p>♠️ If you like to play poker and want bonus drops for casinos, join the <a href="https://discord.gg/betcollective" target="_blank">BetCollective server</a>.</p>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <a href="https://github.com/sponsors/jmenichole" class="support-button">💝 Support CollectClock</a>
+        <p class="copyright">2025 Jamie Vargas. All rights reserved.</p>
+    </div>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+    
+    <!-- Discord Auth Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginButton = document.getElementById('discord-login');
+            if (loginButton) {
+                loginButton.addEventListener('click', function() {
+                    // Discord OAuth2 URL
+                    const clientId = '1336968746450812928';
+                    const redirectUri = encodeURIComponent(window.location.origin + '/auth.html');
+                    const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=identify`;
+                    
+                    window.location.href = authUrl;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+Collapse
+fixed-index-html.html
+4 KB
+document.addEventListener("DOMContentLoaded", () => {
+    checkUserLogin();
+    loadCasinoData();
+    setInterval(updateCountdowns, 1000); // Ensure countdowns are updated every second
+});
+
+// Check if user is logged in via Discord
+function checkUserLogin() {
+    const user = JSON.parse(localStorage.getItem('discordUser'));
+    const loginButton = document.getElementById('login-button');
+    
+    if (user && user.id) {
+        // User is logged in
+        console.log('User logged in:', user.username);
+        
+        // Hide login button if it exists
+        if (loginButton) {
+            loginButton.style.display = 'none';
+        }
+        
+        // Display user info
+        const userInfoHTML = `
+            <div class="user-info">
+                <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" 
+                     alt="${user.username}" 
+                     class="user-avatar" />
+                <div class="user-details">
+                    <span class="username">${user.username}</span>
+                    <button id="logout-button" class="logout-button">Logout</button>
+                </div>
+            </div>
+        `;
+        
+        // Insert user info at the top of the page
+        const header = document.querySelector('header');
+        if (header) {
+            header.insertAdjacentHTML('beforeend', userInfoHTML);
+            
+            // Add logout functionality
+            document.getElementById('logout-button').addEventListener('click', () => {
+                localStorage.removeItem('discordUser');
+                window.location.reload();
+            });
+        }
+    } else {
+        // User is not logged in
+        console.log('User not logged in');
+        
+        // Ensure login button is visible
+        if (loginButton) {
+            loginButton.style.display = 'block';
+        }
+    }
+}
+
+function loadCasinoData() {
+    const casinoList = document.getElementById("casino-list");
+    const unusedCasinoList = document.getElementById("unused-casino-list");
+
+    // Clear existing content
+    if (casinoList) casinoList.innerHTML = "";
+    if (unusedCasinoList) unusedCasinoList.innerHTML = "";
+
+    const casinos = [
+        // Social Casinos
+        { name: "Stake US", category: "Casino", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null, unused: false },
+        { name: "Rolla", category: "Casino", url: "https://www.rolla.com/?raf=3873", lastCollection: null, nextCollection: null, unused: false },
+        { name: "SpinPals", category: "Casino", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null, unused: false },
+        // ... keep all the existing casinos ...
+        
+        // Sports Betting Sites (no timer)
+        { name: "Slips", category: "Sports", url: "https://slips.com/invite?code=6901", unused: false },
+        { name: "PrizePicks", category: "Sports", url: "https://app.prizepicks.com/sign-up?invite_code=PR-43MTIEY", unused: false },
+        // ... keep all the existing sports sites ...
+    ];
+
+    // Load saved data from localStorage
+    const savedData = JSON.parse(localStorage.getItem("casinoData")) || {};
+    casinos.forEach(casino => {
+        const savedCasino = savedData[casino.name];
+        if (savedCasino) {
+            casino.lastCollection = savedCasino.lastCollection;
+            casino.nextAvailable = savedCasino.nextAvailable;
+            casino.unused = savedCasino.unused || false;
+        }
+    });
+
+    // Sort casinos by nextAvailable time
+    casinos.sort((a, b) => {
+        if (a.unused !== b.unused) return a.unused ? 1 : -1;
+        if (!a.nextAvailable || !b.nextAvailable) return 0;
+        return new Date(a.nextAvailable) - new Date(b.nextAvailable);
+    });
+
+    // Create category headers and add casinos
+    if (casinoList && unusedCasinoList) {
+        let currentCategory = "";
+        casinos.forEach((casino, index) => {
+            const targetList = casino.unused ? unusedCasinoList : casinoList;
+
+... (138 lines left)
+Collapse
+fixed-script-js.js
+10 KB
 <!DOCTYPE html>
 <html>
-  <head><title>Discord Auth</title></head>
+  <head>
+    <title>Discord Auth</title>
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: gold;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .auth-container {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        max-width: 500px;
+      }
+      .spinner {
+        border: 4px solid rgba(255, 215, 0, 0.3);
+        border-radius: 50%;
+        border-top: 4px solid gold;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .error {
+        color: #ff6b6b;
+        font-weight: bold;
+      }
+    </style>
+  </head>
   <body>
-    <h2>Logging you in with Discord...</h2>
+    <div class="auth-container">
+      <h2>Logging you in with Discord...</h2>
+      <div class="spinner" id="spinner"></div>
+      <div id="status-message"></div>
+    </div>
+    
     <script>
-      const params = new URLSearchParams(window.location.hash.slice(1));
-      const token = params.get("access_token");
-
-      if (!token) {
-        document.body.innerHTML = "<p>❌ No access token found. Please try again.</p>";
-      
+      // Function to display error messages
+      function showError(message) {
+        document.getElementById('spinner').style.display = 'none';
+        const statusEl = document.getElementById('status-message');
+        statusEl.innerHTML = `<p class="error">⚠️ ${message}</p>`;
       }
 
-      fetch("https://discord.com/api/users/@me", {
-        headers: {
-          Authorization: `Bearer ${token}`
+      // Function to display success message
+      function showSuccess(message) {
+        document.getElementById('spinner').style.display = 'none';
+        const statusEl = document.getElementById('status-message');
+        statusEl.innerHTML = `<p>${message}</p>`;
+      }
+      
+      // Main logic
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          // Check if we have the access token in the URL
+          const fragment = new URLSearchParams(window.location.hash.slice(1));
+          const token = fragment.get('access_token');
+          
+          if (!token) {
+            showError('No access token found. Please try logging in again.');
+            return;
+          }
+          
+          // Get user data from Discord
+          fetch('https://discord.com/api/users/@me', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch user data from Discord');
+            }
+            return response.json();
+          })
+          .then(userData => {
+            if (!userData || !userData.id) {
+              throw new Error('Invalid user data received');
+            }
+            
+            // Save user data to localStorage
+            localStorage.setItem('discordUser', JSON.stringify(userData));
+            showSuccess('Login successful! Redirecting you to CollectClock...');
+            
+            // Redirect back to main page
+            setTimeout(() => {
+... (16 lines left)
+Collapse
+fixed-auth-html.html
+4 KB
+try that
+let me know
+ohh
+Jme — 3:53 AM
+okay
+Z... — 3:53 AM
+1 more thing
+let me check
+acctually might be good.
+back up of course
+:P
+Jme — 3:54 AM
+i've made that mistake before
+omg
+sucked
+Z... — 3:55 AM
+I mean I didnt make any insane changes
+so should be fine and I have a backup now if you needed it XD
+Jme — 3:55 AM
+LOL ty ty
+changing now
+Z... — 3:57 AM
+if people have access to the github file is where you want to take the .env out.
+you want it in your actual server config 
+I should've been more clear
+I have it here
+Attachment file type: unknown
+.env
+185 bytes
+Jme — 3:58 AM
+should i have deleted it from the repo?
+haha damn i just gave it right to ya!! at least ur not scammish and i didnt fuck up lol
+Z... — 3:58 AM
+lolol
+﻿
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Discord Auth</title>
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: gold;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .auth-container {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        max-width: 500px;
+      }
+      .spinner {
+        border: 4px solid rgba(255, 215, 0, 0.3);
+        border-radius: 50%;
+        border-top: 4px solid gold;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .error {
+        color: #ff6b6b;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-container">
+      <h2>Logging you in with Discord...</h2>
+      <div class="spinner" id="spinner"></div>
+      <div id="status-message"></div>
+    </div>
+    
+    <script>
+      // Function to display error messages
+      function showError(message) {
+        document.getElementById('spinner').style.display = 'none';
+        const statusEl = document.getElementById('status-message');
+        statusEl.innerHTML = `<p class="error">⚠️ ${message}</p>`;
+      }
+
+      // Function to display success message
+      function showSuccess(message) {
+        document.getElementById('spinner').style.display = 'none';
+        const statusEl = document.getElementById('status-message');
+        statusEl.innerHTML = `<p>${message}</p>`;
+      }
+      
+      // Main logic
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          // Check if we have the access token in the URL
+          const fragment = new URLSearchParams(window.location.hash.slice(1));
+          const token = fragment.get('access_token');
+          
+          if (!token) {
+            showError('No access token found. Please try logging in again.');
+            return;
+          }
+          
+          // Get user data from Discord
+          fetch('https://discord.com/api/users/@me', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch user data from Discord');
+            }
+            return response.json();
+          })
+          .then(userData => {
+            if (!userData || !userData.id) {
+              throw new Error('Invalid user data received');
+            }
+            
+            // Save user data to localStorage
+            localStorage.setItem('discordUser', JSON.stringify(userData));
+            showSuccess('Login successful! Redirecting you to CollectClock...');
+            
+            // Redirect back to main page
+            setTimeout(() => {
+              window.location.href = '/';  // Redirect to root of the current domain
+            }, 1500);
+          })
+          .catch(error => {
+            console.error('Auth error:', error);
+            showError('Failed to log in with Discord. Please try again later.');
+          });
+        } catch (error) {
+          console.error('Unexpected error:', error);
+          showError('An unexpected error occurred. Please try again.');
         }
-      })
-      .then(res => res.json())
-      .then(user => {
-        localStorage.setItem("discordUser", JSON.stringify(user));
-        window.location.href = "https://jmenichole.github.io/CollectClock/";
-      })
-      .catch(err => {
-        console.error("Error fetching user:", err);
-        document.body.innerHTML = "<p>⚠️ Failed to log in. Please try again later.</p>";
       });
     </script>
   </body>
