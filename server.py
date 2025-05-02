@@ -7,6 +7,8 @@ import requests
 import logging
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 load_dotenv()
 
@@ -24,6 +26,8 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 }
 db = SQLAlchemy(app)
 CORS(app)  # Enable CORS for all routes
+
+limiter = Limiter(get_remote_address, app=app)
 
 # Discord OAuth2 credentials
 DISCORD_CLIENT_ID = os.getenv('DISCORD_CLIENT_ID')
@@ -155,6 +159,7 @@ def get_leaderboard():
         return jsonify({'error': 'Server error'}), 500
 
 @app.route('/collect', methods=['POST'])
+@limiter.limit("5 per minute")  # Limit to 5 requests per minute per IP
 def collect():
     if 'user_id' not in session:
         return jsonify({'error': 'Not logged in'}), 401
@@ -182,6 +187,8 @@ def collect():
         
         user.last_collection = now
         db.session.commit()
+        
+        logger.info(f"User {user.id} collected bonus at {now}")
         
         return jsonify({
             'current_streak': user.current_streak,

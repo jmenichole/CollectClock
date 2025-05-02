@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     checkUserLogin();
     loadCasinoData();
     setInterval(updateCountdowns, 1000); // Ensure countdowns are updated every second
+    updateUserStats(); // Update user stats at the top
 });
 
 // Check if user is logged in via Discord
@@ -50,6 +51,33 @@ function checkUserLogin() {
         if (loginButton) {
             loginButton.style.display = 'block';
         }
+    }
+}
+
+function updateUserStats() {
+    const user = JSON.parse(localStorage.getItem('discordUser'));
+    const casinoData = JSON.parse(localStorage.getItem("casinoData")) || {};
+    const userStats = document.querySelector('.user-details');
+
+    if (user && userStats) {
+        let totalCollected = 0;
+        const collectionCounts = {};
+
+        Object.values(casinoData).forEach(casino => {
+            if (casino.lastCollection) {
+                totalCollected++;
+                collectionCounts[casino.name] = (collectionCounts[casino.name] || 0) + 1;
+            }
+        });
+
+        const mostCollected = Object.entries(collectionCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "None";
+
+        userStats.insertAdjacentHTML('beforeend', `
+            <div class="user-stats">
+                <p>Days Collected: <strong>${totalCollected}</strong></p>
+                <p>Most Collected Casino: <strong>${mostCollected}</strong></p>
+            </div>
+        `);
     }
 }
 
@@ -166,6 +194,9 @@ function loadCasinoData() {
                     <td><a href="${casino.url}" target="_blank" class="casino-link" data-id="${casino.id}">${casino.name}</a></td>
                     <td class="countdown" id="countdown-${casino.id}">${formatCountdown(casino.nextAvailable)}</td>
                     <td><input type="checkbox" class="unused-checkbox" id="checkbox-${casino.id}" ${casino.unused ? "checked" : ""}></td>
+                    <td>
+                        <button class="frequency-button" data-id="${casino.id}">Set Frequency</button>
+                    </td>
                 `;
             }
 
@@ -198,6 +229,22 @@ function loadCasinoData() {
                     });
                 }
             }
+        });
+
+        // Add event listeners for frequency buttons
+        document.querySelectorAll('.frequency-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const casinoId = button.getAttribute('data-id');
+                const frequency = prompt("How often does this casino bonus restart? (e.g., 24 hours, 12 hours)");
+                if (frequency) {
+                    const casino = casinos.find(c => c.id === casinoId);
+                    if (casino) {
+                        casino.frequency = frequency;
+                        saveCasinoData(casinos);
+                        alert(`Frequency for ${casino.name} set to: ${frequency}`);
+                    }
+                }
+            });
         });
     }
 
@@ -234,23 +281,13 @@ function updateStreak() {
 
 // Countdown logic for each timer cell
 function updateCountdowns() {
-    const countdownElements = document.querySelectorAll('.countdown');
-    if (countdownElements.length === 0) return;
-    
     const casinos = JSON.parse(localStorage.getItem("casinoData")) || {};
-    
-    Object.keys(casinos).forEach(casinoName => {
-        const casino = casinos[casinoName];
+    Object.entries(casinos).forEach(([casinoName, casino]) => {
         if (!casino.nextAvailable) return;
-
         const countdownElement = document.getElementById(`countdown-${casinoName}`);
-        if (!countdownElement) return;
-
-        const timeLeft = new Date(casino.nextAvailable) - new Date();
-        if (timeLeft > 0) {
-            countdownElement.innerText = formatCountdown(casino.nextAvailable);
-        } else {
-            countdownElement.innerText = "Available!";
+        if (countdownElement) {
+            const timeLeft = new Date(casino.nextAvailable) - new Date();
+            countdownElement.innerText = timeLeft > 0 ? formatCountdown(casino.nextAvailable) : "Available!";
         }
     });
 }
@@ -273,7 +310,8 @@ function saveCasinoData(casinos) {
         dataToSave[casino.name] = {
             lastCollection: casino.lastCollection,
             nextAvailable: casino.nextAvailable,
-            unused: casino.unused
+            unused: casino.unused,
+            frequency: casino.frequency || null
         };
     });
     localStorage.setItem("casinoData", JSON.stringify(dataToSave));

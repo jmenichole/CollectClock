@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VYYZY6RVS"></script>
     <script>
@@ -26,10 +29,13 @@
         
         <!-- Login button (will be hidden if user is logged in) -->
         <div id="login-button" class="login-container">
-            <button class="discord-button" id="discord-login">Login with Discord</button>
+            <button class="discord-button" id="discord-login" aria-label="Login with Discord">Login with Discord</button>
         </div>
         
         <!-- User info will be added here dynamically when logged in -->
+        <div class="user-info">
+            <!-- User stats will be dynamically added here -->
+        </div>
     </header>
 
     <main>
@@ -85,5 +91,6 @@
             }
         });
     </script>
+    <script src="js/popup.js"></script>
 </body>
 </html>

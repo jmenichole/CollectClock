@@ -9,6 +9,11 @@ body {
     overflow-x: hidden;
 }
 
+/* Add smooth transitions for all elements */
+* {
+    transition: all 0.3s ease-in-out;
+}
+
 /* Top Banner or Logo Area */
 header {
     padding: 20px 0;
@@ -16,6 +21,10 @@ header {
     backdrop-filter: blur(8px);
     border-bottom: 1px solid gold;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    animation: fadeInDown 0.8s ease-in-out;
 }
 
 header h1 {
@@ -25,6 +34,18 @@ header h1 {
     color: gold;
     text-shadow: none;
     margin: 0;
+}
+
+/* Add keyframe animation for header */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Glassy container box for the table */
@@ -43,12 +64,25 @@ header h1 {
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s, box-shadow 0.3s;
+    animation: fadeInUp 0.5s ease-in-out;
 }
 
 .tracker-table tr:hover {
-    transform: scale(1.015);
-    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+    transform: scale(1.02);
+    box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
     background: rgba(255, 255, 255, 0.07);
+}
+
+/* Add keyframe animation for table rows */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Column Layout */
@@ -89,7 +123,7 @@ header h1 {
 
 .tracker-table a:hover {
     color: #00ffe0;
-    text-shadow: none);
+    text-shadow: 0 0 8px #00ffe0, 0 0 12px #00ffe0;
 }
 
 /* Checkboxes */
@@ -111,10 +145,12 @@ input[type="checkbox"] {
     font-size: 1rem;
     box-shadow: 0 5px 15px rgba(255, 165, 0, 0.4);
     transition: transform 0.2s, background 0.3s;
+    letter-spacing: 0.5px;
 }
 .support-button:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     background: linear-gradient(90deg, #FFA500, #FFD700);
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.5);
 }
 
 /* Footer Bar */
@@ -132,7 +168,7 @@ input[type="checkbox"] {
 .countdown {
     font-size: 1rem;
     color: #00ffe0;
-    text-shadow: none);
+    text-shadow: 0 0 5px #00ffe0; /* Fixed unmatched parenthesis */
 }
 
 /* Casino Suggest Box */
@@ -165,17 +201,40 @@ a:visited {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2.3rem;
+        font-size: 2.5rem;
     }
     .tracker-table td {
-        font-size: 0.95rem;
+        font-size: 1rem;
         padding: 10px 8px;
     }
     .support-button {
-        font-size: 0.9rem;
+        font-size: 1rem;
         padding: 10px 16px;
     }
+    .discord-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    .tracker-table td {
+        font-size: 0.9rem;
+        padding: 8px 6px;
+    }
+    .support-button {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+    .discord-button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
+
 .discord-button {
   background-color: #5865F2;
   color: white;
@@ -185,9 +244,14 @@ a:visited {
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 .discord-button:hover {
   background-color: #4752c4;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Minimized state for casinos */
@@ -196,3 +260,79 @@ a:visited {
 }
 
 /* Professional styling for CollectClock without askew frames, fully responsive */
+
+/* User Stats */
+.user-stats {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: gold;
+}
+
+/* Frequency Button */
+.frequency-button {
+    padding: 6px 12px;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: transform 0.2s, background 0.3s;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+}
+
+.frequency-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(90deg, #FFA500, #FFD700);
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
+}
+
+/* Funny Popup Styling */
+.funny-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: gold;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    text-align: center;
+    animation: popupFadeIn 0.5s ease-in-out;
+}
+
+.funny-popup .popup-content {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.funny-popup .close-popup {
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.funny-popup .close-popup:hover {
+    transform: scale(1.1);
+    background: linear-gradient(90deg, #FFA500, #FFD700);
+}
+
+/* Popup Fade-in Animation */
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
