@@ -168,29 +168,7 @@ input[type="checkbox"] {
 .countdown {
     font-size: 1rem;
     color: #00ffe0;
-    text-shadow: 0 0 5px #00ffe0; /* Fixed unmatched parenthesis */
-}
-
-/* Casino Suggest Box */
-.suggest-casino {
-    margin-top: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-top: 1px solid gold;
-    font-size: 1rem;
-    color: gold;
-    border-radius: 0 0 12px 12px;
-    box-shadow: 0 -2px 10px rgba(255, 215, 0, 0.2);
-}
-
-.suggest-casino a {
-    color: #FFD700;
-    text-decoration: underline;
-    transition: color 0.3s;
-}
-
-.suggest-casino a:hover {
-    color: #00ffe0;
+    text-shadow: none;
 }
 
 /* Visited Links */
@@ -211,10 +189,6 @@ a:visited {
         font-size: 1rem;
         padding: 10px 16px;
     }
-    .discord-button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -229,110 +203,9 @@ a:visited {
         font-size: 0.85rem;
         padding: 8px 12px;
     }
-    .discord-button {
-        font-size: 12px;
-        padding: 6px 12px;
-    }
-}
-
-.discord-button {
-  background-color: #5865F2;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  transition: transform 0.2s, box-shadow 0.3s;
-}
-.discord-button:hover {
-  background-color: #4752c4;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Minimized state for casinos */
 .casino-row.hidden {
-    display: none;
-}
-
-/* Professional styling for CollectClock without askew frames, fully responsive */
-
-/* User Stats */
-.user-stats {
-    margin-top: 10px;
-    font-size: 0.9rem;
-    color: gold;
-}
-
-/* Frequency Button */
-.frequency-button {
-    padding: 6px 12px;
-    background: linear-gradient(90deg, #FFD700, #FFA500);
-    color: black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: transform 0.2s, background 0.3s;
-    font-weight: bold;
-    letter-spacing: 0.3px;
-}
-
-.frequency-button:hover {
-    transform: scale(1.1);
-    background: linear-gradient(90deg, #FFA500, #FFD700);
-    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
-}
-
-/* Funny Popup Styling */
-.funny-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: gold;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    z-index: 10000;
-    text-align: center;
-    animation: popupFadeIn 0.5s ease-in-out;
-}
-
-.funny-popup .popup-content {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.funny-popup .close-popup {
-    padding: 8px 16px;
-    background: linear-gradient(90deg, #FFD700, #FFA500);
-    color: black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.2s, background 0.3s;
-}
-
-.funny-popup .close-popup:hover {
-    transform: scale(1.1);
-    background: linear-gradient(90deg, #FFA500, #FFD700);
-}
-
-/* Popup Fade-in Animation */
-@keyframes popupFadeIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -60%);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
+    display: table-row;
 }
