@@ -236,13 +236,15 @@ function loadCasinoData() {
             button.addEventListener('click', () => {
                 const casinoId = button.getAttribute('data-id');
                 const frequency = prompt("How often does this casino bonus restart? (e.g., 24 hours, 12 hours)");
-                if (frequency) {
-                    const casino = casinos.find(c => c.id === casinoId);
-                    if (casino) {
-                        casino.frequency = frequency;
-                        saveCasinoData(casinos);
-                        alert(`Frequency for ${casino.name} set to: ${frequency}`);
-                    }
+                if (!/^\d+\s(hours|days)$/.test(frequency)) {
+                    alert('Invalid format. Please use "X hours" or "X days".');
+                    return;
+                }
+                const casino = casinos.find(c => c.id === casinoId);
+                if (casino) {
+                    casino.frequency = frequency;
+                    saveCasinoData(casinos);
+                    alert(`Frequency for ${casino.name} set to: ${frequency}`);
                 }
             });
         });
@@ -315,6 +317,19 @@ function saveCasinoData(casinos) {
         };
     });
     localStorage.setItem("casinoData", JSON.stringify(dataToSave));
+}
+
+// Add error handling for fetch calls
+async function fetchNextBonusTime() {
+    try {
+        const response = await fetch('/api/next-bonus');
+        if (!response.ok) throw new Error('Failed to fetch next bonus time');
+        const data = await response.json();
+        return data.nextBonusTime;
+    } catch (error) {
+        console.error('Error fetching next bonus time:', error);
+        return null;
+    }
 }
 
 

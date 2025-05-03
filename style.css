@@ -16,14 +16,12 @@ body {
 
 /* Top Banner or Logo Area */
 header {
-    padding: 20px 0;
+    padding: 10px 0; /* Reduced padding */
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid gold;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    /* Removed position: sticky */
     animation: fadeInDown 0.8s ease-in-out;
 }
 
