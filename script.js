@@ -90,7 +90,8 @@ function loadCasinoData() {
     if (unusedCasinoList) unusedCasinoList.innerHTML = "";
 
    
-    const casinoList = [
+    const casinos = [
+
   { name: "Stake US", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
   { name: "Rolla", url: "https://www.rolla.com", lastCollection: null, nextAvailable: null },
   { name: "SpinPals", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null },
