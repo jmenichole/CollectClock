@@ -89,64 +89,54 @@ function loadCasinoData() {
     if (casinoList) casinoList.innerHTML = "";
     if (unusedCasinoList) unusedCasinoList.innerHTML = "";
 
-   
     const casinos = [
-
-  { name: "Stake US", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
-  { name: "Rolla", url: "https://www.rolla.com", lastCollection: null, nextAvailable: null },
-  { name: "SpinPals", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null },
-  { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
-  { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
-  { name: "Rainbet", url: "https://rainbet.com/", lastCollection: null, nextAvailable: null },
-  { name: "Bitsler.io", url: "https://bitsler.io", lastCollection: null, nextAvailable: null },
-  { name: "SpinBlitz", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null },
-  { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
-  { name: "Pulsz", url: "https://www.pulsz.com/?invited_by=utfk4r", lastCollection: null, nextAvailable: null },
-  { name: "Pulsz Bingo", url: "https://pulszbingo.com", lastCollection: null, nextAvailable: null },
-  { name: "Wow Vegas", url: "https://www.wowvegas.com/?raf=3615494", lastCollection: null, nextAvailable: null },
-  { name: "McLuck", url: "https://www.mcluck.com/?r=908900038", lastCollection: null, nextAvailable: null },
-  { name: "Winna", url: "https://winna.com/", lastCollection: null, nextAvailable: null },
-  { name: "Mega Bonanza", url: "https://www.megabonanza.com/?r=72781897", lastCollection: null, nextAvailable: null },
-  { name: "High 5 Casino", url: "https://high5casino.com/gc?adId=INV001%3AJmenichole", lastCollection: null, nextAvailable: null },
-  { name: "Lucky Bird", url: "https://luckybird.io/?c=c_jmenichole", lastCollection: null, nextAvailable: null },
-  { name: "Spree", url: "https://spree.com/?r=440894", lastCollection: null, nextAvailable: null },
-  { name: "Crown Coins", url: "https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends", lastCollection: null, nextAvailable: null },
-  { name: "Real Prize", url: "https://www.realprize.com/refer/317136", lastCollection: null, nextAvailable: null },
-  { name: "Clubs Poker", url: "https://play.clubs.poker/?referralCode=104192", lastCollection: null, nextAvailable: null },
-  { name: "Hello Millions", url: "https://www.hellomillions.com/referred-by-friend?r=26d6760f%2F1236643867", lastCollection: null, nextAvailable: null },
-  { name: "Chanced", url: "https://chanced.com/c/m9q2mi", lastCollection: null, nextAvailable: null },
-  { name: "Rain.gg", url: "https://rain.gg", lastCollection: null, nextAvailable: null },
-  { name: "PlayFame", url: "https://www.playfame.com/?r=1275975417", lastCollection: null, nextAvailable: null },
-  { name: "Jackpota", url: "https://www.jackpota.com/?r=85453282", lastCollection: null, nextAvailable: null },
-  { name: "Zula Casino", url: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", lastCollection: null, nextAvailable: null },
-  { name: "Cases.gg", url: "https://cases.gg/r/JMENICHOLE", lastCollection: null, nextAvailable: null },
-  { name: "Trust Dice", url: "https://trustdice.win/faucet/?ref=u_jmenichole", lastCollection: null, nextAvailable: null },
-  { name: "Punt", url: "https://punt.com/c/cg60pd", lastCollection: null, nextAvailable: null },
-  { name: "Fortune Wheelz", url: "https://fortunewheelz.com/?invited_by=P36ZS6", lastCollection: null, nextAvailable: null },
-  { name: "Zoot", url: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", lastCollection: null, nextAvailable: null },
-  { name: "MyPrize.us", url: "https://myprize.us/invite/quietMorning197", lastCollection: null, nextAvailable: null },
-  { name: "Modo.us", url: "https://modo.us?referralCode=61MN6A", lastCollection: null, nextAvailable: null },
-  { name: "Spinsala", url: "https://spinsala.com/en?invite=daym", lastCollection: null, nextAvailable: null },
-  { name: "Clash.gg", url: "https://clash.gg/r/stakestats", lastCollection: null, nextAvailable: null },
-  { name: "Chumba", url: "https://Chumbacasino.com", lastCollection: null, nextAvailable: null },
-  { name: "Luckyland Slots", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null },
-  { name: "Legendz", url: "https://legendz.com/?referred_by_id=221602", lastCollection: null, nextAvailable: null },
-  { name: "NoLimitCoins", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null },
-  { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
-  { name: "Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
-  { name: "Ding Ding Ding", url: "https://dingdingding.com/?referral=190cd69a-5af4-51bf-b418-9a35effcdf04", lastCollection: null, nextAvailable: null },
-  { name: "Gamba", url: "https://gamba.com?c=Jme", lastCollection: null, nextAvailable: null },
-  { name: "Goated", url: "https://www.goated.com/r/YDRZLJ", lastCollection: null, nextAvailable: null }
-];
-
-
- 
-
-        // Sports Betting Sites (no timer)
-   
+        { name: "Stake US", url: "https://stake.us/?c=Jmenichole", lastCollection: null, nextAvailable: null },
+        { name: "Rolla", url: "https://www.rolla.com", lastCollection: null, nextAvailable: null },
+        { name: "SpinPals", url: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", lastCollection: null, nextAvailable: null },
+        { name: "Casino Click", url: "https://casino.click", lastCollection: null, nextAvailable: null },
+        { name: "Sportzino", url: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", lastCollection: null, nextAvailable: null },
+        { name: "Rainbet", url: "https://rainbet.com/", lastCollection: null, nextAvailable: null },
+        { name: "Bitsler.io", url: "https://bitsler.io", lastCollection: null, nextAvailable: null },
+        { name: "SpinBlitz", url: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", lastCollection: null, nextAvailable: null },
+        { name: "Fortune Coins", url: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", lastCollection: null, nextAvailable: null },
+        { name: "Pulsz", url: "https://www.pulsz.com/?invited_by=utfk4r", lastCollection: null, nextAvailable: null },
+        { name: "Pulsz Bingo", url: "https://pulszbingo.com", lastCollection: null, nextAvailable: null },
+        { name: "Wow Vegas", url: "https://www.wowvegas.com/?raf=3615494", lastCollection: null, nextAvailable: null },
+        { name: "McLuck", url: "https://www.mcluck.com/?r=908900038", lastCollection: null, nextAvailable: null },
+        { name: "Winna", url: "https://winna.com/", lastCollection: null, nextAvailable: null },
+        { name: "Mega Bonanza", url: "https://www.megabonanza.com/?r=72781897", lastCollection: null, nextAvailable: null },
+        { name: "High 5 Casino", url: "https://high5casino.com/gc?adId=INV001%3AJmenichole", lastCollection: null, nextAvailable: null },
+        { name: "Lucky Bird", url: "https://luckybird.io/?c=c_jmenichole", lastCollection: null, nextAvailable: null },
+        { name: "Spree", url: "https://spree.com/?r=440894", lastCollection: null, nextAvailable: null },
+        { name: "Crown Coins", url: "https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends", lastCollection: null, nextAvailable: null },
+        { name: "Real Prize", url: "https://www.realprize.com/refer/317136", lastCollection: null, nextAvailable: null },
+        { name: "Clubs Poker", url: "https://play.clubs.poker/?referralCode=104192", lastCollection: null, nextAvailable: null },
+        { name: "Hello Millions", url: "https://www.hellomillions.com/referred-by-friend?r=26d6760f%2F1236643867", lastCollection: null, nextAvailable: null },
+        { name: "Chanced", url: "https://chanced.com/c/m9q2mi", lastCollection: null, nextAvailable: null },
+        { name: "Rain.gg", url: "https://rain.gg", lastCollection: null, nextAvailable: null },
+        { name: "PlayFame", url: "https://www.playfame.com/?r=1275975417", lastCollection: null, nextAvailable: null },
+        { name: "Jackpota", url: "https://www.jackpota.com/?r=85453282", lastCollection: null, nextAvailable: null },
+        { name: "Zula Casino", url: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", lastCollection: null, nextAvailable: null },
+        { name: "Cases.gg", url: "https://cases.gg/r/JMENICHOLE", lastCollection: null, nextAvailable: null },
+        { name: "Trust Dice", url: "https://trustdice.win/faucet/?ref=u_jmenichole", lastCollection: null, nextAvailable: null },
+        { name: "Punt", url: "https://punt.com/c/cg60pd", lastCollection: null, nextAvailable: null },
+        { name: "Fortune Wheelz", url: "https://fortunewheelz.com/?invited_by=P36ZS6", lastCollection: null, nextAvailable: null },
+        { name: "Zoot", url: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", lastCollection: null, nextAvailable: null },
+        { name: "MyPrize.us", url: "https://myprize.us/invite/quietMorning197", lastCollection: null, nextAvailable: null },
+        { name: "Modo.us", url: "https://modo.us?referralCode=61MN6A", lastCollection: null, nextAvailable: null },
+        { name: "Spinsala", url: "https://spinsala.com/en?invite=daym", lastCollection: null, nextAvailable: null },
+        { name: "Clash.gg", url: "https://clash.gg/r/stakestats", lastCollection: null, nextAvailable: null },
+        { name: "Chumba", url: "https://Chumbacasino.com", lastCollection: null, nextAvailable: null },
+        { name: "Luckyland Slots", url: "https://luckylandslots.com", lastCollection: null, nextAvailable: null },
+        { name: "Legendz", url: "https://legendz.com/?referred_by_id=221602", lastCollection: null, nextAvailable: null },
+        { name: "NoLimitCoins", url: "https://nolimitcoins.com/?invited_by=ZI1JIU", lastCollection: null, nextAvailable: null },
+        { name: "Sidepot", url: "https://sidepot.us", lastCollection: null, nextAvailable: null },
+        { name: "Shuffle", url: "https://shuffle.com?r=jHR7JnWRPF", lastCollection: null, nextAvailable: null },
+        { name: "Gamba", url: "https://gamba.com?c=Jme", lastCollection: null, nextAvailable: null },
+        { name: "Goated", url: "https://www.goated.com/r/YDRZLJ", lastCollection: null, nextAvailable: null },
         { name: "Slips", category: "Sports", url: "https://slips.com/", unused: false },
         { name: "PrizePicks", category: "Sports", url: "https://app.prizepicks.com/", unused: false },
-        { name: "Dabble", category: "Sports", url: "https://click.dabble.com/", unused: false }, 
+        { name: "Dabble", category: "Sports", url: "https://click.dabble.com/", unused: false },
         { name: "Sleeper", category: "Sports", url: "https://sleeper.com/", unused: false },
         { name: "Sports Millions", category: "Sports", url: "https://www.sportsmillions.com/", unused: false },
         { name: "ParlayPlay", category: "Sports", url: "https://parlayplay.io/", unused: false }
@@ -160,10 +150,14 @@ function loadCasinoData() {
             casino.lastCollection = savedCasino.lastCollection;
             casino.nextAvailable = savedCasino.nextAvailable;
             casino.unused = savedCasino.unused || false;
+        } else {
+            // Default values for new casinos
+            casino.unused = false;
+            casino.category = casino.category || "Casinos";
         }
     });
 
-    // Sort casinos by nextAvailable time
+    // Sort casinos by unused status and nextAvailable time
     casinos.sort((a, b) => {
         if (a.unused !== b.unused) return a.unused ? 1 : -1;
         if (!a.nextAvailable || !b.nextAvailable) return 0;
@@ -227,12 +221,8 @@ function loadCasinoData() {
                         casino.lastCollection = new Date().toISOString();
                         casino.nextAvailable = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours from now
                         saveCasinoData(casinos);
-                        
-                        // Attempt to update Discord streak if user is logged in
                         updateStreak();
-                        
-                        // Reload the list to update the timer
-                        loadCasinoData(); 
+                        loadCasinoData(); // Reload the list to update the timer
                     });
                 }
             }
@@ -257,7 +247,6 @@ function loadCasinoData() {
         });
     }
 
-    // Save the updated casino data
     saveCasinoData(casinos);
 }
 
