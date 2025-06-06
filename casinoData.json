@@ -1,1 +1,8 @@
-// File removed as per request.
+{
+    "casinos": [
+        { "name": "Stake US", "status": "available", "frequency": "daily" },
+        { "name": "Rainbet", "status": "available", "frequency": "weekly" },
+        { "name": "Wow Vegas", "status": "available", "frequency": "monthly" },
+        { "name": "Rolla", "status": "available", "frequency": "daily" }
+    ]
+}
