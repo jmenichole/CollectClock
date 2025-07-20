@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Authenticating...</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #000;
+      color: #0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Linking your Discord...</h1>
+    <p>Please wait.</p>
+  </div>
+  <script>
+    async function handleAuth() {
+      const hash = window.location.hash.substring(1);
+      const params = new URLSearchParams(hash);
+      const token = params.get("access_token");
+
+      if (!token) {
+        document.body.innerHTML = "<h1>Missing token.</h1>";
+        return;
+      }
+
+      try {
+        const res = await fetch("https://discord.com/api/users/@me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const user = await res.json();
+
+        if (user && user.id) {
+          localStorage.setItem("discordUser", JSON.stringify({
+            id: user.id,
+            username: user.username,
+            discriminator: user.discriminator,
+            avatar: user.avatar,
+            token
+          }));
+          // Optional: show avatar on dashboard using user.avatar
+        }
+
+        // Redirect back to the dashboard
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error("Auth failed", err);
+        document.body.innerHTML = "<h1>Authentication failed.</h1>";
+      }
+    }
+
+    handleAuth();
+  </script>
+</body>
+</html>
