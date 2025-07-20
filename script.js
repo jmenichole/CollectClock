@@ -1,7 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
   const casinoTable = document.getElementById("casino-table");
   const collectedSummary = document.getElementById("collected-summary");
+  const modeToggle = document.getElementById("modeToggle");
   const msIn24Hours = 24 * 60 * 60 * 1000;
+
+  // Apply saved theme preference
+  const userPref = localStorage.getItem("theme");
+  if (userPref === "dark") document.body.classList.add("dark");
+
+  // Mode toggle logic
+  modeToggle?.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    const mode = document.body.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem("theme", mode);
+  });
 
   fetch("./casinoData.json")
     .then(res => res.json())
@@ -40,6 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
               updateSummary();
             } else {
               timeDisplay.innerText = formatMs(diff);
+              timeDisplay.classList.remove("timer-update");
+              void timeDisplay.offsetWidth; // force reflow
+              timeDisplay.classList.add("timer-update");
             }
           }, 60000);
         }
@@ -75,9 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const name = link.dataset.name;
             const href = link.getAttribute("href");
-            const proceed = confirm("Did you collect your bonus?");
 
-            if (!proceed) return;
+            const collected = confirm("Did you collect your bonus?");
+            if (!collected) return;
 
             const is24h = confirm("Is the next bonus available in 24 hours?");
             let durationMs = msIn24Hours;
@@ -89,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (parsed) {
                   durationMs = parsed;
                 } else {
-                  alert("Invalid time format. Expected something like '3h' or '2:30' or '45m'.");
+                  alert("Invalid format. Try '3h', '2:30', or '45m'.");
                   return;
                 }
               }
@@ -103,11 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             checkbox.checked = true;
             checkbox.disabled = true;
-            timeDisplay.innerText = formatMs(diff);
-timeDisplay.classList.remove("timer-update");
-void timeDisplay.offsetWidth; // reflow to restart animation
-timeDisplay.classList.add("timer-update");
-
+            timeDisplay.innerText = formatMs(durationMs);
+            timeDisplay.classList.add("timer-update");
 
             setTimeout(() => {
               checkbox.checked = false;
