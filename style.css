@@ -1,3 +1,4 @@
+/* Base Page Styling */
 body {
   font-family: 'Montserrat', sans-serif;
   background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
@@ -5,61 +6,92 @@ body {
   margin: 0;
   color: #22223b;
 }
+
+/* Layout Containers */
 header, main, .suggest-casino, .bottom-bar {
   max-width: 700px;
   margin: 30px auto;
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(34,34,59,0.08);
+  box-shadow: 0 4px 24px rgba(34, 34, 59, 0.08);
   padding: 2.5rem 2rem;
 }
+
+/* Header Section */
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   background: linear-gradient(100deg, #b5c7f7 10%, #f1f3fb 100%);
+  text-align: center;
 }
-.discord-button, .support-button {
+
+/* Buttons */
+.discord-button,
+.support-button {
   background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 0.75em 1.5em;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(118,75,162,0.12);
+  box-shadow: 0 2px 8px rgba(118, 75, 162, 0.12);
   transition: background 0.2s, transform 0.2s;
   cursor: pointer;
 }
-.discord-button:hover, .support-button:hover {
+
+.discord-button:hover,
+.support-button:hover {
   background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
   transform: translateY(-2px) scale(1.04);
 }
+
+/* Special Styling for Logout Button */
+.support-button {
+  background: linear-gradient(90deg, #ef476f 0%, #ff6f61 100%);
+  box-shadow: 0 2px 8px rgba(239, 71, 111, 0.2);
+}
+
+.support-button:hover {
+  background: linear-gradient(90deg, #ff6f61 0%, #ef476f 100%);
+}
+
+/* Tracker Table */
 .tracker-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 10px;
   background: none;
 }
-.tracker-table td, .tracker-table th {
+
+.tracker-table td,
+.tracker-table th {
   background: #f8faff;
   border-radius: 6px;
   padding: 0.75em;
   border: none;
+  text-align: left;
 }
+
 .tracker-table tr:hover td {
   background: #e0e7ff;
   transition: background 0.2s;
 }
+
+/* Links */
 a {
   color: #5a67d8;
   text-decoration: none;
   transition: color 0.2s;
 }
+
 a:hover {
   color: #764ba2;
   text-decoration: underline;
 }
+
+/* Suggest Section */
 .suggest-casino {
   margin-top: 2rem;
   padding: 1.5rem 2rem;
@@ -67,6 +99,8 @@ a:hover {
   background: #f1f3fb;
   border-radius: 12px;
 }
+
+/* Footer */
 .bottom-bar {
   text-align: center;
   font-size: 0.95em;
@@ -75,10 +109,18 @@ a:hover {
   background: transparent;
   box-shadow: none;
 }
+
+/* Responsive Design */
 @media (max-width: 720px) {
-  header, main, .suggest-casino, .bottom-bar {
+  header,
+  main,
+  .suggest-casino,
+  .bottom-bar {
     max-width: 98vw;
     padding: 1.2rem 0.5rem;
   }
-  h1 { font-size: 1.5em; }
+
+  h1 {
+    font-size: 1.5em;
+  }
 }
