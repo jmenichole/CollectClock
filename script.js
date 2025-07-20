@@ -91,3 +91,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+<script src="script.js"></script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginButton = document.getElementById("login-button");
+
+  if (!loginButton) {
+    console.error("Login button not found in DOM!");
+    return;
+  }
+
+  loginButton.addEventListener("click", () => {
+    const clientId = "1336968746450812928"; // ✅ your real client ID
+    const redirectUri = encodeURIComponent(window.location.href);
+    const scope = "identify";
+
+    window.location.href = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+  });
+});
