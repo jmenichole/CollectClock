@@ -183,7 +183,43 @@
   <div class="toast"></div>
   <div id="gif-popup"></div>
   <script>
-    // Sound FX
+    // Sound FXdocument.getElementById("mode-toggle").addEventListener("click", toggleMode);
+
+function toggleMode() {
+  const body = document.body;
+  const isTilted = body.classList.toggle("dark-mode");
+
+  // Switch header
+  document.querySelector("h1").textContent = isTilted
+    ? "Degen mode activated. Don't forget the juice ⚡"
+    : "Don't forget your daily bonus collection 💧";
+
+  // Switch page title
+  document.title = isTilted
+    ? "🎰 Tilted, baby"
+    : "🎯 Bonus Tracker - CollectClock";
+
+  // Switch toggle button label
+  const toggleBtn = document.querySelector(".toggle-mode");
+  toggleBtn.textContent = isTilted ? "Untilt" : "Tilt";
+
+  // Play sound effect
+  (isTilted ? tiltSound : untiltSound).play();
+
+  // Confetti on first tilt ever
+  if (isTilted && !localStorage.getItem("tiltConfettiShown")) {
+    confetti({
+      particleCount: 100,
+      spread: 80,
+      origin: { y: 0.6 },
+    });
+    localStorage.setItem("tiltConfettiShown", "true");
+  }
+
+  // Store preference
+  localStorage.setItem("theme", isTilted ? "dark" : "light");
+}
+
 const tiltSound = new Audio("data:audio/wav;base64,UklGRnJkGABXQVZFZm10IBAAAAABAAIARKwAACBiBQAIACAAYmV4dFoCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...");
 const untiltSound = new Audio("data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU5LjI3LjEwMAAAAAAAAAAAAAAA//uQRAAAgkMC0GjDEAg5wXkyYekwDIjTTSywaTGCjimppI1cAAASjjckkcoXqBBA0LB9YPn0RQEAQB8Hw+D4EEAIOnwfHg/5DeJ3iB1APv/y4PlwcDEEDAP1n/+U5AHw/E4EcUdffQIO...");
 const uwuSound = new Audio("data:audio/wav;base64,UklGRtYkBABXQVZFZm10IBAAAAABAAEAAO4CAADKCAADABgAZGF0YdYiBAAAAAD8///z///u///u///l///Z///b///P///L///I//+q//+h//+y//+m//+P//+Y//+a//9p//99//+f//+C//9Y//+E//90//9w//91//9w//98//+d//9l//9+//96//9p//8n//8g...");
