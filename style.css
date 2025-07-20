@@ -1,4 +1,3 @@
-/* Base Page Styling */
 body {
   font-family: 'Montserrat', sans-serif;
   background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
@@ -7,7 +6,6 @@ body {
   color: #22223b;
 }
 
-/* Layout Containers */
 header, main, .suggest-casino, .bottom-bar {
   max-width: 700px;
   margin: 30px auto;
@@ -17,7 +15,6 @@ header, main, .suggest-casino, .bottom-bar {
   padding: 2.5rem 2rem;
 }
 
-/* Header Section */
 header {
   display: flex;
   flex-direction: column;
@@ -27,9 +24,7 @@ header {
   text-align: center;
 }
 
-/* Buttons */
-.discord-button,
-.support-button {
+.discord-button, .support-button {
   background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
   color: #fff;
   border: none;
@@ -41,23 +36,11 @@ header {
   cursor: pointer;
 }
 
-.discord-button:hover,
-.support-button:hover {
+.discord-button:hover, .support-button:hover {
   background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
   transform: translateY(-2px) scale(1.04);
 }
 
-/* Special Styling for Logout Button */
-.support-button {
-  background: linear-gradient(90deg, #ef476f 0%, #ff6f61 100%);
-  box-shadow: 0 2px 8px rgba(239, 71, 111, 0.2);
-}
-
-.support-button:hover {
-  background: linear-gradient(90deg, #ff6f61 0%, #ef476f 100%);
-}
-
-/* Tracker Table */
 .tracker-table {
   width: 100%;
   border-collapse: separate;
@@ -65,8 +48,7 @@ header {
   background: none;
 }
 
-.tracker-table td,
-.tracker-table th {
+.tracker-table td, .tracker-table th {
   background: #f8faff;
   border-radius: 6px;
   padding: 0.75em;
@@ -79,7 +61,6 @@ header {
   transition: background 0.2s;
 }
 
-/* Links */
 a {
   color: #5a67d8;
   text-decoration: none;
@@ -91,7 +72,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Suggest Section */
 .suggest-casino {
   margin-top: 2rem;
   padding: 1.5rem 2rem;
@@ -100,7 +80,6 @@ a:hover {
   border-radius: 12px;
 }
 
-/* Footer */
 .bottom-bar {
   text-align: center;
   font-size: 0.95em;
@@ -110,17 +89,10 @@ a:hover {
   box-shadow: none;
 }
 
-/* Responsive Design */
 @media (max-width: 720px) {
-  header,
-  main,
-  .suggest-casino,
-  .bottom-bar {
+  header, main, .suggest-casino, .bottom-bar {
     max-width: 98vw;
     padding: 1.2rem 0.5rem;
   }
-
-  h1 {
-    font-size: 1.5em;
-  }
+  h1 { font-size: 1.5em; }
 }
