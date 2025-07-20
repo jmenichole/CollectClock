@@ -1,209 +1,84 @@
 body {
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    color: gold;
-    text-align: center;
-    min-height: 100vh;
-    margin: 0;
-    background-attachment: fixed;
-    overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+  min-height: 100vh;
+  margin: 0;
+  color: #22223b;
 }
-
-/* Add smooth transitions for all elements */
-* {
-    transition: all 0.3s ease-in-out;
+header, main, .suggest-casino, .bottom-bar {
+  max-width: 700px;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(34,34,59,0.08);
+  padding: 2.5rem 2rem;
 }
-
-/* Top Banner or Logo Area */
 header {
-    padding: 10px 0; /* Reduced padding */
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid gold;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    /* Removed position: sticky */
-    animation: fadeInDown 0.8s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(100deg, #b5c7f7 10%, #f1f3fb 100%);
 }
-
-header h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: gold;
-    text-shadow: none;
-    margin: 0;
+.discord-button, .support-button {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75em 1.5em;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(118,75,162,0.12);
+  transition: background 0.2s, transform 0.2s;
+  cursor: pointer;
 }
-
-/* Add keyframe animation for header */
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.discord-button:hover, .support-button:hover {
+  background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px) scale(1.04);
 }
-
-/* Glassy container box for the table */
 .tracker-table {
-    width: 95%;
-    max-width: 800px;
-    margin: 30px auto;
-    border-collapse: separate;
-    border-spacing: 0 15px;
-    backdrop-filter: blur(10px);
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  background: none;
 }
-
-/* Row Styling */
-.tracker-table tr {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    transition: transform 0.2s, box-shadow 0.3s;
-    animation: fadeInUp 0.5s ease-in-out;
+.tracker-table td, .tracker-table th {
+  background: #f8faff;
+  border-radius: 6px;
+  padding: 0.75em;
+  border: none;
 }
-
-.tracker-table tr:hover {
-    transform: scale(1.02);
-    box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
-    background: rgba(255, 255, 255, 0.07);
+.tracker-table tr:hover td {
+  background: #e0e7ff;
+  transition: background 0.2s;
 }
-
-/* Add keyframe animation for table rows */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+a {
+  color: #5a67d8;
+  text-decoration: none;
+  transition: color 0.2s;
 }
-
-/* Column Layout */
-.tracker-table td:first-child {
-    text-align: left;
-    width: 60%;
-    border-radius: 12px 0 0 12px;
+a:hover {
+  color: #764ba2;
+  text-decoration: underline;
 }
-
-.tracker-table td.countdown {
-    width: 25%;
-    text-align: center;
-    font-weight: bold;
-    color: #00ffe0;
+.suggest-casino {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid #b5c7f7;
+  background: #f1f3fb;
+  border-radius: 12px;
 }
-
-.tracker-table td:last-child {
-    width: 15%;
-    text-align: center;
-    border-radius: 0 12px 12px 0;
-}
-
-/* Table Cell Padding */
-.tracker-table td {
-    padding: 16px 14px;
-}
-
-/* Casino Links */
-.tracker-table a {
-    color: gold;
-    text-decoration: none;
-    transition: color 0.3s, text-shadow 0.3s;
-    display: block;
-    padding: 6px 0;
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-.tracker-table a:hover {
-    color: #00ffe0;
-    text-shadow: 0 0 8px #00ffe0, 0 0 12px #00ffe0;
-}
-
-/* Checkboxes */
-input[type="checkbox"] {
-    transform: scale(1.6);
-    cursor: pointer;
-    accent-color: #FFD700;
-}
-
-/* Support Button */
-.support-button {
-    margin-top: 20px;
-    padding: 12px 24px;
-    background: linear-gradient(90deg, #FFD700, #FFA500);
-    color: black;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    box-shadow: 0 5px 15px rgba(255, 165, 0, 0.4);
-    transition: transform 0.2s, background 0.3s;
-    letter-spacing: 0.5px;
-}
-.support-button:hover {
-    transform: scale(1.1);
-    background: linear-gradient(90deg, #FFA500, #FFD700);
-    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.5);
-}
-
-/* Footer Bar */
 .bottom-bar {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 25px;
-    border-top: 1px solid gold;
-    color: gold;
-    font-size: 0.95rem;
-    margin-top: 60px;
-    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 0.95em;
+  padding: 1.2rem 0 0.5rem 0;
+  margin-bottom: 0;
+  background: transparent;
+  box-shadow: none;
 }
-
-/* Countdown Text */
-.countdown {
-    font-size: 1rem;
-    color: #00ffe0;
-    text-shadow: none;
-}
-
-/* Visited Links */
-a:visited {
-    color: #bbbbbb;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2.5rem;
-    }
-    .tracker-table td {
-        font-size: 1rem;
-        padding: 10px 8px;
-    }
-    .support-button {
-        font-size: 1rem;
-        padding: 10px 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 2rem;
-    }
-    .tracker-table td {
-        font-size: 0.9rem;
-        padding: 8px 6px;
-    }
-    .support-button {
-        font-size: 0.85rem;
-        padding: 8px 12px;
-    }
-}
-
-/* Minimized state for casinos */
-.casino-row.hidden {
-    display: table-row;
+@media (max-width: 720px) {
+  header, main, .suggest-casino, .bottom-bar {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem;
+  }
+  h1 { font-size: 1.5em; }
 }
