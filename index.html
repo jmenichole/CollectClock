@@ -104,6 +104,29 @@
       display: block;
       margin-left: auto;
       margin-right: auto;
+      function toggleMode() {
+  const body = document.body;
+  const isTilted = body.classList.toggle("dark-mode");
+
+  document.querySelector("h1").textContent = isTilted
+    ? "Degen mode activated. Don't forget the juice ⚡"
+    : "Don't forget your daily bonus collection 💧";
+
+  document.title = isTilted
+    ? "🎰 Tilted, baby"
+    : "🎯 Bonus Tracker - CollectClock";
+
+  document.querySelector(".toggle-mode").textContent = isTilted ? "Untilt" : "Tilt";
+  (isTilted ? tiltSound : untiltSound).play();
+
+  if (!localStorage.getItem("tiltConfettiShown")) {
+    confetti();
+    localStorage.setItem("tiltConfettiShown", "true");
+  }
+
+  localStorage.setItem("theme", isTilted ? "dark" : "light");
+}
+
     }
     .toast {
       position: fixed;
@@ -160,6 +183,11 @@
   <div class="toast"></div>
   <div id="gif-popup"></div>
   <script>
+    // Sound FX
+const tiltSound = new Audio("data:audio/wav;base64,UklGRnJkGABXQVZFZm10IBAAAAABAAIARKwAACBiBQAIACAAYmV4dFoCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...");
+const untiltSound = new Audio("data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU5LjI3LjEwMAAAAAAAAAAAAAAA//uQRAAAgkMC0GjDEAg5wXkyYekwDIjTTSywaTGCjimppI1cAAASjjckkcoXqBBA0LB9YPn0RQEAQB8Hw+D4EEAIOnwfHg/5DeJ3iB1APv/y4PlwcDEEDAP1n/+U5AHw/E4EcUdffQIO...");
+const uwuSound = new Audio("data:audio/wav;base64,UklGRtYkBABXQVZFZm10IBAAAAABAAEAAO4CAADKCAADABgAZGF0YdYiBAAAAAD8///z///u///u///l///Z///b///P///L///I//+q//+h//+y//+m//+P//+Y//+a//9p//99//+f//+C//9Y//+E//90//9w//91//9w//98//+d//9l//9+//96//9p//8n//8g...");
+
     const gifUrls = [
   "https://media.giphy.com/media/3og0IPxMM0erATueVW/giphy.gif",
   "https://media.giphy.com/media/1rNWzT3lbTi9K/giphy.gif",
@@ -336,6 +364,50 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("discord-login-btn");
   btn.href = `https://discord.com/oauth2/authorize?client_id=${cid}&redirect_uri=${encodeURIComponent('https://jmenichole.github.io/CollectClock/auth.html')}&response_type=token&scope=identify`;
 });
+@keyframes glitch {
+  0% { transform: none; }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+  100% { transform: none; }
+}
+
+.dark-mode h1 {
+  animation: glitch 0.5s infinite;
+  text-shadow: 0 0 4px #0ff, 0 0 10px #0ff;
+}
+
+.dark-mode {
+  border: 2px dashed #0ff;
+  box-shadow: 0 0 20px #0ff inset;
+}
+
+.tooltip {
+  position: relative;
+  cursor: help;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: max-content;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   </script>
 </body>
