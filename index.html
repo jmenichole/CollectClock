@@ -5,6 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CollectClock</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: help;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: max-content;
+      background-color: #222;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    #gif-popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 999;
+      display: none;
+    }
+
+    #gif-popup img {
+      width: 200px;
+      height: auto;
+      display: block;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -24,29 +70,54 @@
       </div>
 
       <div class="table-row" data-casino="Hello Millions">
-        <div>Hello Millions</div>
+        <div class="tooltip">Hello Millions
+          <span class="tooltiptext">VPN required - resets daily at 6PM EST</span>
+        </div>
         <div><input type="checkbox" class="collect-checkbox" /></div>
         <div class="last-collected">Available!</div>
       </div>
 
       <div class="table-row" data-casino="SpinBlitz">
-        <div>SpinBlitz</div>
+        <div class="tooltip">SpinBlitz
+          <span class="tooltiptext">No VPN needed - resets every 24h</span>
+        </div>
         <div><input type="checkbox" class="collect-checkbox" /></div>
         <div class="last-collected">Available!</div>
       </div>
 
       <div class="table-row" data-casino="Mega Bonanza">
-        <div>Mega Bonanza</div>
+        <div class="tooltip">Mega Bonanza
+          <span class="tooltiptext">US only - midnight reset</span>
+        </div>
         <div><input type="checkbox" class="collect-checkbox" /></div>
         <div class="last-collected">Available!</div>
       </div>
     </div>
   </div>
 
+  <div id="gif-popup">
+    <img src="" alt="funny gif" />
+  </div>
+
   <script>
+    const gifUrls = [
+      "https://media.giphy.com/media/3og0IPxMM0erATueVW/giphy.gif",
+      "https://media.giphy.com/media/1rNWzT3lbTi9K/giphy.gif",
+      "https://media.giphy.com/media/l0MYEqEzwMWFCg8rm/giphy.gif",
+      "https://media.giphy.com/media/3o6gE5aYpXz5E1ZkQo/giphy.gif"
+    ];
+
     function toggleDegenMode() {
       document.body.classList.toggle("dark-mode");
       localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+    }
+
+    function showGifPopup() {
+      const gif = gifUrls[Math.floor(Math.random() * gifUrls.length)];
+      const popup = document.getElementById("gif-popup");
+      popup.querySelector("img").src = gif;
+      popup.style.display = "block";
+      setTimeout(() => popup.style.display = "none", 5000);
     }
 
     function updateTimers() {
@@ -86,17 +157,34 @@
       updateTimers();
       setInterval(updateTimers, 60000);
 
+      let collectedCount = parseInt(localStorage.getItem("collect_count") || "0");
+
       document.querySelectorAll(".collect-checkbox").forEach(checkbox => {
         checkbox.addEventListener("change", () => {
           const row = checkbox.closest(".table-row");
           const casino = row.getAttribute("data-casino");
+
           if (checkbox.checked) {
             const confirmCollected = confirm("Did you collect your bonus?");
             if (confirmCollected) {
               localStorage.setItem("casino_" + casino, Date.now());
+              collectedCount++;
+              localStorage.setItem("collect_count", collectedCount);
               updateTimers();
+
+              if (collectedCount % 5 === 0) {
+                showGifPopup();
+              }
             } else {
-              checkbox.checked = false;
+              const hours = prompt("How many hours until your next bonus?");
+              const hoursNum = parseFloat(hours);
+              if (!isNaN(hoursNum) && hoursNum > 0) {
+                const delay = Date.now() - ((24 - hoursNum) * 60 * 60 * 1000);
+                localStorage.setItem("casino_" + casino, delay);
+                updateTimers();
+              } else {
+                checkbox.checked = false;
+              }
             }
           }
         });
