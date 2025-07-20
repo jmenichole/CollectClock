@@ -50,49 +50,90 @@
       height: auto;
       display: block;
     }
+
+    .dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    .dark-mode .table-header {
+      background-color: #1e1e1e;
+    }
+
+
+    .table-row {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.08);
+      margin: 12px 0;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+    }
+    .table-row:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.12);
+      background: #f5f7fa;
+      transform: scale(1.015);
+    }
+    .dark-mode .table-row {
+      background: #23272f;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35), 0 1.5px 4px rgba(0,0,0,0.22);
+    }
+    .dark-mode .table-row:hover {
+      background: #2c2f36;
+    }
+    .table-header {
+      background: linear-gradient(90deg, #e0e7ef 0%, #f5f7fa 100%);
+      border-radius: 12px;
+      font-weight: bold;
+      margin: 12px 0 0 0;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .dark-mode .table-header {
+      background: linear-gradient(90deg, #23272f 0%, #2c2f36 100%);
+      color: #e0e0e0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+    }
+
+    .dark-mode .tooltip .tooltiptext {
+      background-color: #333;
+    }
+
+    .toggle-mode {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .toggle-mode:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Profile" class="profile-img" id="profile-img" style="display:none;" />
     <button class="toggle-btn" onclick="toggleDegenMode()">Toggle Degen Mode</button>
     <h1>CollectClock</h1>
     <p>Track your daily casino claims and referral earnings.</p>
 
-    <a href="https://discord.com/oauth2/authorize?client_id=1336968746450812928&redirect_uri=https%3A%2F%2Fjmenichole.github.io%2FCollectClock%2Fcallback&response_type=code&scope=identify" class="login-btn">
-      Login with Discord
-    </a>
 
-    <div class="table">
-      <div class="table-header">
-        <div>Casino</div>
-        <div>Collected</div>
-        <div>Last Collected</div>
-      </div>
+    <a id="discord-login-btn" class="login-btn" href="#">Login with Discord</a>
 
-      <div class="table-row" data-casino="Hello Millions">
-        <div class="tooltip">Hello Millions
-          <span class="tooltiptext">VPN required - resets daily at 6PM EST</span>
-        </div>
-        <div><input type="checkbox" class="collect-checkbox" /></div>
-        <div class="last-collected">Available!</div>
-      </div>
+    <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
 
-      <div class="table-row" data-casino="SpinBlitz">
-        <div class="tooltip">SpinBlitz
-          <span class="tooltiptext">No VPN needed - resets every 24h</span>
-        </div>
-        <div><input type="checkbox" class="collect-checkbox" /></div>
-        <div class="last-collected">Available!</div>
-      </div>
-
-      <div class="table-row" data-casino="Mega Bonanza">
-        <div class="tooltip">Mega Bonanza
-          <span class="tooltiptext">US only - midnight reset</span>
-        </div>
-        <div><input type="checkbox" class="collect-checkbox" /></div>
-        <div class="last-collected">Available!</div>
-      </div>
-    </div>
+    <div id="user-stats"></div>
+    <div id="category-filters"></div>
+    <div class="table" id="casino-table"></div>
+    <div id="settings-panel" style="display:none;"></div>
   </div>
 
   <div id="gif-popup">
@@ -189,9 +230,34 @@
           }
         });
       });
+
+      document.getElementById("mode-toggle").addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+      });
     });
   </script>
+  <script src="config.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Dynamically set Discord login button href using client ID from config.js
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('discord-login-btn');
+      if (btn && window.DISCORD_CLIENT_ID) {
+        const redirect = encodeURIComponent('https://jmenichole.github.io/CollectClock/auth.html');
+        btn.href = `https://discord.com/oauth2/authorize?client_id=${window.DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=token&scope=identify`;
+      }
+    });
+  </script>
+  <script>
+    // Profile image logic (placeholder, replace with real user data if available)
+    function showProfileImage(url) {
+      const img = document.getElementById('profile-img');
+      img.src = url;
+      img.style.display = 'block';
+    }
+    // Example: showProfileImage('https://cdn.discordapp.com/embed/avatars/1.png');
+  </script>
 
 </body>
 </html>

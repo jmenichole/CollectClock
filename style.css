@@ -1,3 +1,60 @@
+/* Profile image styling */
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border: 2px solid var(--link);
+  background: #fff;
+  object-fit: cover;
+  z-index: 1000;
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 1em 2em;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  font-size: 1.1em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, bottom 0.3s;
+  z-index: 2000;
+}
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  bottom: 60px;
+}
+
+/* Animated countdown (flip clock style) */
+.flip-clock {
+  display: flex;
+  gap: 0.3em;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--timer);
+  align-items: center;
+}
+.flip-clock .digit {
+  background: #222;
+  color: #0ff;
+  border-radius: 4px;
+  padding: 0.2em 0.5em;
+  margin: 0 0.1em;
+  box-shadow: 0 1px 4px rgba(0,255,255,0.15);
+  transition: background 0.2s, color 0.2s;
+}
 :root {
   --bg: linear-gradient(120deg, #edf2fb 0%, #dbeafe 100%);
   --container-bg: #ffffff;
@@ -18,6 +75,28 @@ body.dark {
   --link-hover: #f472b6;
   --timer: #22d3ee;
   --hover-bg: #334155;
+}
+
+body.dark-mode {
+  --bg: #000000;
+  --container-bg: #1a1a1a;
+  --header-bg: linear-gradient(100deg, #000000 10%, #333333 100%);
+  --text: #00ff00;
+  --link: #00ff00;
+  --link-hover: #ff00ff;
+  --timer: #00ff00;
+  --hover-bg: #333333;
+}
+
+body.light-mode {
+  --bg: #ffffff;
+  --container-bg: #f9f9f9;
+  --header-bg: linear-gradient(100deg, #ffffff 10%, #e0e0e0 100%);
+  --text: #000000;
+  --link: #0000ff;
+  --link-hover: #ff4500;
+  --timer: #0000ff;
+  --hover-bg: #e0e0e0;
 }
 
 body {
@@ -75,6 +154,11 @@ a:hover {
 body.dark .tracker-table td, 
 body.dark .tracker-table th {
   background: rgba(30, 41, 59, 0.7);
+}
+
+body.dark-mode .tracker-table td, 
+body.dark-mode .tracker-table th {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .tracker-table tr:hover td {
