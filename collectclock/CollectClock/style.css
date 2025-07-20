@@ -1,0 +1,140 @@
+:root {
+  --bg: linear-gradient(120deg, #edf2fb 0%, #dbeafe 100%);
+  --container-bg: #ffffff;
+  --header-bg: linear-gradient(100deg, #c7d2fe 10%, #e0e7ff 100%);
+  --text: #22223b;
+  --link: #4c51bf;
+  --link-hover: #764ba2;
+  --timer: #4338ca;
+  --hover-bg: #c7d2fe;
+}
+
+body.dark {
+  --bg: #0f172a;
+  --container-bg: #1e293b;
+  --header-bg: linear-gradient(100deg, #0f172a 10%, #1e1b4b 100%);
+  --text: #e2e8f0;
+  --link: #38bdf8;
+  --link-hover: #f472b6;
+  --timer: #22d3ee;
+  --hover-bg: #334155;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  min-height: 100vh;
+}
+
+header, main, .suggest-casino, .bottom-bar {
+  max-width: 700px;
+  margin: 30px auto;
+  background: var(--container-bg);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(34,34,59,0.08);
+  padding: 2.5rem 2rem;
+  transition: background 0.3s ease;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: var(--header-bg);
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+.tracker-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  background: none;
+}
+
+.tracker-table td, .tracker-table th {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  padding: 0.75em;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+body.dark .tracker-table td, 
+body.dark .tracker-table th {
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.tracker-table tr:hover td {
+  background: var(--hover-bg);
+}
+
+.last-collected {
+  color: var(--timer);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.timer-update {
+  animation: pulseTimer 0.4s ease-in-out;
+}
+
+@keyframes pulseTimer {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.toggle-mode {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  transition: transform 0.2s;
+}
+
+.toggle-mode:hover {
+  transform: scale(1.05);
+}
+
+.bottom-bar {
+  text-align: center;
+  font-size: 0.95em;
+  padding: 1.2rem 0 0.5rem 0;
+  margin-bottom: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (max-width: 720px) {
+  header, main, .suggest-casino, .bottom-bar {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+}
