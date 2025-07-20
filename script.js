@@ -1,17 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // LOGIN WITH DISCORD BUTTON
-  const loginButton = document.getElementById("login-button");
-
-  if (loginButton) {
-    loginButton.addEventListener("click", () => {
-      const clientId = "1336968746450812928"; // your real Discord client ID
-      const redirectUri = encodeURIComponent(window.location.href);
-      const scope = "identify";
-      window.location.href = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
-    });
-  }
-
-  // CASINO TABLE LOGIC
   const casinoTable = document.getElementById("casino-table");
   const collectedSummary = document.getElementById("collected-summary");
   const msIn24Hours = 24 * 60 * 60 * 1000;
@@ -28,8 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const isCooldown = lastCollected && now - lastCollected < msIn24Hours;
 
         row.innerHTML = `
-          <td><a href="${casino.link}" target="_blank">${casino.name}</a></td>
-          <td><button class="copy-btn" data-link="${casino.link}">Copy</button></td>
+          <td><a href="${casino.link}" class="casino-link" data-name="${casino.name}" target="_blank">${casino.name}</a></td>
           <td><input type="checkbox" class="collect-checkbox" ${isCooldown ? "disabled checked" : ""}></td>
           <td class="last-collected">${formatTimeRemaining(lastCollected)}</td>
         `;
@@ -37,25 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const checkbox = row.querySelector(".collect-checkbox");
         const timeDisplay = row.querySelector(".last-collected");
 
-        if (!isCooldown) {
-          checkbox.addEventListener("change", () => {
-            if (checkbox.checked) {
-              const timestamp = Date.now();
-              localStorage.setItem(`collected_${casino.name}`, timestamp);
-              checkbox.disabled = true;
-              updateCountdown();
-              updateSummary();
-            }
-          });
-        }
-
         if (isCooldown) updateCountdown();
 
         function updateCountdown() {
           const interval = setInterval(() => {
             const updatedTime = parseInt(localStorage.getItem(`collected_${casino.name}`));
             const now = Date.now();
-            const diff = msIn24Hours - (now - updatedTime);
+            const diff = updatedTime + msIn24Hours - now;
 
             if (diff <= 0) {
               clearInterval(interval);
@@ -74,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       updateSummary();
+      attachLinkHandlers();
 
       function updateSummary() {
         const checkboxes = document.querySelectorAll(".collect-checkbox");
@@ -84,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       function formatTimeRemaining(timestamp) {
         if (!timestamp) return "Available!";
-        const diff = msIn24Hours - (Date.now() - timestamp);
+        const diff = timestamp + msIn24Hours - Date.now();
         return diff > 0 ? formatMs(diff) : "Available!";
       }
 
@@ -93,14 +68,67 @@ document.addEventListener("DOMContentLoaded", () => {
         const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
         return `${hours}h ${minutes}m`;
       }
-    });
 
-  // COPY BUTTONS
-  document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("copy-btn")) {
-      const link = e.target.getAttribute("data-link");
-      navigator.clipboard.writeText(link);
-      alert("Copied: " + link);
-    }
-  });
+      function attachLinkHandlers() {
+        document.querySelectorAll(".casino-link").forEach(link => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const name = link.dataset.name;
+            const href = link.getAttribute("href");
+            const proceed = confirm("Did you collect your bonus?");
+
+            if (!proceed) return;
+
+            const is24h = confirm("Is the next bonus available in 24 hours?");
+            let durationMs = msIn24Hours;
+
+            if (!is24h) {
+              const custom = prompt("When is your next bonus available? (e.g. 3h, 2:30, 45m)");
+              if (custom) {
+                const parsed = parseCustomTime(custom.trim());
+                if (parsed) {
+                  durationMs = parsed;
+                } else {
+                  alert("Invalid time format. Expected something like '3h' or '2:30' or '45m'.");
+                  return;
+                }
+              }
+            }
+
+            const timestamp = Date.now();
+            localStorage.setItem(`collected_${name}`, timestamp);
+            const row = link.closest("tr");
+            const checkbox = row.querySelector(".collect-checkbox");
+            const timeDisplay = row.querySelector(".last-collected");
+
+            checkbox.checked = true;
+            checkbox.disabled = true;
+            timeDisplay.innerText = formatMs(durationMs);
+
+            setTimeout(() => {
+              checkbox.checked = false;
+              checkbox.disabled = false;
+              timeDisplay.innerText = "Available!";
+              localStorage.removeItem(`collected_${name}`);
+              updateSummary();
+            }, durationMs);
+
+            updateSummary();
+            window.open(href, "_blank");
+          });
+        });
+      }
+
+      function parseCustomTime(input) {
+        if (/^\d+h$/.test(input)) {
+          return parseInt(input) * 60 * 60 * 1000;
+        } else if (/^\d+m$/.test(input)) {
+          return parseInt(input) * 60 * 1000;
+        } else if (/^\d+:\d+$/.test(input)) {
+          const [h, m] = input.split(":").map(n => parseInt(n));
+          return (h * 60 + m) * 60 * 1000;
+        }
+        return null;
+      }
+    });
 });
