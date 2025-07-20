@@ -2,92 +2,105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CollectClock</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
-  <header>
-    <button class="toggle-mode" id="modeToggle">Toggle Degen Mode</button>
-
+  <div class="container">
+    <button class="toggle-btn" onclick="toggleDegenMode()">Toggle Degen Mode</button>
     <h1>CollectClock</h1>
     <p>Track your daily casino claims and referral earnings.</p>
-    <button id="login-button" class="discord-button" aria-label="Login with Discord">Login with Discord</button>
-    <div class="user-info" id="user-info" style="display: none;">
-      <img id="user-avatar" src="" alt="User Avatar" width="40" style="border-radius: 50%;" />
-      <span id="user-name"></span>
-      <button class="support-button" onclick="logout()">Logout</button>
+
+    <a href="https://discord.com/oauth2/authorize?client_id=1336968746450812928&redirect_uri=https%3A%2F%2Fjmenichole.github.io%2FCollectClock%2Fcallback&response_type=code&scope=identify" class="login-btn">
+      Login with Discord
+    </a>
+
+    <div class="table">
+      <div class="table-header">
+        <div>Casino</div>
+        <div>Collected</div>
+        <div>Last Collected</div>
+      </div>
+
+      <div class="table-row" data-casino="Hello Millions">
+        <div>Hello Millions</div>
+        <div><input type="checkbox" class="collect-checkbox" /></div>
+        <div class="last-collected">Available!</div>
+      </div>
+
+      <div class="table-row" data-casino="SpinBlitz">
+        <div>SpinBlitz</div>
+        <div><input type="checkbox" class="collect-checkbox" /></div>
+        <div class="last-collected">Available!</div>
+      </div>
+
+      <div class="table-row" data-casino="Mega Bonanza">
+        <div>Mega Bonanza</div>
+        <div><input type="checkbox" class="collect-checkbox" /></div>
+        <div class="last-collected">Available!</div>
+      </div>
     </div>
-  </header>
-
-  <main>
-    <table class="tracker-table">
-      <thead>
-        <tr>
-          <th>Casino</th>
-          <th>Copy</th>
-          <th>Collected</th>
-          <th>Last Collected</th>
-        </tr>
-      </thead>
-      <tbody id="casino-table"></tbody>
-    </table>
-
-    <div id="collected-summary" style="text-align:center; margin-top: 1rem; font-weight: bold;"></div>
-
-    <div class="suggest-casino">
-      Know a casino with free spins we missed? <a href="#">Suggest one here</a>.
-    </div>
-  </main>
-
-  <div class="bottom-bar">
-    © 2025 CollectClock — Don’t miss your daily free degen drip 💸
   </div>
 
-  <script src="script.js"></script>
   <script>
-    function logout() {
-      localStorage.removeItem("discord_token");
-      location.reload();
+    function toggleDegenMode() {
+      document.body.classList.toggle("dark-mode");
+      localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+    }
+
+    function updateTimers() {
+      document.querySelectorAll(".table-row").forEach(row => {
+        const casino = row.getAttribute("data-casino");
+        const checkbox = row.querySelector(".collect-checkbox");
+        const label = row.querySelector(".last-collected");
+        const lastCollected = localStorage.getItem("casino_" + casino);
+        const now = Date.now();
+
+        if (lastCollected) {
+          const diff = now - parseInt(lastCollected);
+          const hoursLeft = 24 - (diff / (1000 * 60 * 60));
+          if (hoursLeft > 0) {
+            checkbox.checked = true;
+            checkbox.disabled = true;
+            label.textContent = `${hoursLeft.toFixed(1)}h until reset`;
+          } else {
+            checkbox.checked = false;
+            checkbox.disabled = false;
+            label.textContent = "Available!";
+            localStorage.removeItem("casino_" + casino);
+          }
+        } else {
+          checkbox.checked = false;
+          checkbox.disabled = false;
+          label.textContent = "Available!";
+        }
+      });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      const loginButton = document.getElementById("login-button");
-      const userInfo = document.getElementById("user-info");
-      const token = localStorage.getItem("discord_token");
-
-      if (window.location.hash.includes("access_token")) {
-        const params = new URLSearchParams(window.location.hash.substring(1));
-        const token = params.get("access_token");
-        if (token) {
-          localStorage.setItem("discord_token", token);
-          window.location.hash = "";
-          location.reload();
-        }
+      if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
       }
 
-      if (token) {
-        fetch("https://discord.com/api/users/@me", {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        .then(res => res.ok ? res.json() : Promise.reject())
-        .then(user => {
-          loginButton.style.display = "none";
-          userInfo.style.display = "flex";
-          document.getElementById("user-avatar").src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
-          document.getElementById("user-name").innerText = `${user.username}#${user.discriminator}`;
-        })
-        .catch(() => {
-          localStorage.removeItem("discord_token");
+      updateTimers();
+      setInterval(updateTimers, 60000);
+
+      document.querySelectorAll(".collect-checkbox").forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+          const row = checkbox.closest(".table-row");
+          const casino = row.getAttribute("data-casino");
+          if (checkbox.checked) {
+            const confirmCollected = confirm("Did you collect your bonus?");
+            if (confirmCollected) {
+              localStorage.setItem("casino_" + casino, Date.now());
+              updateTimers();
+            } else {
+              checkbox.checked = false;
+            }
+          }
         });
-      } else {
-        loginButton.onclick = () => {
-          const clientId = "1336968746450812928";
-          const redirect = encodeURIComponent(location.href);
-          location.href = \`https://discord.com/oauth2/authorize?client_id=\${clientId}&redirect_uri=\${redirect}&response_type=token&scope=identify\`;
-        };
-      }
+      });
     });
   </script>
 </body>
