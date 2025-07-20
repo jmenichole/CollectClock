@@ -2,45 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CollectClock</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
   <header>
     <h1>CollectClock</h1>
-    <p>Track your daily casino claims, stay on top of the free spins game.</p>
-    <button id="login-button" class="discord-button" aria-label="Login with Discord">Login with Discord</button>
+    <p>Track your daily casino claims and referral earnings.</p>
   </header>
 
   <main>
-    <div class="user-info" id="user-info" style="display: none;">
-      <img id="user-avatar" src="" alt="User Avatar" width="48" height="48" style="border-radius: 50%;" />
-      <p id="user-name"></p>
-    </div>
-
     <table class="tracker-table">
       <thead>
         <tr>
           <th>Casino</th>
+          <th>Copy</th>
+          <th>Collected</th>
           <th>Last Collected</th>
-          <th>Time Until Next</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Stake</td>
-          <td>3 hours ago</td>
-          <td>21 hours</td>
-        </tr>
-        <tr>
-          <td>BC.Game</td>
-          <td>Yesterday</td>
-          <td>12 hours</td>
-        </tr>
+      <tbody id="casino-table">
+        <!-- Populated by script.js -->
       </tbody>
     </table>
+
+    <div id="collected-summary" style="text-align:center; margin-top: 1rem; font-weight: bold;">
+      <!-- Live summary injected here -->
+    </div>
 
     <div class="suggest-casino">
       Know a casino with free spins we missed? <a href="#">Suggest one here</a>.
@@ -48,69 +38,9 @@
   </main>
 
   <div class="bottom-bar">
-    © 2025 CollectClock. Powered by degen energy.
+    © 2025 CollectClock — Don’t miss your daily free degen drip 💸
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const loginButton = document.getElementById('login-button');
-      const logoutButton = document.createElement('button');
-      logoutButton.textContent = 'Logout';
-      logoutButton.className = 'support-button';
-      logoutButton.style.marginLeft = 'auto';
-      logoutButton.onclick = () => {
-        localStorage.removeItem('discord_token');
-        window.location.reload();
-      };
-
-      const token = localStorage.getItem('discord_token');
-
-      if (token) {
-        loginButton.style.display = 'none';
-        const userInfo = document.getElementById('user-info');
-        userInfo.style.display = 'flex';
-        userInfo.style.alignItems = 'center';
-        userInfo.style.gap = '1rem';
-
-        fetch('https://discord.com/api/users/@me', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(res => {
-          if (!res.ok) throw new Error('Token expired or invalid');
-          return res.json();
-        })
-        .then(data => {
-          const avatarUrl = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=64`;
-          document.getElementById('user-avatar').src = avatarUrl;
-          document.getElementById('user-name').textContent = `${data.username}#${data.discriminator}`;
-          userInfo.appendChild(logoutButton);
-        })
-        .catch(() => {
-          localStorage.removeItem('discord_token');
-          userInfo.style.display = 'none';
-          loginButton.style.display = 'inline-block';
-        });
-      }
-
-      loginButton.addEventListener('click', () => {
-        const clientId = '1336968746450812928'; // ✅ Your real Discord Client ID
-        const redirectUri = encodeURIComponent(window.location.href);
-        const scope = 'identify';
-        window.location.href = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
-      });
-
-      if (window.location.hash.includes('access_token')) {
-        const params = new URLSearchParams(window.location.hash.substring(1));
-        const token = params.get('access_token');
-        if (token) {
-          localStorage.setItem('discord_token', token);
-          window.location.hash = '';
-          window.location.reload();
-        }
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
