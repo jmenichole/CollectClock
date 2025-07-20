@@ -9,6 +9,25 @@ function toggleDegenMode() {
   document.body.classList.toggle("dark-mode");
   localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
 }
+function toggleDegenMode() {
+  const body = document.body;
+  if (body.classList.contains("tilt")) {
+    body.classList.remove("tilt");
+    body.classList.add("untilt");
+    localStorage.setItem("tiltMode", "untilt");
+  } else {
+    body.classList.remove("untilt");
+    body.classList.add("tilt");
+    localStorage.setItem("tiltMode", "tilt");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedMode = localStorage.getItem("tiltMode") || "tilt";
+  document.body.classList.add(savedMode);
+  updateTimers();
+  // ... rest of your existing code
+});
 
 function showGifPopup() {
   const gif = gifUrls[Math.floor(Math.random() * gifUrls.length)];
