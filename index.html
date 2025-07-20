@@ -11,6 +11,12 @@
   <header>
     <h1>CollectClock</h1>
     <p>Track your daily casino claims and referral earnings.</p>
+    <button id="login-button" class="discord-button" aria-label="Login with Discord">Login with Discord</button>
+    <div class="user-info" id="user-info" style="display: none;">
+      <img id="user-avatar" src="" alt="User Avatar" width="40" style="border-radius: 50%;" />
+      <span id="user-name"></span>
+      <button class="support-button" onclick="logout()">Logout</button>
+    </div>
   </header>
 
   <main>
@@ -23,14 +29,10 @@
           <th>Last Collected</th>
         </tr>
       </thead>
-      <tbody id="casino-table">
-        <!-- Populated by script.js -->
-      </tbody>
+      <tbody id="casino-table"></tbody>
     </table>
 
-    <div id="collected-summary" style="text-align:center; margin-top: 1rem; font-weight: bold;">
-      <!-- Live summary injected here -->
-    </div>
+    <div id="collected-summary" style="text-align:center; margin-top: 1rem; font-weight: bold;"></div>
 
     <div class="suggest-casino">
       Know a casino with free spins we missed? <a href="#">Suggest one here</a>.
@@ -42,5 +44,49 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    function logout() {
+      localStorage.removeItem("discord_token");
+      location.reload();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginButton = document.getElementById("login-button");
+      const userInfo = document.getElementById("user-info");
+      const token = localStorage.getItem("discord_token");
+
+      if (window.location.hash.includes("access_token")) {
+        const params = new URLSearchParams(window.location.hash.substring(1));
+        const token = params.get("access_token");
+        if (token) {
+          localStorage.setItem("discord_token", token);
+          window.location.hash = "";
+          location.reload();
+        }
+      }
+
+      if (token) {
+        fetch("https://discord.com/api/users/@me", {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(user => {
+          loginButton.style.display = "none";
+          userInfo.style.display = "flex";
+          document.getElementById("user-avatar").src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
+          document.getElementById("user-name").innerText = `${user.username}#${user.discriminator}`;
+        })
+        .catch(() => {
+          localStorage.removeItem("discord_token");
+        });
+      } else {
+        loginButton.onclick = () => {
+          const clientId = "1336968746450812928";
+          const redirect = encodeURIComponent(location.href);
+          location.href = \`https://discord.com/oauth2/authorize?client_id=\${clientId}&redirect_uri=\${redirect}&response_type=token&scope=identify\`;
+        };
+      }
+    });
+  </script>
 </body>
 </html>
