@@ -103,7 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             checkbox.checked = true;
             checkbox.disabled = true;
-            timeDisplay.innerText = formatMs(durationMs);
+            timeDisplay.innerText = formatMs(diff);
+timeDisplay.classList.remove("timer-update");
+void timeDisplay.offsetWidth; // reflow to restart animation
+timeDisplay.classList.add("timer-update");
+
 
             setTimeout(() => {
               checkbox.checked = false;
