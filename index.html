@@ -1,98 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Collect your daily bonuses from the list of casinos below">
-    <title>🎰 CollectClock 💰</title>
-    
-    <!-- CSS and Fonts -->
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VYYZY6RVS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-4VYYZY6RVS');
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CollectClock</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>🎰 CollectClock Dashboard</h1>
-        
-        <!-- Login button (will be hidden if user is logged in) -->
-        <div id="login-button" class="login-container">
-            <button class="discord-button" id="discord-login" aria-label="Login with Discord">
-                Login with Discord
-            </button>
-        </div>
-        
-        <!-- User info will be added here dynamically when logged in -->
-        <div class="user-info">
-            <!-- User stats will be dynamically added here -->
-        </div>
-    </header>
+  <header>
+    <h1>CollectClock</h1>
+    <p>Track your daily casino claims, stay on top of the free spins game.</p>
+    <button id="login-button" class="discord-button" aria-label="Login with Discord">Login with Discord</button>
+  </header>
 
-    <main>
-        <p><strong>Hide casinos you don't use</strong> – check the boxes to move them to the bottom of the list.</p>
-        
-        <!-- Active Casino Links -->
-        <div class="tab-content active" id="tracker">
-            <table class="tracker-table">
-                <tbody id="casino-list">
-                    <!-- Casino rows will be added dynamically via JavaScript -->
-                </tbody>
-            </table>
-        </div>
+  <main>
+    <div class="user-info" id="user-info" style="display: none;">
+      <img id="user-avatar" src="" alt="User Avatar" width="48" height="48" style="border-radius: 50%;" />
+      <p id="user-name"></p>
+    </div>
 
-        <!-- Unused Casino Links -->
-        <div class="tab-content" id="unused-casinos">
-            <h2>Unused Casino Links</h2>
-            <table class="tracker-table">
-                <tbody id="unused-casino-list">
-                    <!-- Unused casino rows will be added dynamically via JavaScript -->
-                </tbody>
-            </table>
-        </div>
-    </main>
+    <table class="tracker-table">
+      <thead>
+        <tr>
+          <th>Casino</th>
+          <th>Last Collected</th>
+          <th>Time Until Next</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Stake</td>
+          <td>3 hours ago</td>
+          <td>21 hours</td>
+        </tr>
+        <tr>
+          <td>BC.Game</td>
+          <td>Yesterday</td>
+          <td>12 hours</td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="suggest-casino">
-        <p>🎲 Don't see your casino? <a href="https://discord.gg/q4K9n9hEpR" target="_blank">Send me a message on Discord</a> and we'll add it!</p>
-        <p>♠️ If you like to play poker and want bonus drops for casinos, join the <a href="https://discord.gg/betcollective" target="_blank">BetCollective server</a>.</p>
+      Know a casino with free spins we missed? <a href="#">Suggest one here</a>.
     </div>
+  </main>
 
-    <!-- Bottom Bar -->
-    <div class="bottom-bar">
-        <a href="https://github.com/sponsors/jmenichole" class="support-button">💝 Support CollectClock</a>
-        <p class="copyright">2025 Jamie Vargas. All rights reserved.</p>
-    </div>
+  <div class="bottom-bar">
+    © 2025 CollectClock. Powered by degen energy.
+  </div>
 
-    <!-- Main Script -->
-    <script src="script.js"></script>
-    
-    <!-- Discord Auth Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginButton = document.getElementById('discord-login');
-            if (loginButton) {
-                loginButton.addEventListener('click', function() {
-                    // Discord OAuth2 URL
-                    const clientId = '1336968746450812928';
-                    const redirectUri = encodeURIComponent(window.location.origin + '/auth.html');
-                    const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=identify`;
-                    
-                    window.location.href = authUrl;
-                });
-            }
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginButton = document.getElementById('login-button');
+      const logoutButton = document.createElement('button');
+      logoutButton.textContent = 'Logout';
+      logoutButton.className = 'support-button';
+      logoutButton.style.marginLeft = 'auto';
+      logoutButton.onclick = () => {
+        localStorage.removeItem('discord_token');
+        window.location.reload();
+      };
+
+      const token = localStorage.getItem('discord_token');
+
+      if (token) {
+        loginButton.style.display = 'none';
+        const userInfo = document.getElementById('user-info');
+        userInfo.style.display = 'flex';
+        userInfo.style.alignItems = 'center';
+        userInfo.style.gap = '1rem';
+
+        fetch('https://discord.com/api/users/@me', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Token expired or invalid');
+          return res.json();
+        })
+        .then(data => {
+          const avatarUrl = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=64`;
+          document.getElementById('user-avatar').src = avatarUrl;
+          document.getElementById('user-name').textContent = `${data.username}#${data.discriminator}`;
+          userInfo.appendChild(logoutButton);
+        })
+        .catch(() => {
+          localStorage.removeItem('discord_token');
+          userInfo.style.display = 'none';
+          loginButton.style.display = 'inline-block';
         });
-    </script>
-    <script src="js/popup.js"></script>
+      }
+
+      loginButton.addEventListener('click', () => {
+        const clientId = '1336968746450812928'; // ✅ Your real Discord Client ID
+        const redirectUri = encodeURIComponent(window.location.href);
+        const scope = 'identify';
+        window.location.href = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+      });
+
+      if (window.location.hash.includes('access_token')) {
+        const params = new URLSearchParams(window.location.hash.substring(1));
+        const token = params.get('access_token');
+        if (token) {
+          localStorage.setItem('discord_token', token);
+          window.location.hash = '';
+          window.location.reload();
+        }
+      }
+    });
+  </script>
 </body>
 </html>
