@@ -61,42 +61,45 @@
     }
 
 
-    .table-row {
+    .table {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .table-header, .table-row {
+      display: contents;
+    }
+    .table-header > div, .table-row > div {
+      padding: 14px 12px;
+      border-radius: 10px;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.08);
-      margin: 12px 0;
-      padding: 16px 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: 6px;
+      font-size: 1rem;
       display: flex;
       align-items: center;
-      transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
     }
-    .table-row:hover {
-      box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.12);
-      background: #f5f7fa;
-      transform: scale(1.015);
-    }
-    .dark-mode .table-row {
-      background: #23272f;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.35), 0 1.5px 4px rgba(0,0,0,0.22);
-    }
-    .dark-mode .table-row:hover {
-      background: #2c2f36;
-    }
-    .table-header {
-      background: linear-gradient(90deg, #e0e7ef 0%, #f5f7fa 100%);
-      border-radius: 12px;
+    .table-header > div {
       font-weight: bold;
-      margin: 12px 0 0 0;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      background: linear-gradient(90deg, #e0e7ef 0%, #f5f7fa 100%);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.10);
     }
-    .dark-mode .table-header {
+    .table-row > div {
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+    .table-row > div:hover {
+      background: #f5f7fa;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    .dark-mode .table-header > div, .dark-mode .table-row > div {
+      background: #23272f;
+      color: #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    }
+    .dark-mode .table-header > div {
       background: linear-gradient(90deg, #23272f 0%, #2c2f36 100%);
       color: #e0e0e0;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.18);
     }
 
     .dark-mode .tooltip .tooltiptext {
@@ -121,7 +124,7 @@
 <body>
   <div class="container">
     <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Profile" class="profile-img" id="profile-img" style="display:none;" />
-    <button class="toggle-btn" onclick="toggleDegenMode()">Toggle Degen Mode</button>
+    <!-- Only one toggle button below -->
     <h1>CollectClock</h1>
     <p>Track your daily casino claims and referral earnings.</p>
 

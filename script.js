@@ -25,9 +25,15 @@ async function renderCasinoTable() {
   let data = [];
   try {
     const res = await fetch('casinoData.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     data = await res.json();
   } catch (e) {
-    table.innerHTML = '<div>Error loading casino data.</div>';
+    table.innerHTML = '<div style="color:red;">Error loading casino data. Check that casinoData.json exists and is valid.<br><small>' + (e.message || e) + '</small></div>';
+    console.error('Casino data load error:', e);
+    return;
+  }
+  if (!Array.isArray(data) || data.length === 0) {
+    table.innerHTML = '<div style="color:orange;">No casinos found in casinoData.json.</div>';
     return;
   }
   let html = '<div class="table-header"><div>Casino</div><div>Collected</div><div>Last Collected</div></div>';
