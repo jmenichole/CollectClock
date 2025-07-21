@@ -174,7 +174,24 @@
       "https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif",
       "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
     ];
-
+function renderCasinoTable() {
+    const container = document.getElementById("casino-table");
+    container.innerHTML = "";
+    casinoData.forEach(casino => {
+      const row = document.createElement("div");
+      row.className = "table-row";
+      row.dataset.casino = casino.name;
+      row.innerHTML = `
+        <div class="tooltip">
+          <a href="${casino.link}" target="_blank" onclick="return handleBonusClick('${casino.name}')">${casino.name}</a>
+          <span class="tooltiptext">${casino.tooltip || ''}</span>
+        </div>
+        <div><input type="checkbox" /></div>
+        <div class="last-collected">Available!</div>`;
+      container.appendChild(row);
+    });
+  }
+    
 const casinoData = [
   {"name":"Hello Millions","link":"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867"},
   {"name":"SpinBlitz","link":"https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739"},
@@ -312,23 +329,7 @@ const casinoData = [
     if (!document.getElementById("user-stats")) document.querySelector(".container").prepend(stats);
   }
 
-  function renderCasinoTable() {
-    const container = document.getElementById("casino-table");
-    container.innerHTML = "";
-    casinoData.forEach(casino => {
-      const row = document.createElement("div");
-      row.className = "table-row";
-      row.dataset.casino = casino.name;
-      row.innerHTML = `
-        <div class="tooltip">
-          <a href="${casino.link}" target="_blank" onclick="return handleBonusClick('${casino.name}')">${casino.name}</a>
-          <span class="tooltiptext">${casino.tooltip || ''}</span>
-        </div>
-        <div><input type="checkbox" /></div>
-        <div class="last-collected">Available!</div>`;
-      container.appendChild(row);
-    });
-  }
+    }
 
   function handleBonusClick(name) {
     const row = document.querySelector(`.table-row[data-casino="${name}"]`);
