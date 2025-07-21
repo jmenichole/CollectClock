@@ -1,12 +1,4 @@
-    .last-collected.timer {
-      animation: pulseRedGlow 2s infinite;
-      text-shadow: 0 0 2px #000, 0 0 4px #000;
-    }
 
-    @keyframes pulseRedGlow {
-      0%,100% { color: #ff4c4c; text-shadow: 0 0 6px #ff4c4c, 0 0 2px #000; }
-      50% { color: #ffb84c; text-shadow: 0 0 12px #ffb84c, 0 0 2px #000; }
-    }
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,6 +83,15 @@
     .last-collected.available {
       animation: pulseGlow 2s infinite;
       text-shadow: 0 0 2px #000, 0 0 4px #000;
+    }
+          .last-collected.timer {
+      animation: pulseRedGlow 2s infinite;
+      text-shadow: 0 0 2px #000, 0 0 4px #000;
+    }
+
+    @keyframes pulseRedGlow {
+      0%,100% { color: #ff4c4c; text-shadow: 0 0 6px #ff4c4c, 0 0 2px #000; }
+      50% { color: #ffb84c; text-shadow: 0 0 12px #ffb84c, 0 0 2px #000; }
     }
 
     @keyframes pulseGlow {
