@@ -156,6 +156,7 @@
 </head>
 <body>
   <div class="container">
+    <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
     <h1>Don't forget your daily bonus collection 💧</h1>
     <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px #5865F299;">Login with Discord</a>
     <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
@@ -169,14 +170,44 @@
   <div class="toast"></div>
   <div id="gif-popup" style="display:none;"></div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    .profile-pic {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #5865F2;
+      box-shadow: 0 1px 4px #5865F299;
+    }
+  </style>
   <script>
     // Discord OAuth logic
     const DISCORD_CLIENT_ID = "1336968746450812928";
     const discordLoginBtn = document.getElementById('discord-login-btn');
+    const userInfoDiv = document.getElementById('user-info');
+    function renderUserInfo() {
+      const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
+      userInfoDiv.innerHTML = "";
+      if (user && user.username) {
+        // Discord CDN avatar or fallback
+        let avatarUrl = user.avatar
+          ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+          : `https://cdn.discordapp.com/embed/avatars/${(user.discriminator % 5)}.png`;
+        userInfoDiv.innerHTML = `<img src="${avatarUrl}" class="profile-pic" alt="Profile" /> <span style='font-weight:bold;'>${user.username}#${user.discriminator}</span>`;
+        if (discordLoginBtn) discordLoginBtn.style.display = "none";
+      } else {
+        if (discordLoginBtn) discordLoginBtn.style.display = "inline-block";
+      }
+    }
     if (discordLoginBtn && DISCORD_CLIENT_ID) {
       const redirect = encodeURIComponent(window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/auth.html'));
       discordLoginBtn.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=token&scope=identify`;
     }
+    // Call on load and after login
+    renderUserInfo();
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'discordUser') renderUserInfo();
+    });
     const tiltSound = new Audio("798635__cvltiv8r__cvlt-bass-94.wav");
     const untiltSound = new Audio("810164__mokasza__awesome-bubble-pop.mp3");
 
@@ -288,7 +319,7 @@ const casinoData = [
     const el = document.getElementById("gif-popup") || createGifPopupElement();
     el.innerHTML = `<img src="${gifUrls[Math.floor(Math.random() * gifUrls.length)]}" style="max-height:150px;" />`;
     el.style.display = "block";
-    uwuSound.play();
+    confetti();
     setTimeout(() => { el.style.display = "none"; }, 5000);
   }
 
@@ -326,6 +357,9 @@ const casinoData = [
         label.classList.add("available");
         renderCountdown(label, next - Date.now());
       } else {
+        if (label.textContent !== "Available!") {
+          uwuSound.play();
+        }
         box.checked = false;
         box.disabled = false;
         label.textContent = "Available!";
@@ -336,12 +370,10 @@ const casinoData = [
 
   function updateStats() {
     const count = localStorage.getItem("collect_count") || 0;
-    const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
-    const welcome = user.username ? `Logged in as: ${user.username}#${user.discriminator}` : '';
     const stats = document.getElementById("user-stats") || document.createElement("div");
     stats.id = "user-stats";
-    stats.innerHTML = `<div><b>${welcome}</b></div><div><b>Bonuses Collected:</b> ${count}</div>`;
-    if (!document.getElementById("user-stats")) document.querySelector(".container").prepend(stats);
+    stats.innerHTML = `<div><b>Bonuses Collected:</b> ${count}</div>`;
+    if (!document.getElementById("user-stats")) document.querySelector(".container").appendChild(stats);
   }
 
   function handleBonusClick(name) {
