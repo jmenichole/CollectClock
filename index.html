@@ -51,12 +51,14 @@
     }
 
     .toggle-mode {
-      padding: 10px 20px;
+      padding: 16px 36px;
       background: linear-gradient(to right, #7f5af0, #2cb67d);
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
+      font-size: 1.15em;
+      font-weight: bold;
       display: block;
       margin: 0 auto 1em;
     }
@@ -155,9 +157,10 @@
 
     .toggle-row {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.5em;
+      gap: 0.7em;
       margin-bottom: 1em;
       flex-wrap: wrap;
     }
@@ -228,10 +231,18 @@
       </a>
     </div>
     <div id="user-stats"></div>
+    <div id="bonus-count" style="text-align:right;font-size:1.1em;font-weight:bold;margin-bottom:0.5em;"></div>
   </div>
   <footer>
-    💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank">Drop it in Discord</a><br/>
-    ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank">Ko-fi</a>
+    <div id="footer-info" style="margin-bottom:1.2em;">
+      💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank">Drop it in Discord</a><br/>
+      ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank">Ko-fi</a>
+    </div>
+    <div id="footer-premium-cta" style="text-align:center;margin:0 auto 0.5em auto;max-width:600px;">
+      <a href="https://discord.gg/xEZY6hWu" target="_blank" style="display:inline-block;width:100%;padding:14px 0;background:#5865F2;color:#fff;border-radius:12px;font-weight:bold;text-decoration:none;box-shadow:0 2px 8px #5865F299;font-size:1.15em;">
+        Want more codes? Join Seal Stats Premium and get notified when codes drop!
+      </a>
+    </div>
   </footer>
   <div class="toast"></div>
   <div id="gif-popup" style="display:none;"></div>
@@ -247,6 +258,17 @@
     }
   </style>
   <script>
+    // --- Bonus Count Display ---
+    function updateBonusCount() {
+      const count = +(localStorage.getItem("collect_count") || 0);
+      const el = document.getElementById("bonus-count");
+      if (el) {
+        el.textContent = `Bonuses Collected: ${count}`;
+      }
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      updateBonusCount();
+    });
     // ...existing code...
     // Discord OAuth logic
     const DISCORD_CLIENT_ID = "1336968746450812928";
@@ -441,6 +463,7 @@ window.casinoData = [
 
     const count = +(localStorage.getItem("collect_count") || 0) + 1;
     localStorage.setItem("collect_count", count);
+    updateBonusCount();
 
     showToast("Bonus collected!");
     updateStats();
