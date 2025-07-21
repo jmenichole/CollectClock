@@ -500,38 +500,58 @@ window.casinoData = [
     const box = row.querySelector("input");
     const label = row.querySelector(".last-collected");
 
-    // Custom modal for bonus collection
+    // Only show the 'Did you collect your bonus?' modal the first time for each casino
     return (async () => {
-      const didCollect = await showBonusModal("Did you collect your bonus?");
-      if (!didCollect) return true;
-
+      const firstCollectedKey = `casino_first_collected_${name}`;
+      const alreadyCollected = localStorage.getItem(firstCollectedKey);
       let mins = 1440;
-      const is24h = await showBonusModal("Is the next collection in 24 hours?");
-      if (!is24h) {
-        const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
-        mins = parseTimeInput(input);
-        if (isNaN(mins) || mins <= 0) {
-          showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
-          return false;
+      if (!alreadyCollected) {
+        const didCollect = await showBonusModal("Did you collect your bonus?");
+        if (!didCollect) return true;
+        localStorage.setItem(firstCollectedKey, "1");
+        // Ask about timer as usual
+        const is24h = await showBonusModal("Is the next collection in 24 hours?");
+        if (!is24h) {
+          const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
+          mins = parseTimeInput(input);
+          if (isNaN(mins) || mins <= 0) {
+            showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
+            return false;
+          }
         }
+        const next = Date.now() + mins * 60000;
+        localStorage.setItem("casino_" + name, next);
+        box.checked = true;
+        box.disabled = true;
+        const count = +(localStorage.getItem("collect_count") || 0) + 1;
+        localStorage.setItem("collect_count", count);
+        updateBonusCount();
+        showToast("Bonus collected!");
+        updateStats();
+        updateTimers();
+        if (count % 5 === 0) showGifPopup();
+        return true;
+      } else {
+        // Subsequent clicks: just check and set timer for 24h (or ask for override)
+        mins = 1440;
+        const is24h = await showBonusModal("Is the next collection in 24 hours?");
+        if (!is24h) {
+          const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
+          mins = parseTimeInput(input);
+          if (isNaN(mins) || mins <= 0) {
+            showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
+            return false;
+          }
+        }
+        const next = Date.now() + mins * 60000;
+        localStorage.setItem("casino_" + name, next);
+        box.checked = true;
+        box.disabled = true;
+        showToast("Bonus collected!");
+        updateStats();
+        updateTimers();
+        return true;
       }
-
-      const next = Date.now() + mins * 60000;
-      localStorage.setItem("casino_" + name, next);
-      box.checked = true;
-      box.disabled = true;
-
-      const count = +(localStorage.getItem("collect_count") || 0) + 1;
-      localStorage.setItem("collect_count", count);
-      updateBonusCount();
-
-      showToast("Bonus collected!");
-      updateStats();
-      updateTimers();
-
-      if (count % 5 === 0) showGifPopup();
-
-      return true;
     })();
   }
 
