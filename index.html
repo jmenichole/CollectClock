@@ -219,6 +219,14 @@
     </div>
     <div id="info-popup" class="info-popup">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
     <div id="casino-table"></div>
+    <div class="cta-premium" style="text-align:center;margin:1.5em 0 1em 0;">
+    <!-- Seal Stats Premium CTA moved to footer and popup -->
+    </div>
+    <div class="cta-premium" style="text-align:center;margin:2em 0 1.5em 0;">
+      <a href="https://discord.gg/xEZY6hWu" target="_blank" style="display:inline-block;padding:12px 22px;background:#5865F2;color:#fff;border-radius:10px;font-weight:bold;text-decoration:none;box-shadow:0 2px 8px #5865F299;font-size:1.1em;">
+        Want more codes? Join Seal Stats Premium and get notified when codes drop!
+      </a>
+    </div>
     <div id="user-stats"></div>
   </div>
   <footer>
@@ -239,6 +247,7 @@
     }
   </style>
   <script>
+    // ...existing code...
     // Discord OAuth logic
     const DISCORD_CLIENT_ID = "1336968746450812928";
     const discordLoginBtn = document.getElementById('discord-login-btn');
@@ -504,6 +513,14 @@ window.casinoData = [
       infoBtn.classList.remove('active');
       infoPopup.style.display = 'none';
     }
+  }
+
+  function handleCasinoLinkClick(event, name) {
+    event.preventDefault();
+    const link = event.currentTarget.href;
+    window.open(link, '_blank');
+    setTimeout(() => handleBonusClick(name), 100);
+    return false;
   }
 </script>
 
