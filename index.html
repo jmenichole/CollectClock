@@ -171,8 +171,9 @@
     const untiltSound = new Audio("untilt.mp3");
 
     const gifUrls = [
-      "https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif",
-      "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+      "https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif",
+      "https://media.giphy.com/media/l0HUpt2s9Pclgt9Vm/giphy.gif",
+      "https://media.giphy.com/media/3ohc1bTn4ZDEd4nSSA/giphy.gif"
     ];
 function renderCasinoTable() {
     const container = document.getElementById("casino-table");
@@ -238,11 +239,7 @@ const casinoData = [
   {"name":"MetaWin","link":"https://metawin.com/jmenichole007/"}
 ];
     
-  const gifUrls = [
-    "https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif",
-    "https://media.giphy.com/media/l0HUpt2s9Pclgt9Vm/giphy.gif",
-    "https://media.giphy.com/media/3ohc1bTn4ZDEd4nSSA/giphy.gif"
-  ];
+  // ...removed duplicate gifUrls declaration...
   
   const uwuSound = new Audio("uwusadiquecat.wav");
 
@@ -382,10 +379,12 @@ const casinoData = [
   }
 
   // Startup
-  document.getElementById("mode-toggle").addEventListener("click", toggleMode);
-  renderCasinoTable();
-  updateTimers();
-  updateStats();
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("mode-toggle").addEventListener("click", toggleMode);
+    renderCasinoTable();
+    updateTimers();
+    updateStats();
+  });
 </script>
 
 </body>
