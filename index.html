@@ -152,6 +152,60 @@
     .toast.show {
       opacity: 1;
     }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+    }
+
+    .info-btn {
+      background: none;
+      border: none;
+      color: #5865F2;
+      font-size: 1.3em;
+      cursor: pointer;
+      padding: 0 0.2em;
+      border-radius: 50%;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-btn:active, .info-btn.active {
+      background: #e0e7ff;
+    }
+
+    .info-popup {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      color: #222;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(34,34,59,0.12);
+      padding: 1.2em 1.5em;
+      z-index: 2000;
+      font-size: 1.1em;
+      max-width: 90vw;
+      min-width: 220px;
+      text-align: center;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0.5em; }
+      .toggle-row { flex-direction: column; gap: 0.7em; }
+      .info-popup { top: 90px; font-size: 1em; padding: 1em; }
+      h1 { font-size: 1.2em; }
+      .table-row { font-size: 0.98em; }
+      .profile-pic { width: 28px; height: 28px; }
+    }
   </style>
 </head>
 <body>
@@ -159,10 +213,11 @@
     <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
     <h1>Don't forget your daily bonus collection 💧</h1>
     <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px #5865F299;">Login with Discord</a>
-    <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
-    <span class="tooltip">ⓘ
-      <span class="tooltiptext">Switch between raw and referral links. Tilt Mode supports dev, Untilt is mod-safe.</span>
-    </span>
+    <div class="toggle-row">
+      <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
+      <button id="info-btn" class="info-btn" aria-label="Info">ⓘ</button>
+    </div>
+    <div id="info-popup" class="info-popup">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
     <div id="casino-table"></div>
     <div id="user-stats"></div>
   </div>
@@ -432,6 +487,24 @@ window.casinoData = [
     updateTimers();
     updateStats();
   });
+  // Info popup logic
+  const infoBtn = document.getElementById('info-btn');
+  const infoPopup = document.getElementById('info-popup');
+  infoBtn.addEventListener('click', function() {
+    const isActive = infoBtn.classList.toggle('active');
+    infoPopup.style.display = isActive ? 'block' : 'none';
+    if (isActive) {
+      setTimeout(() => {
+        document.addEventListener('click', hideInfo, { once: true });
+      }, 10);
+    }
+  });
+  function hideInfo(e) {
+    if (!infoBtn.contains(e.target) && !infoPopup.contains(e.target)) {
+      infoBtn.classList.remove('active');
+      infoPopup.style.display = 'none';
+    }
+  }
 </script>
 
 </body>
