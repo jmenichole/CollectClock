@@ -157,6 +157,7 @@
 <body>
   <div class="container">
     <h1>Don't forget your daily bonus collection 💧</h1>
+    <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px #5865F299;">Login with Discord</a>
     <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
     <div id="casino-table"></div>
     <div id="user-stats"></div>
@@ -168,6 +169,13 @@
   <div class="toast"></div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
+    // Discord OAuth logic
+    const DISCORD_CLIENT_ID = "1336968746450812928";
+    const discordLoginBtn = document.getElementById('discord-login-btn');
+    if (discordLoginBtn && DISCORD_CLIENT_ID) {
+      const redirect = encodeURIComponent(window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/auth.html'));
+      discordLoginBtn.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=token&scope=identify`;
+    }
     const tiltSound = new Audio("798635__cvltiv8r__cvlt-bass-94.wav");
     const untiltSound = new Audio("810164__mokasza__awesome-bubble-pop.mp3");
 
