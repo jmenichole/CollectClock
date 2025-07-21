@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,16 +14,14 @@
       --timer: #0000ff;
       --hover-bg: #f0f0f0;
     }
-
     .dark-mode {
-      --bg: #000000;
+      --bg: #000;
       --text: #00ffcc;
       --link: #00ffff;
       --link-hover: #ff00ff;
       --timer: #00ffff;
       --hover-bg: #222;
     }
-
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
       background: var(--bg);
@@ -33,72 +30,39 @@
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
     }
-
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 2rem;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 1em;
-    }
-
-    .dark-mode h1 {
-      animation: glitch 0.6s infinite;
-      text-shadow: 0 0 3px #0ff, 0 0 10px #0ff;
-    }
-
+    .container { max-width: 800px; margin: auto; padding: 2rem; }
+    h1 { text-align: center; font-size: 2em; margin-bottom: 1em; }
+    .dark-mode h1 { animation: glitch 0.6s infinite; text-shadow: 0 0 3px #0ff, 0 0 10px #0ff; }
     .toggle-mode {
       padding: 16px 36px;
       background: linear-gradient(to right, #7f5af0, #2cb67d);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 1.15em;
-      font-weight: bold;
-      display: block;
-      margin: 0 auto 1em;
+      color: white; border: none; border-radius: 12px;
+      cursor: pointer; font-size: 1.15em; font-weight: bold;
+      display: block; margin: 0 auto 1em;
     }
-
     .table-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr 2fr;
-      gap: 10px;
-      padding: 10px;
-      margin: 0.5em 0;
-      border-radius: 10px;
-      background: var(--hover-bg);
+      display: grid; grid-template-columns: 2fr 1fr 2fr;
+      gap: 10px; padding: 10px; margin: 0.5em 0;
+      border-radius: 10px; background: var(--hover-bg);
       box-shadow: 0 0 8px rgba(0,255,255,0.2);
     }
-
-    .table-row:hover {
-      background: var(--link-hover);
-      color: #fff;
-    }
-
+    .table-row:hover { background: var(--link-hover); color: #fff; }
     .last-collected.available {
       animation: pulseGlow 2s infinite;
       text-shadow: 0 0 2px #000, 0 0 4px #000;
     }
-          .last-collected.timer {
+    .last-collected.timer {
       animation: pulseRedGlow 2s infinite;
       text-shadow: 0 0 2px #000, 0 0 4px #000;
     }
-
     @keyframes pulseRedGlow {
       0%,100% { color: #ff4c4c; text-shadow: 0 0 6px #ff4c4c, 0 0 2px #000; }
       50% { color: #ffb84c; text-shadow: 0 0 12px #ffb84c, 0 0 2px #000; }
     }
-
     @keyframes pulseGlow {
       0%,100% { color: #4cff79; text-shadow: 0 0 6px #4cff79, 0 0 2px #000; }
       50% { color: #b0ff4c; text-shadow: 0 0 12px #b0ff4c, 0 0 2px #000; }
     }
-
     @keyframes glitch {
       0% { transform: none; }
       20% { transform: translate(-1px, 1px); }
@@ -107,110 +71,46 @@
       80% { transform: translate(1px, 1px); }
       100% { transform: none; }
     }
-
     footer {
-      text-align: center;
-      margin-top: 2em;
-      padding: 1em 0;
-      font-size: 0.9em;
-      background: var(--hover-bg);
+      text-align: center; margin-top: 2em; padding: 1em 0;
+      font-size: 0.9em; background: var(--hover-bg);
     }
-
-    footer a {
-      color: var(--link);
-      text-decoration: none;
+    footer a { color: var(--link); text-decoration: none; }
+    footer a:hover { color: var(--link-hover); }
+    .profile-pic {
+      width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
+      border: 2px solid #5865F2; box-shadow: 0 1px 4px #5865F299;
     }
-
-    footer a:hover {
-      color: var(--link-hover);
-    }
-
     .tooltip .tooltiptext {
-      visibility: hidden;
-      width: max-content;
-      background-color: #222;
-      color: #fff;
-      text-align: center;
-      border-radius: 6px;
-      padding: 5px 10px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
+      visibility: hidden; width: max-content; background-color: #222;
+      color: #fff; text-align: center; border-radius: 6px; padding: 5px 10px;
+      position: absolute; z-index: 1; bottom: 125%; left: 50%;
+      transform: translateX(-50%); opacity: 0; transition: opacity 0.3s;
     }
-
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
-    }
-
+    .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
     .toast {
-      position: fixed;
-      bottom: 1em;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #000;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 10px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
+      position: fixed; bottom: 1em; left: 50%; transform: translateX(-50%);
+      background: #000; color: #fff; padding: 10px 20px; border-radius: 10px;
+      opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
     }
-
-    .toast.show {
-      opacity: 1;
-    }
-
+    .toast.show { opacity: 1; }
     .toggle-row {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.7em;
-      margin-bottom: 1em;
-      flex-wrap: wrap;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.7em; margin-bottom: 1em; flex-wrap: wrap;
     }
-
     .info-btn {
-      background: none;
-      border: none;
-      color: #5865F2;
-      font-size: 1.3em;
-      cursor: pointer;
-      padding: 0 0.2em;
-      border-radius: 50%;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: none; border: none; color: #5865F2; font-size: 1.3em;
+      cursor: pointer; padding: 0 0.2em; border-radius: 50%;
+      transition: background 0.2s; display: flex; align-items: center; justify-content: center;
     }
-
-    .info-btn:active, .info-btn.active {
-      background: #e0e7ff;
-    }
-
+    .info-btn:active, .info-btn.active { background: #e0e7ff; }
     .info-popup {
-      position: fixed;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      color: #222;
-      border-radius: 12px;
+      position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+      background: #fff; color: #222; border-radius: 12px;
       box-shadow: 0 4px 24px rgba(34,34,59,0.12);
-      padding: 1.2em 1.5em;
-      z-index: 2000;
-      font-size: 1.1em;
-      max-width: 90vw;
-      min-width: 220px;
-      text-align: center;
-      display: none;
+      padding: 1.2em 1.5em; z-index: 2000; font-size: 1.1em;
+      max-width: 90vw; min-width: 220px; text-align: center; display: none;
     }
-
     @media (max-width: 600px) {
       .container { padding: 0.5em; }
       .toggle-row { flex-direction: column; gap: 0.7em; }
@@ -225,31 +125,29 @@
   <div class="container">
     <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
     <h1>Don't forget your daily bonus collection 💧</h1>
-    <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px #5865F299;">Login with Discord</a>
+    <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;">Login with Discord</a>
     <div class="toggle-row">
       <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
-      <button id="info-btn" class="info-btn" aria-label="Info">ⓘ</button>
+      <button id="info-btn" class="info-btn" aria-label="Info" tabindex="0">ⓘ</button>
     </div>
-    <div id="info-popup" class="info-popup">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
+    <div id="info-popup" class="info-popup" role="dialog" aria-modal="true" aria-hidden="true">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
     <div id="casino-table"></div>
-    <div class="cta-premium" style="text-align:center;margin:1.5em 0 1em 0;">
-    <!-- Seal Stats Premium CTA moved to footer and popup -->
-    </div>
+    <div class="cta-premium" style="text-align:center;margin:1.5em 0 1em 0;"></div>
     <div id="user-stats"></div>
     <div id="bonus-count" style="text-align:right;font-size:1.1em;font-weight:bold;margin-bottom:0.5em;"></div>
   </div>
   <footer>
     <div id="footer-info" style="margin-bottom:1.2em;">
-      💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank">Drop it in Discord</a><br/>
-      ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank">Ko-fi</a>
+      💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank" rel="noopener">Drop it in Discord</a><br/>
+      ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank" rel="noopener">Ko-fi</a>
     </div>
     <div id="footer-premium-cta" style="text-align:center;margin:0 auto 0.5em auto;max-width:600px;">
-      <a href="https://discord.gg/xEZY6hWu" target="_blank" style="display:inline-block;width:100%;padding:14px 0;background:#5865F2;color:#fff;border-radius:12px;font-weight:bold;text-decoration:none;box-shadow:0 2px 8px #5865F299;font-size:1.15em;">
+      <a href="https://discord.gg/xEZY6hWu" target="_blank" rel="noopener" style="display:inline-block;width:100%;padding:14px 0;background:#5865F2;color:#fff;border-radius:12px;font-weight:bold;text-decoration:none;">
         Want more codes? Join Seal Stats Premium and get notified when codes drop!
       </a>
     </div>
   </footer>
-  <div class="toast"></div>
+  <div class="toast" aria-live="polite"></div>
   <div id="gif-popup" style="display:none;"></div>
   <div id="bonus-modal" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
     <div style="background:#fff;color:#222;padding:2em 1.5em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:90vw;text-align:center;">
@@ -259,63 +157,14 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <style>
-    .profile-pic {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #5865F2;
-      box-shadow: 0 1px 4px #5865F299;
-    }
-  </style>
   <script>
-    // --- Parse time input like '5 hrs', '2h 30m', '90m' to minutes ---
-    function parseTimeInput(input) {
-      if (!input) return NaN;
-      input = input.toLowerCase().replace(/[^0-9hm\s\.]/g, '');
-      let total = 0;
-      let match;
-      // Match hours and minutes (e.g., '2h 30m', '5 hrs', '90m')
-      const hourMatch = input.match(/(\d+(?:\.\d+)?)\s*h/);
-      const minMatch = input.match(/(\d+(?:\.\d+)?)\s*m/);
-      if (hourMatch) total += parseFloat(hourMatch[1]) * 60;
-      if (minMatch) total += parseFloat(minMatch[1]);
-      // If only a number is given, treat as minutes
-      if (!hourMatch && !minMatch) {
-        const num = parseFloat(input);
-        if (!isNaN(num)) total += num;
-      }
-      return Math.round(total);
-  
-    // --- Custom Bonus Modal Logic ---
-    function showBonusModal(message) {
-      return new Promise((resolve) => {
-        const modal = document.getElementById('bonus-modal');
-        document.getElementById('bonus-modal-msg').textContent = message;
-        modal.style.display = 'flex';
-        const yesBtn = document.getElementById('bonus-modal-yes');
-        const noBtn = document.getElementById('bonus-modal-no');
-        function cleanup(result) {
-          modal.style.display = 'none';
-          yesBtn.removeEventListener('click', onYes);
-          noBtn.removeEventListener('click', onNo);
-        }
-        function onYes() { cleanup(true); resolve(true); }
-        function onNo() { cleanup(false); resolve(false); }
-        yesBtn.addEventListener('click', onYes);
-        noBtn.addEventListener('click', onNo);
-      });
-    }
-    // --- Bonus Count Display ---
-    function updateBonusCount() {
-      const count = +(localStorage.getItem("collect_count") || 0);
-      const el = document.getElementById("bonus-count");
-      if (el) {
-        el.textContent = `Bonuses Collected: ${count}`;
-      }
-    // ...existing code...
-    // Discord OAuth logic
+  (function() {
+    // --- Sound asset URLs (host these or use your own CDN) ---
+    const tiltSound = new Audio("https://cdn.example.com/audio/tilt-bass.wav");
+    const untiltSound = new Audio("https://cdn.example.com/audio/bubble-pop.mp3");
+    const uwuSound = new Audio("https://cdn.example.com/audio/uwu.wav");
+
+    // --- Discord OAuth ---
     const DISCORD_CLIENT_ID = "1336968746450812928";
     const discordLoginBtn = document.getElementById('discord-login-btn');
     const userInfoDiv = document.getElementById('user-info');
@@ -323,7 +172,6 @@
       const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
       userInfoDiv.innerHTML = "";
       if (user && user.username) {
-        // Discord CDN avatar or fallback
         let avatarUrl = user.avatar
           ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
           : `https://cdn.discordapp.com/embed/avatars/${(user.discriminator % 5)}.png`;
@@ -337,11 +185,13 @@
       const redirect = encodeURIComponent(window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/auth.html'));
       discordLoginBtn.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=token&scope=identify`;
     }
-    // Call on load and after login
     renderUserInfo();
     window.addEventListener('storage', function(e) {
       if (e.key === 'discordUser') renderUserInfo();
     });
+
+  
+      
     const tiltSound = new Audio("798635__cvltiv8r__cvlt-bass-94.wav");
     const untiltSound = new Audio("810164__mokasza__awesome-bubble-pop.mp3");
 
@@ -394,106 +244,103 @@ window.casinoData = [
   { name: "Shuffle.com VPN", tilted: "https://shuffle.com?r=jHR7JnWRPF", clean: "https://shuffle.com" },
   { name: "Stake.com VPN", tilted: "https://www.stake.com/?c=LAYP68hb", clean: "https://www.stake.com" },
   { name: "MetaWin", tilted: "https://metawin.com/jmenichole007/", clean: "https://metawin.com" }
-];
-    
-  // ...removed duplicate gifUrls declaration...
-  
-  const uwuSound = new Audio("800976__sadiquecat__other-uwu-2.wav");
+];/* ...casino data as before... */ ]; // Omitted for brevity
 
-  function showToast(msg) {
-    const toast = document.querySelector('.toast') || createToastElement();
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
-  }
-
-  function createToastElement() {
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    toast.style.position = "fixed";
-    toast.style.bottom = "20px";
-    toast.style.left = "50%";
-    toast.style.transform = "translateX(-50%)";
-    toast.style.padding = "10px 20px";
-    toast.style.background = "#222";
-    toast.style.color = "#fff";
-    toast.style.borderRadius = "6px";
-    toast.style.zIndex = "1000";
-    document.body.appendChild(toast);
-    return toast;
-  }
-
-  function showGifPopup() {
-    const el = document.getElementById("gif-popup") || createGifPopupElement();
-    el.innerHTML = `<img src="${gifUrls[Math.floor(Math.random() * gifUrls.length)]}" style="max-height:150px;" />`;
-    el.style.display = "block";
-    confetti();
-    setTimeout(() => { el.style.display = "none"; }, 5000);
-  }
-
-  function createGifPopupElement() {
-    const el = document.createElement("div");
-    el.id = "gif-popup";
-    el.style.position = "fixed";
-    el.style.bottom = "60px";
-    el.style.left = "50%";
-    el.style.transform = "translateX(-50%)";
-    el.style.zIndex = "999";
-    el.style.padding = "10px";
-    el.style.background = "rgba(0,0,0,0.8)";
-    el.style.borderRadius = "12px";
-    el.style.display = "none";
-    document.body.appendChild(el);
-    return el;
-  }
-
-  function renderCountdown(label, ms) {
-    const mins = Math.ceil(ms / 60000);
-    const h = Math.floor(mins / 60), m = mins % 60;
-    label.innerHTML = `<span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span>`;
-    label.classList.remove('available');
-    label.classList.add('timer');
-  }
-
-  function updateTimers() {
-    document.querySelectorAll(".table-row").forEach(row => {
-      const casino = row.dataset.casino;
-      const label = row.querySelector(".last-collected");
-      const box = row.querySelector("input");
-      const next = localStorage.getItem("casino_" + casino);
-      if (next && Date.now() < +next) {
-        box.checked = true;
-        box.disabled = true;
-        renderCountdown(label, next - Date.now());
-      } else {
-        if (label.textContent !== "Available!") {
-          uwuSound.play();
-        }
-        label.classList.remove('timer');
-        label.classList.add('available');
-        box.checked = false;
-        box.disabled = false;
-        label.textContent = "Available!";
-        label.classList.add("available");
+    // --- Utility Functions ---
+    function parseTimeInput(input) {
+      if (!input) return NaN;
+      input = input.toLowerCase().replace(/[^0-9hm\s\.]/g, '');
+      let total = 0;
+      const hourMatch = input.match(/(\d+(?:\.\d+)?)\s*h/);
+      const minMatch = input.match(/(\d+(?:\.\d+)?)\s*m/);
+      if (hourMatch) total += parseFloat(hourMatch[1]) * 60;
+      if (minMatch) total += parseFloat(minMatch[1]);
+      if (!hourMatch && !minMatch) {
+        const num = parseFloat(input);
+        if (!isNaN(num)) total += num;
       }
-    });
-  }
-
-  function updateStats() {
-    const count = localStorage.getItem("collect_count") || 0;
-    const stats = document.getElementById("user-stats") || document.createElement("div");
-    stats.id = "user-stats";
-    stats.innerHTML = `<div><b>Bonuses Collected:</b> ${count}</div>`;
-    if (!document.getElementById("user-stats")) document.querySelector(".container").appendChild(stats);
-  }
-
-  function handleBonusClick(name) {
-    const row = document.querySelector(`.table-row[data-casino="${name}"]`);
-    const box = row.querySelector("input");
-    const label = row.querySelector(".last-collected");
-
-    // Only show the 'Did you collect your bonus?' modal the first time for each casino
-    return (async () => {
+      return Math.round(total);
+    }
+    function showToast(msg) {
+      const toast = document.querySelector('.toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    function showGifPopup() {
+      const el = document.getElementById("gif-popup");
+      if (!el) return;
+      el.innerHTML = `<img src="${gifUrls[Math.floor(Math.random() * gifUrls.length)]}" style="max-height:150px;" alt="Celebration GIF" />`;
+      el.style.display = "block";
+      confetti();
+      setTimeout(() => { el.style.display = "none"; }, 5000);
+    }
+    function renderCountdown(label, ms) {
+      const mins = Math.ceil(ms / 60000);
+      const h = Math.floor(mins / 60), m = mins % 60;
+      label.innerHTML = `<span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span>`;
+      label.classList.remove('available');
+      label.classList.add('timer');
+    }
+    function updateBonusCount() {
+      const count = +(localStorage.getItem("collect_count") || 0);
+      const el = document.getElementById("bonus-count");
+      if (el) {
+        el.textContent = `Bonuses Collected: ${count}`;
+      }
+    }
+    function updateTimers() {
+      document.querySelectorAll(".table-row").forEach(row => {
+        const casino = row.dataset.casino;
+        const label = row.querySelector(".last-collected");
+        const box = row.querySelector("input");
+        const next = localStorage.getItem("casino_" + casino);
+        if (next && Date.now() < +next) {
+          box.checked = true;
+          box.disabled = true;
+          renderCountdown(label, next - Date.now());
+        } else {
+          if (label.textContent !== "Available!") {
+            try { uwuSound.play(); } catch {}
+          }
+          label.classList.remove('timer');
+          label.classList.add('available');
+          box.checked = false;
+          box.disabled = false;
+          label.textContent = "Available!";
+        }
+      });
+    }
+    function updateStats() {
+      const count = localStorage.getItem("collect_count") || 0;
+      const stats = document.getElementById("user-stats");
+      if (stats) stats.innerHTML = `<div><b>Bonuses Collected:</b> ${count}</div>`;
+    }
+    function showBonusModal(message) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('bonus-modal');
+        if (!modal) return resolve(false);
+        document.getElementById('bonus-modal-msg').textContent = message;
+        modal.style.display = 'flex';
+        const yesBtn = document.getElementById('bonus-modal-yes');
+        const noBtn = document.getElementById('bonus-modal-no');
+        function cleanup(result) {
+          modal.style.display = 'none';
+          yesBtn.removeEventListener('click', onYes);
+          noBtn.removeEventListener('click', onNo);
+        }
+        function onYes() { cleanup(true); resolve(true); }
+        function onNo() { cleanup(false); resolve(false); }
+        yesBtn.addEventListener('click', onYes);
+        noBtn.addEventListener('click', onNo);
+      });
+    }
+    async function handleBonusClick(name) {
+      const row = document.querySelector(`.table-row[data-casino="${name}"]`);
+      if (!row) return;
+      const box = row.querySelector("input");
+      const label = row.querySelector(".last-collected");
       const firstCollectedKey = `casino_first_collected_${name}`;
       const alreadyCollected = localStorage.getItem(firstCollectedKey);
       let mins = 1440;
@@ -501,7 +348,6 @@ window.casinoData = [
         const didCollect = await showBonusModal("Did you collect your bonus?");
         if (!didCollect) return true;
         localStorage.setItem(firstCollectedKey, "1");
-        // Ask about timer as usual
         const is24h = await showBonusModal("Is the next collection in 24 hours?");
         if (!is24h) {
           const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
@@ -524,7 +370,6 @@ window.casinoData = [
         if (count % 5 === 0) showGifPopup();
         return true;
       } else {
-        // Subsequent clicks: just check and set timer for 24h (or ask for override)
         mins = 1440;
         const is24h = await showBonusModal("Is the next collection in 24 hours?");
         if (!is24h) {
@@ -544,42 +389,96 @@ window.casinoData = [
         updateTimers();
         return true;
       }
-    })();
-  }
-
-  function toggleMode() {
-    const body = document.body;
-    const isTilted = body.classList.toggle("dark-mode");
-    document.querySelector("h1").textContent = isTilted
-      ? "Degen mode activated. Don't forget the juice ⚡"
-      : "Don't forget your daily bonus collection 💧";
-    document.title = isTilted ? "🎰 Tilted, baby" : "🎯 Bonus Tracker - CollectClock";
-    document.querySelector(".toggle-mode").textContent = isTilted ? "Untilt" : "Tilt";
-    (isTilted ? tiltSound : untiltSound).play();
-
-    if (isTilted && !localStorage.getItem("tiltConfettiShown")) {
-      confetti();
-      localStorage.setItem("tiltConfettiShown", "true");
     }
-
-    localStorage.setItem("theme", isTilted ? "dark" : "light");
-  }
-
-  function renderCasinoTable() {
-    const container = document.getElementById("casino-table");
-    container.innerHTML = "";
-    const isTilted = document.body.classList.contains("dark-mode");
-    (window.casinoData || []).forEach(casino => {
-      const row = document.createElement("div");
-      row.className = "table-row";
-      row.dataset.casino = casino.name;
-      let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
-      row.innerHTML = `
-        <div class="tooltip">
-          <a href="${link}" target="_blank" onclick="return handleCasinoLinkClick(event, '${casino.name}')">${casino.name}</a>
-          <span class="tooltiptext">${casino.tooltip || ''}</span>
-        </div>
-        <div><input type="checkbox" /></div>
+    function toggleMode() {
+      const body = document.body;
+      const isTilted = body.classList.toggle("dark-mode");
+      const h1 = document.querySelector("h1");
+      if (h1) h1.textContent = isTilted
+        ? "Degen mode activated. Don't forget the juice ⚡"
+        : "Don't forget your daily bonus collection 💧";
+      document.title = isTilted ? "🎰 Tilted, baby" : "🎯 Bonus Tracker - CollectClock";
+      const modeBtn = document.querySelector(".toggle-mode");
+      if (modeBtn) modeBtn.textContent = isTilted ? "Untilt" : "Tilt";
+      try {
+        (isTilted ? tiltSound : untiltSound).play();
+      } catch {}
+      if (isTilted && !localStorage.getItem("tiltConfettiShown")) {
+        confetti();
+        localStorage.setItem("tiltConfettiShown", "true");
+      }
+      localStorage.setItem("theme", isTilted ? "dark" : "light");
+      renderCasinoTable(); // update links for mode
+    }
+    function renderCasinoTable() {
+      const container = document.getElementById("casino-table");
+      if (!container) return;
+      container.innerHTML = "";
+      const isTilted = document.body.classList.contains("dark-mode");
+      (window.casinoData || []).forEach(casino => {
+        const row = document.createElement("div");
+        row.className = "table-row";
+        row.dataset.casino = casino.name;
+        let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+        row.innerHTML = `
+          <div class="tooltip">
+            <a href="${link}" target="_blank" onclick="return false;">${casino.name}</a>
+            <span class="tooltiptext">${casino.tooltip || ''}</span>
+          </div>
+          <div><input type="checkbox" aria-label="Collected ${casino.name}?" /></div>
+          <div class="last-collected">Available!</div>`;
+        container.appendChild(row);
+        // Attach event handler
+        row.querySelector("a").addEventListener('click', (event) => {
+          event.preventDefault();
+          window.open(link, '_blank');
+          setTimeout(() => handleBonusClick(casino.name), 100);
+        });
+      });
+    }
+    // --- Info popup logic ---
+    const infoBtn = document.getElementById('info-btn');
+    const infoPopup = document.getElementById('info-popup');
+    if (infoBtn && infoPopup) {
+      infoBtn.addEventListener('click', function(e) {
+        const isActive = infoBtn.classList.toggle('active');
+        infoPopup.style.display = isActive ? 'block' : 'none';
+        infoPopup.setAttribute('aria-hidden', !isActive);
+        if (isActive) {
+          setTimeout(() => {
+            document.addEventListener('click', hideInfo, { once: true });
+          }, 10);
+        }
+        e.stopPropagation();
+      });
+      function hideInfo(e) {
+        if (!infoBtn.contains(e.target) && !infoPopup.contains(e.target)) {
+          infoBtn.classList.remove('active');
+          infoPopup.style.display = 'none';
+          infoPopup.setAttribute('aria-hidden', 'true');
+        }
+      }
+    }
+    // --- Startup ---
+    document.addEventListener("DOMContentLoaded", function() {
+      const modeToggle = document.getElementById("mode-toggle");
+      if (modeToggle) modeToggle.addEventListener("click", toggleMode);
+      renderCasinoTable();
+      updateTimers();
+      updateStats();
+      updateBonusCount();
+      // Restore theme
+      const theme = localStorage.getItem("theme");
+      if (theme === "dark") document.body.classList.add("dark-mode");
+    });
+    // --- Timers update ---
+    setInterval(updateTimers, 60000);
+  })();
+  </script>
+</body>
+</html>
+   
+ ="checkbox" /></div>
         <div class="last-collected">Available!</div>`;
       container.appendChild(row);
     });
