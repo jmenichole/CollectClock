@@ -185,11 +185,19 @@ function renderCasinoTable() {
       row.dataset.casino = casino.name;
       row.innerHTML = `
         <div class="tooltip">
-          <a href="${casino.link}" target="_blank" onclick="return handleBonusClick('${casino.name}')">${casino.name}</a>
+          <a href="${casino.link}" target="_blank" onclick="return handleCasinoLinkClick(event, '${casino.name}')">${casino.name}</a>
           <span class="tooltiptext">${casino.tooltip || ''}</span>
         </div>
         <div><input type="checkbox" /></div>
         <div class="last-collected">Available!</div>`;
+// Open link first, then show the bonus collection prompt
+function handleCasinoLinkClick(event, name) {
+  event.preventDefault();
+  const link = event.currentTarget.href;
+  window.open(link, '_blank');
+  setTimeout(() => handleBonusClick(name), 100);
+  return false;
+}
       container.appendChild(row);
     });
   }
