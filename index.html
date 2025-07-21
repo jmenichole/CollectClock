@@ -1,3 +1,12 @@
+    .last-collected.timer {
+      animation: pulseRedGlow 2s infinite;
+      text-shadow: 0 0 2px #000, 0 0 4px #000;
+    }
+
+    @keyframes pulseRedGlow {
+      0%,100% { color: #ff4c4c; text-shadow: 0 0 6px #ff4c4c, 0 0 2px #000; }
+      50% { color: #ffb84c; text-shadow: 0 0 12px #ffb84c, 0 0 2px #000; }
+    }
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -246,6 +255,13 @@
   </footer>
   <div class="toast"></div>
   <div id="gif-popup" style="display:none;"></div>
+  <div id="bonus-modal" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
+    <div style="background:#fff;color:#222;padding:2em 1.5em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:90vw;text-align:center;">
+      <div id="bonus-modal-msg" style="font-size:1.15em;margin-bottom:1.2em;"></div>
+      <button id="bonus-modal-yes" style="padding:10px 28px;margin:0 1em 0 0;background:#2cb67d;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Yes</button>
+      <button id="bonus-modal-no" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">No</button>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     .profile-pic {
@@ -258,6 +274,43 @@
     }
   </style>
   <script>
+    // --- Parse time input like '5 hrs', '2h 30m', '90m' to minutes ---
+    function parseTimeInput(input) {
+      if (!input) return NaN;
+      input = input.toLowerCase().replace(/[^0-9hm\s\.]/g, '');
+      let total = 0;
+      let match;
+      // Match hours and minutes (e.g., '2h 30m', '5 hrs', '90m')
+      const hourMatch = input.match(/(\d+(?:\.\d+)?)\s*h/);
+      const minMatch = input.match(/(\d+(?:\.\d+)?)\s*m/);
+      if (hourMatch) total += parseFloat(hourMatch[1]) * 60;
+      if (minMatch) total += parseFloat(minMatch[1]);
+      // If only a number is given, treat as minutes
+      if (!hourMatch && !minMatch) {
+        const num = parseFloat(input);
+        if (!isNaN(num)) total += num;
+      }
+      return Math.round(total);
+    }
+    // --- Custom Bonus Modal Logic ---
+    function showBonusModal(message) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('bonus-modal');
+        document.getElementById('bonus-modal-msg').textContent = message;
+        modal.style.display = 'flex';
+        const yesBtn = document.getElementById('bonus-modal-yes');
+        const noBtn = document.getElementById('bonus-modal-no');
+        function cleanup(result) {
+          modal.style.display = 'none';
+          yesBtn.removeEventListener('click', onYes);
+          noBtn.removeEventListener('click', onNo);
+        }
+        function onYes() { cleanup(true); resolve(true); }
+        function onNo() { cleanup(false); resolve(false); }
+        yesBtn.addEventListener('click', onYes);
+        noBtn.addEventListener('click', onNo);
+      });
+    }
     // --- Bonus Count Display ---
     function updateBonusCount() {
       const count = +(localStorage.getItem("collect_count") || 0);
@@ -406,6 +459,8 @@ window.casinoData = [
     const mins = Math.ceil(ms / 60000);
     const h = Math.floor(mins / 60), m = mins % 60;
     label.innerHTML = `<span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span>`;
+    label.classList.remove('available');
+    label.classList.add('timer');
   }
 
   function updateTimers() {
@@ -417,12 +472,13 @@ window.casinoData = [
       if (next && Date.now() < +next) {
         box.checked = true;
         box.disabled = true;
-        label.classList.add("available");
         renderCountdown(label, next - Date.now());
       } else {
         if (label.textContent !== "Available!") {
           uwuSound.play();
         }
+        label.classList.remove('timer');
+        label.classList.add('available');
         box.checked = false;
         box.disabled = false;
         label.textContent = "Available!";
@@ -444,34 +500,39 @@ window.casinoData = [
     const box = row.querySelector("input");
     const label = row.querySelector(".last-collected");
 
-    if (!confirm("Did you collect your bonus?")) return true;
+    // Custom modal for bonus collection
+    return (async () => {
+      const didCollect = await showBonusModal("Did you collect your bonus?");
+      if (!didCollect) return true;
 
-    let mins = 1440;
-    if (!confirm("Is the next collection in 24 hours?")) {
-      const input = prompt("How many minutes until the next bonus?");
-      mins = parseInt(input);
-      if (isNaN(mins) || mins <= 0) {
-        showToast("Invalid input.");
-        return false;
+      let mins = 1440;
+      const is24h = await showBonusModal("Is the next collection in 24 hours?");
+      if (!is24h) {
+        const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
+        mins = parseTimeInput(input);
+        if (isNaN(mins) || mins <= 0) {
+          showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
+          return false;
+        }
       }
-    }
 
-    const next = Date.now() + mins * 60000;
-    localStorage.setItem("casino_" + name, next);
-    box.checked = true;
-    box.disabled = true;
+      const next = Date.now() + mins * 60000;
+      localStorage.setItem("casino_" + name, next);
+      box.checked = true;
+      box.disabled = true;
 
-    const count = +(localStorage.getItem("collect_count") || 0) + 1;
-    localStorage.setItem("collect_count", count);
-    updateBonusCount();
+      const count = +(localStorage.getItem("collect_count") || 0) + 1;
+      localStorage.setItem("collect_count", count);
+      updateBonusCount();
 
-    showToast("Bonus collected!");
-    updateStats();
-    updateTimers();
+      showToast("Bonus collected!");
+      updateStats();
+      updateTimers();
 
-    if (count % 5 === 0) showGifPopup();
+      if (count % 5 === 0) showGifPopup();
 
-    return true;
+      return true;
+    })();
   }
 
   function toggleMode() {
