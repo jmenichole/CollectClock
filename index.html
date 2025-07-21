@@ -29,8 +29,22 @@
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
+      /* Subtle SVG pattern texture for both modes */
+      background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="40" height="40" fill="%23f7f8fa"/><circle cx="20" cy="20" r="1.5" fill="%23e0e7ef"/><circle cx="0" cy="40" r="1.5" fill="%23e0e7ef"/><circle cx="40" cy="0" r="1.5" fill="%23e0e7ef"/></svg>');
+      background-size: 40px 40px;
+      background-attachment: fixed;
+    }
+    .dark-mode body {
+      /* SVG pattern for dark mode (tilted) */
+      background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="40" height="40" fill="%23000"/><circle cx="20" cy="20" r="1.5" fill="%231a222a"/><circle cx="0" cy="40" r="1.5" fill="%231a222a"/><circle cx="40" cy="0" r="1.5" fill="%231a222a"/></svg>');
+      background-size: 40px 40px;
+      background-attachment: fixed;
     }
     .container { max-width: 800px; margin: auto; padding: 2rem; }
+    /* Soften the background color for better contrast */
+    :root {
+      --bg: #f7f8fa;
+    }
     h1 { text-align: center; font-size: 2em; margin-bottom: 1em; }
     .dark-mode h1 { animation: glitch 0.6s infinite; text-shadow: 0 0 3px #0ff, 0 0 10px #0ff; }
     .toggle-mode {
@@ -179,9 +193,9 @@
       <input type="search" id="casino-search" placeholder="Search casinos..." aria-label="Search casinos" />
       <button type="button" id="casino-search-clear" aria-label="Clear search" tabindex="0" style="display:none;">✕</button>
     </form>
-    <div id="casino-table"></div>
+    <div id="casino-table-available"></div>
+    <div id="casino-table-cooldown" style="margin-top:2.5em;"></div>
     <div class="cta-premium" style="text-align:center;margin:1.5em 0 1em 0;"></div>
-    <div id="user-stats"></div>
     <div id="bonus-count" style="text-align:right;font-size:1.1em;font-weight:bold;margin-bottom:0.5em;"></div>
   </div>
   <footer>
@@ -194,7 +208,42 @@
         Want more codes? Join Seal Stats Premium and get notified when codes drop!
       </a>
     </div>
+    <button id="reset-timers-btn" style="position:absolute;right:18px;bottom:18px;padding:7px 18px;font-size:0.98em;border-radius:8px;background:#e0e7ef;color:#333;border:none;box-shadow:0 2px 8px #0001;opacity:0.7;transition:opacity 0.2s;z-index:10000;cursor:pointer;outline:none;min-width:120px;" title="Reset all casino timers">Reset All Timers</button>
   </footer>
+  <style>
+    @media (max-width: 600px) {
+      #reset-timers-btn {
+        right: 10px;
+        bottom: 10px;
+        font-size: 0.92em;
+        min-width: 90px;
+        padding: 6px 10px;
+      }
+    }
+    #reset-timers-btn:hover, #reset-timers-btn:focus {
+      opacity: 1;
+      background: #ffe0e7;
+      color: #e91e63;
+    }
+  </style>
+  <script>
+    // Add Reset All Timers functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const resetBtn = document.getElementById('reset-timers-btn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          if (!confirm('Are you sure you want to reset all casino timers? This will not affect your collected count.')) return;
+          // Remove all casino_*, casino_first_collected_*, and casino_timer_* keys
+          Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('casino_')) localStorage.removeItem(key);
+          });
+          // Optionally, reset checkboxes and timers visually
+          if (typeof updateTimers === 'function') updateTimers();
+          showToast('All timers reset!');
+        });
+      }
+    });
+  </script>
   <div class="toast" aria-live="polite"></div>
   <div id="gif-popup" style="display:none;"></div>
   <div id="bonus-modal" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
@@ -384,11 +433,7 @@
         }
       });
     }
-    function updateStats() {
-      const count = localStorage.getItem("collect_count") || 0;
-      const stats = document.getElementById("user-stats");
-      if (stats) stats.innerHTML = `<div><b>Bonuses Collected:</b> ${count}</div>`;
-    }
+    // function updateStats() { /* Removed duplicate bonuses collected display */ }
     function showBonusModal(message) {
       return new Promise((resolve) => {
         const modal = document.getElementById('bonus-modal');
@@ -414,12 +459,14 @@
       const box = row.querySelector("input");
       const label = row.querySelector(".last-collected");
       const firstCollectedKey = `casino_first_collected_${name}`;
+      const timerKey = `casino_timer_${name}`;
       const alreadyCollected = localStorage.getItem(firstCollectedKey);
       let mins = 1440;
       if (!alreadyCollected) {
         const didCollect = await showBonusModal("Did you collect your bonus?");
         if (!didCollect) return true;
         localStorage.setItem(firstCollectedKey, "1");
+        // Only ask the 24hr/timer question the first time
         const is24h = await showBonusModal("Is the next collection in 24 hours?");
         if (!is24h) {
           const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
@@ -428,39 +475,31 @@
             showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
             return false;
           }
+          localStorage.setItem(timerKey, mins); // store custom timer
+        } else {
+          localStorage.setItem(timerKey, 1440); // store 24h as default
         }
-        const next = Date.now() + mins * 60000;
-        localStorage.setItem("casino_" + name, next);
-        box.checked = true;
-        box.disabled = true;
-        const count = +(localStorage.getItem("collect_count") || 0) + 1;
+      } else {
+        // Use stored timer value for this casino
+        mins = +(localStorage.getItem(timerKey) || 1440);
+      }
+      const next = Date.now() + mins * 60000;
+      localStorage.setItem("casino_" + name, next);
+      box.checked = true;
+      box.disabled = true;
+      // Only increment count on first collection per casino per day
+      let count = +(localStorage.getItem("collect_count") || 0);
+      if (!alreadyCollected) {
+        count++;
         localStorage.setItem("collect_count", count);
         updateBonusCount();
-        showToast("Bonus collected!");
-        updateStats();
-        updateTimers();
-        if (count % 5 === 0) showGifPopup();
-        return true;
-      } else {
-        mins = 1440;
-        const is24h = await showBonusModal("Is the next collection in 24 hours?");
-        if (!is24h) {
-          const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
-          mins = parseTimeInput(input);
-          if (isNaN(mins) || mins <= 0) {
-            showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
-            return false;
-          }
-        }
-        const next = Date.now() + mins * 60000;
-        localStorage.setItem("casino_" + name, next);
-        box.checked = true;
-        box.disabled = true;
-        showToast("Bonus collected!");
-        updateStats();
-        updateTimers();
-        return true;
       }
+      showToast("Bonus collected!");
+      updateStats();
+      updateTimers();
+      // Show GIF/confetti with 20% chance
+      if (Math.random() < 0.2) showGifPopup();
+      return true;
     }
     function toggleMode() {
       const body = document.body;
@@ -571,9 +610,11 @@
     }
     // --- Render Casino Table with Filter and Accessibility ---
     function renderCasinoTable() {
-      const container = document.getElementById("casino-table");
-      if (!container) return;
-      container.innerHTML = "";
+      const availableContainer = document.getElementById("casino-table-available");
+      const cooldownContainer = document.getElementById("casino-table-cooldown");
+      if (!availableContainer || !cooldownContainer) return;
+      availableContainer.innerHTML = "";
+      cooldownContainer.innerHTML = "";
       const isTilted = document.body.classList.contains("dark-mode");
       let data = window.casinoData || [];
       if (casinoFilter) {
@@ -581,44 +622,119 @@
           c.name.toLowerCase().includes(casinoFilter)
         );
       }
-      data.forEach((casino, idx) => {
-        const row = document.createElement("div");
-        row.className = "table-row";
-        row.dataset.casino = casino.name;
-        let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
-        row.innerHTML = `
-          <div class="tooltip">
-            <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
-            <span class="tooltiptext">${casino.tooltip || ''}</span>
-          </div>
-          <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" /></div>
-          <div class="last-collected">Available!</div>`;
-        container.appendChild(row);
-        // Attach event handler
-        const anchor = row.querySelector("a");
-        anchor.addEventListener('click', (event) => {
-          event.preventDefault();
-          window.open(link, '_blank');
-          setTimeout(() => handleBonusClick(casino.name), 100);
-        });
-        anchor.addEventListener('keydown', (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            anchor.click();
-          }
-        });
-        // Checkbox keyboard support
-        const checkbox = row.querySelector("input[type=checkbox]");
-        checkbox.addEventListener('keydown', (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            checkbox.click();
-          }
-        });
-        checkbox.addEventListener('click', () => {
-          handleBonusClick(casino.name);
-        });
+      // Partition casinos into available and cooldown
+      const now = Date.now();
+      const available = [], cooldown = [];
+      data.forEach(casino => {
+        const next = localStorage.getItem("casino_" + casino.name);
+        if (!next || now >= +next) {
+          available.push(casino);
+        } else {
+          cooldown.push({ ...casino, next: +next });
+        }
       });
+      // Sort cooldown by most time left (descending)
+      cooldown.sort((a, b) => (b.next - now) - (a.next - now));
+      // Render available table
+      if (available.length > 0) {
+        const header = document.createElement("h2");
+        header.textContent = "Available to Collect";
+        header.style.margin = "1.2em 0 0.5em 0";
+        header.style.fontSize = "1.25em";
+        header.style.letterSpacing = "0.01em";
+        header.style.textAlign = "left";
+        availableContainer.appendChild(header);
+        available.forEach(casino => {
+          const row = document.createElement("div");
+          row.className = "table-row";
+          row.dataset.casino = casino.name;
+          let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+          row.innerHTML = `
+            <div class="tooltip">
+              <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
+              <span class="tooltiptext">${casino.tooltip || ''}</span>
+            </div>
+            <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" /></div>
+            <div class="last-collected available">Available!</div>`;
+          availableContainer.appendChild(row);
+          // Attach event handler
+          const anchor = row.querySelector("a");
+          anchor.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.open(link, '_blank');
+            setTimeout(() => handleBonusClick(casino.name), 100);
+          });
+          anchor.addEventListener('keydown', (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              anchor.click();
+            }
+          });
+          // Checkbox keyboard support
+          const checkbox = row.querySelector("input[type=checkbox]");
+          checkbox.addEventListener('keydown', (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              checkbox.click();
+            }
+          });
+          checkbox.addEventListener('click', () => {
+            handleBonusClick(casino.name);
+          });
+        });
+      }
+      // Render cooldown table
+      if (cooldown.length > 0) {
+        const header = document.createElement("h2");
+        header.textContent = "On Cooldown";
+        header.style.margin = "1.8em 0 0.5em 0";
+        header.style.fontSize = "1.15em";
+        header.style.letterSpacing = "0.01em";
+        header.style.textAlign = "left";
+        cooldownContainer.appendChild(header);
+        cooldown.forEach(casino => {
+          const row = document.createElement("div");
+          row.className = "table-row";
+          row.dataset.casino = casino.name;
+          let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+          // Calculate time left
+          const minsLeft = Math.ceil((casino.next - now) / 60000);
+          const h = Math.floor(minsLeft / 60), m = minsLeft % 60;
+          row.innerHTML = `
+            <div class="tooltip">
+              <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
+              <span class="tooltiptext">${casino.tooltip || ''}</span>
+            </div>
+            <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" disabled /></div>
+            <div class="last-collected timer"><span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span></div>`;
+          cooldownContainer.appendChild(row);
+          // Attach event handler
+          const anchor = row.querySelector("a");
+          anchor.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.open(link, '_blank');
+            setTimeout(() => handleBonusClick(casino.name), 100);
+          });
+          anchor.addEventListener('keydown', (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              anchor.click();
+            }
+          });
+        });
+      }
+      // If all are on cooldown or all are available, show only one table (no split)
+      if (available.length === 0 || cooldown.length === 0) {
+        // Move all to availableContainer and hide cooldownContainer
+        if (cooldown.length === 0) {
+          cooldownContainer.style.display = "none";
+        } else {
+          availableContainer.style.display = "none";
+        }
+      } else {
+        availableContainer.style.display = "";
+        cooldownContainer.style.display = "";
+      }
     }
     // --- Info popup logic (keyboard accessible) ---
     const infoBtn = document.getElementById('info-btn');
