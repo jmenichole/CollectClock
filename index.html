@@ -6,47 +6,115 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #fff;
+      --text: #000;
+      --link: #0000ff;
+      --link-hover: #e91e63;
+      --timer: #0000ff;
+      --hover-bg: #f0f0f0;
+    }
+
+    .dark-mode {
+      --bg: #000000;
+      --text: #00ffcc;
+      --link: #00ffff;
+      --link-hover: #ff00ff;
+      --timer: #00ffff;
+      --hover-bg: #222;
+    }
+
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
       background: var(--bg);
       color: var(--text);
       margin: 0;
       min-height: 100vh;
+      transition: all 0.3s ease-in-out;
     }
-    :root {
-      --bg: #ffffff;
-      --text: #000;
-      --link: #0000ff;
-      --link-hover: #ff4500;
-      --timer: #0000ff;
-      --hover-bg: #e0e0e0;
-    }
-    body.dark-mode {
-      --bg: #000;
-      --text: #00ff00;
-      --link: #00ff00;
-      --link-hover: #ff00ff;
-      --timer: #00ff00;
-      --hover-bg: #333;
-    }
+
     .container {
       max-width: 800px;
       margin: auto;
       padding: 2rem;
-      position: relative;
     }
+
     h1 {
-      font-size: 2.2em;
       text-align: center;
-      margin-bottom: 0.2em;
+      font-size: 2em;
+      margin-bottom: 1em;
     }
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      cursor: help;
+
+    .dark-mode h1 {
+      animation: glitch 0.6s infinite;
+      text-shadow: 0 0 3px #0ff, 0 0 10px #0ff;
     }
+
+    .toggle-mode {
+      padding: 10px 20px;
+      background: linear-gradient(to right, #7f5af0, #2cb67d);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto 1em;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 10px;
+      padding: 10px;
+      margin: 0.5em 0;
+      border-radius: 10px;
+      background: var(--hover-bg);
+      box-shadow: 0 0 8px rgba(0,255,255,0.2);
+    }
+
+    .table-row:hover {
+      background: var(--link-hover);
+      color: #fff;
+    }
+
+    .last-collected.available {
+      animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%,100% { color: #4cff79; text-shadow: 0 0 6px #4cff79; }
+      50% { color: #b0ff4c; text-shadow: 0 0 12px #b0ff4c; }
+    }
+
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: translate(-1px, 1px); }
+      40% { transform: translate(1px, -1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+      100% { transform: none; }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2em;
+      padding: 1em 0;
+      font-size: 0.9em;
+      background: var(--hover-bg);
+    }
+
+    footer a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--link-hover);
+    }
+
     .tooltip .tooltiptext {
       visibility: hidden;
+      width: max-content;
       background-color: #222;
       color: #fff;
       text-align: center;
@@ -60,175 +128,52 @@
       opacity: 0;
       transition: opacity 0.3s;
     }
+
     .tooltip:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
     }
-    .table {
-      margin-top: 1rem;
-    }
-    .table-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr 2fr;
-      gap: 0.5rem;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 10px;
-      background: var(--hover-bg);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      align-items: center;
-    }
-    .last-collected.available {
-      animation: pulseGlow 2s infinite;
-    }
-    @keyframes pulseGlow {
-      0%,100% { color: #4cff79; text-shadow: 0 0 6px #4cff79; }
-      50% { color: #b0ff4c; text-shadow: 0 0 12px #b0ff4c; }
-    }
-    .flip-clock .digit {
-      background: #222;
-      color: #0ff;
-      padding: 0.2em 0.5em;
-      border-radius: 4px;
-      margin: 0 2px;
-      font-weight: bold;
-    }
-    .toggle-mode {
-      padding: 10px 20px;
-      background: linear-gradient(90deg, #7f5af0, #2cb67d);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      margin-top: 10px;
-      cursor: pointer;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      function toggleMode() {
-  const body = document.body;
-  const isTilted = body.classList.toggle("dark-mode");
 
-  document.querySelector("h1").textContent = isTilted
-    ? "Degen mode activated. Don't forget the juice ⚡"
-    : "Don't forget your daily bonus collection 💧";
-
-  document.title = isTilted
-    ? "🎰 Tilted, baby"
-    : "🎯 Bonus Tracker - CollectClock";
-
-  document.querySelector(".toggle-mode").textContent = isTilted ? "Untilt" : "Tilt";
-  (isTilted ? tiltSound : untiltSound).play();
-
-  if (!localStorage.getItem("tiltConfettiShown")) {
-    confetti();
-    localStorage.setItem("tiltConfettiShown", "true");
-  }
-
-  localStorage.setItem("theme", isTilted ? "dark" : "light");
-}
-
-    }
     .toast {
       position: fixed;
-      bottom: 30px;
+      bottom: 1em;
       left: 50%;
       transform: translateX(-50%);
-      background: #222;
-      color: white;
-      padding: 1em 2em;
+      background: #000;
+      color: #fff;
+      padding: 10px 20px;
       border-radius: 10px;
       opacity: 0;
+      transition: opacity 0.3s ease;
       pointer-events: none;
-      transition: opacity 0.4s ease;
-      z-index: 1000;
     }
+
     .toast.show {
       opacity: 1;
-      pointer-events: auto;
-    }
-    #gif-popup {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #000;
-      border-radius: 12px;
-      overflow: hidden;
-      z-index: 999;
-      display: none;
-    }
-    #gif-popup img {
-      width: 200px;
-      height: auto;
-    }
-    #profile-img {
-      display: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      position: absolute;
-      top: 20px;
-      right: 20px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <img id="profile-img" />
-    <h1>Remember your daily degen drip 💧</h1>
-    <div id="user-stats"></div>
-    <a id="discord-login-btn" href="#">Login with Discord</a>
+    <h1>Don't forget your daily bonus collection 💧</h1>
     <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
-    <div id="casino-table" class="table"></div>
+    <div id="casino-table"></div>
+    <div id="user-stats"></div>
   </div>
+  <footer>
+    💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank">Drop it in Discord</a><br/>
+    ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank">Ko-fi</a>
+  </footer>
   <div class="toast"></div>
-  <div id="gif-popup"></div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
-    // Sound FXdocument.getElementById("mode-toggle").addEventListener("click", toggleMode);
-
-function toggleMode() {
-  const body = document.body;
-  const isTilted = body.classList.toggle("dark-mode");
-
-  // Switch header
-  document.querySelector("h1").textContent = isTilted
-    ? "Degen mode activated. Don't forget the juice ⚡"
-    : "Don't forget your daily bonus collection 💧";
-
-  // Switch page title
-  document.title = isTilted
-    ? "🎰 Tilted, baby"
-    : "🎯 Bonus Tracker - CollectClock";
-
-  // Switch toggle button label
-  const toggleBtn = document.querySelector(".toggle-mode");
-  toggleBtn.textContent = isTilted ? "Untilt" : "Tilt";
-
-  // Play sound effect
-  (isTilted ? tiltSound : untiltSound).play();
-
-  // Confetti on first tilt ever
-  if (isTilted && !localStorage.getItem("tiltConfettiShown")) {
-    confetti({
-      particleCount: 100,
-      spread: 80,
-      origin: { y: 0.6 },
-    });
-    localStorage.setItem("tiltConfettiShown", "true");
-  }
-
-  // Store preference
-  localStorage.setItem("theme", isTilted ? "dark" : "light");
-}
-
-const tiltSound = new Audio("data:audio/wav;base64,UklGRnJkGABXQVZFZm10IBAAAAABAAIARKwAACBiBQAIACAAYmV4dFoCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...");
-const untiltSound = new Audio("data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU5LjI3LjEwMAAAAAAAAAAAAAAA//uQRAAAgkMC0GjDEAg5wXkyYekwDIjTTSywaTGCjimppI1cAAASjjckkcoXqBBA0LB9YPn0RQEAQB8Hw+D4EEAIOnwfHg/5DeJ3iB1APv/y4PlwcDEEDAP1n/+U5AHw/E4EcUdffQIO...");
-const uwuSound = new Audio("data:audio/wav;base64,UklGRtYkBABXQVZFZm10IBAAAAABAAEAAO4CAADKCAADABgAZGF0YdYiBAAAAAD8///z///u///u///l///Z///b///P///L///I//+q//+h//+y//+m//+P//+Y//+a//9p//99//+f//+C//9Y//+E//90//9w//91//9w//98//+d//9l//9+//96//9p//8n//8g...");
+    const tiltSound = new Audio("tilt.wav");
+    const untiltSound = new Audio("untilt.mp3");
 
     const gifUrls = [
-  "https://media.giphy.com/media/3og0IPxMM0erATueVW/giphy.gif",
-  "https://media.giphy.com/media/1rNWzT3lbTi9K/giphy.gif",
-  "https://media.giphy.com/media/l0MYEqEzwMWFCg8rm/giphy.gif"
-];
+      "https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif",
+      "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+    ];
 
 window.casinoData = [
   {"name":"Hello Millions","link":"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867"},
@@ -275,177 +220,176 @@ window.casinoData = [
   {"name":"Stake.com VPN","link":"https://www.stake.com/?c=LAYP68hb"},
   {"name":"MetaWin","link":"https://metawin.com/jmenichole007/"}
 ];
+    
+</script>
+  <script>
+  const gifUrls = [
+    "https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif",
+    "https://media.giphy.com/media/l0HUpt2s9Pclgt9Vm/giphy.gif",
+    "https://media.giphy.com/media/3ohc1bTn4ZDEd4nSSA/giphy.gif"
+  ];
+  
+  const uwuSound = new Audio("uwusadiquecat.wav");
 
-function showToast(msg) {
-  const toast = document.querySelector('.toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
-}
+  function showToast(msg) {
+    const toast = document.querySelector('.toast') || createToastElement();
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
 
-function showGifPopup() {
-  const el = document.getElementById("gif-popup");
-  el.innerHTML = Math.random() < 0.2
-    ? `<a href="https://ko-fi.com/jmenichole0" target="_blank"><img src="https://ko-fi.com/img/githubbutton_sm.svg" /></a>`
-    : `<img src="${gifUrls[Math.floor(Math.random() * gifUrls.length)]}" />`;
-  el.style.display = "block";
-  setTimeout(() => el.style.display = "none", 5000);
-}
-    function renderCountdown(label, ms) {
-  const mins = Math.ceil(ms / 60000);
-  const h = Math.floor(mins / 60), m = mins % 60;
-  label.innerHTML = `<span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span>`;
-}
+  function createToastElement() {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.left = "50%";
+    toast.style.transform = "translateX(-50%)";
+    toast.style.padding = "10px 20px";
+    toast.style.background = "#222";
+    toast.style.color = "#fff";
+    toast.style.borderRadius = "6px";
+    toast.style.zIndex = "1000";
+    document.body.appendChild(toast);
+    return toast;
+  }
 
-function updateTimers() {
-  document.querySelectorAll(".table-row").forEach(row => {
-    const casino = row.dataset.casino;
-    const label = row.querySelector(".last-collected");
+  function showGifPopup() {
+    const el = document.getElementById("gif-popup") || createGifPopupElement();
+    el.innerHTML = `<img src="${gifUrls[Math.floor(Math.random() * gifUrls.length)]}" style="max-height:150px;" />`;
+    el.style.display = "block";
+    uwuSound.play();
+    setTimeout(() => { el.style.display = "none"; }, 5000);
+  }
+
+  function createGifPopupElement() {
+    const el = document.createElement("div");
+    el.id = "gif-popup";
+    el.style.position = "fixed";
+    el.style.bottom = "60px";
+    el.style.left = "50%";
+    el.style.transform = "translateX(-50%)";
+    el.style.zIndex = "999";
+    el.style.padding = "10px";
+    el.style.background = "rgba(0,0,0,0.8)";
+    el.style.borderRadius = "12px";
+    el.style.display = "none";
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function renderCountdown(label, ms) {
+    const mins = Math.ceil(ms / 60000);
+    const h = Math.floor(mins / 60), m = mins % 60;
+    label.innerHTML = `<span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span>`;
+  }
+
+  function updateTimers() {
+    document.querySelectorAll(".table-row").forEach(row => {
+      const casino = row.dataset.casino;
+      const label = row.querySelector(".last-collected");
+      const box = row.querySelector("input");
+      const next = localStorage.getItem("casino_" + casino);
+      if (next && Date.now() < +next) {
+        box.checked = true;
+        box.disabled = true;
+        label.classList.add("available");
+        renderCountdown(label, next - Date.now());
+      } else {
+        box.checked = false;
+        box.disabled = false;
+        label.textContent = "Available!";
+        label.classList.add("available");
+      }
+    });
+  }
+
+  function updateStats() {
+    const count = localStorage.getItem("collect_count") || 0;
+    const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
+    const welcome = user.username ? `Logged in as: ${user.username}#${user.discriminator}` : '';
+    const stats = document.getElementById("user-stats") || document.createElement("div");
+    stats.id = "user-stats";
+    stats.innerHTML = `<div><b>${welcome}</b></div><div><b>Bonuses Collected:</b> ${count}</div>`;
+    if (!document.getElementById("user-stats")) document.querySelector(".container").prepend(stats);
+  }
+
+  function renderCasinoTable() {
+    const container = document.getElementById("casino-table");
+    container.innerHTML = "";
+    casinoData.forEach(casino => {
+      const row = document.createElement("div");
+      row.className = "table-row";
+      row.dataset.casino = casino.name;
+      row.innerHTML = `
+        <div class="tooltip">
+          <a href="${casino.link}" target="_blank" onclick="return handleBonusClick('${casino.name}')">${casino.name}</a>
+          <span class="tooltiptext">${casino.tooltip || ''}</span>
+        </div>
+        <div><input type="checkbox" /></div>
+        <div class="last-collected">Available!</div>`;
+      container.appendChild(row);
+    });
+  }
+
+  function handleBonusClick(name) {
+    const row = document.querySelector(`.table-row[data-casino="${name}"]`);
     const box = row.querySelector("input");
-    const next = localStorage.getItem("casino_" + casino);
-    if (next && Date.now() < +next) {
-      box.checked = true;
-      box.disabled = true;
-      label.classList.add("available");
-      renderCountdown(label, next - Date.now());
-    } else {
-      box.checked = false;
-      box.disabled = false;
-      label.textContent = "Available!";
-      label.classList.add("available");
+    const label = row.querySelector(".last-collected");
+
+    if (!confirm("Did you collect your bonus?")) return true;
+
+    let mins = 1440;
+    if (!confirm("Is the next collection in 24 hours?")) {
+      const input = prompt("How many minutes until the next bonus?");
+      mins = parseInt(input);
+      if (isNaN(mins) || mins <= 0) {
+        showToast("Invalid input.");
+        return false;
+      }
     }
-  });
-}
 
-function updateStats() {
-  const count = localStorage.getItem("collect_count") || 0;
-  const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
-  const welcome = user.username ? `Logged in as: ${user.username}#${user.discriminator}` : '';
-  document.getElementById("user-stats").innerHTML = `
-    <div><b>${welcome}</b></div>
-    <div><b>Bonuses Collected:</b> ${count}</div>`;
-}
+    const next = Date.now() + mins * 60000;
+    localStorage.setItem("casino_" + name, next);
+    box.checked = true;
+    box.disabled = true;
 
-function handleBonusClick(name) {
-  const row = document.querySelector(`.table-row[data-casino="${name}"]`);
-  const box = row.querySelector("input");
-  const label = row.querySelector(".last-collected");
-  if (!confirm("Did you collect your bonus?")) return true;
-  let mins = 24 * 60;
-  if (!confirm("Is the next collection in 24 hours?")) {
-    const input = prompt("How many minutes until the next bonus?");
-    mins = parseInt(input);
-    if (isNaN(mins) || mins <= 0) {
-      showToast("Invalid input.");
-      return false;
+    const count = +(localStorage.getItem("collect_count") || 0) + 1;
+    localStorage.setItem("collect_count", count);
+
+    showToast("Bonus collected!");
+    updateStats();
+    updateTimers();
+
+    if (count % 5 === 0) showGifPopup();
+
+    return true;
+  }
+
+  function toggleMode() {
+    const body = document.body;
+    const isTilted = body.classList.toggle("dark-mode");
+    document.querySelector("h1").textContent = isTilted
+      ? "Degen mode activated. Don't forget the juice ⚡"
+      : "Don't forget your daily bonus collection 💧";
+    document.title = isTilted ? "🎰 Tilted, baby" : "🎯 Bonus Tracker - CollectClock";
+    document.querySelector(".toggle-mode").textContent = isTilted ? "Untilt" : "Tilt";
+    (isTilted ? tiltSound : untiltSound).play();
+
+    if (isTilted && !localStorage.getItem("tiltConfettiShown")) {
+      confetti();
+      localStorage.setItem("tiltConfettiShown", "true");
     }
-  }
-  const next = Date.now() + mins * 60000;
-  localStorage.setItem("casino_" + name, next);
-  box.checked = true;
-  box.disabled = true;
-  const count = +(localStorage.getItem("collect_count") || 0) + 1;
-  localStorage.setItem("collect_count", count);
-  showToast("Bonus collected!");
-  updateStats();
-  updateTimers();
-  if (count % 5 === 0) showGifPopup();
-  return true;
-}
 
-function renderCasinoTable() {
-  const container = document.getElementById("casino-table");
-  container.innerHTML = "";
-  casinoData.forEach(casino => {
-    const row = document.createElement("div");
-    row.className = "table-row";
-    row.dataset.casino = casino.name;
-    row.innerHTML = `
-      <div class="tooltip">
-        <a href="${casino.link}" target="_blank" onclick="return handleBonusClick('${casino.name}')">${casino.name}</a>
-        <span class="tooltiptext">${casino.tooltip || ''}</span>
-      </div>
-      <div><input type="checkbox" /></div>
-      <div class="last-collected">Available!</div>`;
-    container.appendChild(row);
-  });
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
-  if (user.username) {
-    document.getElementById("discord-login-btn").style.display = "none";
-    const img = document.getElementById("profile-img");
-    img.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
-    img.style.display = "block";
+    localStorage.setItem("theme", isTilted ? "dark" : "light");
   }
 
-  if (localStorage.getItem("darkMode") === "true") {
-    document.body.classList.add("dark-mode");
-    document.querySelector(".toggle-mode").textContent = "Untilt";
-  }
-
+  // Startup
+  document.getElementById("mode-toggle").addEventListener("click", toggleMode);
   renderCasinoTable();
-  updateStats();
   updateTimers();
-  setInterval(updateTimers, 60000);
-
-  document.getElementById("mode-toggle").addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const tilted = document.body.classList.contains("dark-mode");
-    localStorage.setItem("darkMode", tilted);
-    document.querySelector(".toggle-mode").textContent = tilted ? "Untilt" : "Tilt";
-  });
-
-  const cid = "1336968746450812928";
-  const btn = document.getElementById("discord-login-btn");
-  btn.href = `https://discord.com/oauth2/authorize?client_id=${cid}&redirect_uri=${encodeURIComponent('https://jmenichole.github.io/CollectClock/auth.html')}&response_type=token&scope=identify`;
-});
-@keyframes glitch {
-  0% { transform: none; }
-  20% { transform: translate(-1px, 1px); }
-  40% { transform: translate(1px, -1px); }
-  60% { transform: translate(-1px, -1px); }
-  80% { transform: translate(1px, 1px); }
-  100% { transform: none; }
-}
-
-.dark-mode h1 {
-  animation: glitch 0.5s infinite;
-  text-shadow: 0 0 4px #0ff, 0 0 10px #0ff;
-}
-
-.dark-mode {
-  border: 2px dashed #0ff;
-  box-shadow: 0 0 20px #0ff inset;
-}
-
-.tooltip {
-  position: relative;
-  cursor: help;
-}
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: max-content;
-  background-color: #222;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 10px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  updateStats();
+</script>
 
 </body>
 </html>
