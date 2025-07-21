@@ -79,11 +79,12 @@
 
     .last-collected.available {
       animation: pulseGlow 2s infinite;
+      text-shadow: 0 0 2px #000, 0 0 4px #000;
     }
 
     @keyframes pulseGlow {
-      0%,100% { color: #4cff79; text-shadow: 0 0 6px #4cff79; }
-      50% { color: #b0ff4c; text-shadow: 0 0 12px #b0ff4c; }
+      0%,100% { color: #4cff79; text-shadow: 0 0 6px #4cff79, 0 0 2px #000; }
+      50% { color: #b0ff4c; text-shadow: 0 0 12px #b0ff4c, 0 0 2px #000; }
     }
 
     @keyframes glitch {
