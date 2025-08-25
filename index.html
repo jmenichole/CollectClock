@@ -180,6 +180,34 @@
   </style>
 </head>
 <body>
+  <section id="card-game-info" style="max-width:600px;margin:2em auto 0 auto;padding:1em 1.5em;background:#fff;border-radius:12px;box-shadow:0 2px 8px #0001;">
+    <h2 style="text-align:center;">⏰ Time Match Game - Rules & Info</h2>
+    <ul style="font-size:1.08em;line-height:1.7;">
+      <li>Match pairs of time-themed cards (e.g., "3:00", "15m") by flipping two at a time.</li>
+      <li>Win by matching all pairs before the timer (60 seconds) runs out.</li>
+      <li>Game is skill-based, not gambling. No real money or prizes.</li>
+      <li>Accessible, mobile-friendly, and visually themed for clocks/time.</li>
+      <li>Restart to play again. No registration or login required.</li>
+    </ul>
+    <div style="margin-top:1em;font-size:0.98em;color:#444;">
+      <b>Compliance Statement:</b> This game is designed for Stake Engine submission. It is skill-based, contains no gambling, no real money, and follows all platform guidelines for fair play and accessibility.
+    </div>
+    <div style="margin-top:1em;font-size:0.98em;color:#444;">
+      <b>Metadata:</b><br>
+      <b>Game Name:</b> Time Match<br>
+      <b>Developer:</b> jmenichole<br>
+      <b>Theme:</b> Clock/Time<br>
+      <b>Type:</b> Single-player, skill-based<br>
+      <b>Submission Date:</b> August 25, 2025
+    </div>
+  </section>
+  <div id="card-game-container" style="max-width:600px;margin:2em auto 0 auto;padding:1.5em;background:var(--hover-bg);border-radius:16px;box-shadow:0 2px 12px #0002;display:none;">
+    <h2 style="text-align:center;">⏰ Time Match Game</h2>
+    <div id="card-game-board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1em;justify-items:center;margin:2em 0;"></div>
+    <div id="card-game-status" style="text-align:center;font-size:1.1em;margin-bottom:1em;"></div>
+    <button id="card-game-restart" style="display:none;margin:0 auto 1em auto;padding:10px 24px;background:#5865F2;color:#fff;border:none;border-radius:8px;font-weight:bold;">Restart</button>
+  </div>
+  <button id="card-game-start" style="display:block;margin:2em auto 0 auto;padding:14px 32px;background:#2cb67d;color:#fff;border:none;border-radius:12px;font-size:1.2em;font-weight:bold;box-shadow:0 2px 8px #2cb67d99;">Start Card Game</button>
   <div class="container">
     <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
     <h1>Don't forget your daily bonus collection 💧</h1>
@@ -227,6 +255,96 @@
     }
   </style>
   <script>
+    // --- Time Match Card Game ---
+    const cardGameStartBtn = document.getElementById('card-game-start');
+    const cardGameContainer = document.getElementById('card-game-container');
+    const cardGameBoard = document.getElementById('card-game-board');
+    const cardGameStatus = document.getElementById('card-game-status');
+    const cardGameRestartBtn = document.getElementById('card-game-restart');
+    let cardGameCards = [];
+    let cardGameFlipped = [];
+    let cardGameMatched = [];
+    let cardGameTimer = null;
+    let cardGameTimeLeft = 60;
+
+    function getTimeCards() {
+      // 8 pairs: 4 hour cards, 4 minute cards (e.g., 3:00, 6:00, 15m, 45m)
+      const times = ["3:00", "6:00", "9:00", "12:00", "15m", "30m", "45m", "60m"];
+      return [...times, ...times].sort(() => Math.random() - 0.5);
+    }
+
+    function renderCardGameBoard() {
+      cardGameBoard.innerHTML = "";
+      cardGameCards.forEach((card, idx) => {
+        const isFlipped = cardGameFlipped.includes(idx) || cardGameMatched.includes(idx);
+        const cardEl = document.createElement('div');
+        cardEl.className = 'card-game-card';
+        cardEl.style = `width:80px;height:110px;background:${isFlipped ? '#fff' : '#5865F2'};color:${isFlipped ? '#222' : '#fff'};border-radius:12px;box-shadow:0 2px 8px #5865F299;display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:bold;cursor:pointer;transition:background 0.2s;user-select:none;position:relative;`;
+        cardEl.textContent = isFlipped ? card : "?";
+        cardEl.onclick = () => handleCardFlip(idx);
+        if (cardGameMatched.includes(idx)) {
+          cardEl.style.background = '#2cb67d';
+          cardEl.style.color = '#fff';
+          cardEl.style.cursor = 'default';
+        }
+        cardGameBoard.appendChild(cardEl);
+      });
+    }
+
+    function handleCardFlip(idx) {
+      if (cardGameFlipped.length === 2 || cardGameMatched.includes(idx) || cardGameFlipped.includes(idx)) return;
+      cardGameFlipped.push(idx);
+      renderCardGameBoard();
+      if (cardGameFlipped.length === 2) {
+        setTimeout(() => {
+          const [a, b] = cardGameFlipped;
+          if (cardGameCards[a] === cardGameCards[b]) {
+            cardGameMatched.push(a, b);
+            showToast('Matched!');
+          }
+          cardGameFlipped = [];
+          renderCardGameBoard();
+          checkCardGameWin();
+        }, 900);
+      }
+    }
+
+    function checkCardGameWin() {
+      if (cardGameMatched.length === cardGameCards.length) {
+        clearInterval(cardGameTimer);
+        cardGameStatus.textContent = `🎉 You matched all cards!`;
+        cardGameRestartBtn.style.display = 'block';
+      }
+    }
+
+    function startCardGame() {
+      cardGameCards = getTimeCards();
+      cardGameFlipped = [];
+      cardGameMatched = [];
+      cardGameTimeLeft = 60;
+      cardGameContainer.style.display = 'block';
+      cardGameStartBtn.style.display = 'none';
+      cardGameRestartBtn.style.display = 'none';
+      renderCardGameBoard();
+      cardGameStatus.textContent = `⏳ Time left: <span id='card-game-timer'>${cardGameTimeLeft}</span>s`;
+      cardGameTimer = setInterval(() => {
+        cardGameTimeLeft--;
+        const timerEl = document.getElementById('card-game-timer');
+        if (timerEl) timerEl.textContent = cardGameTimeLeft;
+        if (cardGameTimeLeft <= 0) {
+          clearInterval(cardGameTimer);
+          cardGameStatus.textContent = '⏰ Time is up! Try again.';
+          cardGameRestartBtn.style.display = 'block';
+        }
+      }, 1000);
+    }
+
+    cardGameStartBtn.onclick = startCardGame;
+    cardGameRestartBtn.onclick = () => {
+      cardGameContainer.style.display = 'none';
+      cardGameStartBtn.style.display = 'block';
+      cardGameStatus.textContent = '';
+    };
     // Add Reset All Timers functionality
     document.addEventListener('DOMContentLoaded', function() {
       const resetBtn = document.getElementById('reset-timers-btn');

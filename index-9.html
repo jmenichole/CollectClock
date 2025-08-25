@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CollectClock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #000;
+      --link: #0000ff;
+      --link-hover: #e91e63;
+      --timer: #0000ff;
+      --hover-bg: #f0f0f0;
+    }
+
+    .dark-mode {
+      --bg: #000000;
+      --text: #00ffcc;
+      --link: #00ffff;
+      --link-hover: #ff00ff;
+      --timer: #00ffff;
+      --hover-bg: #222;
+    }
+
+    body {
+      font-family: 'Orbitron', 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+
+    .dark-mode h1 {
+      animation: glitch 0.6s infinite;
+      text-shadow: 0 0 3px #0ff, 0 0 10px #0ff;
+    }
+
+    .toggle-mode {
+      padding: 16px 36px;
+      background: linear-gradient(to right, #7f5af0, #2cb67d);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.15em;
+      font-weight: bold;
+      display: block;
+      margin: 0 auto 1em;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 10px;
+      padding: 10px;
+      margin: 0.5em 0;
+      border-radius: 10px;
+      background: var(--hover-bg);
+      box-shadow: 0 0 8px rgba(0,255,255,0.2);
+    }
+
+    .table-row:hover {
+      background: var(--link-hover);
+      color: #fff;
+    }
+
+    .last-collected.available {
+      animation: pulseGlow 2s infinite;
+      text-shadow: 0 0 2px #000, 0 0 4px #000;
+    }
+          .last-collected.timer {
+      animation: pulseRedGlow 2s infinite;
+      text-shadow: 0 0 2px #000, 0 0 4px #000;
+    }
+
+    @keyframes pulseRedGlow {
+      0%,100% { color: #ff4c4c; text-shadow: 0 0 6px #ff4c4c, 0 0 2px #000; }
+      50% { color: #ffb84c; text-shadow: 0 0 12px #ffb84c, 0 0 2px #000; }
+    }
+
+    @keyframes pulseGlow {
+      0%,100% { color: #4cff79; text-shadow: 0 0 6px #4cff79, 0 0 2px #000; }
+      50% { color: #b0ff4c; text-shadow: 0 0 12px #b0ff4c, 0 0 2px #000; }
+    }
+
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: translate(-1px, 1px); }
+      40% { transform: translate(1px, -1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+      100% { transform: none; }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2em;
+      padding: 1em 0;
+      font-size: 0.9em;
+      background: var(--hover-bg);
+    }
+
+    footer a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--link-hover);
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: max-content;
+      background-color: #222;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1em;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toggle-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7em;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+    }
+
+    .info-btn {
+      background: none;
+      border: none;
+      color: #5865F2;
+      font-size: 1.3em;
+      cursor: pointer;
+      padding: 0 0.2em;
+      border-radius: 50%;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-btn:active, .info-btn.active {
+      background: #e0e7ff;
+    }
+
+    .info-popup {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      color: #222;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(34,34,59,0.12);
+      padding: 1.2em 1.5em;
+      z-index: 2000;
+      font-size: 1.1em;
+      max-width: 90vw;
+      min-width: 220px;
+      text-align: center;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0.5em; }
+      .toggle-row { flex-direction: column; gap: 0.7em; }
+      .info-popup { top: 90px; font-size: 1em; padding: 1em; }
+      h1 { font-size: 1.2em; }
+      .table-row { font-size: 0.98em; }
+      .profile-pic { width: 28px; height: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
+    <h1>Don't forget your daily bonus collection 💧</h1>
+    <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px #5865F299;">Login with Discord</a>
+    <div class="toggle-row">
+      <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
+      <button id="info-btn" class="info-btn" aria-label="Info">ⓘ</button>
+    </div>
+    <div id="info-popup" class="info-popup">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
+    <div id="casino-table"></div>
+    <div class="cta-premium" style="text-align:center;margin:1.5em 0 1em 0;">
+    <!-- Seal Stats Premium CTA moved to footer and popup -->
+    </div>
+    <div id="user-stats"></div>
+    <div id="bonus-count" style="text-align:right;font-size:1.1em;font-weight:bold;margin-bottom:0.5em;"></div>
+  </div>
+  <footer>
+    <div id="footer-info" style="margin-bottom:1.2em;">
+      💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank">Drop it in Discord</a><br/>
+      ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank">Ko-fi</a>
+    </div>
+    <div id="footer-premium-cta" style="text-align:center;margin:0 auto 0.5em auto;max-width:600px;">
+      <a href="https://discord.gg/xEZY6hWu" target="_blank" style="display:inline-block;width:100%;padding:14px 0;background:#5865F2;color:#fff;border-radius:12px;font-weight:bold;text-decoration:none;box-shadow:0 2px 8px #5865F299;font-size:1.15em;">
+        Want more codes? Join Seal Stats Premium and get notified when codes drop!
+      </a>
+    </div>
+  </footer>
+  <div class="toast"></div>
+  <div id="gif-popup" style="display:none;"></div>
+  <div id="bonus-modal" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
+    <div style="background:#fff;color:#222;padding:2em 1.5em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:90vw;text-align:center;">
+      <div id="bonus-modal-msg" style="font-size:1.15em;margin-bottom:1.2em;"></div>
+      <button id="bonus-modal-yes" style="padding:10px 28px;margin:0 1em 0 0;background:#2cb67d;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Yes</button>
+      <button id="bonus-modal-no" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">No</button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    .profile-pic {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #5865F2;
+      box-shadow: 0 1px 4px #5865F299;
+    }
+  </style>
+  <script>
+    // --- Parse time input like '5 hrs', '2h 30m', '90m' to minutes ---
+    function parseTimeInput(input) {
+      if (!input) return NaN;
+      input = input.toLowerCase().replace(/[^0-9hm\s\.]/g, '');
+      let total = 0;
+      let match;
+      // Match hours and minutes (e.g., '2h 30m', '5 hrs', '90m')
+      const hourMatch = input.match(/(\d+(?:\.\d+)?)\s*h/);
+      const minMatch = input.match(/(\d+(?:\.\d+)?)\s*m/);
+      if (hourMatch) total += parseFloat(hourMatch[1]) * 60;
+      if (minMatch) total += parseFloat(minMatch[1]);
+      // If only a number is given, treat as minutes
+      if (!hourMatch && !minMatch) {
+        const num = parseFloat(input);
+        if (!isNaN(num)) total += num;
+      }
+      return Math.round(total);
+    }
+    // --- Custom Bonus Modal Logic ---
+    function showBonusModal(message) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('bonus-modal');
+        document.getElementById('bonus-modal-msg').textContent = message;
+        modal.style.display = 'flex';
+        const yesBtn = document.getElementById('bonus-modal-yes');
+        const noBtn = document.getElementById('bonus-modal-no');
+        function cleanup(result) {
+          modal.style.display = 'none';
+          yesBtn.removeEventListener('click', onYes);
+          noBtn.removeEventListener('click', onNo);
+        }
+        function onYes() { cleanup(true); resolve(true); }
+        function onNo() { cleanup(false); resolve(false); }
+        yesBtn.addEventListener('click', onYes);
+        noBtn.addEventListener('click', onNo);
+      });
+    }
+    // --- Bonus Count Display ---
+    function updateBonusCount() {
+      const count = +(localStorage.getItem("collect_count") || 0);
+      const el = document.getElementById("bonus-count");
+      if (el) {
+        el.textContent = `Bonuses Collected: ${count}`;
+      }
+    // ...existing code...
+    // Discord OAuth logic
+    const DISCORD_CLIENT_ID = "1336968746450812928";
+    const discordLoginBtn = document.getElementById('discord-login-btn');
+    const userInfoDiv = document.getElementById('user-info');
+    function renderUserInfo() {
+      const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
+      userInfoDiv.innerHTML = "";
+      if (user && user.username) {
+        // Discord CDN avatar or fallback
+        let avatarUrl = user.avatar
+          ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+          : `https://cdn.discordapp.com/embed/avatars/${(user.discriminator % 5)}.png`;
+        userInfoDiv.innerHTML = `<img src="${avatarUrl}" class="profile-pic" alt="Profile" /> <span style='font-weight:bold;'>${user.username}#${user.discriminator}</span>`;
+        if (discordLoginBtn) discordLoginBtn.style.display = "none";
+      } else {
+        if (discordLoginBtn) discordLoginBtn.style.display = "inline-block";
+      }
+    }
+    if (discordLoginBtn && DISCORD_CLIENT_ID) {
+      const redirect = encodeURIComponent(window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/auth.html'));
+      discordLoginBtn.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=token&scope=identify`;
+    }
+    // Call on load and after login
+    renderUserInfo();
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'discordUser') renderUserInfo();
+    });
+    const tiltSound = new Audio("798635__cvltiv8r__cvlt-bass-94.wav");
+    const untiltSound = new Audio("810164__mokasza__awesome-bubble-pop.mp3");
+
+    const gifUrls = [
+      "https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif",
+      "https://media.giphy.com/media/l0HUpt2s9Pclgt9Vm/giphy.gif",
+      "https://media.giphy.com/media/3ohc1bTn4ZDEd4nSSA/giphy.gif"
+    ];
+window.casinoData = [
+  { name: "Stake US", tilted: "https://stake.us/?c=Jmenichole", clean: "https://stake.us" },
+  { name: "SpinBlitz", tilted: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", clean: "https://www.spinblitz.com" },
+  { name: "Hello Millions", tilted: "https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867", clean: "https://www.hellomillions.com" },
+  { name: "Mega Bonanza", tilted: "https://www.megabonanza.com/?r=72781897", clean: "https://www.megabonanza.com" },
+  { name: "Real Prize", tilted: "https://www.realprize.com/refer/317136", clean: "https://www.realprize.com" },
+  { name: "LuckyBird", tilted: "https://luckybird.vip/?c=c_jmenichole", clean: "https://luckybird.vip" },
+  { name: "WowVegas", tilted: "https://www.wowvegas.com/?raf=3615494", clean: "https://www.wowvegas.com" },
+  { name: "Pulsz", tilted: "https://www.pulsz.com/?invited_by=utfk4r", clean: "https://www.pulsz.com" },
+  { name: "Modo", tilted: "https://modo.us?referralCode=61MN6A", clean: "https://modo.us" },
+  { name: "McLuck", tilted: "https://www.mcluck.com/lp/raf?r=61119407%2F908900038", clean: "https://www.mcluck.com" },
+  { name: "Crown Coins", tilted: "https://crowncoinscasino.com/", clean: "https://crowncoinscasino.com" },
+  { name: "Chanced", tilted: "https://chanced.com/c/ysa096", clean: "https://chanced.com" },
+  { name: "Sportzino", tilted: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", clean: "https://sportzino.com" },
+  { name: "PlayFame", tilted: "https://www.playfame.com/lp/raf?r=1275975417", clean: "https://www.playfame.com" },
+  { name: "Pulsz Bingo", tilted: "https://www.pulszbingo.com/?invited_by=eg6mbf", clean: "https://www.pulszbingo.com" },
+  { name: "Jackpota", tilted: "https://www.jackpota.com/?r=85453282", clean: "https://www.jackpota.com" },
+  { name: "Zula Casino", tilted: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", clean: "https://www.zulacasino.com" },
+  { name: "Fortune Coins", tilted: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", clean: "https://www.fortunecoins.com" },
+  { name: "Bitsler", tilted: "https://www.bitsler.io/?ref=jmenichole", clean: "https://www.bitsler.io" },
+  { name: "MyPrize", tilted: "https://myprize.us/invite/jmenichole", clean: "https://myprize.us" },
+  { name: "Winna", tilted: "https://winna.com/?r=jmenichole", clean: "https://winna.com" },
+  { name: "Club Poker", tilted: "https://play.clubs.poker/?referralCode=104192", clean: "https://play.clubs.poker" },
+  { name: "Rolla", tilted: "https://www.rolla.com/?raf=3873", clean: "https://www.rolla.com" },
+  { name: "Lonestar Casino", tilted: "https://lonestarcasino.com/refer/678504", clean: "https://lonestarcasino.com" },
+  { name: "Spree", tilted: "https://spree.com/?r=1450539", clean: "https://spree.com" },
+  { name: "SpinPals", tilted: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", clean: "https://www.spinpals.com" },
+  { name: "High 5 Casino", tilted: "https://high5casino.com/gc?adId=INV001%3AJmenichole", clean: "https://high5casino.com" },
+  { name: "TrustDice", tilted: "https://trustdice.win/faucet/?ref=u_jmenichole", clean: "https://trustdice.win" },
+  { name: "Punt", tilted: "https://punt.com/c/cg60pd", clean: "https://punt.com" },
+  { name: "FortuneWheelz", tilted: "https://fortunewheelz.com/?invited_by=P36ZS6", clean: "https://fortunewheelz.com" },
+  { name: "Zoot", tilted: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", clean: "https://getzoot.us" },
+  { name: "Spinsala", tilted: "https://spinsala.com/en?invite=daym", clean: "https://spinsala.com" },
+  { name: "Legendz", tilted: "https://legendz.com/?referred_by_id=221602", clean: "https://legendz.com" },
+  { name: "NoLimitCoins", tilted: "https://nolimitcoins.com/?invited_by=ZI1JIU", clean: "https://nolimitcoins.com" },
+  { name: "Slips", tilted: "https://slips.com/invite?code=6901", clean: "https://slips.com" },
+  { name: "PrizePicks", tilted: "https://app.prizepicks.com/sign-up?invite_code=PR-N0MTQX8&source=iosShare", clean: "https://app.prizepicks.com" },
+  { name: "Dabble", tilted: "https://click.dabble.com/GaFA/js1v7hqv", clean: "https://dabble.com" },
+  { name: "Gamba VPN", tilted: "https://gamba.com?c=Jme", clean: "https://gamba.com" },
+  { name: "Goated VPN", tilted: "https://www.goated.com/r/YDRZLJ", clean: "https://www.goated.com" },
+  { name: "JungleBet VPN", tilted: "https://junglebet.com/r/jmenichole", clean: "https://junglebet.com" },
+  { name: "Shuffle.com VPN", tilted: "https://shuffle.com?r=jHR7JnWRPF", clean: "https://shuffle.com" },
+  { name: "Stake.com VPN", tilted: "https://www.stake.com/?c=LAYP68hb", clean: "https://www.stake.com" },
+  { name: "MetaWin", tilted: "https://metawin.com/jmenichole007/", clean: "https://metawin.com" }
+];
+    
+  // ...removed duplicate gifUrls declaration...
+  
+  const uwuSound = new Audio("800976__sadiquecat__other-uwu-2.wav");
+
+  function showToast(msg) {
+    const toast = document.querySelector('.toast') || createToastElement();
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function createToastElement() {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.left = "50%";
+    toast.style.transform = "translateX(-50%)";
+    toast.style.padding = "10px 20px";
+    toast.style.background = "#222";
+    toast.style.color = "#fff";
+    toast.style.borderRadius = "6px";
+    toast.style.zIndex = "1000";
+    document.body.appendChild(toast);
+    return toast;
+  }
+
+  function showGifPopup() {
+    const el = document.getElementById("gif-popup") || createGifPopupElement();
+    el.innerHTML = `<img src="${gifUrls[Math.floor(Math.random() * gifUrls.length)]}" style="max-height:150px;" />`;
+    el.style.display = "block";
+    confetti();
+    setTimeout(() => { el.style.display = "none"; }, 5000);
+  }
+
+  function createGifPopupElement() {
+    const el = document.createElement("div");
+    el.id = "gif-popup";
+    el.style.position = "fixed";
+    el.style.bottom = "60px";
+    el.style.left = "50%";
+    el.style.transform = "translateX(-50%)";
+    el.style.zIndex = "999";
+    el.style.padding = "10px";
+    el.style.background = "rgba(0,0,0,0.8)";
+    el.style.borderRadius = "12px";
+    el.style.display = "none";
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function renderCountdown(label, ms) {
+    const mins = Math.ceil(ms / 60000);
+    const h = Math.floor(mins / 60), m = mins % 60;
+    label.innerHTML = `<span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span>`;
+    label.classList.remove('available');
+    label.classList.add('timer');
+  }
+
+  function updateTimers() {
+    document.querySelectorAll(".table-row").forEach(row => {
+      const casino = row.dataset.casino;
+      const label = row.querySelector(".last-collected");
+      const box = row.querySelector("input");
+      const next = localStorage.getItem("casino_" + casino);
+      if (next && Date.now() < +next) {
+        box.checked = true;
+        box.disabled = true;
+        renderCountdown(label, next - Date.now());
+      } else {
+        if (label.textContent !== "Available!") {
+          uwuSound.play();
+        }
+        label.classList.remove('timer');
+        label.classList.add('available');
+        box.checked = false;
+        box.disabled = false;
+        label.textContent = "Available!";
+        label.classList.add("available");
+      }
+    });
+  }
+
+  function updateStats() {
+    const count = localStorage.getItem("collect_count") || 0;
+    const stats = document.getElementById("user-stats") || document.createElement("div");
+    stats.id = "user-stats";
+    stats.innerHTML = `<div><b>Bonuses Collected:</b> ${count}</div>`;
+    if (!document.getElementById("user-stats")) document.querySelector(".container").appendChild(stats);
+  }
+
+  function handleBonusClick(name) {
+    const row = document.querySelector(`.table-row[data-casino="${name}"]`);
+    const box = row.querySelector("input");
+    const label = row.querySelector(".last-collected");
+
+    // Only show the 'Did you collect your bonus?' modal the first time for each casino
+    return (async () => {
+      const firstCollectedKey = `casino_first_collected_${name}`;
+      const alreadyCollected = localStorage.getItem(firstCollectedKey);
+      let mins = 1440;
+      if (!alreadyCollected) {
+        const didCollect = await showBonusModal("Did you collect your bonus?");
+        if (!didCollect) return true;
+        localStorage.setItem(firstCollectedKey, "1");
+        // Ask about timer as usual
+        const is24h = await showBonusModal("Is the next collection in 24 hours?");
+        if (!is24h) {
+          const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
+          mins = parseTimeInput(input);
+          if (isNaN(mins) || mins <= 0) {
+            showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
+            return false;
+          }
+        }
+        const next = Date.now() + mins * 60000;
+        localStorage.setItem("casino_" + name, next);
+        box.checked = true;
+        box.disabled = true;
+        const count = +(localStorage.getItem("collect_count") || 0) + 1;
+        localStorage.setItem("collect_count", count);
+        updateBonusCount();
+        showToast("Bonus collected!");
+        updateStats();
+        updateTimers();
+        if (count % 5 === 0) showGifPopup();
+        return true;
+      } else {
+        // Subsequent clicks: just check and set timer for 24h (or ask for override)
+        mins = 1440;
+        const is24h = await showBonusModal("Is the next collection in 24 hours?");
+        if (!is24h) {
+          const input = prompt("How long until the next bonus? (e.g. 5h, 2h 30m, 90m)");
+          mins = parseTimeInput(input);
+          if (isNaN(mins) || mins <= 0) {
+            showToast("Invalid input. Try formats like '5h', '2h 30m', or '90m'.");
+            return false;
+          }
+        }
+        const next = Date.now() + mins * 60000;
+        localStorage.setItem("casino_" + name, next);
+        box.checked = true;
+        box.disabled = true;
+        showToast("Bonus collected!");
+        updateStats();
+        updateTimers();
+        return true;
+      }
+    })();
+  }
+
+  function toggleMode() {
+    const body = document.body;
+    const isTilted = body.classList.toggle("dark-mode");
+    document.querySelector("h1").textContent = isTilted
+      ? "Degen mode activated. Don't forget the juice ⚡"
+      : "Don't forget your daily bonus collection 💧";
+    document.title = isTilted ? "🎰 Tilted, baby" : "🎯 Bonus Tracker - CollectClock";
+    document.querySelector(".toggle-mode").textContent = isTilted ? "Untilt" : "Tilt";
+    (isTilted ? tiltSound : untiltSound).play();
+
+    if (isTilted && !localStorage.getItem("tiltConfettiShown")) {
+      confetti();
+      localStorage.setItem("tiltConfettiShown", "true");
+    }
+
+    localStorage.setItem("theme", isTilted ? "dark" : "light");
+  }
+
+  function renderCasinoTable() {
+    const container = document.getElementById("casino-table");
+    container.innerHTML = "";
+    const isTilted = document.body.classList.contains("dark-mode");
+    (window.casinoData || []).forEach(casino => {
+      const row = document.createElement("div");
+      row.className = "table-row";
+      row.dataset.casino = casino.name;
+      let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+      row.innerHTML = `
+        <div class="tooltip">
+          <a href="${link}" target="_blank" onclick="return handleCasinoLinkClick(event, '${casino.name}')">${casino.name}</a>
+          <span class="tooltiptext">${casino.tooltip || ''}</span>
+        </div>
+        <div><input type="checkbox" /></div>
+        <div class="last-collected">Available!</div>`;
+      container.appendChild(row);
+    });
+  }
+    
+  // Startup
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("mode-toggle").addEventListener("click", toggleMode);
+    renderCasinoTable();
+    updateTimers();
+    updateStats();
+  });
+  // Info popup logic
+  const infoBtn = document.getElementById('info-btn');
+  const infoPopup = document.getElementById('info-popup');
+  infoBtn.addEventListener('click', function() {
+    const isActive = infoBtn.classList.toggle('active');
+    infoPopup.style.display = isActive ? 'block' : 'none';
+    if (isActive) {
+      setTimeout(() => {
+        document.addEventListener('click', hideInfo, { once: true });
+      }, 10);
+    }
+  });
+  function hideInfo(e) {
+    if (!infoBtn.contains(e.target) && !infoPopup.contains(e.target)) {
+      infoBtn.classList.remove('active');
+      infoPopup.style.display = 'none';
+    }
+  }
+
+  function handleCasinoLinkClick(event, name) {
+    event.preventDefault();
+    const link = event.currentTarget.href;
+    window.open(link, '_blank');
+    setTimeout(() => handleBonusClick(name), 100);
+    return false;
+  }
+</script>
+
+</body>
+</html>
