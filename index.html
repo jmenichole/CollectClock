@@ -206,11 +206,7 @@
       💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank" rel="noopener">Drop it in Discord</a><br/>
       ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank" rel="noopener">Ko-fi</a>
     </div>
-    <div id="footer-premium-cta" style="text-align:center;margin:0 auto 0.5em auto;max-width:600px;">
-      <a href="https://discord.gg/xEZY6hWu" target="_blank" rel="noopener" style="display:inline-block;width:100%;padding:14px 0;background:#5865F2;color:#fff;border-radius:12px;font-weight:bold;text-decoration:none;">
-        Want more codes? Join Seal Stats Premium and get notified when codes drop!
-      </a>
-    </div>
+   
     <button id="reset-timers-btn" style="position:absolute;right:18px;bottom:18px;padding:7px 18px;font-size:0.98em;border-radius:8px;background:#e0e7ef;color:#333;border:none;box-shadow:0 2px 8px #0001;opacity:0.7;transition:opacity 0.2s;z-index:10000;cursor:pointer;outline:none;min-width:120px;" title="Reset all casino timers">Reset All Timers</button>
   </footer>
   <style>
@@ -228,115 +224,7 @@
       background: #ffe0e7;
       color: #e91e63;
     }
-  </style>
-  <script>
-    // --- Time Match Card Game ---
-    const cardGameStartBtn = document.getElementById('card-game-start');
-    const cardGameContainer = document.getElementById('card-game-container');
-    const cardGameBoard = document.getElementById('card-game-board');
-    const cardGameStatus = document.getElementById('card-game-status');
-    const cardGameRestartBtn = document.getElementById('card-game-restart');
-    let cardGameCards = [];
-    let cardGameFlipped = [];
-    let cardGameMatched = [];
-    let cardGameTimer = null;
-    let cardGameTimeLeft = 60;
-
-    function getTimeCards() {
-      // 8 pairs: 4 hour cards, 4 minute cards (e.g., 3:00, 6:00, 15m, 45m)
-      const times = ["3:00", "6:00", "9:00", "12:00", "15m", "30m", "45m", "60m"];
-      return [...times, ...times].sort(() => Math.random() - 0.5);
-    }
-
-    function renderCardGameBoard() {
-      cardGameBoard.innerHTML = "";
-      cardGameCards.forEach((card, idx) => {
-        const isFlipped = cardGameFlipped.includes(idx) || cardGameMatched.includes(idx);
-        const cardEl = document.createElement('div');
-        cardEl.className = 'card-game-card';
-        cardEl.style = `width:80px;height:110px;background:${isFlipped ? '#fff' : '#5865F2'};color:${isFlipped ? '#222' : '#fff'};border-radius:12px;box-shadow:0 2px 8px #5865F299;display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:bold;cursor:pointer;transition:background 0.2s;user-select:none;position:relative;`;
-        cardEl.textContent = isFlipped ? card : "?";
-        cardEl.onclick = () => handleCardFlip(idx);
-        if (cardGameMatched.includes(idx)) {
-          cardEl.style.background = '#2cb67d';
-          cardEl.style.color = '#fff';
-          cardEl.style.cursor = 'default';
-        }
-        cardGameBoard.appendChild(cardEl);
-      });
-    }
-
-    function handleCardFlip(idx) {
-      if (cardGameFlipped.length === 2 || cardGameMatched.includes(idx) || cardGameFlipped.includes(idx)) return;
-      cardGameFlipped.push(idx);
-      renderCardGameBoard();
-      if (cardGameFlipped.length === 2) {
-        setTimeout(() => {
-          const [a, b] = cardGameFlipped;
-          if (cardGameCards[a] === cardGameCards[b]) {
-            cardGameMatched.push(a, b);
-            showToast('Matched!');
-          }
-          cardGameFlipped = [];
-          renderCardGameBoard();
-          checkCardGameWin();
-        }, 900);
-      }
-    }
-
-    function checkCardGameWin() {
-      if (cardGameMatched.length === cardGameCards.length) {
-        clearInterval(cardGameTimer);
-        cardGameStatus.textContent = `🎉 You matched all cards!`;
-        cardGameRestartBtn.style.display = 'block';
-      }
-    }
-
-    function startCardGame() {
-      cardGameCards = getTimeCards();
-      cardGameFlipped = [];
-      cardGameMatched = [];
-      cardGameTimeLeft = 60;
-      cardGameContainer.style.display = 'block';
-      cardGameStartBtn.style.display = 'none';
-      cardGameRestartBtn.style.display = 'none';
-      renderCardGameBoard();
-      cardGameStatus.textContent = `⏳ Time left: <span id='card-game-timer'>${cardGameTimeLeft}</span>s`;
-      cardGameTimer = setInterval(() => {
-        cardGameTimeLeft--;
-        const timerEl = document.getElementById('card-game-timer');
-        if (timerEl) timerEl.textContent = cardGameTimeLeft;
-        if (cardGameTimeLeft <= 0) {
-          clearInterval(cardGameTimer);
-          cardGameStatus.textContent = '⏰ Time is up! Try again.';
-          cardGameRestartBtn.style.display = 'block';
-        }
-      }, 1000);
-    }
-
-    cardGameStartBtn.onclick = startCardGame;
-    cardGameRestartBtn.onclick = () => {
-      cardGameContainer.style.display = 'none';
-      cardGameStartBtn.style.display = 'block';
-      cardGameStatus.textContent = '';
-    };
-    // Add Reset All Timers functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const resetBtn = document.getElementById('reset-timers-btn');
-      if (resetBtn) {
-        resetBtn.addEventListener('click', function() {
-          if (!confirm('Are you sure you want to reset all casino timers? This will not affect your collected count.')) return;
-          // Remove all casino_*, casino_first_collected_*, and casino_timer_* keys
-          Object.keys(localStorage).forEach(key => {
-            if (key.startsWith('casino_')) localStorage.removeItem(key);
-          });
-          // Optionally, reset checkboxes and timers visually
-          if (typeof updateTimers === 'function') updateTimers();
-          showToast('All timers reset!');
-        });
-      }
-    });
-  </script>
+    </style>
   <div class="toast" aria-live="polite"></div>
   <div id="gif-popup" style="display:none;"></div>
   <div id="bonus-modal" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
