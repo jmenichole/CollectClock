@@ -7,20 +7,26 @@
   
   <style>
     :root {
-      --bg: #fff;
-      --text: #000;
-      --link: #0000ff;
-      --link-hover: #e91e63;
-      --timer: #0000ff;
-      --hover-bg: #f0f0f0;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --link: #3b82f6;
+      --link-hover: #1d4ed8;
+      --timer: #3b82f6;
+      --hover-bg: #f1f5f9;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --accent: #8b5cf6;
     }
     .dark-mode {
-      --bg: #000;
+      --bg: #0a0a0a;
       --text: #00ffcc;
-      --link: #00ffff;
+      --link: #00ccff;
       --link-hover: #ff00ff;
-      --timer: #00ffff;
-      --hover-bg: #222;
+      --timer: #00ffcc;
+      --hover-bg: #1a1a2e;
+      --border: #16213e;
+      --success: #00ff88;
+      --accent: #ff0080;
     }
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
@@ -29,55 +35,138 @@
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Subtle SVG pattern texture for both modes */
-      background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="40" height="40" fill="%23f7f8fa"/><circle cx="20" cy="20" r="1.5" fill="%23e0e7ef"/><circle cx="0" cy="40" r="1.5" fill="%23e0e7ef"/><circle cx="40" cy="0" r="1.5" fill="%23e0e7ef"/></svg>');
-      background-size: 40px 40px;
+      /* Professional subtle pattern for light mode */
+      background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="60" height="60" fill="%23f8fafc"/><circle cx="30" cy="30" r="1.5" fill="%23e2e8f0" opacity="0.4"/><circle cx="0" cy="60" r="1.5" fill="%23e2e8f0" opacity="0.4"/><circle cx="60" cy="0" r="1.5" fill="%23e2e8f0" opacity="0.4"/></svg>');
+      background-size: 60px 60px;
       background-attachment: fixed;
     }
     .dark-mode body {
-      /* SVG pattern for dark mode (tilted) */
-      background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="40" height="40" fill="%23000"/><circle cx="20" cy="20" r="1.5" fill="%231a222a"/><circle cx="0" cy="40" r="1.5" fill="%231a222a"/><circle cx="40" cy="0" r="1.5" fill="%231a222a"/></svg>');
-      background-size: 40px 40px;
+      /* Enhanced neon grid pattern for dark mode */
+      background-image: url('data:image/svg+xml;utf8,<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="50" height="50" fill="%230a0a0a"/><circle cx="25" cy="25" r="1.5" fill="%2300ffcc" opacity="0.15"/><circle cx="0" cy="50" r="1.5" fill="%2300ccff" opacity="0.15"/><circle cx="50" cy="0" r="1.5" fill="%23ff00ff" opacity="0.15"/><rect x="24" y="0" width="2" height="50" fill="%2300ffcc" opacity="0.03"/><rect x="0" y="24" width="50" height="2" fill="%2300ccff" opacity="0.03"/></svg>');
+      background-size: 50px 50px;
       background-attachment: fixed;
     }
-    .container { max-width: 800px; margin: auto; padding: 2rem; }
-    /* Soften the background color for better contrast */
-    :root {
-      --bg: #f7f8fa;
+    .container { 
+      max-width: 800px; 
+      margin: auto; 
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      margin-top: 2rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(10px);
     }
-    h1 { text-align: center; font-size: 2em; margin-bottom: 1em; }
-    .dark-mode h1 { animation: glitch 0.6s infinite; text-shadow: 0 0 3px #0ff, 0 0 10px #0ff; }
+    .dark-mode .container {
+      background: rgba(0, 255, 204, 0.03);
+      box-shadow: 0 4px 24px rgba(0, 255, 204, 0.1);
+      border: 1px solid rgba(0, 255, 204, 0.1);
+    }
+    h1 { 
+      text-align: center; 
+      font-size: 2.2em; 
+      margin-bottom: 1.2em;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .dark-mode h1 { 
+      animation: glitch 0.6s infinite; 
+      text-shadow: 0 0 5px var(--text), 0 0 15px var(--text), 0 0 25px var(--text);
+      font-weight: 700;
+    }
     .toggle-mode {
       padding: 16px 36px;
-      background: linear-gradient(to right, #7f5af0, #2cb67d);
-      color: white; border: none; border-radius: 12px;
-      cursor: pointer; font-size: 1.15em; font-weight: bold;
-      display: block; margin: 0 auto 1em;
+      background: linear-gradient(135deg, var(--accent), var(--success));
+      color: white; 
+      border: none; 
+      border-radius: 12px;
+      cursor: pointer; 
+      font-size: 1.15em; 
+      font-weight: 600;
+      display: block; 
+      margin: 0 auto 1.5em;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+    }
+    .toggle-mode:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+    }
+    .dark-mode .toggle-mode {
+      background: linear-gradient(135deg, var(--accent), var(--success));
+      box-shadow: 0 4px 16px rgba(255, 0, 128, 0.4);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+    .dark-mode .toggle-mode:hover {
+      box-shadow: 0 8px 32px rgba(255, 0, 128, 0.6);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 1);
     }
     .table-row {
-      display: grid; grid-template-columns: 2fr 1fr 2fr;
-      gap: 10px; padding: 10px; margin: 0.5em 0;
-      border-radius: 10px; background: var(--hover-bg);
-      box-shadow: 0 0 8px rgba(0,255,255,0.2);
-      min-height: 56px;
+      display: grid; 
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 12px; 
+      padding: 16px; 
+      margin: 0.8em 0;
+      border-radius: 12px; 
+      background: var(--hover-bg);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      min-height: 64px;
       align-items: center;
+      transition: all 0.3s ease;
     }
-    .table-row:hover { background: var(--link-hover); color: #fff; }
+    .table-row:hover { 
+      background: var(--link-hover); 
+      color: #fff; 
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+    }
+    .dark-mode .table-row {
+      background: var(--hover-bg);
+      border: 1px solid var(--border);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.1);
+    }
+    .dark-mode .table-row:hover { 
+      background: var(--link-hover); 
+      color: #fff; 
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+      border-color: var(--accent);
+    }
     .last-collected.available {
       animation: pulseGlow 2s infinite;
-      text-shadow: 0 0 2px #000, 0 0 4px #000;
+      text-shadow: 0 0 3px #000, 0 0 6px #000;
+      font-weight: 600;
     }
     .last-collected.timer {
       animation: pulseRedGlow 2s infinite;
-      text-shadow: 0 0 2px #000, 0 0 4px #000;
+      text-shadow: 0 0 3px #000, 0 0 6px #000;
+      font-weight: 600;
     }
     @keyframes pulseRedGlow {
-      0%,100% { color: #ff4c4c; text-shadow: 0 0 6px #ff4c4c, 0 0 2px #000; }
-      50% { color: #ffb84c; text-shadow: 0 0 12px #ffb84c, 0 0 2px #000; }
+      0%,100% { 
+        color: #ef4444; 
+        text-shadow: 0 0 8px #ef4444, 0 0 16px #ef4444, 0 0 3px #000; 
+      }
+      50% { 
+        color: #f97316; 
+        text-shadow: 0 0 15px #f97316, 0 0 25px #f97316, 0 0 3px #000; 
+      }
     }
     @keyframes pulseGlow {
-      0%,100% { color: #4cff79; text-shadow: 0 0 6px #4cff79, 0 0 2px #000; }
-      50% { color: #b0ff4c; text-shadow: 0 0 12px #b0ff4c, 0 0 2px #000; }
+      0%,100% { 
+        color: var(--success); 
+        text-shadow: 0 0 8px var(--success), 0 0 16px var(--success), 0 0 3px #000; 
+      }
+      50% { 
+        color: #22d3ee; 
+        text-shadow: 0 0 15px #22d3ee, 0 0 25px #22d3ee, 0 0 3px #000; 
+      }
+    }
+    .dark-mode .last-collected.available {
+      text-shadow: 0 0 8px var(--success), 0 0 16px var(--success);
+    }
+    .dark-mode .last-collected.timer {
+      text-shadow: 0 0 8px #ef4444, 0 0 16px #ef4444;
     }
     @keyframes glitch {
       0% { transform: none; }
@@ -88,11 +177,27 @@
       100% { transform: none; }
     }
     footer {
-      text-align: center; margin-top: 2em; padding: 1em 0;
-      font-size: 0.9em; background: var(--hover-bg);
+      text-align: center; 
+      margin-top: 3em; 
+      padding: 2em 0;
+      font-size: 0.95em; 
+      background: var(--hover-bg);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(10px);
     }
-    footer a { color: var(--link); text-decoration: none; }
-    footer a:hover { color: var(--link-hover); }
+    footer a { 
+      color: var(--link); 
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    footer a:hover { 
+      color: var(--link-hover);
+      text-shadow: 0 0 8px var(--link-hover);
+    }
+    .dark-mode footer a:hover {
+      text-shadow: 0 0 12px var(--link-hover);
+    }
     .profile-pic {
       width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
       border: 2px solid #5865F2; box-shadow: 0 1px 4px #5865F299;
@@ -137,28 +242,42 @@
     }
     .search-bar input[type="search"] {
       flex: 1;
-      padding: 0.7em 1em;
+      padding: 0.8em 1.2em;
       font-size: 1.1em;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
       outline: none;
-      transition: border 0.2s;
+      transition: all 0.3s ease;
     }
     .search-bar input[type="search"]:focus {
-      border: 1.5px solid #5865F2;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+    .dark-mode .search-bar input[type="search"]:focus {
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 12px rgba(255, 0, 128, 0.3);
     }
     .search-bar button {
-      padding: 0.7em 1.2em;
-      border-radius: 8px;
+      padding: 0.8em 1.4em;
+      border-radius: 10px;
       border: none;
-      background: #5865F2;
+      background: var(--accent);
       color: #fff;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
       font-size: 1.1em;
+      transition: all 0.3s ease;
     }
-    .search-bar button:focus {
-      box-shadow: 0 0 0 2px #5865F2;
+    .search-bar button:hover {
+      background: var(--link-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+    }
+    .dark-mode .search-bar button:hover {
+      box-shadow: 0 4px 16px rgba(255, 0, 128, 0.4);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
     }
     @media (max-width: 600px) {
       .container { padding: 0.5em; }
@@ -181,8 +300,7 @@
 </head>
 <body>
 
-  
-  <button id="card-game-start" style="display:block;margin:2em auto 0 auto;padding:14px 32px;background:#2cb67d;color:#fff;border:none;border-radius:12px;font-size:1.2em;font-weight:bold;box-shadow:0 2px 8px #2cb67d99;">Start Card Game</button>
+
   <div class="container">
     <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
     <h1>Don't forget your daily bonus collection 💧</h1>
@@ -413,7 +531,10 @@
         }
       });
     }
-    // function updateStats() { /* Removed duplicate bonuses collected display */ }
+    function updateStats() { 
+      // Simple stats update - maintains existing functionality
+      updateBonusCount();
+    }
     function showBonusModal(message) {
       return new Promise((resolve) => {
         const modal = document.getElementById('bonus-modal');
