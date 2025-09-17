@@ -7,16 +7,19 @@
   
   <style>
     :root {
-      /* Casino Dark Theme - Luxurious Black, Red & Gold (Default) */
-      --bg: #0f0f0f;
-      --text: #fbbf24;
-      --link: #fbbf24;
-      --link-hover: #dc2626;
-      --timer: #ef4444;
+      /* Enhanced Glitter Casino Dark Theme - Maximum Visibility & Glam */
+      --bg: #0a0a0a;
+      --text: #ffd700;
+      --link: #ffd700;
+      --link-hover: #ff6b6b;
+      --timer: #ff4757;
       --hover-bg: #1a1a1a;
-      --border: #d97706;
-      --success: #f59e0b;
-      --accent: #dc2626;
+      --border: #ffb700;
+      --success: #ffd700;
+      --accent: #ff6b6b;
+      --glow-primary: #ffd700;
+      --glow-secondary: #ff6b6b;
+      --sparkle: #ffffff;
     }
     .light-mode {
       /* Casino Light Theme - Elegant Gold & Black */
@@ -37,10 +40,36 @@
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Luxury casino pattern with gold sparkles and red accents (Default Dark) */
-      background-image: url('data:image/svg+xml;utf8,<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="70" height="70" fill="%230f0f0f"/><g opacity="0.4"><path d="M35 30l3 7 7-3-7 3-3 7-3-7-7 3 7-3 3-7z" fill="%23fbbf24"/><path d="M15 15l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23dc2626"/><path d="M55 55l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f59e0b"/><circle cx="25" cy="50" r="1.5" fill="%23fbbf24" opacity="0.6"/><circle cx="50" cy="25" r="1" fill="%23dc2626" opacity="0.8"/><circle cx="10" cy="60" r="1" fill="%23f59e0b" opacity="0.7"/><circle cx="60" cy="10" r="1.5" fill="%23fbbf24" opacity="0.5"/></g></svg>');
-      background-size: 70px 70px;
+      /* Enhanced glitter casino pattern with more prominent sparkles */
+      background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="60" height="60" fill="%230a0a0a"/><g opacity="0.8"><path d="M30 25l4 8 8-4-8 4-4 8-4-8-8 4 8-4 4-8z" fill="%23ffd700"/><path d="M12 12l3 5 5-3-5 3-3 5-3-5-5 3 5-3 3-5z" fill="%23ff6b6b"/><path d="M48 48l3 5 5-3-5 3-3 5-3-5-5 3 5-3 3-5z" fill="%23ffd700"/><circle cx="20" cy="45" r="2" fill="%23ffffff" opacity="0.9"/><circle cx="45" cy="20" r="1.5" fill="%23ffd700" opacity="0.8"/><circle cx="8" cy="52" r="1" fill="%23ff6b6b" opacity="0.7"/><circle cx="52" cy="8" r="2" fill="%23ffffff" opacity="0.6"/><path d="M15 30l2 3 3-2-3 2-2 3-2-3-3 2 3-2 2-3z" fill="%23ffffff" opacity="0.5"/><path d="M45 15l2 3 3-2-3 2-2 3-2-3-3 2 3-2 2-3z" fill="%23ffd700" opacity="0.7"/></g></svg>');
+      background-size: 60px 60px;
       background-attachment: fixed;
+      /* Add animated sparkles overlay */
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+        radial-gradient(2px 2px at 40px 70px, #ffd700, transparent),
+        radial-gradient(1px 1px at 90px 40px, #ff6b6b, transparent),
+        radial-gradient(1px 1px at 130px 80px, #ffffff, transparent),
+        radial-gradient(2px 2px at 160px 30px, #ffd700, transparent);
+      background-repeat: repeat;
+      background-size: 200px 100px;
+      animation: sparkleMove 20s linear infinite;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: -1;
+    }
+    @keyframes sparkleMove {
+      0% { transform: translateX(0px); }
+      100% { transform: translateX(200px); }
     }
     .light-mode body {
       /* Casino sparkle pattern for light mode */
@@ -52,12 +81,34 @@
       max-width: 800px; 
       margin: auto; 
       padding: 2rem;
-      background: rgba(251, 191, 36, 0.05);
-      border: 2px solid rgba(217, 119, 6, 0.2);
+      background: rgba(255, 215, 0, 0.08);
+      border: 2px solid rgba(255, 183, 0, 0.4);
       border-radius: 15px;
       margin-top: 2rem;
-      box-shadow: 0 4px 24px rgba(185, 28, 28, 0.1), 0 0 40px rgba(251, 191, 36, 0.05);
-      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 4px 24px rgba(255, 107, 107, 0.2), 
+        0 0 50px rgba(255, 215, 0, 0.15),
+        inset 0 1px 0 rgba(255, 215, 0, 0.2);
+      backdrop-filter: blur(15px);
+      position: relative;
+    }
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ffd700, #ff6b6b, #ffd700, #ff6b6b);
+      background-size: 400% 400%;
+      border-radius: 15px;
+      z-index: -1;
+      animation: borderGlow 3s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
     .light-mode .container {
       background: rgba(251, 191, 36, 0.08);
@@ -68,13 +119,17 @@
       text-align: center; 
       font-size: 2.2em; 
       margin-bottom: 1.2em;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
-      animation: glitch 0.6s infinite, goldShimmer 4s ease-in-out infinite; 
-      text-shadow: 0 0 8px var(--text), 0 0 20px var(--text), 0 0 35px var(--text), 0 2px 4px rgba(0, 0, 0, 0.8);
       font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--glow-primary);
+      text-shadow: 
+        0 0 10px var(--glow-primary), 
+        0 0 20px var(--glow-primary), 
+        0 0 30px var(--glow-primary), 
+        0 0 40px var(--glow-primary),
+        0 2px 4px rgba(0, 0, 0, 0.8);
+      animation: glitch 0.6s infinite, enhancedGoldShimmer 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
     }
     .light-mode h1 { 
       animation: none;
@@ -83,24 +138,38 @@
     }
     .toggle-mode {
       padding: 16px 36px;
-      background: linear-gradient(135deg, var(--accent), var(--success));
-      color: white; 
-      border: 2px solid var(--success);
+      background: linear-gradient(135deg, var(--glow-secondary), var(--glow-primary));
+      color: #000; 
+      border: 2px solid var(--glow-primary);
       border-radius: 12px;
       cursor: pointer; 
       font-size: 1.15em; 
-      font-weight: 600;
+      font-weight: 700;
       display: block; 
       margin: 0 auto 1.5em;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4), 0 0 25px rgba(251, 191, 36, 0.2);
-      text-shadow: 0 0 10px rgba(251, 191, 36, 0.8), 0 1px 2px rgba(0, 0, 0, 0.8);
+      box-shadow: 
+        0 4px 16px rgba(255, 107, 107, 0.4), 
+        0 0 25px rgba(255, 215, 0, 0.3),
+        0 0 40px rgba(255, 215, 0, 0.2);
+      text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.8), 
+        0 1px 2px rgba(0, 0, 0, 0.8);
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
     }
     .toggle-mode:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(220, 38, 38, 0.6), 0 0 40px rgba(251, 191, 36, 0.3);
-      text-shadow: 0 0 15px rgba(251, 191, 36, 1), 0 1px 2px rgba(0, 0, 0, 0.9);
-      border-color: var(--text);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 8px 32px rgba(255, 107, 107, 0.6), 
+        0 0 40px rgba(255, 215, 0, 0.4),
+        0 0 60px rgba(255, 215, 0, 0.3);
+      text-shadow: 
+        0 0 15px rgba(255, 215, 0, 1), 
+        0 0 25px rgba(255, 255, 255, 0.8),
+        0 1px 3px rgba(0, 0, 0, 0.9);
+      border-color: #ffffff;
+      background: linear-gradient(135deg, var(--glow-primary), var(--glow-secondary));
+      color: #000;
     }
     .light-mode .toggle-mode {
       background: linear-gradient(to right, #7f5af0, #2cb67d);
@@ -118,18 +187,43 @@
       padding: 16px; 
       margin: 0.8em 0;
       border-radius: 12px; 
-      background: var(--hover-bg);
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      background: rgba(26, 26, 26, 0.9);
+      border: 1px solid rgba(255, 183, 0, 0.4);
+      box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(255, 215, 0, 0.1),
+        inset 0 1px 0 rgba(255, 215, 0, 0.1);
       min-height: 64px;
       align-items: center;
       transition: all 0.3s ease;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+    .table-row::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .table-row:hover::before {
+      opacity: 1;
     }
     .table-row:hover { 
-      background: var(--link-hover); 
-      color: #fff; 
+      background: rgba(255, 107, 107, 0.15); 
+      color: #ffffff; 
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3), 0 0 30px rgba(251, 191, 36, 0.2);
+      box-shadow: 
+        0 8px 24px rgba(255, 107, 107, 0.4), 
+        0 0 30px rgba(255, 215, 0, 0.3),
+        0 0 50px rgba(255, 215, 0, 0.2);
+      border-color: var(--glow-secondary);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     }
     .light-mode .table-row {
       background: var(--hover-bg);
@@ -142,53 +236,93 @@
       box-shadow: 0 0 20px rgba(220, 38, 38, 0.4), 0 0 35px rgba(251, 191, 36, 0.3);
       border-color: var(--accent);
     }
-    /* Casino-style link effects */
+    /* Enhanced Casino-style link effects with better visibility */
     .table-row a {
-      color: var(--link);
+      color: var(--glow-primary);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       padding: 0.5em 1em;
       border-radius: 8px;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      text-shadow: 
+        0 0 5px var(--glow-primary),
+        0 1px 2px rgba(0, 0, 0, 0.8);
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
     }
     .table-row a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      color: #ffffff;
+      text-shadow: 
+        0 0 15px rgba(255, 255, 255, 1),
+        0 0 25px var(--glow-secondary),
+        0 1px 3px rgba(0, 0, 0, 0.9);
+      transform: scale(1.05);
     }
     .light-mode .table-row a:hover {
       text-shadow: 0 0 15px var(--success), 0 0 25px var(--success);
     }
     
     .last-collected.available {
-      animation: pulseGlow 2s infinite;
-      text-shadow: 0 0 3px #000, 0 0 6px #000;
-      font-weight: 600;
+      animation: enhancedPulseGlow 2s infinite, goldShimmer 3s ease-in-out infinite;
+      text-shadow: 
+        0 0 8px var(--glow-primary), 
+        0 0 16px var(--glow-primary), 
+        0 0 24px var(--glow-primary),
+        0 2px 4px rgba(0, 0, 0, 0.8);
+      font-weight: 700;
+      color: var(--glow-primary);
+      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
     }
     .last-collected.timer {
-      animation: pulseRedGlow 2s infinite;
-      text-shadow: 0 0 3px #000, 0 0 6px #000;
-      font-weight: 600;
+      animation: enhancedPulseRedGlow 2s infinite;
+      text-shadow: 
+        0 0 8px var(--glow-secondary), 
+        0 0 16px var(--glow-secondary), 
+        0 0 24px var(--glow-secondary),
+        0 2px 4px rgba(0, 0, 0, 0.8);
+      font-weight: 700;
+      color: var(--glow-secondary);
+      filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.8));
     }
-    @keyframes pulseRedGlow {
+    @keyframes enhancedPulseRedGlow {
       0%,100% { 
-        color: #dc2626; 
-        text-shadow: 0 0 8px #dc2626, 0 0 16px #dc2626, 0 0 3px #000; 
+        color: var(--glow-secondary); 
+        text-shadow: 
+          0 0 8px var(--glow-secondary), 
+          0 0 16px var(--glow-secondary), 
+          0 0 24px var(--glow-secondary),
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1);
       }
       50% { 
-        color: #ef4444; 
-        text-shadow: 0 0 15px #ef4444, 0 0 25px #ef4444, 0 0 3px #000; 
+        color: #ff4757; 
+        text-shadow: 
+          0 0 15px #ff4757, 
+          0 0 25px #ff4757, 
+          0 0 35px #ff4757,
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
       }
     }
-    @keyframes pulseGlow {
+    @keyframes enhancedPulseGlow {
       0%,100% { 
-        color: var(--success); 
-        text-shadow: 0 0 8px var(--success), 0 0 16px var(--success), 0 0 3px #000; 
+        color: var(--glow-primary); 
+        text-shadow: 
+          0 0 8px var(--glow-primary), 
+          0 0 16px var(--glow-primary), 
+          0 0 24px var(--glow-primary),
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1);
       }
       50% { 
-        color: #fcd34d; 
-        text-shadow: 0 0 15px #fcd34d, 0 0 25px #fcd34d, 0 0 3px #000; 
+        color: #ffffff; 
+        text-shadow: 
+          0 0 15px #ffffff, 
+          0 0 25px var(--glow-primary), 
+          0 0 35px var(--glow-primary),
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1.05);
       }
     }
     .light-mode .last-collected.available {
@@ -205,7 +339,49 @@
       80% { transform: translate(1px, 1px); }
       100% { transform: none; }
     }
-    /* Casino Glitter Effects */
+    /* Enhanced Casino Glitter Effects */
+    @keyframes enhancedGoldShimmer {
+      0%, 100% { 
+        text-shadow: 
+          0 0 10px var(--glow-primary), 
+          0 0 20px var(--glow-primary), 
+          0 0 30px var(--glow-primary), 
+          0 0 40px var(--glow-primary),
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1);
+        filter: hue-rotate(0deg);
+      }
+      25% {
+        text-shadow: 
+          0 0 15px #ffffff, 
+          0 0 25px var(--glow-primary), 
+          0 0 35px var(--glow-primary), 
+          0 0 45px var(--glow-primary),
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
+        filter: hue-rotate(10deg);
+      }
+      50% { 
+        text-shadow: 
+          0 0 20px #ffffff, 
+          0 0 30px var(--glow-primary), 
+          0 0 40px var(--glow-primary), 
+          0 0 50px var(--glow-primary),
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1.03);
+        filter: hue-rotate(20deg);
+      }
+      75% {
+        text-shadow: 
+          0 0 15px var(--glow-secondary), 
+          0 0 25px var(--glow-primary), 
+          0 0 35px var(--glow-primary), 
+          0 0 45px var(--glow-primary),
+          0 2px 4px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
+        filter: hue-rotate(10deg);
+      }
+    }
     @keyframes goldShimmer {
       0%, 100% { 
         text-shadow: 0 0 5px var(--success), 0 0 10px var(--success), 0 0 15px var(--success);
@@ -217,13 +393,41 @@
       }
     }
     @keyframes sparkle {
-      0%, 50%, 100% { opacity: 0; transform: scale(0); }
-      25%, 75% { opacity: 1; transform: scale(1); }
+      0%, 50%, 100% { 
+        opacity: 0; 
+        transform: scale(0) rotate(0deg); 
+      }
+      25%, 75% { 
+        opacity: 1; 
+        transform: scale(1) rotate(180deg); 
+      }
     }
-    /* Add sparkle effects to available bonuses */
+    @keyframes enhancedSparkle {
+      0% { 
+        opacity: 0; 
+        transform: scale(0) rotate(0deg); 
+      }
+      25% { 
+        opacity: 0.8; 
+        transform: scale(1.2) rotate(90deg); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1) rotate(180deg); 
+      }
+      75% { 
+        opacity: 0.6; 
+        transform: scale(1.1) rotate(270deg); 
+      }
+      100% { 
+        opacity: 0; 
+        transform: scale(0) rotate(360deg); 
+      }
+    }
+    /* Enhanced sparkle effects for available bonuses */
     .last-collected.available {
       position: relative;
-      animation: pulseGlow 2s infinite, goldShimmer 3s ease-in-out infinite;
+      animation: enhancedPulseGlow 2s infinite, goldShimmer 3s ease-in-out infinite;
     }
     .last-collected.available::after {
       content: '✨';
@@ -231,27 +435,72 @@
       right: -20px;
       top: 50%;
       transform: translateY(-50%);
-      animation: sparkle 2s infinite;
+      animation: enhancedSparkle 1.5s infinite;
+      font-size: 0.9em;
+      text-shadow: 
+        0 0 10px #ffffff,
+        0 0 20px var(--glow-primary);
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+    }
+    /* Add more sparkle elements */
+    .last-collected.available::before {
+      content: '💫';
+      position: absolute;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: enhancedSparkle 2s infinite reverse;
       font-size: 0.8em;
+      text-shadow: 
+        0 0 8px var(--glow-secondary),
+        0 0 16px var(--glow-secondary);
+      filter: drop-shadow(0 0 6px rgba(255, 107, 107, 0.8));
     }
     footer {
       text-align: center; 
       margin-top: 3em; 
       padding: 2em 0;
       font-size: 0.95em; 
-      background: var(--hover-bg);
-      border-top: 1px solid var(--border);
-      backdrop-filter: blur(10px);
+      background: rgba(26, 26, 26, 0.9);
+      border-top: 2px solid rgba(255, 215, 0, 0.3);
+      backdrop-filter: blur(15px);
+      color: var(--glow-primary);
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+      box-shadow: 
+        0 -2px 15px rgba(255, 215, 0, 0.1),
+        inset 0 1px 0 rgba(255, 215, 0, 0.1);
     }
     footer a { 
-      color: var(--link); 
+      color: var(--glow-primary); 
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       transition: all 0.3s ease;
+      text-shadow: 0 0 8px var(--glow-primary);
     }
     footer a:hover { 
-      color: var(--link-hover);
-      text-shadow: 0 0 10px var(--success), 0 0 20px var(--success);
+      color: var(--glow-secondary);
+      text-shadow: 
+        0 0 15px var(--glow-secondary), 
+        0 0 25px var(--glow-secondary);
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.8));
+    }
+    /* Enhanced bonus count and section headings */
+    #bonus-count {
+      color: var(--glow-primary);
+      text-shadow: 
+        0 0 10px var(--glow-primary),
+        0 0 20px var(--glow-primary);
+      font-weight: 700;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+    }
+    h2 {
+      color: var(--glow-primary);
+      text-shadow: 
+        0 0 8px var(--glow-primary),
+        0 0 16px var(--glow-primary);
+      font-weight: 700;
+      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
     }
     .light-mode footer a:hover {
       text-shadow: 0 0 12px var(--link-hover);
@@ -303,15 +552,28 @@
       padding: 0.8em 1.2em;
       font-size: 1.1em;
       border-radius: 10px;
-      border: 2px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
+      border: 2px solid var(--glow-primary);
+      background: rgba(10, 10, 10, 0.9);
+      color: var(--glow-primary);
       outline: none;
       transition: all 0.3s ease;
+      font-weight: 600;
+      text-shadow: 0 0 5px var(--glow-primary);
+      box-shadow: 
+        0 0 15px rgba(255, 215, 0, 0.2),
+        inset 0 1px 0 rgba(255, 215, 0, 0.1);
     }
     .search-bar input[type="search"]:focus {
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      border: 2px solid var(--glow-secondary);
+      box-shadow: 
+        0 0 0 3px rgba(255, 107, 107, 0.3),
+        0 0 20px rgba(255, 215, 0, 0.4);
+      text-shadow: 0 0 8px var(--glow-primary);
+      background: rgba(10, 10, 10, 0.95);
+    }
+    .search-bar input[type="search"]::placeholder {
+      color: rgba(255, 215, 0, 0.6);
+      text-shadow: none;
     }
     .light-mode .search-bar input[type="search"]:focus {
       border: 2px solid var(--accent);
