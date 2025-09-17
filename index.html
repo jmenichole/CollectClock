@@ -92,9 +92,27 @@
       font-weight: 600;
       display: block; 
       margin: 0 auto 1.5em;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4), 0 0 25px rgba(251, 191, 36, 0.2);
       text-shadow: 0 0 10px rgba(251, 191, 36, 0.8), 0 1px 2px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .toggle-mode::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .toggle-mode:active::before {
+      width: 300px;
+      height: 300px;
     }
     .toggle-mode:hover {
       transform: translateY(-2px);
@@ -123,7 +141,27 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       min-height: 64px;
       align-items: center;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .casino-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .favorite-btn {
+      background: none;
+      border: none;
+      font-size: 1.2em;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      opacity: 0.6;
+    }
+    .favorite-btn:hover {
+      opacity: 1;
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.1);
     }
     .table-row:hover { 
       background: var(--link-hover); 
@@ -283,6 +321,33 @@
       transition: background 0.2s; display: flex; align-items: center; justify-content: center;
     }
     .info-btn:active, .info-btn.active { background: #e0e7ff; }
+    .collect-all-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: white;
+      border: 2px solid #10b981;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .collect-all-btn:hover {
+      background: linear-gradient(135deg, #059669, #10b981);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+      transform: translateY(-1px);
+    }
+    .collect-all-btn:active {
+      transform: translateY(0);
+    }
+    .collect-all-btn.processing {
+      background: linear-gradient(135deg, #6b7280, #9ca3af);
+      cursor: not-allowed;
+      animation: pulse 2s infinite;
+    }
     .info-popup {
       position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
       background: #fff; color: #222; border-radius: 12px;
@@ -328,6 +393,14 @@
       font-size: 1.1em;
       transition: all 0.3s ease;
     }
+    .favorites-filter {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+      opacity: 0.7;
+    }
+    .favorites-filter.active {
+      opacity: 1;
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+    }
     .search-bar button:hover {
       background: var(--link-hover);
       transform: translateY(-1px);
@@ -366,10 +439,12 @@
     <div class="toggle-row">
       <button id="mode-toggle" class="toggle-mode">Untilt</button>
       <button id="info-btn" class="info-btn" aria-label="Info" tabindex="0">ⓘ</button>
+      <button id="collect-all-btn" class="collect-all-btn" style="display:none;" aria-label="Collect All Available">Collect All ⚡</button>
     </div>
     <div id="info-popup" class="info-popup" role="dialog" aria-modal="true" aria-hidden="true">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
     <form class="search-bar" id="casino-search-form" autocomplete="off" onsubmit="return false;">
       <input type="search" id="casino-search" placeholder="Search casinos..." aria-label="Search casinos" />
+      <button type="button" id="favorites-filter" class="favorites-filter" aria-label="Show favorites only" title="Show favorites only">⭐</button>
       <button type="button" id="casino-search-clear" aria-label="Clear search" tabindex="0" style="display:none;">✕</button>
     </form>
     <div id="casino-table-available"></div>
@@ -683,8 +758,11 @@
     }
     // --- Search/Filter Logic ---
     let casinoFilter = "";
+    let showFavoritesOnly = false;
     const searchInput = document.getElementById("casino-search");
     const searchClearBtn = document.getElementById("casino-search-clear");
+    const favoritesFilterBtn = document.getElementById("favorites-filter");
+    
     if (searchInput) {
       searchInput.addEventListener("input", function() {
         casinoFilter = searchInput.value.trim().toLowerCase();
@@ -707,6 +785,13 @@
         renderCasinoTable();
         searchClearBtn.style.display = "none";
         searchInput.focus();
+      });
+    }
+    if (favoritesFilterBtn) {
+      favoritesFilterBtn.addEventListener("click", function() {
+        showFavoritesOnly = !showFavoritesOnly;
+        favoritesFilterBtn.classList.toggle("active", showFavoritesOnly);
+        renderCasinoTable();
       });
     }
     // --- Keyboard Navigation for Casino Rows ---
@@ -782,6 +867,10 @@
           c.name.toLowerCase().includes(casinoFilter)
         );
       }
+      if (showFavoritesOnly) {
+        const favorites = JSON.parse(localStorage.getItem("casino_favorites") || "[]");
+        data = data.filter(c => favorites.includes(c.name));
+      }
       // Partition casinos into available and cooldown
       const now = Date.now();
       const available = [], cooldown = [];
@@ -810,9 +899,14 @@
           row.dataset.casino = casino.name;
           let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
           row.innerHTML = `
-            <div class="tooltip">
-              <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
-              <span class="tooltiptext">${casino.tooltip || ''}</span>
+            <div class="casino-info">
+              <div class="tooltip">
+                <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
+                <span class="tooltiptext">${casino.tooltip || ''}</span>
+              </div>
+              <button class="favorite-btn" data-casino="${casino.name}" aria-label="Toggle favorite" title="Toggle favorite">
+                ${isFavorited(casino.name) ? '⭐' : '☆'}
+              </button>
             </div>
             <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" /></div>
             <div class="last-collected available">Available!</div>`;
@@ -861,9 +955,14 @@
           const minsLeft = Math.ceil((casino.next - now) / 60000);
           const h = Math.floor(minsLeft / 60), m = minsLeft % 60;
           row.innerHTML = `
-            <div class="tooltip">
-              <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
-              <span class="tooltiptext">${casino.tooltip || ''}</span>
+            <div class="casino-info">
+              <div class="tooltip">
+                <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
+                <span class="tooltiptext">${casino.tooltip || ''}</span>
+              </div>
+              <button class="favorite-btn" data-casino="${casino.name}" aria-label="Toggle favorite" title="Toggle favorite">
+                ${isFavorited(casino.name) ? '⭐' : '☆'}
+              </button>
             </div>
             <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" disabled /></div>
             <div class="last-collected timer"><span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span></div>`;
@@ -894,6 +993,17 @@
       } else {
         availableContainer.style.display = "";
         cooldownContainer.style.display = "";
+      }
+      
+      // Show/hide collect all button based on available casinos
+      const collectAllBtn = document.getElementById("collect-all-btn");
+      if (collectAllBtn) {
+        if (available.length > 1) {
+          collectAllBtn.style.display = "inline-block";
+          collectAllBtn.textContent = `Collect All (${available.length}) ⚡`;
+        } else {
+          collectAllBtn.style.display = "none";
+        }
       }
     }
     // --- Info popup logic (keyboard accessible) ---
@@ -930,6 +1040,16 @@
     document.addEventListener("DOMContentLoaded", function() {
       const modeToggle = document.getElementById("mode-toggle");
       if (modeToggle) modeToggle.addEventListener("click", toggleMode);
+      
+      // Setup collect all button
+      const collectAllBtn = document.getElementById("collect-all-btn");
+      if (collectAllBtn) {
+        collectAllBtn.addEventListener("click", handleCollectAll);
+      }
+      
+      // Setup favorite buttons
+      setupFavoriteButtons();
+      
       renderCasinoTable();
       updateTimers();
       updateStats();
@@ -941,7 +1061,162 @@
       requestNotificationPermission();
       // Focus search bar on load for accessibility
       if (searchInput) searchInput.setAttribute("tabindex", "0");
+      
+      // Add keyboard shortcuts
+      setupKeyboardShortcuts();
     });
+    
+    // --- Keyboard Shortcuts for Power Users ---
+    function setupKeyboardShortcuts() {
+      document.addEventListener('keydown', function(e) {
+        // Only activate shortcuts when not typing in input fields
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        
+        switch(e.key.toLowerCase()) {
+          case 't': // Toggle Tilt/Untilt mode
+            if (e.ctrlKey || e.metaKey) return; // Don't interfere with browser shortcuts
+            e.preventDefault();
+            document.getElementById("mode-toggle")?.click();
+            break;
+          case 'a': // Collect All available
+            if (e.ctrlKey || e.metaKey) return;
+            e.preventDefault();
+            const collectAllBtn = document.getElementById("collect-all-btn");
+            if (collectAllBtn && collectAllBtn.style.display !== 'none') {
+              collectAllBtn.click();
+            }
+            break;
+          case '/': // Focus search
+            e.preventDefault();
+            searchInput?.focus();
+            break;
+          case 'r': // Reset all timers
+            if (e.ctrlKey || e.metaKey) return;
+            e.preventDefault();
+            if (confirm('Reset all timers? This will make all bonuses available again.')) {
+              document.querySelector('button[onclick*="resetAllTimers"]')?.click();
+            }
+            break;
+        }
+      });
+    }
+    
+    // --- Collect All Available Function ---
+    async function handleCollectAll() {
+      const collectAllBtn = document.getElementById("collect-all-btn");
+      const availableCasinos = getAvailableCasinos();
+      
+      if (availableCasinos.length === 0) {
+        showToast("No bonuses available to collect!");
+        return;
+      }
+      
+      // Show confirmation
+      const confirmed = await showBonusModal(`Collect ${availableCasinos.length} available bonuses?`);
+      if (!confirmed) return;
+      
+      // Set processing state
+      collectAllBtn.classList.add('processing');
+      collectAllBtn.textContent = 'Processing...';
+      collectAllBtn.disabled = true;
+      
+      let collected = 0;
+      let failed = 0;
+      
+      for (const casino of availableCasinos) {
+        try {
+          // Simulate opening each casino link
+          window.open(casino.link, '_blank');
+          await new Promise(resolve => setTimeout(resolve, 500)); // Brief delay between opens
+          
+          // Mark as collected with default 24h timer
+          const next = Date.now() + 1440 * 60000; // 24 hours
+          localStorage.setItem("casino_" + casino.name, next);
+          localStorage.setItem(`casino_first_collected_${casino.name}`, "1");
+          localStorage.setItem(`casino_timer_${casino.name}`, "1440");
+          collected++;
+        } catch (error) {
+          console.error(`Failed to process ${casino.name}:`, error);
+          failed++;
+        }
+      }
+      
+      // Update stats and UI
+      let count = +(localStorage.getItem("collect_count") || 0);
+      count += collected;
+      localStorage.setItem("collect_count", count);
+      
+      updateStats();
+      updateTimers();
+      updateBonusCount();
+      renderCasinoTable();
+      
+      // Reset button state
+      collectAllBtn.classList.remove('processing');
+      collectAllBtn.textContent = 'Collect All ⚡';
+      collectAllBtn.disabled = false;
+      
+      // Show results
+      if (collected > 0) {
+        showToast(`Successfully collected ${collected} bonuses!${failed > 0 ? ` (${failed} failed)` : ''}`);
+        if (Math.random() < 0.8) showGifPopup(); // High chance of celebration
+      } else {
+        showToast("Failed to collect any bonuses. Please try individually.");
+      }
+    }
+    
+    function getAvailableCasinos() {
+      const now = Date.now();
+      const available = [];
+      const isTilted = !document.body.classList.contains("light-mode");
+      
+      window.casinoData.forEach(casino => {
+        const next = localStorage.getItem("casino_" + casino.name);
+        if (!next || now >= +next) {
+          available.push({
+            name: casino.name,
+            link: isTilted ? casino.tilted : (casino.clean || casino.tilted)
+          });
+        }
+      });
+      
+      return available;
+    }
+    
+    // --- Favorites System ---
+    function isFavorited(casinoName) {
+      const favorites = JSON.parse(localStorage.getItem("casino_favorites") || "[]");
+      return favorites.includes(casinoName);
+    }
+    
+    function toggleFavorite(casinoName) {
+      let favorites = JSON.parse(localStorage.getItem("casino_favorites") || "[]");
+      const index = favorites.indexOf(casinoName);
+      
+      if (index > -1) {
+        favorites.splice(index, 1);
+        showToast(`${casinoName} removed from favorites`);
+      } else {
+        favorites.push(casinoName);
+        showToast(`${casinoName} added to favorites ⭐`);
+      }
+      
+      localStorage.setItem("casino_favorites", JSON.stringify(favorites));
+      renderCasinoTable(); // Re-render to update star
+    }
+    
+    function setupFavoriteButtons() {
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('favorite-btn')) {
+          e.preventDefault();
+          e.stopPropagation();
+          const casinoName = e.target.getAttribute('data-casino');
+          if (casinoName) {
+            toggleFavorite(casinoName);
+          }
+        }
+      });
+    }
     // --- Timers update ---
     requestAnimationFrame(updateTimersRAF);
   })();
