@@ -7,26 +7,28 @@
   
   <style>
     :root {
-      --bg: #f8fafc;
-      --text: #1e293b;
-      --link: #3b82f6;
-      --link-hover: #1d4ed8;
-      --timer: #3b82f6;
-      --hover-bg: #f1f5f9;
-      --border: #e2e8f0;
-      --success: #10b981;
-      --accent: #8b5cf6;
+      /* Casino Light Theme - Elegant Gold & Black */
+      --bg: #faf7f0;
+      --text: #1a1a1a;
+      --link: #d97706;
+      --link-hover: #dc2626;
+      --timer: #dc2626;
+      --hover-bg: #fef3c7;
+      --border: #d97706;
+      --success: #fbbf24;
+      --accent: #b91c1c;
     }
     .dark-mode {
-      --bg: #0a0a0a;
-      --text: #00ffcc;
-      --link: #00ccff;
-      --link-hover: #ff00ff;
-      --timer: #00ffcc;
-      --hover-bg: #1a1a2e;
-      --border: #16213e;
-      --success: #00ff88;
-      --accent: #ff0080;
+      /* Casino Dark Theme - Luxurious Black, Red & Gold */
+      --bg: #0f0f0f;
+      --text: #fbbf24;
+      --link: #fbbf24;
+      --link-hover: #dc2626;
+      --timer: #ef4444;
+      --hover-bg: #1a1a1a;
+      --border: #d97706;
+      --success: #f59e0b;
+      --accent: #dc2626;
     }
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
@@ -35,31 +37,32 @@
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Professional subtle pattern for light mode */
-      background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="60" height="60" fill="%23f8fafc"/><circle cx="30" cy="30" r="1.5" fill="%23e2e8f0" opacity="0.4"/><circle cx="0" cy="60" r="1.5" fill="%23e2e8f0" opacity="0.4"/><circle cx="60" cy="0" r="1.5" fill="%23e2e8f0" opacity="0.4"/></svg>');
-      background-size: 60px 60px;
+      /* Casino sparkle pattern for light mode */
+      background-image: url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%23faf7f0"/><g opacity="0.6"><path d="M40 35l2 5 5-2-5 2-2 5-2-5-5 2 5-2 2-5z" fill="%23fbbf24"/><path d="M15 15l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23d97706"/><path d="M65 65l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23f59e0b"/><circle cx="20" cy="60" r="1" fill="%23fbbf24" opacity="0.8"/><circle cx="70" cy="20" r="1.5" fill="%23d97706" opacity="0.7"/></g></svg>');
+      background-size: 80px 80px;
       background-attachment: fixed;
     }
     .dark-mode body {
-      /* Enhanced neon grid pattern for dark mode */
-      background-image: url('data:image/svg+xml;utf8,<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="50" height="50" fill="%230a0a0a"/><circle cx="25" cy="25" r="1.5" fill="%2300ffcc" opacity="0.15"/><circle cx="0" cy="50" r="1.5" fill="%2300ccff" opacity="0.15"/><circle cx="50" cy="0" r="1.5" fill="%23ff00ff" opacity="0.15"/><rect x="24" y="0" width="2" height="50" fill="%2300ffcc" opacity="0.03"/><rect x="0" y="24" width="50" height="2" fill="%2300ccff" opacity="0.03"/></svg>');
-      background-size: 50px 50px;
+      /* Luxury casino pattern with gold sparkles and red accents */
+      background-image: url('data:image/svg+xml;utf8,<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="70" height="70" fill="%230f0f0f"/><g opacity="0.4"><path d="M35 30l3 7 7-3-7 3-3 7-3-7-7 3 7-3 3-7z" fill="%23fbbf24"/><path d="M15 15l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23dc2626"/><path d="M55 55l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f59e0b"/><circle cx="25" cy="50" r="1.5" fill="%23fbbf24" opacity="0.6"/><circle cx="50" cy="25" r="1" fill="%23dc2626" opacity="0.8"/><circle cx="10" cy="60" r="1" fill="%23f59e0b" opacity="0.7"/><circle cx="60" cy="10" r="1.5" fill="%23fbbf24" opacity="0.5"/></g></svg>');
+      background-size: 70px 70px;
       background-attachment: fixed;
     }
     .container { 
       max-width: 800px; 
       margin: auto; 
       padding: 2rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
+      background: rgba(251, 191, 36, 0.05);
+      border: 2px solid rgba(217, 119, 6, 0.2);
+      border-radius: 15px;
       margin-top: 2rem;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 24px rgba(185, 28, 28, 0.1), 0 0 40px rgba(251, 191, 36, 0.05);
       backdrop-filter: blur(10px);
     }
     .dark-mode .container {
-      background: rgba(0, 255, 204, 0.03);
-      box-shadow: 0 4px 24px rgba(0, 255, 204, 0.1);
-      border: 1px solid rgba(0, 255, 204, 0.1);
+      background: rgba(251, 191, 36, 0.08);
+      box-shadow: 0 4px 24px rgba(220, 38, 38, 0.2), 0 0 50px rgba(251, 191, 36, 0.1);
+      border: 2px solid rgba(251, 191, 36, 0.3);
     }
     h1 { 
       text-align: center; 
@@ -78,7 +81,7 @@
       padding: 16px 36px;
       background: linear-gradient(135deg, var(--accent), var(--success));
       color: white; 
-      border: none; 
+      border: 2px solid var(--success);
       border-radius: 12px;
       cursor: pointer; 
       font-size: 1.15em; 
@@ -86,20 +89,22 @@
       display: block; 
       margin: 0 auto 1.5em;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3), 0 0 20px rgba(251, 191, 36, 0.1);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     }
     .toggle-mode:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.4), 0 0 30px rgba(251, 191, 36, 0.2);
+      border-color: var(--text);
     }
     .dark-mode .toggle-mode {
       background: linear-gradient(135deg, var(--accent), var(--success));
-      box-shadow: 0 4px 16px rgba(255, 0, 128, 0.4);
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4), 0 0 25px rgba(251, 191, 36, 0.2);
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.8), 0 1px 2px rgba(0, 0, 0, 0.8);
     }
     .dark-mode .toggle-mode:hover {
-      box-shadow: 0 8px 32px rgba(255, 0, 128, 0.6);
-      text-shadow: 0 0 15px rgba(255, 255, 255, 1);
+      box-shadow: 0 8px 32px rgba(220, 38, 38, 0.6), 0 0 40px rgba(251, 191, 36, 0.3);
+      text-shadow: 0 0 15px rgba(251, 191, 36, 1), 0 1px 2px rgba(0, 0, 0, 0.9);
     }
     .table-row {
       display: grid; 
@@ -144,12 +149,12 @@
     }
     @keyframes pulseRedGlow {
       0%,100% { 
-        color: #ef4444; 
-        text-shadow: 0 0 8px #ef4444, 0 0 16px #ef4444, 0 0 3px #000; 
+        color: #dc2626; 
+        text-shadow: 0 0 8px #dc2626, 0 0 16px #dc2626, 0 0 3px #000; 
       }
       50% { 
-        color: #f97316; 
-        text-shadow: 0 0 15px #f97316, 0 0 25px #f97316, 0 0 3px #000; 
+        color: #ef4444; 
+        text-shadow: 0 0 15px #ef4444, 0 0 25px #ef4444, 0 0 3px #000; 
       }
     }
     @keyframes pulseGlow {
@@ -158,8 +163,8 @@
         text-shadow: 0 0 8px var(--success), 0 0 16px var(--success), 0 0 3px #000; 
       }
       50% { 
-        color: #22d3ee; 
-        text-shadow: 0 0 15px #22d3ee, 0 0 25px #22d3ee, 0 0 3px #000; 
+        color: #fcd34d; 
+        text-shadow: 0 0 15px #fcd34d, 0 0 25px #fcd34d, 0 0 3px #000; 
       }
     }
     .dark-mode .last-collected.available {
@@ -175,6 +180,35 @@
       60% { transform: translate(-1px, -1px); }
       80% { transform: translate(1px, 1px); }
       100% { transform: none; }
+    }
+    /* Casino Glitter Effects */
+    @keyframes goldShimmer {
+      0%, 100% { 
+        text-shadow: 0 0 5px var(--success), 0 0 10px var(--success), 0 0 15px var(--success);
+        transform: scale(1);
+      }
+      50% { 
+        text-shadow: 0 0 10px #fcd34d, 0 0 20px #fcd34d, 0 0 30px #fcd34d, 0 0 40px #fcd34d;
+        transform: scale(1.02);
+      }
+    }
+    @keyframes sparkle {
+      0%, 50%, 100% { opacity: 0; transform: scale(0); }
+      25%, 75% { opacity: 1; transform: scale(1); }
+    }
+    /* Add sparkle effects to available bonuses */
+    .last-collected.available {
+      position: relative;
+      animation: pulseGlow 2s infinite, goldShimmer 3s ease-in-out infinite;
+    }
+    .last-collected.available::after {
+      content: '✨';
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: sparkle 2s infinite;
+      font-size: 0.8em;
     }
     footer {
       text-align: center; 
@@ -273,11 +307,11 @@
     .search-bar button:hover {
       background: var(--link-hover);
       transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
     }
     .dark-mode .search-bar button:hover {
-      box-shadow: 0 4px 16px rgba(255, 0, 128, 0.4);
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.5), 0 0 25px rgba(251, 191, 36, 0.3);
+      text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);
     }
     @media (max-width: 600px) {
       .container { padding: 0.5em; }
