@@ -1,12 +1,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CollectClock</title>
+  <title>🎰 Tilted, baby</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   
   <style>
     :root {
+      /* Casino Dark Theme - Luxurious Black, Red & Gold (Default) */
+      --bg: #0f0f0f;
+      --text: #fbbf24;
+      --link: #fbbf24;
+      --link-hover: #dc2626;
+      --timer: #ef4444;
+      --hover-bg: #1a1a1a;
+      --border: #d97706;
+      --success: #f59e0b;
+      --accent: #dc2626;
+    }
+    .light-mode {
       /* Casino Light Theme - Elegant Gold & Black */
       --bg: #faf7f0;
       --text: #1a1a1a;
@@ -18,18 +30,6 @@
       --success: #fbbf24;
       --accent: #b91c1c;
     }
-    .dark-mode {
-      /* Casino Dark Theme - Luxurious Black, Red & Gold */
-      --bg: #0f0f0f;
-      --text: #fbbf24;
-      --link: #fbbf24;
-      --link-hover: #dc2626;
-      --timer: #ef4444;
-      --hover-bg: #1a1a1a;
-      --border: #d97706;
-      --success: #f59e0b;
-      --accent: #dc2626;
-    }
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
       background: var(--bg);
@@ -37,15 +37,15 @@
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
+      /* Luxury casino pattern with gold sparkles and red accents (Default Dark) */
+      background-image: url('data:image/svg+xml;utf8,<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="70" height="70" fill="%230f0f0f"/><g opacity="0.4"><path d="M35 30l3 7 7-3-7 3-3 7-3-7-7 3 7-3 3-7z" fill="%23fbbf24"/><path d="M15 15l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23dc2626"/><path d="M55 55l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f59e0b"/><circle cx="25" cy="50" r="1.5" fill="%23fbbf24" opacity="0.6"/><circle cx="50" cy="25" r="1" fill="%23dc2626" opacity="0.8"/><circle cx="10" cy="60" r="1" fill="%23f59e0b" opacity="0.7"/><circle cx="60" cy="10" r="1.5" fill="%23fbbf24" opacity="0.5"/></g></svg>');
+      background-size: 70px 70px;
+      background-attachment: fixed;
+    }
+    .light-mode body {
       /* Casino sparkle pattern for light mode */
       background-image: url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%23faf7f0"/><g opacity="0.6"><path d="M40 35l2 5 5-2-5 2-2 5-2-5-5 2 5-2 2-5z" fill="%23fbbf24"/><path d="M15 15l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23d97706"/><path d="M65 65l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23f59e0b"/><circle cx="20" cy="60" r="1" fill="%23fbbf24" opacity="0.8"/><circle cx="70" cy="20" r="1.5" fill="%23d97706" opacity="0.7"/></g></svg>');
       background-size: 80px 80px;
-      background-attachment: fixed;
-    }
-    .dark-mode body {
-      /* Luxury casino pattern with gold sparkles and red accents */
-      background-image: url('data:image/svg+xml;utf8,<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="70" height="70" fill="%230f0f0f"/><g opacity="0.4"><path d="M35 30l3 7 7-3-7 3-3 7-3-7-7 3 7-3 3-7z" fill="%23fbbf24"/><path d="M15 15l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23dc2626"/><path d="M55 55l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f59e0b"/><circle cx="25" cy="50" r="1.5" fill="%23fbbf24" opacity="0.6"/><circle cx="50" cy="25" r="1" fill="%23dc2626" opacity="0.8"/><circle cx="10" cy="60" r="1" fill="%23f59e0b" opacity="0.7"/><circle cx="60" cy="10" r="1.5" fill="%23fbbf24" opacity="0.5"/></g></svg>');
-      background-size: 70px 70px;
       background-attachment: fixed;
     }
     .container { 
@@ -59,7 +59,7 @@
       box-shadow: 0 4px 24px rgba(185, 28, 28, 0.1), 0 0 40px rgba(251, 191, 36, 0.05);
       backdrop-filter: blur(10px);
     }
-    .dark-mode .container {
+    .light-mode .container {
       background: rgba(251, 191, 36, 0.08);
       box-shadow: 0 4px 24px rgba(220, 38, 38, 0.2), 0 0 50px rgba(251, 191, 36, 0.1);
       border: 2px solid rgba(251, 191, 36, 0.3);
@@ -72,11 +72,14 @@
       letter-spacing: -0.02em;
       color: var(--text);
       text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
-    }
-    .dark-mode h1 { 
       animation: glitch 0.6s infinite, goldShimmer 4s ease-in-out infinite; 
       text-shadow: 0 0 8px var(--text), 0 0 20px var(--text), 0 0 35px var(--text), 0 2px 4px rgba(0, 0, 0, 0.8);
       font-weight: 700;
+    }
+    .light-mode h1 { 
+      animation: none;
+      text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
+      font-weight: 600;
     }
     .toggle-mode {
       padding: 16px 36px;
@@ -90,22 +93,23 @@
       display: block; 
       margin: 0 auto 1.5em;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3), 0 0 20px rgba(251, 191, 36, 0.1);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    }
-    .toggle-mode:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.4), 0 0 30px rgba(251, 191, 36, 0.2);
-      border-color: var(--text);
-    }
-    .dark-mode .toggle-mode {
-      background: linear-gradient(135deg, var(--accent), var(--success));
       box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4), 0 0 25px rgba(251, 191, 36, 0.2);
       text-shadow: 0 0 10px rgba(251, 191, 36, 0.8), 0 1px 2px rgba(0, 0, 0, 0.8);
     }
-    .dark-mode .toggle-mode:hover {
+    .toggle-mode:hover {
+      transform: translateY(-2px);
       box-shadow: 0 8px 32px rgba(220, 38, 38, 0.6), 0 0 40px rgba(251, 191, 36, 0.3);
       text-shadow: 0 0 15px rgba(251, 191, 36, 1), 0 1px 2px rgba(0, 0, 0, 0.9);
+      border-color: var(--text);
+    }
+    .light-mode .toggle-mode {
+      background: linear-gradient(to right, #7f5af0, #2cb67d);
+      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3), 0 0 20px rgba(251, 191, 36, 0.1);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .light-mode .toggle-mode:hover {
+      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.4), 0 0 30px rgba(251, 191, 36, 0.2);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     }
     .table-row {
       display: grid; 
@@ -127,12 +131,12 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3), 0 0 30px rgba(251, 191, 36, 0.2);
     }
-    .dark-mode .table-row {
+    .light-mode .table-row {
       background: var(--hover-bg);
       border: 1px solid var(--border);
       box-shadow: 0 0 12px rgba(251, 191, 36, 0.1);
     }
-    .dark-mode .table-row:hover { 
+    .light-mode .table-row:hover { 
       background: var(--link-hover); 
       color: #fff; 
       box-shadow: 0 0 20px rgba(220, 38, 38, 0.4), 0 0 35px rgba(251, 191, 36, 0.3);
@@ -153,7 +157,7 @@
       color: #fff;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     }
-    .dark-mode .table-row a:hover {
+    .light-mode .table-row a:hover {
       text-shadow: 0 0 15px var(--success), 0 0 25px var(--success);
     }
     
@@ -187,10 +191,10 @@
         text-shadow: 0 0 15px #fcd34d, 0 0 25px #fcd34d, 0 0 3px #000; 
       }
     }
-    .dark-mode .last-collected.available {
+    .light-mode .last-collected.available {
       text-shadow: 0 0 8px var(--success), 0 0 16px var(--success);
     }
-    .dark-mode .last-collected.timer {
+    .light-mode .last-collected.timer {
       text-shadow: 0 0 8px #ef4444, 0 0 16px #ef4444;
     }
     @keyframes glitch {
@@ -249,7 +253,7 @@
       color: var(--link-hover);
       text-shadow: 0 0 10px var(--success), 0 0 20px var(--success);
     }
-    .dark-mode footer a:hover {
+    .light-mode footer a:hover {
       text-shadow: 0 0 12px var(--link-hover);
     }
     .profile-pic {
@@ -309,7 +313,7 @@
       border: 2px solid var(--accent);
       box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     }
-    .dark-mode .search-bar input[type="search"]:focus {
+    .light-mode .search-bar input[type="search"]:focus {
       border: 2px solid var(--accent);
       box-shadow: 0 0 12px rgba(255, 0, 128, 0.3);
     }
@@ -329,7 +333,7 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
     }
-    .dark-mode .search-bar button:hover {
+    .light-mode .search-bar button:hover {
       box-shadow: 0 4px 16px rgba(220, 38, 38, 0.5), 0 0 25px rgba(251, 191, 36, 0.3);
       text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);
     }
@@ -357,10 +361,10 @@
 
   <div class="container">
     <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
-    <h1>Don't forget your daily bonus collection 💧</h1>
+    <h1>Degen mode activated. Don't forget the juice ⚡</h1>
     <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;">Login with Discord</a>
     <div class="toggle-row">
-      <button id="mode-toggle" class="toggle-mode">Toggle Mode</button>
+      <button id="mode-toggle" class="toggle-mode">Untilt</button>
       <button id="info-btn" class="info-btn" aria-label="Info" tabindex="0">ⓘ</button>
     </div>
     <div id="info-popup" class="info-popup" role="dialog" aria-modal="true" aria-hidden="true">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
@@ -375,6 +379,7 @@
   </div>
   <footer>
     <div id="footer-info" style="margin-bottom:1.2em;">
+      made for degens by degens ❤️<br/>
       💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank" rel="noopener">Drop it in Discord</a><br/>
       ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank" rel="noopener">Ko-fi</a>
     </div>
@@ -658,22 +663,22 @@
     }
     function toggleMode() {
       const body = document.body;
-      const isTilted = body.classList.toggle("dark-mode");
+      const isLight = body.classList.toggle("light-mode");
       const h1 = document.querySelector("h1");
-      if (h1) h1.textContent = isTilted
-        ? "Degen mode activated. Don't forget the juice ⚡"
-        : "Don't forget your daily bonus collection 💧";
-      document.title = isTilted ? "🎰 Tilted, baby" : "🎯 Bonus Tracker - CollectClock";
+      if (h1) h1.textContent = isLight
+        ? "Don't forget your daily bonus collection 💧"
+        : "Degen mode activated. Don't forget the juice ⚡";
+      document.title = isLight ? "🎯 Bonus Tracker - CollectClock" : "🎰 Tilted, baby";
       const modeBtn = document.querySelector(".toggle-mode");
-      if (modeBtn) modeBtn.textContent = isTilted ? "Untilt" : "Tilt";
+      if (modeBtn) modeBtn.textContent = isLight ? "Tilt" : "Untilt";
       try {
-        (isTilted ? tiltSound : untiltSound).play();
+        (isLight ? untiltSound : tiltSound).play();
       } catch {}
-      if (isTilted && !localStorage.getItem("tiltConfettiShown")) {
+      if (!isLight && !localStorage.getItem("tiltConfettiShown")) {
         confetti();
         localStorage.setItem("tiltConfettiShown", "true");
       }
-      localStorage.setItem("theme", isTilted ? "dark" : "light");
+      localStorage.setItem("theme", isLight ? "light" : "dark");
       renderCasinoTable(); // update links for mode
     }
     // --- Search/Filter Logic ---
@@ -770,7 +775,7 @@
       if (!availableContainer || !cooldownContainer) return;
       availableContainer.innerHTML = "";
       cooldownContainer.innerHTML = "";
-      const isTilted = document.body.classList.contains("dark-mode");
+      const isTilted = !document.body.classList.contains("light-mode");
       let data = window.casinoData || [];
       if (casinoFilter) {
         data = data.filter(c =>
@@ -929,9 +934,9 @@
       updateTimers();
       updateStats();
       updateBonusCount();
-      // Restore theme
+      // Restore theme - dark is now default
       const theme = localStorage.getItem("theme");
-      if (theme === "dark") document.body.classList.add("dark-mode");
+      if (theme === "light") document.body.classList.add("light-mode");
       // Request notification permission
       requestNotificationPermission();
       // Focus search bar on load for accessibility
