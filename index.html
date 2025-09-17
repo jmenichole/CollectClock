@@ -71,10 +71,11 @@
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--text);
+      text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
     }
     .dark-mode h1 { 
-      animation: glitch 0.6s infinite; 
-      text-shadow: 0 0 5px var(--text), 0 0 15px var(--text), 0 0 25px var(--text);
+      animation: glitch 0.6s infinite, goldShimmer 4s ease-in-out infinite; 
+      text-shadow: 0 0 8px var(--text), 0 0 20px var(--text), 0 0 35px var(--text), 0 2px 4px rgba(0, 0, 0, 0.8);
       font-weight: 700;
     }
     .toggle-mode {
@@ -124,19 +125,38 @@
       background: var(--link-hover); 
       color: #fff; 
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3), 0 0 30px rgba(251, 191, 36, 0.2);
     }
     .dark-mode .table-row {
       background: var(--hover-bg);
       border: 1px solid var(--border);
-      box-shadow: 0 0 12px rgba(0, 255, 204, 0.1);
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.1);
     }
     .dark-mode .table-row:hover { 
       background: var(--link-hover); 
       color: #fff; 
-      box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.4), 0 0 35px rgba(251, 191, 36, 0.3);
       border-color: var(--accent);
     }
+    /* Casino-style link effects */
+    .table-row a {
+      color: var(--link);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .table-row a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+    .dark-mode .table-row a:hover {
+      text-shadow: 0 0 15px var(--success), 0 0 25px var(--success);
+    }
+    
     .last-collected.available {
       animation: pulseGlow 2s infinite;
       text-shadow: 0 0 3px #000, 0 0 6px #000;
@@ -227,7 +247,7 @@
     }
     footer a:hover { 
       color: var(--link-hover);
-      text-shadow: 0 0 8px var(--link-hover);
+      text-shadow: 0 0 10px var(--success), 0 0 20px var(--success);
     }
     .dark-mode footer a:hover {
       text-shadow: 0 0 12px var(--link-hover);
