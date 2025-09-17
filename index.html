@@ -348,6 +348,29 @@
       cursor: not-allowed;
       animation: pulse 2s infinite;
     }
+    .utility-btn {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #6b7280, #9ca3af);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .utility-btn:hover {
+      background: linear-gradient(135deg, #374151, #6b7280);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
+    }
+    #reset-timers-btn {
+      background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+    }
+    #reset-timers-btn:hover {
+      background: linear-gradient(135deg, #b91c1c, #dc2626) !important;
+    }
     .info-popup {
       position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
       background: #fff; color: #222; border-radius: 12px;
@@ -426,6 +449,37 @@
         width: 2.5em;
         height: 2.5em;
       }
+      .search-bar {
+        max-width: 95%;
+        gap: 0.3em;
+      }
+      .search-bar input[type="search"] {
+        font-size: 1em;
+        padding: 0.7em 1em;
+      }
+      .search-bar button {
+        padding: 0.7em 1em;
+        font-size: 0.9em;
+      }
+      .utility-btn {
+        font-size: 0.8em;
+        padding: 6px 12px;
+      }
+      footer {
+        padding: 1em 0.5em;
+      }
+      .casino-info {
+        gap: 4px;
+      }
+      .favorite-btn {
+        font-size: 1em;
+        padding: 2px;
+      }
+      .collect-all-btn {
+        font-size: 0.9em;
+        padding: 10px 20px;
+      }
+    }
     }
   </style>
 </head>
@@ -458,23 +512,18 @@
       💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank" rel="noopener">Drop it in Discord</a><br/>
       ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank" rel="noopener">Ko-fi</a>
     </div>
-   
-    <button id="reset-timers-btn" style="position:absolute;right:18px;bottom:18px;padding:7px 18px;font-size:0.98em;border-radius:8px;background:#e0e7ef;color:#333;border:none;box-shadow:0 2px 8px #0001;opacity:0.7;transition:opacity 0.2s;z-index:10000;cursor:pointer;outline:none;min-width:120px;" title="Reset all casino timers">Reset All Timers</button>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:1em;">
+      <button id="export-data-btn" class="utility-btn" aria-label="Export data">Export Data</button>
+      <button id="import-data-btn" class="utility-btn" aria-label="Import data">Import Data</button>
+      <button id="reset-timers-btn" class="utility-btn" aria-label="Reset all timers">Reset All Timers</button>
+    </div>
+    <input type="file" id="import-file" accept=".json" style="display:none;" />
   </footer>
   <style>
-    @media (max-width: 600px) {
-      #reset-timers-btn {
-        right: 10px;
-        bottom: 10px;
-        font-size: 0.92em;
-        min-width: 90px;
-        padding: 6px 10px;
-      }
-    }
     #reset-timers-btn:hover, #reset-timers-btn:focus {
       opacity: 1;
-      background: #ffe0e7;
-      color: #e91e63;
+      background: linear-gradient(135deg, #b91c1c, #dc2626) !important;
+      color: #fff;
     }
     </style>
   <div class="toast" aria-live="polite"></div>
@@ -1050,6 +1099,9 @@
       // Setup favorite buttons
       setupFavoriteButtons();
       
+      // Setup utility buttons (export, import, reset)
+      setupUtilityButtons();
+      
       renderCasinoTable();
       updateTimers();
       updateStats();
@@ -1205,6 +1257,101 @@
       renderCasinoTable(); // Re-render to update star
     }
     
+    // --- Data Export/Import Functions ---
+    function exportUserData() {
+      const data = {
+        version: "1.0",
+        exportDate: new Date().toISOString(),
+        casinos: {},
+        favorites: JSON.parse(localStorage.getItem("casino_favorites") || "[]"),
+        collectCount: localStorage.getItem("collect_count") || "0",
+        theme: localStorage.getItem("theme") || "dark",
+        tiltConfetti: localStorage.getItem("tiltConfettiShown") || ""
+      };
+      
+      // Export all casino timers and collection status
+      window.casinoData.forEach(casino => {
+        const casinoName = casino.name;
+        const timerKey = `casino_${casinoName}`;
+        const firstCollectedKey = `casino_first_collected_${casinoName}`;
+        const customTimerKey = `casino_timer_${casinoName}`;
+        
+        if (localStorage.getItem(timerKey) || localStorage.getItem(firstCollectedKey)) {
+          data.casinos[casinoName] = {
+            nextCollection: localStorage.getItem(timerKey),
+            firstCollected: localStorage.getItem(firstCollectedKey),
+            customTimer: localStorage.getItem(customTimerKey)
+          };
+        }
+      });
+      
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `collectclock-backup-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToast("✅ Data exported successfully!");
+    }
+    
+    function importUserData(fileContent) {
+      try {
+        const data = JSON.parse(fileContent);
+        
+        if (!data.version || !data.casinos) {
+          throw new Error("Invalid data format");
+        }
+        
+        // Import casino data
+        Object.entries(data.casinos).forEach(([casinoName, casinoData]) => {
+          if (casinoData.nextCollection) {
+            localStorage.setItem(`casino_${casinoName}`, casinoData.nextCollection);
+          }
+          if (casinoData.firstCollected) {
+            localStorage.setItem(`casino_first_collected_${casinoName}`, casinoData.firstCollected);
+          }
+          if (casinoData.customTimer) {
+            localStorage.setItem(`casino_timer_${casinoName}`, casinoData.customTimer);
+          }
+        });
+        
+        // Import other data
+        if (data.favorites) {
+          localStorage.setItem("casino_favorites", JSON.stringify(data.favorites));
+        }
+        if (data.collectCount) {
+          localStorage.setItem("collect_count", data.collectCount);
+        }
+        if (data.theme) {
+          localStorage.setItem("theme", data.theme);
+          if (data.theme === "light") {
+            document.body.classList.add("light-mode");
+          } else {
+            document.body.classList.remove("light-mode");
+          }
+        }
+        if (data.tiltConfetti) {
+          localStorage.setItem("tiltConfettiShown", data.tiltConfetti);
+        }
+        
+        // Refresh UI
+        renderCasinoTable();
+        updateTimers();
+        updateStats();
+        updateBonusCount();
+        
+        showToast("✅ Data imported successfully!");
+        
+      } catch (error) {
+        console.error("Import error:", error);
+        showToast("❌ Failed to import data. Please check the file format.");
+      }
+    }
+    
     function setupFavoriteButtons() {
       document.addEventListener('click', function(e) {
         if (e.target.classList.contains('favorite-btn')) {
@@ -1216,6 +1363,60 @@
           }
         }
       });
+    }
+    
+    function setupUtilityButtons() {
+      // Export data button
+      const exportBtn = document.getElementById('export-data-btn');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', exportUserData);
+      }
+      
+      // Import data button
+      const importBtn = document.getElementById('import-data-btn');
+      const importFile = document.getElementById('import-file');
+      if (importBtn && importFile) {
+        importBtn.addEventListener('click', () => importFile.click());
+        importFile.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => importUserData(e.target.result);
+            reader.readAsText(file);
+          }
+        });
+      }
+      
+      // Reset timers button
+      const resetBtn = document.getElementById('reset-timers-btn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (confirm('Reset all timers? This will make all bonuses available again.')) {
+            resetAllTimers();
+          }
+        });
+      }
+    }
+    
+    function resetAllTimers() {
+      // Clear all casino timers and collection status
+      window.casinoData.forEach(casino => {
+        const casinoName = casino.name;
+        localStorage.removeItem(`casino_${casinoName}`);
+        localStorage.removeItem(`casino_first_collected_${casinoName}`);
+        localStorage.removeItem(`casino_timer_${casinoName}`);
+      });
+      
+      // Reset collect count
+      localStorage.setItem("collect_count", "0");
+      
+      // Refresh UI
+      renderCasinoTable();
+      updateTimers();
+      updateStats();
+      updateBonusCount();
+      
+      showToast("🔄 All timers have been reset!");
     }
     // --- Timers update ---
     requestAnimationFrame(updateTimersRAF);
