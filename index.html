@@ -3,144 +3,325 @@
   <meta charset="UTF-8" />
   <title>🎰 Tilted, baby</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* Casino Dark Theme - Luxurious Black, Red & Gold (Default) */
-      --bg: #0f0f0f;
-      --text: #fbbf24;
-      --link: #fbbf24;
-      --link-hover: #dc2626;
-      --timer: #ef4444;
+      /* Casino Dark Theme - Luxurious Black & Gold Elegance (Default) */
+      --bg: #000000;
+      --text: #ffd700;
+      --link: #ffd700;
+      --link-hover: #ffed4e;
+      --timer: #ff6b35;
       --hover-bg: #1a1a1a;
-      --border: #d97706;
-      --success: #f59e0b;
-      --accent: #dc2626;
+      --border: #b8860b;
+      --success: #ffd700;
+      --accent: #ff6b35;
+      --casino-gold: #ffd700;
+      --casino-dark-gold: #b8860b;
+      --casino-copper: #cd7f32;
+      --casino-black: #000000;
+      --casino-charcoal: #1a1a1a;
+      --glitter-primary: #ffd700;
+      --glitter-secondary: #ffed4e;
+      --glitter-accent: #daa520;
     }
     .light-mode {
-      /* Casino Light Theme - Elegant Gold & Black */
-      --bg: #faf7f0;
-      --text: #1a1a1a;
-      --link: #d97706;
-      --link-hover: #dc2626;
-      --timer: #dc2626;
-      --hover-bg: #fef3c7;
-      --border: #d97706;
-      --success: #fbbf24;
-      --accent: #b91c1c;
+      /* Casino Light Theme - Elegant Cream & Gold */
+      --bg: #faf5f0;
+      --text: #2d2d2d;
+      --link: #b8860b;
+      --link-hover: #ffd700;
+      --timer: #ff6b35;
+      --hover-bg: #f5f5dc;
+      --border: #b8860b;
+      --success: #ffd700;
+      --accent: #cd7f32;
+      --casino-gold: #b8860b;
+      --casino-dark-gold: #8b6914;
+      --casino-copper: #cd7f32;
+      --casino-black: #2d2d2d;
+      --casino-charcoal: #4a4a4a;
+      --glitter-primary: #ffd700;
+      --glitter-secondary: #daa520;
+      --glitter-accent: #b8860b;
     }
     body {
-      font-family: 'Orbitron', 'Montserrat', sans-serif;
+      font-family: 'Cinzel', 'Orbitron', serif;
       background: var(--bg);
       color: var(--text);
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Luxury casino pattern with gold sparkles and red accents (Default Dark) */
-      background-image: url('data:image/svg+xml;utf8,<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="70" height="70" fill="%230f0f0f"/><g opacity="0.4"><path d="M35 30l3 7 7-3-7 3-3 7-3-7-7 3 7-3 3-7z" fill="%23fbbf24"/><path d="M15 15l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23dc2626"/><path d="M55 55l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f59e0b"/><circle cx="25" cy="50" r="1.5" fill="%23fbbf24" opacity="0.6"/><circle cx="50" cy="25" r="1" fill="%23dc2626" opacity="0.8"/><circle cx="10" cy="60" r="1" fill="%23f59e0b" opacity="0.7"/><circle cx="60" cy="10" r="1.5" fill="%23fbbf24" opacity="0.5"/></g></svg>');
-      background-size: 70px 70px;
-      background-attachment: fixed;
-    }
-    .light-mode body {
-      /* Casino sparkle pattern for light mode */
-      background-image: url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%23faf7f0"/><g opacity="0.6"><path d="M40 35l2 5 5-2-5 2-2 5-2-5-5 2 5-2 2-5z" fill="%23fbbf24"/><path d="M15 15l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23d97706"/><path d="M65 65l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23f59e0b"/><circle cx="20" cy="60" r="1" fill="%23fbbf24" opacity="0.8"/><circle cx="70" cy="20" r="1.5" fill="%23d97706" opacity="0.7"/></g></svg>');
+      /* Luxury casino pattern with gold sparkles, dice, and card symbols (Default Dark) */
+      background-image: url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%23000000"/><g opacity="0.6"><path d="M40 35l4 8 8-4-8 4-4 8-4-8-8 4 8-4 4-8z" fill="%23ffd700"/><path d="M15 15l2 5 5-2-5 2-2 5-2-5-5 2 5-2 2-5z" fill="%23ffed4e"/><path d="M65 65l2 5 5-2-5 2-2 5-2-5-5 2 5-2 2-5z" fill="%23daa520"/><circle cx="25" cy="60" r="2" fill="%23ffd700" opacity="0.8"/><circle cx="60" cy="25" r="1.5" fill="%23ffed4e" opacity="0.7"/><circle cx="10" cy="70" r="1" fill="%23b8860b" opacity="0.6"/><circle cx="70" cy="10" r="2" fill="%23ffd700" opacity="0.5"/><rect x="50" y="45" width="6" height="6" rx="1" fill="%23ffd700" opacity="0.4"/><rect x="20" y="25" width="4" height="4" rx="0.5" fill="%23daa520" opacity="0.5"/><path d="M55 15 L58 18 L55 21 L52 18 Z" fill="%23b8860b" opacity="0.6"/><path d="M25 75 L27 77 L25 79 L23 77 Z" fill="%23ffed4e" opacity="0.7"/></g></svg>');
       background-size: 80px 80px;
       background-attachment: fixed;
     }
+    .light-mode body {
+      /* Casino sparkle pattern for light mode - elegant cream and gold */
+      background-image: url('data:image/svg+xml;utf8,<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="90" height="90" fill="%23faf5f0"/><g opacity="0.7"><path d="M45 40l3 6 6-3-6 3-3 6-3-6-6 3 6-3 3-6z" fill="%23ffd700"/><path d="M15 15l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23b8860b"/><path d="M75 75l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23daa520"/><circle cx="30" cy="70" r="1.5" fill="%23ffd700" opacity="0.9"/><circle cx="70" cy="30" r="2" fill="%23b8860b" opacity="0.8"/><circle cx="20" cy="80" r="1" fill="%23cd7f32" opacity="0.7"/><rect x="60" y="55" width="5" height="5" rx="1" fill="%23ffd700" opacity="0.6"/><rect x="25" y="30" width="3" height="3" rx="0.5" fill="%23b8860b" opacity="0.8"/><path d="M65 20 L67 22 L65 24 L63 22 Z" fill="%23daa520" opacity="0.7"/><path d="M30 85 L32 87 L30 89 L28 87 Z" fill="%23cd7f32" opacity="0.6"/></g></svg>');
+      background-size: 90px 90px;
+      background-attachment: fixed;
+    }
     .container { 
-      max-width: 800px; 
+      max-width: 850px; 
       margin: auto; 
-      padding: 2rem;
-      background: rgba(251, 191, 36, 0.05);
-      border: 2px solid rgba(217, 119, 6, 0.2);
-      border-radius: 15px;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(255, 215, 0, 0.08) 100%);
+      border: 2px solid var(--casino-gold);
+      border-radius: 20px;
       margin-top: 2rem;
-      box-shadow: 0 4px 24px rgba(185, 28, 28, 0.1), 0 0 40px rgba(251, 191, 36, 0.05);
-      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 8px 32px rgba(255, 215, 0, 0.2), 
+        0 0 60px rgba(255, 215, 0, 0.1),
+        inset 0 1px 2px rgba(255, 215, 0, 0.15);
+      backdrop-filter: blur(15px);
+      position: relative;
+      overflow: hidden;
+    }
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 237, 78, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(218, 165, 32, 0.05) 0%, transparent 50%);
+      z-index: -1;
+      animation: backgroundPulse 8s ease-in-out infinite;
+    }
+    @keyframes backgroundPulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
     }
     .light-mode .container {
-      background: rgba(251, 191, 36, 0.08);
-      box-shadow: 0 4px 24px rgba(220, 38, 38, 0.2), 0 0 50px rgba(251, 191, 36, 0.1);
-      border: 2px solid rgba(251, 191, 36, 0.3);
+      background: linear-gradient(135deg, rgba(184, 134, 11, 0.12) 0%, rgba(245, 245, 220, 0.3) 50%, rgba(184, 134, 11, 0.12) 100%);
+      box-shadow: 
+        0 8px 32px rgba(184, 134, 11, 0.3), 
+        0 0 60px rgba(255, 215, 0, 0.15),
+        inset 0 1px 2px rgba(184, 134, 11, 0.2);
+      border: 2px solid var(--casino-dark-gold);
     }
     h1 { 
       text-align: center; 
-      font-size: 2.2em; 
+      font-size: 3em; 
       margin-bottom: 1.2em;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
-      animation: glitch 0.6s infinite, goldShimmer 4s ease-in-out infinite; 
-      text-shadow: 0 0 8px var(--text), 0 0 20px var(--text), 0 0 35px var(--text), 0 2px 4px rgba(0, 0, 0, 0.8);
       font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--casino-gold);
+      font-family: 'Cinzel', serif;
+      text-transform: uppercase;
+      animation: glitch 0.6s infinite, goldShimmer 3s ease-in-out infinite, casinoFlicker 6s ease-in-out infinite; 
+      text-shadow: 
+        0 0 5px var(--glitter-primary), 
+        0 0 10px var(--glitter-primary), 
+        0 0 20px var(--glitter-primary),
+        0 0 40px var(--glitter-secondary),
+        0 2px 4px rgba(0, 0, 0, 0.9),
+        2px 2px 8px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+    h1::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      background: linear-gradient(45deg, transparent, var(--glitter-primary), transparent, var(--glitter-secondary), transparent);
+      z-index: -1;
+      animation: shimmerRotate 8s linear infinite;
+      border-radius: 10px;
+      opacity: 0.3;
     }
     .light-mode h1 { 
-      animation: none;
-      text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
-      font-weight: 600;
+      animation: goldShimmer 4s ease-in-out infinite;
+      text-shadow: 
+        0 0 8px var(--glitter-primary), 
+        0 0 16px var(--glitter-primary),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+      color: var(--casino-dark-gold);
+    }
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8em;
+      font-weight: 700;
+      color: var(--casino-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 1.5em 0 1em 0;
+      text-align: center;
+      text-shadow: 
+        0 0 5px var(--glitter-primary),
+        0 0 10px var(--glitter-secondary),
+        0 2px 4px rgba(0, 0, 0, 0.6);
+      animation: goldShimmer 5s ease-in-out infinite;
+      position: relative;
+    }
+    h2::before, h2::after {
+      content: '♠';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.6em;
+      color: var(--glitter-accent);
+      animation: sparkle 3s infinite;
+    }
+    h2::before {
+      left: -40px;
+    }
+    h2::after {
+      right: -40px;
+      content: '♦';
+      animation-delay: 1.5s;
+    }
+    .light-mode h2 {
+      color: var(--casino-dark-gold);
+      text-shadow: 
+        0 0 8px var(--glitter-primary),
+        0 2px 4px rgba(0, 0, 0, 0.3);
     }
     .toggle-mode {
       padding: 16px 36px;
-      background: linear-gradient(135deg, var(--accent), var(--success));
-      color: white; 
-      border: 2px solid var(--success);
-      border-radius: 12px;
+      background: linear-gradient(135deg, var(--casino-black) 0%, var(--casino-gold) 50%, var(--casino-black) 100%);
+      color: var(--casino-gold); 
+      border: 2px solid var(--casino-gold);
+      border-radius: 15px;
       cursor: pointer; 
-      font-size: 1.15em; 
-      font-weight: 600;
+      font-size: 1.2em; 
+      font-weight: 700;
+      font-family: 'Cinzel', serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       display: block; 
       margin: 0 auto 1.5em;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4), 0 0 25px rgba(251, 191, 36, 0.2);
-      text-shadow: 0 0 10px rgba(251, 191, 36, 0.8), 0 1px 2px rgba(0, 0, 0, 0.8);
+      box-shadow: 
+        0 4px 16px rgba(255, 215, 0, 0.4), 
+        0 0 25px rgba(255, 215, 0, 0.2),
+        inset 0 1px 2px rgba(255, 215, 0, 0.3);
+      text-shadow: 
+        0 0 8px var(--glitter-primary), 
+        0 1px 2px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .toggle-mode::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+      animation: shimmerSweep 3s ease-in-out infinite;
+      z-index: 1;
+    }
+    .toggle-mode span {
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes shimmerSweep {
+      0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
     }
     .toggle-mode:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(220, 38, 38, 0.6), 0 0 40px rgba(251, 191, 36, 0.3);
-      text-shadow: 0 0 15px rgba(251, 191, 36, 1), 0 1px 2px rgba(0, 0, 0, 0.9);
-      border-color: var(--text);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 8px 32px rgba(255, 215, 0, 0.6), 
+        0 0 40px rgba(255, 215, 0, 0.4),
+        inset 0 1px 2px rgba(255, 215, 0, 0.5);
+      text-shadow: 
+        0 0 15px var(--glitter-primary), 
+        0 0 25px var(--glitter-secondary),
+        0 1px 2px rgba(0, 0, 0, 0.9);
+      border-color: var(--glitter-secondary);
+      background: linear-gradient(135deg, var(--casino-black) 0%, var(--glitter-secondary) 50%, var(--casino-black) 100%);
     }
     .light-mode .toggle-mode {
-      background: linear-gradient(to right, #7f5af0, #2cb67d);
-      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3), 0 0 20px rgba(251, 191, 36, 0.1);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, var(--casino-charcoal) 0%, var(--casino-dark-gold) 50%, var(--casino-charcoal) 100%);
+      color: var(--casino-dark-gold);
+      border: 2px solid var(--casino-dark-gold);
+      box-shadow: 
+        0 4px 16px rgba(184, 134, 11, 0.4), 
+        0 0 20px rgba(184, 134, 11, 0.2),
+        inset 0 1px 2px rgba(184, 134, 11, 0.3);
+      text-shadow: 
+        0 0 8px var(--glitter-primary),
+        0 1px 2px rgba(0, 0, 0, 0.5);
     }
     .light-mode .toggle-mode:hover {
-      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.4), 0 0 30px rgba(251, 191, 36, 0.2);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      box-shadow: 
+        0 8px 24px rgba(184, 134, 11, 0.5), 
+        0 0 30px rgba(184, 134, 11, 0.3),
+        inset 0 1px 2px rgba(184, 134, 11, 0.4);
+      text-shadow: 
+        0 0 12px var(--glitter-primary),
+        0 1px 2px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, var(--casino-charcoal) 0%, var(--glitter-primary) 50%, var(--casino-charcoal) 100%);
     }
     .table-row {
       display: grid; 
       grid-template-columns: 2fr 1fr 2fr;
       gap: 12px; 
-      padding: 16px; 
-      margin: 0.8em 0;
-      border-radius: 12px; 
-      background: var(--hover-bg);
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      min-height: 64px;
+      padding: 18px; 
+      margin: 1em 0;
+      border-radius: 15px; 
+      background: linear-gradient(135deg, var(--hover-bg) 0%, rgba(255, 215, 0, 0.03) 50%, var(--hover-bg) 100%);
+      border: 2px solid var(--border);
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 0 20px rgba(255, 215, 0, 0.1),
+        inset 0 1px 2px rgba(255, 215, 0, 0.1);
+      min-height: 70px;
       align-items: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .table-row::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+    .table-row:hover::before {
+      left: 100%;
     }
     .table-row:hover { 
-      background: var(--link-hover); 
+      background: linear-gradient(135deg, var(--link-hover) 0%, rgba(255, 215, 0, 0.2) 50%, var(--link-hover) 100%);
       color: #fff; 
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3), 0 0 30px rgba(251, 191, 36, 0.2);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 
+        0 12px 28px rgba(255, 215, 0, 0.3), 
+        0 0 40px rgba(255, 215, 0, 0.2),
+        inset 0 1px 3px rgba(255, 215, 0, 0.3);
+      border-color: var(--glitter-primary);
     }
     .light-mode .table-row {
-      background: var(--hover-bg);
-      border: 1px solid var(--border);
-      box-shadow: 0 0 12px rgba(251, 191, 36, 0.1);
+      background: linear-gradient(135deg, var(--hover-bg) 0%, rgba(184, 134, 11, 0.05) 50%, var(--hover-bg) 100%);
+      border: 2px solid var(--border);
+      box-shadow: 
+        0 4px 12px rgba(184, 134, 11, 0.1),
+        0 0 20px rgba(184, 134, 11, 0.08),
+        inset 0 1px 2px rgba(184, 134, 11, 0.1);
     }
     .light-mode .table-row:hover { 
-      background: var(--link-hover); 
+      background: linear-gradient(135deg, var(--link-hover) 0%, rgba(255, 215, 0, 0.15) 50%, var(--link-hover) 100%);
       color: #fff; 
-      box-shadow: 0 0 20px rgba(220, 38, 38, 0.4), 0 0 35px rgba(251, 191, 36, 0.3);
-      border-color: var(--accent);
+      box-shadow: 
+        0 12px 28px rgba(184, 134, 11, 0.4), 
+        0 0 35px rgba(255, 215, 0, 0.3),
+        inset 0 1px 3px rgba(255, 215, 0, 0.3);
+      border-color: var(--glitter-primary);
     }
     /* Casino-style link effects */
     .table-row a {
@@ -205,53 +386,175 @@
       80% { transform: translate(1px, 1px); }
       100% { transform: none; }
     }
-    /* Casino Glitter Effects */
+    /* Enhanced Casino Glitter Effects */
     @keyframes goldShimmer {
       0%, 100% { 
-        text-shadow: 0 0 5px var(--success), 0 0 10px var(--success), 0 0 15px var(--success);
+        text-shadow: 
+          0 0 5px var(--glitter-primary), 
+          0 0 10px var(--glitter-primary), 
+          0 0 15px var(--glitter-primary),
+          0 0 20px var(--glitter-secondary);
         transform: scale(1);
       }
       50% { 
-        text-shadow: 0 0 10px #fcd34d, 0 0 20px #fcd34d, 0 0 30px #fcd34d, 0 0 40px #fcd34d;
+        text-shadow: 
+          0 0 10px var(--glitter-secondary), 
+          0 0 20px var(--glitter-secondary), 
+          0 0 30px var(--glitter-accent), 
+          0 0 40px var(--glitter-primary);
         transform: scale(1.02);
       }
     }
-    @keyframes sparkle {
-      0%, 50%, 100% { opacity: 0; transform: scale(0); }
-      25%, 75% { opacity: 1; transform: scale(1); }
+    @keyframes casinoFlicker {
+      0%, 90%, 100% { opacity: 1; }
+      5% { opacity: 0.8; }
+      10% { opacity: 1; }
+      15% { opacity: 0.9; }
+      20% { opacity: 1; }
     }
-    /* Add sparkle effects to available bonuses */
+    @keyframes shimmerRotate {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(90deg) scale(1.1); }
+      50% { transform: rotate(180deg) scale(1); }
+      75% { transform: rotate(270deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    @keyframes sparkle {
+      0%, 50%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      25% { opacity: 1; transform: scale(1) rotate(180deg); }
+      75% { opacity: 0.8; transform: scale(1.2) rotate(360deg); }
+    }
+    @keyframes diamondSparkle {
+      0%, 70%, 100% { 
+        opacity: 0; 
+        transform: scale(0) rotate(0deg); 
+        filter: brightness(1);
+      }
+      15%, 35% { 
+        opacity: 1; 
+        transform: scale(1) rotate(45deg); 
+        filter: brightness(2);
+      }
+      50% { 
+        opacity: 0.7; 
+        transform: scale(1.3) rotate(90deg); 
+        filter: brightness(1.5);
+      }
+    }
+    @keyframes floatingSparkles {
+      0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 0;
+      }
+      10% { 
+        opacity: 1;
+      }
+      50% { 
+        transform: translateY(-20px) rotate(180deg); 
+        opacity: 0.8;
+      }
+      90% { 
+        opacity: 1;
+      }
+      100% { 
+        transform: translateY(-40px) rotate(360deg); 
+        opacity: 0;
+      }
+    }
+    /* Enhanced sparkle effects for available bonuses */
     .last-collected.available {
       position: relative;
       animation: pulseGlow 2s infinite, goldShimmer 3s ease-in-out infinite;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      overflow: visible;
     }
     .last-collected.available::after {
-      content: '✨';
+      content: '💎';
       position: absolute;
-      right: -20px;
+      right: -25px;
       top: 50%;
       transform: translateY(-50%);
-      animation: sparkle 2s infinite;
-      font-size: 0.8em;
+      animation: diamondSparkle 3s infinite;
+      font-size: 1em;
+    }
+    .last-collected.available::before {
+      content: '✨';
+      position: absolute;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: sparkle 2.5s infinite;
+      font-size: 0.9em;
+      animation-delay: 1s;
+    }
+    /* Additional floating sparkles for extra glamour */
+    .table-row:hover .last-collected.available::after {
+      animation: diamondSparkle 1.5s infinite, floatingSparkles 4s ease-in-out infinite;
+    }
+    .table-row:hover .last-collected.available::before {
+      animation: sparkle 1s infinite, floatingSparkles 3s ease-in-out infinite;
+      animation-delay: 0.5s;
     }
     footer {
       text-align: center; 
       margin-top: 3em; 
-      padding: 2em 0;
-      font-size: 0.95em; 
-      background: var(--hover-bg);
-      border-top: 1px solid var(--border);
+      padding: 3em 0;
+      font-size: 1em; 
+      background: linear-gradient(135deg, var(--casino-charcoal) 0%, var(--casino-black) 50%, var(--casino-charcoal) 100%);
+      border-top: 2px solid var(--casino-gold);
       backdrop-filter: blur(10px);
+      position: relative;
+      font-family: 'Cinzel', serif;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        var(--glitter-primary), 
+        var(--glitter-secondary), 
+        var(--glitter-primary), 
+        transparent
+      );
+      animation: shimmerLine 3s ease-in-out infinite;
+    }
+    @keyframes shimmerLine {
+      0%, 100% { opacity: 0.5; transform: scaleX(0.8); }
+      50% { opacity: 1; transform: scaleX(1.2); }
     }
     footer a { 
-      color: var(--link); 
+      color: var(--casino-gold); 
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       transition: all 0.3s ease;
+      position: relative;
+    }
+    footer a::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--glitter-primary), var(--glitter-secondary));
+      transition: width 0.3s ease;
+    }
+    footer a:hover::before {
+      width: 100%;
     }
     footer a:hover { 
-      color: var(--link-hover);
-      text-shadow: 0 0 10px var(--success), 0 0 20px var(--success);
+      color: var(--glitter-secondary);
+      text-shadow: 
+        0 0 8px var(--glitter-primary), 
+        0 0 16px var(--glitter-secondary),
+        0 0 24px var(--glitter-accent);
+      transform: translateY(-2px);
     }
     .light-mode footer a:hover {
       text-shadow: 0 0 12px var(--link-hover);
