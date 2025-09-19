@@ -64,28 +64,19 @@
     }
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
-      background: var(--bg);
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #000000 100%);
       color: var(--text);
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Luxury casino pattern with silver sparkles, gold stars and red accents */
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(192, 57, 43, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(189, 195, 199, 0.05) 0%, transparent 50%),
-        url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%230a0a0a"/><g opacity="0.6"><path d="M40 35l4 8 8-4-8 4-4 8-4-8-8 4 8-4 4-8z" fill="%23f1c40f"/><path d="M15 15l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%23e74c3c"/><path d="M65 65l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%23f39c12"/><circle cx="25" cy="55" r="2" fill="%23bdc3c7" opacity="0.8"/><circle cx="55" cy="25" r="1.5" fill="%23d4af37" opacity="0.9"/><circle cx="10" cy="70" r="1" fill="%23e74c3c" opacity="0.7"/><circle cx="70" cy="10" r="2" fill="%23f1c40f" opacity="0.6"/><rect x="30" y="5" width="1" height="3" fill="%23bdc3c7" opacity="0.4"/><rect x="50" y="75" width="1" height="3" fill="%23d4af37" opacity="0.5"/></g></svg>');
-      background-size: 80px 80px;
+      /* Clean black and gold gradient background */
+      background-size: 100% 100%;
       background-attachment: fixed;
     }
     .light-mode body {
-      /* Premium casino sparkle pattern for light mode */
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(231, 76, 60, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(149, 165, 166, 0.05) 0%, transparent 50%),
-        url('data:image/svg+xml;utf8,<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="90" height="90" fill="%23f8f9fa"/><g opacity="0.7"><path d="M45 40l3 6 6-3-6 3-3 6-3-6-6 3 6-3 3-6z" fill="%23d4af37"/><path d="M20 20l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23e74c3c"/><path d="M70 70l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f39c12"/><circle cx="30" cy="65" r="1.5" fill="%2395a5a6" opacity="0.9"/><circle cx="65" cy="30" r="2" fill="%23d4af37" opacity="0.8"/><circle cx="15" cy="75" r="1" fill="%23e74c3c" opacity="0.7"/><circle cx="75" cy="15" r="1.5" fill="%23f1c40f" opacity="0.8"/></g></svg>');
-      background-size: 90px 90px;
+      /* Clean white and gold gradient for light mode */
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #e9ecef 50%, #f8f9fa 75%, #ffffff 100%);
+      background-size: 100% 100%;
       background-attachment: fixed;
     }
     .container { 
@@ -141,12 +132,12 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: glitch 0.8s infinite, goldShimmer 5s ease-in-out infinite; 
+      /* Subtle animation instead of glitch */
+      animation: subtleGlow 3s ease-in-out infinite; 
+      /* Reduced text shadow for better readability */
       text-shadow: 
-        0 0 10px rgba(241, 196, 15, 0.8), 
-        0 0 25px rgba(212, 175, 55, 0.6), 
-        0 0 40px rgba(189, 195, 199, 0.4), 
-        0 3px 6px rgba(0, 0, 0, 0.9);
+        0 0 3px rgba(241, 196, 15, 0.4), 
+        0 2px 4px rgba(0, 0, 0, 0.5);
       position: relative;
     }
     h1::after {
@@ -165,11 +156,10 @@
       z-index: -1;
     }
     .light-mode h1 { 
-      animation: goldShimmer 5s ease-in-out infinite;
+      animation: subtleGlow 3s ease-in-out infinite;
       text-shadow: 
-        0 0 8px rgba(212, 175, 55, 0.6), 
-        0 0 15px rgba(149, 165, 166, 0.4), 
-        0 2px 4px rgba(0, 0, 0, 0.3);
+        0 0 2px rgba(212, 175, 55, 0.3), 
+        0 2px 4px rgba(0, 0, 0, 0.2);
       font-weight: 700;
     }
     .toggle-mode {
@@ -428,75 +418,55 @@
     
     
     .last-collected.available {
-      animation: pulseGlow 2.5s infinite;
-      text-shadow: 0 0 4px #000, 0 0 8px #000;
+      animation: subtlePulse 3s infinite;
+      text-shadow: 0 0 2px #000, 0 0 4px #000;
       font-weight: 700;
       color: var(--gold-bright);
     }
     .last-collected.timer {
-      animation: pulseRedGlow 2.5s infinite;
-      text-shadow: 0 0 4px #000, 0 0 8px #000;
+      animation: subtlePulseRed 3s infinite;
+      text-shadow: 0 0 2px #000, 0 0 4px #000;
       font-weight: 700;
       color: var(--red-bright);
     }
-    @keyframes pulseRedGlow {
+    @keyframes subtlePulseRed {
       0%,100% { 
         color: var(--red-bright); 
         text-shadow: 
-          0 0 10px var(--red-bright), 
-          0 0 20px var(--red-dark), 
-          0 0 4px #000; 
-      }
-      25% { 
-        color: var(--red-dark); 
-        text-shadow: 
-          0 0 15px var(--red-dark), 
-          0 0 25px var(--red-bright), 
-          0 0 4px #000; 
+          0 0 3px var(--red-bright), 
+          0 0 2px #000; 
       }
       50% { 
-        color: #ff6b6b; 
+        color: var(--red-dark); 
         text-shadow: 
-          0 0 18px #ff6b6b, 
-          0 0 30px var(--red-bright), 
-          0 0 4px #000; 
+          0 0 4px var(--red-dark), 
+          0 0 2px #000; 
       }
     }
-    @keyframes pulseGlow {
+    @keyframes subtlePulse {
       0%,100% { 
         color: var(--gold-bright); 
         text-shadow: 
-          0 0 10px var(--gold-bright), 
-          0 0 20px var(--gold-dark), 
-          0 0 4px #000; 
-      }
-      25% { 
-        color: var(--gold-dark); 
-        text-shadow: 
-          0 0 15px var(--gold-dark), 
-          0 0 25px var(--silver), 
-          0 0 4px #000; 
+          0 0 3px var(--gold-bright), 
+          0 0 2px #000; 
       }
       50% { 
-        color: var(--silver); 
+        color: var(--gold-dark); 
         text-shadow: 
-          0 0 18px var(--silver), 
-          0 0 30px var(--gold-bright), 
-          0 0 4px #000; 
+          0 0 4px var(--gold-dark), 
+          0 0 2px #000; 
       }
     }
     .light-mode .last-collected.available {
       text-shadow: 
-        0 0 12px var(--gold-dark), 
-        0 0 20px var(--gold-bright),
-        0 1px 2px rgba(0, 0, 0, 0.3);
+        0 0 2px var(--gold-dark), 
+        0 1px 2px rgba(0, 0, 0, 0.2);
       color: var(--gold-dark);
     }
     .light-mode .last-collected.timer {
       text-shadow: 
-        0 0 12px var(--red-bright), 
-        0 0 20px var(--red-dark),
-        0 1px 2px rgba(0, 0, 0, 0.3);
+        0 0 2px var(--red-bright), 
+        0 1px 2px rgba(0, 0, 0, 0.2);
       color: var(--red-bright);
     }
     @keyframes glitch {
@@ -507,7 +477,19 @@
       80% { transform: translate(1px, 1px); }
       100% { transform: none; }
     }
-    /* Casino Glitter Effects */
+    /* Subtle Animation Effects */
+    @keyframes subtleGlow {
+      0%, 100% { 
+        text-shadow: 
+          0 0 3px rgba(241, 196, 15, 0.4), 
+          0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      50% { 
+        text-shadow: 
+          0 0 5px rgba(241, 196, 15, 0.6), 
+          0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+    }
     @keyframes goldShimmer {
       0%, 100% { 
         text-shadow: 
@@ -546,14 +528,14 @@
       0%, 95%, 100% { opacity: 0; }
       96%, 99% { opacity: 0.3; }
     }
-    @keyframes sparkle {
-      0%, 50%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-      25%, 75% { opacity: 1; transform: scale(1) rotate(180deg); }
+    @keyframes subtleSparkle {
+      0%, 70%, 100% { opacity: 0.3; transform: translateY(-50%) scale(0.8); }
+      35% { opacity: 0.8; transform: translateY(-50%) scale(1); }
     }
-    /* Add premium sparkle effects to available bonuses */
+    /* Add subtle sparkle effects to available bonuses */
     .last-collected.available {
       position: relative;
-      animation: pulseGlow 2.5s infinite, goldShimmer 4s ease-in-out infinite;
+      animation: subtlePulse 3s infinite;
     }
     .last-collected.available::after {
       content: '✨';
@@ -561,9 +543,9 @@
       right: -25px;
       top: 50%;
       transform: translateY(-50%);
-      animation: sparkle 2.2s infinite;
-      font-size: 0.9em;
-      filter: drop-shadow(0 0 6px var(--gold-bright));
+      animation: subtleSparkle 4s infinite;
+      font-size: 0.8em;
+      opacity: 0.7;
     }
     .last-collected.available::before {
       content: '💎';
@@ -571,9 +553,9 @@
       left: -25px;
       top: 50%;
       transform: translateY(-50%);
-      animation: sparkle 2.8s infinite reverse;
-      font-size: 0.7em;
-      filter: drop-shadow(0 0 4px var(--silver));
+      animation: subtleSparkle 5s infinite reverse;
+      font-size: 0.6em;
+      opacity: 0.7;
     }
     footer {
       text-align: center; 
