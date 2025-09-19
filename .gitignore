@@ -1,0 +1,16 @@
+# Screenshots for demonstration
+before.png
+after_dark.png
+after_light.png
+
+# Temporary files
+tmp/
+.tmp/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
