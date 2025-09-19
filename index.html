@@ -7,28 +7,40 @@
   
   <style>
     :root {
-      /* Casino Dark Theme - Luxurious Black, Red & Gold (Default) */
-      --bg: #0f0f0f;
-      --text: #fbbf24;
-      --link: #fbbf24;
-      --link-hover: #dc2626;
-      --timer: #ef4444;
-      --hover-bg: #1a1a1a;
-      --border: #d97706;
-      --success: #f59e0b;
-      --accent: #dc2626;
+      /* Premium Casino Dark Theme - Luxurious Silver, Gold, Black & Red */
+      --bg: #0a0a0a;
+      --text: #f4d03f;
+      --link: #ffd700;
+      --link-hover: #ff4757;
+      --timer: #e55039;
+      --hover-bg: #1c1c1c;
+      --border: #c0392b;
+      --success: #f39c12;
+      --accent: #e74c3c;
+      --silver: #bdc3c7;
+      --dark-silver: #95a5a6;
+      --gold-bright: #f1c40f;
+      --gold-dark: #d4af37;
+      --red-bright: #ff3742;
+      --red-dark: #c0392b;
     }
     .light-mode {
-      /* Casino Light Theme - Elegant Gold & Black */
-      --bg: #faf7f0;
-      --text: #1a1a1a;
-      --link: #d97706;
-      --link-hover: #dc2626;
-      --timer: #dc2626;
-      --hover-bg: #fef3c7;
-      --border: #d97706;
-      --success: #fbbf24;
-      --accent: #b91c1c;
+      /* Premium Casino Light Theme - Elegant Silver & Gold */
+      --bg: #f8f9fa;
+      --text: #2c3e50;
+      --link: #d4af37;
+      --link-hover: #c0392b;
+      --timer: #e74c3c;
+      --hover-bg: #ecf0f1;
+      --border: #bdc3c7;
+      --success: #f39c12;
+      --accent: #e55039;
+      --silver: #95a5a6;
+      --dark-silver: #7f8c8d;
+      --gold-bright: #f1c40f;
+      --gold-dark: #d4af37;
+      --red-bright: #e74c3c;
+      --red-dark: #c0392b;
     }
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
@@ -37,165 +49,358 @@
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Luxury casino pattern with gold sparkles and red accents (Default Dark) */
-      background-image: url('data:image/svg+xml;utf8,<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="70" height="70" fill="%230f0f0f"/><g opacity="0.4"><path d="M35 30l3 7 7-3-7 3-3 7-3-7-7 3 7-3 3-7z" fill="%23fbbf24"/><path d="M15 15l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23dc2626"/><path d="M55 55l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f59e0b"/><circle cx="25" cy="50" r="1.5" fill="%23fbbf24" opacity="0.6"/><circle cx="50" cy="25" r="1" fill="%23dc2626" opacity="0.8"/><circle cx="10" cy="60" r="1" fill="%23f59e0b" opacity="0.7"/><circle cx="60" cy="10" r="1.5" fill="%23fbbf24" opacity="0.5"/></g></svg>');
-      background-size: 70px 70px;
+      /* Luxury casino pattern with silver sparkles, gold stars and red accents */
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(192, 57, 43, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(189, 195, 199, 0.05) 0%, transparent 50%),
+        url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%230a0a0a"/><g opacity="0.6"><path d="M40 35l4 8 8-4-8 4-4 8-4-8-8 4 8-4 4-8z" fill="%23f1c40f"/><path d="M15 15l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%23e74c3c"/><path d="M65 65l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%23f39c12"/><circle cx="25" cy="55" r="2" fill="%23bdc3c7" opacity="0.8"/><circle cx="55" cy="25" r="1.5" fill="%23d4af37" opacity="0.9"/><circle cx="10" cy="70" r="1" fill="%23e74c3c" opacity="0.7"/><circle cx="70" cy="10" r="2" fill="%23f1c40f" opacity="0.6"/><rect x="30" y="5" width="1" height="3" fill="%23bdc3c7" opacity="0.4"/><rect x="50" y="75" width="1" height="3" fill="%23d4af37" opacity="0.5"/></g></svg>');
+      background-size: 80px 80px;
       background-attachment: fixed;
     }
     .light-mode body {
-      /* Casino sparkle pattern for light mode */
-      background-image: url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%23faf7f0"/><g opacity="0.6"><path d="M40 35l2 5 5-2-5 2-2 5-2-5-5 2 5-2 2-5z" fill="%23fbbf24"/><path d="M15 15l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23d97706"/><path d="M65 65l1 3 3-1-3 1-1 3-1-3-3 1 3-1 1-3z" fill="%23f59e0b"/><circle cx="20" cy="60" r="1" fill="%23fbbf24" opacity="0.8"/><circle cx="70" cy="20" r="1.5" fill="%23d97706" opacity="0.7"/></g></svg>');
-      background-size: 80px 80px;
+      /* Premium casino sparkle pattern for light mode */
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(231, 76, 60, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(149, 165, 166, 0.05) 0%, transparent 50%),
+        url('data:image/svg+xml;utf8,<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="90" height="90" fill="%23f8f9fa"/><g opacity="0.7"><path d="M45 40l3 6 6-3-6 3-3 6-3-6-6 3 6-3 3-6z" fill="%23d4af37"/><path d="M20 20l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23e74c3c"/><path d="M70 70l2 4 4-2-4 2-2 4-2-4-4 2 4-2 2-4z" fill="%23f39c12"/><circle cx="30" cy="65" r="1.5" fill="%2395a5a6" opacity="0.9"/><circle cx="65" cy="30" r="2" fill="%23d4af37" opacity="0.8"/><circle cx="15" cy="75" r="1" fill="%23e74c3c" opacity="0.7"/><circle cx="75" cy="15" r="1.5" fill="%23f1c40f" opacity="0.8"/></g></svg>');
+      background-size: 90px 90px;
       background-attachment: fixed;
     }
     .container { 
       max-width: 800px; 
       margin: auto; 
       padding: 2rem;
-      background: rgba(251, 191, 36, 0.05);
-      border: 2px solid rgba(217, 119, 6, 0.2);
-      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, rgba(189, 195, 199, 0.04) 50%, rgba(192, 57, 43, 0.06) 100%);
+      border: 2px solid var(--gold-dark);
+      border-radius: 20px;
       margin-top: 2rem;
-      box-shadow: 0 4px 24px rgba(185, 28, 28, 0.1), 0 0 40px rgba(251, 191, 36, 0.05);
-      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4), 
+        0 0 60px rgba(212, 175, 55, 0.15),
+        inset 0 1px 0 rgba(189, 195, 199, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(15px);
+      position: relative;
+    }
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 18px;
+      padding: 2px;
+      background: linear-gradient(45deg, var(--silver), var(--gold-bright), var(--red-bright), var(--gold-dark));
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.6;
     }
     .light-mode .container {
-      background: rgba(251, 191, 36, 0.08);
-      box-shadow: 0 4px 24px rgba(220, 38, 38, 0.2), 0 0 50px rgba(251, 191, 36, 0.1);
-      border: 2px solid rgba(251, 191, 36, 0.3);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(149, 165, 166, 0.06) 50%, rgba(231, 76, 60, 0.08) 100%);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15), 
+        0 0 60px rgba(212, 175, 55, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+      border: 2px solid var(--gold-dark);
     }
     h1 { 
       text-align: center; 
-      font-size: 2.2em; 
+      font-size: 2.4em; 
       margin-bottom: 1.2em;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
-      animation: glitch 0.6s infinite, goldShimmer 4s ease-in-out infinite; 
-      text-shadow: 0 0 8px var(--text), 0 0 20px var(--text), 0 0 35px var(--text), 0 2px 4px rgba(0, 0, 0, 0.8);
       font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--gold-bright);
+      background: linear-gradient(135deg, var(--gold-bright), var(--silver), var(--gold-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glitch 0.8s infinite, goldShimmer 5s ease-in-out infinite; 
+      text-shadow: 
+        0 0 10px rgba(241, 196, 15, 0.8), 
+        0 0 25px rgba(212, 175, 55, 0.6), 
+        0 0 40px rgba(189, 195, 199, 0.4), 
+        0 3px 6px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--gold-bright), var(--red-bright), var(--silver));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: titleFlash 6s infinite;
+      z-index: -1;
     }
     .light-mode h1 { 
-      animation: none;
-      text-shadow: 0 1px 3px rgba(185, 28, 28, 0.3);
-      font-weight: 600;
+      animation: goldShimmer 5s ease-in-out infinite;
+      text-shadow: 
+        0 0 8px rgba(212, 175, 55, 0.6), 
+        0 0 15px rgba(149, 165, 166, 0.4), 
+        0 2px 4px rgba(0, 0, 0, 0.3);
+      font-weight: 700;
     }
     .toggle-mode {
       padding: 16px 36px;
-      background: linear-gradient(135deg, var(--accent), var(--success));
+      background: linear-gradient(135deg, var(--red-bright) 0%, var(--gold-bright) 25%, var(--silver) 50%, var(--gold-dark) 75%, var(--red-dark) 100%);
       color: white; 
-      border: 2px solid var(--success);
-      border-radius: 12px;
+      border: 2px solid var(--gold-bright);
+      border-radius: 15px;
       cursor: pointer; 
-      font-size: 1.15em; 
-      font-weight: 600;
+      font-size: 1.2em; 
+      font-weight: 700;
       display: block; 
       margin: 0 auto 1.5em;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4), 0 0 25px rgba(251, 191, 36, 0.2);
-      text-shadow: 0 0 10px rgba(251, 191, 36, 0.8), 0 1px 2px rgba(0, 0, 0, 0.8);
+      transition: all 0.4s ease;
+      box-shadow: 
+        0 6px 20px rgba(192, 57, 43, 0.4), 
+        0 0 30px rgba(241, 196, 15, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      text-shadow: 
+        0 0 12px rgba(255, 255, 255, 0.9), 
+        0 2px 4px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .toggle-mode::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.6s ease;
+      opacity: 0;
     }
     .toggle-mode:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(220, 38, 38, 0.6), 0 0 40px rgba(251, 191, 36, 0.3);
-      text-shadow: 0 0 15px rgba(251, 191, 36, 1), 0 1px 2px rgba(0, 0, 0, 0.9);
-      border-color: var(--text);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 
+        0 12px 40px rgba(192, 57, 43, 0.6), 
+        0 0 50px rgba(241, 196, 15, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      text-shadow: 
+        0 0 20px rgba(255, 255, 255, 1), 
+        0 2px 4px rgba(0, 0, 0, 0.9);
+      border-color: var(--silver);
+    }
+    .toggle-mode:hover::before {
+      opacity: 1;
+      animation: shine 1.2s ease-in-out;
+    }
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
     }
     .light-mode .toggle-mode {
-      background: linear-gradient(to right, #7f5af0, #2cb67d);
-      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3), 0 0 20px rgba(251, 191, 36, 0.1);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--silver) 25%, var(--red-bright) 50%, var(--gold-bright) 75%, var(--dark-silver) 100%);
+      box-shadow: 
+        0 6px 20px rgba(149, 165, 166, 0.4), 
+        0 0 25px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     }
     .light-mode .toggle-mode:hover {
-      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.4), 0 0 30px rgba(251, 191, 36, 0.2);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      box-shadow: 
+        0 12px 32px rgba(149, 165, 166, 0.5), 
+        0 0 35px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
     }
     .table-row {
       display: grid; 
       grid-template-columns: 2fr 1fr 2fr;
       gap: 12px; 
-      padding: 16px; 
+      padding: 18px; 
       margin: 0.8em 0;
-      border-radius: 12px; 
-      background: var(--hover-bg);
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      min-height: 64px;
+      border-radius: 15px; 
+      background: linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(44, 44, 44, 0.6) 100%);
+      border: 1px solid var(--gold-dark);
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 0 25px rgba(212, 175, 55, 0.1),
+        inset 0 1px 0 rgba(189, 195, 199, 0.1);
+      min-height: 68px;
       align-items: center;
-      transition: all 0.3s ease;
-    }
-    .table-row:hover { 
-      background: var(--link-hover); 
-      color: #fff; 
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3), 0 0 30px rgba(251, 191, 36, 0.2);
-    }
-    .light-mode .table-row {
-      background: var(--hover-bg);
-      border: 1px solid var(--border);
-      box-shadow: 0 0 12px rgba(251, 191, 36, 0.1);
-    }
-    .light-mode .table-row:hover { 
-      background: var(--link-hover); 
-      color: #fff; 
-      box-shadow: 0 0 20px rgba(220, 38, 38, 0.4), 0 0 35px rgba(251, 191, 36, 0.3);
-      border-color: var(--accent);
-    }
-    /* Casino-style link effects */
-    .table-row a {
-      color: var(--link);
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.5em 1em;
-      border-radius: 8px;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
     }
+    .table-row::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(241, 196, 15, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+    .table-row:hover { 
+      background: linear-gradient(135deg, var(--red-dark) 0%, var(--gold-dark) 50%, var(--red-bright) 100%);
+      color: #fff; 
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 
+        0 12px 30px rgba(192, 57, 43, 0.4), 
+        0 0 40px rgba(241, 196, 15, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border-color: var(--silver);
+    }
+    .table-row:hover::before {
+      left: 100%;
+    }
+    .light-mode .table-row {
+      background: linear-gradient(135deg, rgba(236, 240, 241, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+      border: 1px solid var(--silver);
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 0 25px rgba(212, 175, 55, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+    .light-mode .table-row:hover { 
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--red-bright) 50%, var(--gold-bright) 100%);
+      color: #fff; 
+      box-shadow: 
+        0 12px 30px rgba(212, 175, 55, 0.4), 
+        0 0 40px rgba(231, 76, 60, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      border-color: var(--dark-silver);
+    }
+    /* Premium Casino-style link effects */
+    .table-row a {
+      color: var(--gold-bright);
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0.6em 1.2em;
+      border-radius: 10px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(189, 195, 199, 0.05));
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
+    }
+    .table-row a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
     .table-row a:hover {
       color: #fff;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      background: linear-gradient(135deg, var(--gold-bright), var(--red-bright));
+      border-color: var(--silver);
+      text-shadow: 
+        0 0 15px rgba(255, 255, 255, 0.9),
+        0 2px 4px rgba(0, 0, 0, 0.7);
+      transform: scale(1.05);
+    }
+    .table-row a:hover::before {
+      left: 100%;
+    }
+    .light-mode .table-row a {
+      color: var(--gold-dark);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(149, 165, 166, 0.05));
+      border-color: rgba(212, 175, 55, 0.4);
+      text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
     }
     .light-mode .table-row a:hover {
-      text-shadow: 0 0 15px var(--success), 0 0 25px var(--success);
+      background: linear-gradient(135deg, var(--gold-dark), var(--red-bright));
+      text-shadow: 
+        0 0 12px rgba(255, 255, 255, 0.8),
+        0 1px 3px rgba(0, 0, 0, 0.6);
     }
     
     .last-collected.available {
-      animation: pulseGlow 2s infinite;
-      text-shadow: 0 0 3px #000, 0 0 6px #000;
-      font-weight: 600;
+      animation: pulseGlow 2.5s infinite;
+      text-shadow: 0 0 4px #000, 0 0 8px #000;
+      font-weight: 700;
+      color: var(--gold-bright);
     }
     .last-collected.timer {
-      animation: pulseRedGlow 2s infinite;
-      text-shadow: 0 0 3px #000, 0 0 6px #000;
-      font-weight: 600;
+      animation: pulseRedGlow 2.5s infinite;
+      text-shadow: 0 0 4px #000, 0 0 8px #000;
+      font-weight: 700;
+      color: var(--red-bright);
     }
     @keyframes pulseRedGlow {
       0%,100% { 
-        color: #dc2626; 
-        text-shadow: 0 0 8px #dc2626, 0 0 16px #dc2626, 0 0 3px #000; 
+        color: var(--red-bright); 
+        text-shadow: 
+          0 0 10px var(--red-bright), 
+          0 0 20px var(--red-dark), 
+          0 0 4px #000; 
+      }
+      25% { 
+        color: var(--red-dark); 
+        text-shadow: 
+          0 0 15px var(--red-dark), 
+          0 0 25px var(--red-bright), 
+          0 0 4px #000; 
       }
       50% { 
-        color: #ef4444; 
-        text-shadow: 0 0 15px #ef4444, 0 0 25px #ef4444, 0 0 3px #000; 
+        color: #ff6b6b; 
+        text-shadow: 
+          0 0 18px #ff6b6b, 
+          0 0 30px var(--red-bright), 
+          0 0 4px #000; 
       }
     }
     @keyframes pulseGlow {
       0%,100% { 
-        color: var(--success); 
-        text-shadow: 0 0 8px var(--success), 0 0 16px var(--success), 0 0 3px #000; 
+        color: var(--gold-bright); 
+        text-shadow: 
+          0 0 10px var(--gold-bright), 
+          0 0 20px var(--gold-dark), 
+          0 0 4px #000; 
+      }
+      25% { 
+        color: var(--gold-dark); 
+        text-shadow: 
+          0 0 15px var(--gold-dark), 
+          0 0 25px var(--silver), 
+          0 0 4px #000; 
       }
       50% { 
-        color: #fcd34d; 
-        text-shadow: 0 0 15px #fcd34d, 0 0 25px #fcd34d, 0 0 3px #000; 
+        color: var(--silver); 
+        text-shadow: 
+          0 0 18px var(--silver), 
+          0 0 30px var(--gold-bright), 
+          0 0 4px #000; 
       }
     }
     .light-mode .last-collected.available {
-      text-shadow: 0 0 8px var(--success), 0 0 16px var(--success);
+      text-shadow: 
+        0 0 12px var(--gold-dark), 
+        0 0 20px var(--gold-bright),
+        0 1px 2px rgba(0, 0, 0, 0.3);
+      color: var(--gold-dark);
     }
     .light-mode .last-collected.timer {
-      text-shadow: 0 0 8px #ef4444, 0 0 16px #ef4444;
+      text-shadow: 
+        0 0 12px var(--red-bright), 
+        0 0 20px var(--red-dark),
+        0 1px 2px rgba(0, 0, 0, 0.3);
+      color: var(--red-bright);
     }
     @keyframes glitch {
       0% { transform: none; }
@@ -208,53 +413,105 @@
     /* Casino Glitter Effects */
     @keyframes goldShimmer {
       0%, 100% { 
-        text-shadow: 0 0 5px var(--success), 0 0 10px var(--success), 0 0 15px var(--success);
+        text-shadow: 
+          0 0 8px var(--gold-bright), 
+          0 0 15px var(--gold-dark), 
+          0 0 25px var(--silver),
+          0 3px 6px rgba(0, 0, 0, 0.8);
         transform: scale(1);
       }
+      25% { 
+        text-shadow: 
+          0 0 15px var(--silver), 
+          0 0 25px var(--gold-bright), 
+          0 0 35px var(--red-bright),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1.01);
+      }
       50% { 
-        text-shadow: 0 0 10px #fcd34d, 0 0 20px #fcd34d, 0 0 30px #fcd34d, 0 0 40px #fcd34d;
+        text-shadow: 
+          0 0 12px var(--red-bright), 
+          0 0 22px var(--gold-bright), 
+          0 0 32px var(--silver),
+          0 3px 6px rgba(0, 0, 0, 0.8);
         transform: scale(1.02);
       }
+      75% { 
+        text-shadow: 
+          0 0 10px var(--gold-dark), 
+          0 0 20px var(--silver), 
+          0 0 30px var(--gold-bright),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1.01);
+      }
+    }
+    @keyframes titleFlash {
+      0%, 95%, 100% { opacity: 0; }
+      96%, 99% { opacity: 0.3; }
     }
     @keyframes sparkle {
-      0%, 50%, 100% { opacity: 0; transform: scale(0); }
-      25%, 75% { opacity: 1; transform: scale(1); }
+      0%, 50%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      25%, 75% { opacity: 1; transform: scale(1) rotate(180deg); }
     }
-    /* Add sparkle effects to available bonuses */
+    /* Add premium sparkle effects to available bonuses */
     .last-collected.available {
       position: relative;
-      animation: pulseGlow 2s infinite, goldShimmer 3s ease-in-out infinite;
+      animation: pulseGlow 2.5s infinite, goldShimmer 4s ease-in-out infinite;
     }
     .last-collected.available::after {
       content: '✨';
       position: absolute;
-      right: -20px;
+      right: -25px;
       top: 50%;
       transform: translateY(-50%);
-      animation: sparkle 2s infinite;
-      font-size: 0.8em;
+      animation: sparkle 2.2s infinite;
+      font-size: 0.9em;
+      filter: drop-shadow(0 0 6px var(--gold-bright));
+    }
+    .last-collected.available::before {
+      content: '💎';
+      position: absolute;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: sparkle 2.8s infinite reverse;
+      font-size: 0.7em;
+      filter: drop-shadow(0 0 4px var(--silver));
     }
     footer {
       text-align: center; 
       margin-top: 3em; 
-      padding: 2em 0;
+      padding: 2.5em 0;
       font-size: 0.95em; 
-      background: var(--hover-bg);
-      border-top: 1px solid var(--border);
-      backdrop-filter: blur(10px);
+      background: linear-gradient(135deg, rgba(28, 28, 28, 0.9) 0%, rgba(44, 44, 44, 0.8) 100%);
+      border-top: 2px solid var(--gold-dark);
+      backdrop-filter: blur(15px);
+      box-shadow: 
+        0 -4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(189, 195, 199, 0.1);
     }
     footer a { 
-      color: var(--link); 
+      color: var(--gold-bright); 
       text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
+      font-weight: 600;
+      transition: all 0.4s ease;
+      text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
+      padding: 0.3em 0.6em;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(189, 195, 199, 0.05));
     }
     footer a:hover { 
-      color: var(--link-hover);
-      text-shadow: 0 0 10px var(--success), 0 0 20px var(--success);
+      color: var(--silver); 
+      text-shadow: 
+        0 0 15px rgba(189, 195, 199, 0.9),
+        0 0 25px rgba(241, 196, 15, 0.6);
+      background: linear-gradient(135deg, rgba(189, 195, 199, 0.2), rgba(241, 196, 15, 0.1));
+      transform: translateY(-2px);
     }
     .light-mode footer a:hover {
-      text-shadow: 0 0 12px var(--link-hover);
+      text-shadow: 
+        0 0 12px rgba(149, 165, 166, 0.8),
+        0 0 20px rgba(212, 175, 55, 0.6);
     }
     .profile-pic {
       width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
