@@ -7,40 +7,60 @@
   
   <style>
     :root {
-      /* Premium Casino Dark Theme - Luxurious Silver, Gold, Black & Red */
-      --bg: #0a0a0a;
+      /* Enhanced Dark Theme - Modern Casino Aesthetic */
+      --bg: #0f0f0f;
       --text: #f4d03f;
       --link: #ffd700;
-      --link-hover: #ff4757;
+      --link-hover: #ff6b6b;
       --timer: #e55039;
-      --hover-bg: #1c1c1c;
-      --border: #c0392b;
+      --hover-bg: #1a1a1a;
+      --border: #333;
       --success: #f39c12;
       --accent: #e74c3c;
+      --category-bg: #1a1a1a;
+      --category-border: #444;
+      --category-hover: #222;
       --silver: #bdc3c7;
       --dark-silver: #95a5a6;
       --gold-bright: #f1c40f;
       --gold-dark: #d4af37;
-      --red-bright: #ff3742;
+      --red-bright: #ff4757;
       --red-dark: #c0392b;
+      
+      /* Category-specific colors */
+      --crypto-accent: #f7931a;
+      --social-accent: #e74c3c;
+      --sports-accent: #3498db;
+      --vpn-accent: #9b59b6;
+      --instant-accent: #2ecc71;
     }
     .light-mode {
-      /* Premium Casino Light Theme - Elegant Silver & Gold */
-      --bg: #f8f9fa;
+      /* Enhanced Light Theme - Clean Professional Look */
+      --bg: #ffffff;
       --text: #2c3e50;
-      --link: #d4af37;
-      --link-hover: #c0392b;
-      --timer: #e74c3c;
-      --hover-bg: #ecf0f1;
-      --border: #bdc3c7;
-      --success: #f39c12;
-      --accent: #e55039;
+      --link: #2980b9;
+      --link-hover: #e74c3c;
+      --timer: #e67e22;
+      --hover-bg: #f8f9fa;
+      --border: #dee2e6;
+      --success: #27ae60;
+      --accent: #3498db;
+      --category-bg: #f8f9fa;
+      --category-border: #e9ecef;
+      --category-hover: #e9ecef;
       --silver: #95a5a6;
       --dark-silver: #7f8c8d;
-      --gold-bright: #f1c40f;
-      --gold-dark: #d4af37;
+      --gold-bright: #f39c12;
+      --gold-dark: #e67e22;
       --red-bright: #e74c3c;
       --red-dark: #c0392b;
+      
+      /* Category-specific colors */
+      --crypto-accent: #f7931a;
+      --social-accent: #e74c3c;
+      --sports-accent: #3498db;
+      --vpn-accent: #8e44ad;
+      --instant-accent: #27ae60;
     }
     body {
       font-family: 'Orbitron', 'Montserrat', sans-serif;
@@ -329,6 +349,83 @@
         0 0 12px rgba(255, 255, 255, 0.8),
         0 1px 3px rgba(0, 0, 0, 0.6);
     }
+    
+    /* Category Section Styling */
+    .category-section {
+      margin: 2em 0;
+      background: var(--category-bg);
+      border: 1px solid var(--category-border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, var(--category-bg) 0%, var(--category-hover) 100%);
+      border-bottom: 1px solid var(--category-border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .category-header:hover {
+      background: linear-gradient(135deg, var(--category-hover) 0%, var(--hover-bg) 100%);
+    }
+    
+    .category-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    
+    .category-count {
+      background: var(--accent);
+      color: white;
+      padding: 0.2em 0.6em;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: bold;
+      min-width: 1.5em;
+      text-align: center;
+    }
+    
+    .category-toggle {
+      font-size: 1.2em;
+      transition: transform 0.3s ease;
+      color: var(--text);
+    }
+    
+    .category-section.collapsed .category-toggle {
+      transform: rotate(-90deg);
+    }
+    
+    .category-content {
+      padding: 0;
+      max-height: 2000px;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    
+    .category-section.collapsed .category-content {
+      max-height: 0;
+      padding: 0;
+    }
+    
+    /* Category-specific accent colors */
+    .category-crypto .category-title { color: var(--crypto-accent); }
+    .category-social .category-title { color: var(--social-accent); }
+    .category-sports .category-title { color: var(--sports-accent); }
+    .category-vpn .category-title { color: var(--vpn-accent); }
+    .category-instant .category-title { color: var(--instant-accent); }
+    
     
     .last-collected.available {
       animation: pulseGlow 2.5s infinite;
@@ -708,48 +805,57 @@
       "https://media.giphy.com/media/3ohc1bTn4ZDEd4nSSA/giphy.gif"
     ];
     window.casinoData = [
-      { name: "TrustDice", tilted: "https://trustdice.win/faucet/?ref=u_jmenichole", clean: "https://trustdice.win" },
-      { name: "Stake US", tilted: "https://stake.us/?c=Jmenichole", clean: "https://stake.us" },
-      { name: "MetaWin", tilted: "https://metawin.com/jmenichole007/", clean: "https://metawin.com" },
-      { name: "SpinBlitz", tilted: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", clean: "https://www.spinblitz.com" },
-      { name: "Hello Millions", tilted: "https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867", clean: "https://www.hellomillions.com" },
-      { name: "Mega Bonanza", tilted: "https://www.megabonanza.com/?r=72781897", clean: "https://www.megabonanza.com" },
-      { name: "Real Prize", tilted: "https://www.realprize.com/refer/317136", clean: "https://www.realprize.com" },
-      { name: "LuckyBird", tilted: "https://luckybird.vip/?c=c_jmenichole", clean: "https://luckybird.vip" },
-      { name: "WowVegas", tilted: "https://www.wowvegas.com/?raf=3615494", clean: "https://www.wowvegas.com" },
-      { name: "Pulsz", tilted: "https://www.pulsz.com/?invited_by=utfk4r", clean: "https://www.pulsz.com" },
-      { name: "Modo", tilted: "https://modo.us?referralCode=61MN6A", clean: "https://modo.us" },
-      { name: "McLuck", tilted: "https://www.mcluck.com/lp/raf?r=61119407%2F908900038", clean: "https://www.mcluck.com" },
-      { name: "Crown Coins", tilted: "https://crowncoinscasino.com/", clean: "https://crowncoinscasino.com" },
-      { name: "Chanced", tilted: "https://chanced.com/c/ysa096", clean: "https://chanced.com" },
-      { name: "Sportzino", tilted: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", clean: "https://sportzino.com" },
-      { name: "PlayFame", tilted: "https://www.playfame.com/lp/raf?r=1275975417", clean: "https://www.playfame.com" },
-      { name: "Pulsz Bingo", tilted: "https://www.pulszbingo.com/?invited_by=eg6mbf", clean: "https://www.pulszbingo.com" },
-      { name: "Jackpota", tilted: "https://www.jackpota.com/?r=85453282", clean: "https://www.jackpota.com" },
-      { name: "Zula Casino", tilted: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", clean: "https://www.zulacasino.com" },
-      { name: "Fortune Coins", tilted: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", clean: "https://www.fortunecoins.com" },
-      { name: "Bitsler", tilted: "https://www.bitsler.io/?ref=jmenichole", clean: "https://www.bitsler.io" },
-      { name: "MyPrize", tilted: "https://myprize.us/invite/jmenichole", clean: "https://myprize.us" },
-      { name: "Winna", tilted: "https://winna.com/?r=jmenichole", clean: "https://winna.com" },
-      { name: "Club Poker", tilted: "https://play.clubs.poker/?referralCode=104192", clean: "https://play.clubs.poker" },
-      { name: "Rolla", tilted: "https://www.rolla.com/?raf=3873", clean: "https://www.rolla.com" },
-      { name: "Lonestar Casino", tilted: "https://lonestarcasino.com/refer/678504", clean: "https://lonestarcasino.com" },
-      { name: "Spree", tilted: "https://spree.com/?r=1450539", clean: "https://spree.com" },
-      { name: "SpinPals", tilted: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", clean: "https://www.spinpals.com" },
-      { name: "High 5 Casino", tilted: "https://high5casino.com/gc?adId=INV001%3AJmenichole", clean: "https://high5casino.com" },
-      { name: "Punt", tilted: "https://punt.com/c/cg60pd", clean: "https://punt.com" },
-      { name: "FortuneWheelz", tilted: "https://fortunewheelz.com/?invited_by=P36ZS6", clean: "https://fortunewheelz.com" },
-      { name: "Zoot", tilted: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", clean: "https://getzoot.us" },
-      { name: "Spinsala", tilted: "https://spinsala.com/en?invite=daym", clean: "https://spinsala.com" },
-      { name: "Legendz", tilted: "https://legendz.com/?referred_by_id=221602", clean: "https://legendz.com" },
-      { name: "Slips", tilted: "https://slips.com/invite?code=6901", clean: "https://slips.com" },
-      { name: "PrizePicks", tilted: "https://app.prizepicks.com/sign-up?invite_code=PR-N0MTQX8&source=iosShare", clean: "https://app.prizepicks.com" },
-      { name: "Dabble", tilted: "https://click.dabble.com/GaFA/js1v7hqv", clean: "https://dabble.com" },
-      { name: "Gamba VPN", tilted: "https://gamba.com?c=Jme", clean: "https://gamba.com" },
-      { name: "Goated VPN", tilted: "https://www.goated.com/r/YDRZLJ", clean: "https://www.goated.com" },
-      { name: "JungleBet VPN", tilted: "https://junglebet.com/r/jmenichole", clean: "https://junglebet.com" },
-      { name: "Shuffle.com VPN", tilted: "https://shuffle.com?r=jHR7JnWRPF", clean: "https://shuffle.com" },
-      { name: "Stake.com VPN", tilted: "https://www.stake.com/?c=LAYP68hb", clean: "https://www.stake.com" },
+      // 🪙 Crypto Casinos
+      { name: "TrustDice", tilted: "https://trustdice.win/faucet/?ref=u_jmenichole", clean: "https://trustdice.win", category: "crypto" },
+      { name: "Stake US", tilted: "https://stake.us/?c=Jmenichole", clean: "https://stake.us", category: "crypto" },
+      { name: "Bitsler", tilted: "https://www.bitsler.io/?ref=jmenichole", clean: "https://www.bitsler.io", category: "crypto" },
+      { name: "Rolla", tilted: "https://www.rolla.com/?raf=3873", clean: "https://www.rolla.com", category: "crypto" },
+      { name: "Punt", tilted: "https://punt.com/c/cg60pd", clean: "https://punt.com", category: "crypto" },
+      
+      // ⚡ Instant Cashout
+      { name: "WowVegas", tilted: "https://www.wowvegas.com/?raf=3615494", clean: "https://www.wowvegas.com", category: "instant" },
+      { name: "Pulsz", tilted: "https://www.pulsz.com/?invited_by=utfk4r", clean: "https://www.pulsz.com", category: "instant" },
+      { name: "Modo", tilted: "https://modo.us?referralCode=61MN6A", clean: "https://modo.us", category: "instant" },
+      { name: "McLuck", tilted: "https://www.mcluck.com/lp/raf?r=61119407%2F908900038", clean: "https://www.mcluck.com", category: "instant" },
+      { name: "Crown Coins", tilted: "https://crowncoinscasino.com/", clean: "https://crowncoinscasino.com", category: "instant" },
+      { name: "Chanced", tilted: "https://chanced.com/c/ysa096", clean: "https://chanced.com", category: "instant" },
+      { name: "Pulsz Bingo", tilted: "https://www.pulszbingo.com/?invited_by=eg6mbf", clean: "https://www.pulszbingo.com", category: "instant" },
+      { name: "Zula Casino", tilted: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", clean: "https://www.zulacasino.com", category: "instant" },
+      { name: "Fortune Coins", tilted: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", clean: "https://www.fortunecoins.com", category: "instant" },
+      { name: "High 5 Casino", tilted: "https://high5casino.com/gc?adId=INV001%3AJmenichole", clean: "https://high5casino.com", category: "instant" },
+      
+      // 🏆 Sports Betting
+      { name: "Sportzino", tilted: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", clean: "https://sportzino.com", category: "sports" },
+      { name: "Slips", tilted: "https://slips.com/invite?code=6901", clean: "https://slips.com", category: "sports" },
+      { name: "PrizePicks", tilted: "https://app.prizepicks.com/sign-up?invite_code=PR-N0MTQX8&source=iosShare", clean: "https://app.prizepicks.com", category: "sports" },
+      { name: "Dabble", tilted: "https://click.dabble.com/GaFA/js1v7hqv", clean: "https://dabble.com", category: "sports" },
+      
+      // 🌐 VPN Required
+      { name: "Gamba VPN", tilted: "https://gamba.com?c=Jme", clean: "https://gamba.com", category: "vpn" },
+      { name: "Goated VPN", tilted: "https://www.goated.com/r/YDRZLJ", clean: "https://www.goated.com", category: "vpn" },
+      { name: "JungleBet VPN", tilted: "https://junglebet.com/r/jmenichole", clean: "https://junglebet.com", category: "vpn" },
+      { name: "Shuffle.com VPN", tilted: "https://shuffle.com?r=jHR7JnWRPF", clean: "https://shuffle.com", category: "vpn" },
+      { name: "Stake.com VPN", tilted: "https://www.stake.com/?c=LAYP68hb", clean: "https://www.stake.com", category: "vpn" },
+      
+      // 🎰 Social Casinos
+      { name: "MetaWin", tilted: "https://metawin.com/jmenichole007/", clean: "https://metawin.com", category: "social" },
+      { name: "SpinBlitz", tilted: "https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", clean: "https://www.spinblitz.com", category: "social" },
+      { name: "Hello Millions", tilted: "https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867", clean: "https://www.hellomillions.com", category: "social" },
+      { name: "Mega Bonanza", tilted: "https://www.megabonanza.com/?r=72781897", clean: "https://www.megabonanza.com", category: "social" },
+      { name: "Real Prize", tilted: "https://www.realprize.com/refer/317136", clean: "https://www.realprize.com", category: "social" },
+      { name: "LuckyBird", tilted: "https://luckybird.vip/?c=c_jmenichole", clean: "https://luckybird.vip", category: "social" },
+      { name: "PlayFame", tilted: "https://www.playfame.com/lp/raf?r=1275975417", clean: "https://www.playfame.com", category: "social" },
+      { name: "Jackpota", tilted: "https://www.jackpota.com/?r=85453282", clean: "https://www.jackpota.com", category: "social" },
+      { name: "MyPrize", tilted: "https://myprize.us/invite/jmenichole", clean: "https://myprize.us", category: "social" },
+      { name: "Winna", tilted: "https://winna.com/?r=jmenichole", clean: "https://winna.com", category: "social" },
+      { name: "Club Poker", tilted: "https://play.clubs.poker/?referralCode=104192", clean: "https://play.clubs.poker", category: "social" },
+      { name: "Lonestar Casino", tilted: "https://lonestarcasino.com/refer/678504", clean: "https://lonestarcasino.com", category: "social" },
+      { name: "Spree", tilted: "https://spree.com/?r=1450539", clean: "https://spree.com", category: "social" },
+      { name: "SpinPals", tilted: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", clean: "https://www.spinpals.com", category: "social" },
+      { name: "FortuneWheelz", tilted: "https://fortunewheelz.com/?invited_by=P36ZS6", clean: "https://fortunewheelz.com", category: "social" },
+      { name: "Zoot", tilted: "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", clean: "https://getzoot.us", category: "social" },
+      { name: "Spinsala", tilted: "https://spinsala.com/en?invite=daym", clean: "https://spinsala.com", category: "social" },
+      { name: "Legendz", tilted: "https://legendz.com/?referred_by_id=221602", clean: "https://legendz.com", category: "social" },
     ];
 
     // --- Browser Notification Support ---
@@ -1025,96 +1131,158 @@
       }
       requestAnimationFrame(updateTimersRAF);
     }
-    // --- Render Casino Table with Filter and Accessibility ---
+    // --- Category-based Casino Table Rendering ---
     function renderCasinoTable() {
       const availableContainer = document.getElementById("casino-table-available");
       const cooldownContainer = document.getElementById("casino-table-cooldown");
       if (!availableContainer || !cooldownContainer) return;
       availableContainer.innerHTML = "";
       cooldownContainer.innerHTML = "";
+      
       const isTilted = !document.body.classList.contains("light-mode");
       let data = window.casinoData || [];
+      
+      // Apply search filter
       if (casinoFilter) {
         data = data.filter(c =>
           c.name.toLowerCase().includes(casinoFilter)
         );
       }
-      // Partition casinos into available and cooldown
+      
+      // Define categories
+      const categories = {
+        crypto: { name: "🪙 Crypto Casinos", casinos: [] },
+        instant: { name: "⚡ Instant Cashout", casinos: [] },
+        sports: { name: "🏆 Sports Betting", casinos: [] },
+        vpn: { name: "🌐 VPN Required", casinos: [] },
+        social: { name: "🎰 Social Casinos", casinos: [] }
+      };
+      
       const now = Date.now();
-      const available = [], cooldown = [];
+      
+      // Categorize and partition casinos
       data.forEach(casino => {
         const next = localStorage.getItem("casino_" + casino.name);
-        if (!next || now >= +next) {
-          available.push(casino);
+        const isAvailable = !next || now >= +next;
+        const casinoData = isAvailable ? casino : { ...casino, next: +next };
+        
+        const category = casino.category || 'social';
+        if (categories[category]) {
+          categories[category].casinos.push({ ...casinoData, isAvailable });
         } else {
-          cooldown.push({ ...casino, next: +next });
+          categories.social.casinos.push({ ...casinoData, isAvailable });
         }
       });
-      // Sort cooldown by most time left (descending)
-      cooldown.sort((a, b) => (b.next - now) - (a.next - now));
-      // Render available table
-      if (available.length > 0) {
+      
+      // Render available casinos by category
+      let hasAvailable = false;
+      Object.keys(categories).forEach(categoryKey => {
+        const category = categories[categoryKey];
+        const availableCasinos = category.casinos.filter(c => c.isAvailable);
+        
+        if (availableCasinos.length > 0) {
+          hasAvailable = true;
+          const section = createCategorySection(categoryKey, category.name, availableCasinos, true);
+          availableContainer.appendChild(section);
+        }
+      });
+      
+      if (hasAvailable) {
         const header = document.createElement("h2");
         header.textContent = "Available to Collect";
-        header.style.margin = "1.2em 0 0.5em 0";
-        header.style.fontSize = "1.25em";
-        header.style.letterSpacing = "0.01em";
-        header.style.textAlign = "left";
-        availableContainer.appendChild(header);
-        available.forEach(casino => {
-          const row = document.createElement("div");
-          row.className = "table-row";
-          row.dataset.casino = casino.name;
-          let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+        header.style.margin = "1.2em 0 1em 0";
+        header.style.fontSize = "1.4em";
+        header.style.textAlign = "center";
+        availableContainer.insertBefore(header, availableContainer.firstChild);
+      }
+      
+      // Render cooldown casinos by category
+      let hasCooldown = false;
+      Object.keys(categories).forEach(categoryKey => {
+        const category = categories[categoryKey];
+        const cooldownCasinos = category.casinos.filter(c => !c.isAvailable);
+        
+        if (cooldownCasinos.length > 0) {
+          hasCooldown = true;
+          // Sort by most time left
+          cooldownCasinos.sort((a, b) => (b.next - now) - (a.next - now));
+          const section = createCategorySection(categoryKey, category.name, cooldownCasinos, false);
+          cooldownContainer.appendChild(section);
+        }
+      });
+      
+      if (hasCooldown) {
+        const header = document.createElement("h2");
+        header.textContent = "On Cooldown";
+        header.style.margin = "2em 0 1em 0";
+        header.style.fontSize = "1.3em";
+        header.style.textAlign = "center";
+        cooldownContainer.insertBefore(header, cooldownContainer.firstChild);
+      }
+      
+      // Show/hide sections based on content
+      if (casinoFilter) {
+        if (!hasAvailable && !hasCooldown) {
+          availableContainer.innerHTML = "<p style='text-align:center;color:var(--text);margin:2em;'>No casinos match your search.</p>";
+          cooldownContainer.style.display = "none";
+        } else {
+          availableContainer.style.display = hasAvailable ? "" : "none";
+          cooldownContainer.style.display = hasCooldown ? "" : "none";
+        }
+      } else {
+        availableContainer.style.display = "";
+        cooldownContainer.style.display = "";
+      }
+    }
+    
+    function createCategorySection(categoryKey, categoryName, casinos, isAvailable) {
+      const section = document.createElement("div");
+      section.className = `category-section category-${categoryKey}`;
+      
+      // Create header
+      const header = document.createElement("div");
+      header.className = "category-header";
+      header.onclick = () => toggleCategory(section);
+      
+      const title = document.createElement("h3");
+      title.className = "category-title";
+      title.textContent = categoryName;
+      
+      const count = document.createElement("span");
+      count.className = "category-count";
+      count.textContent = casinos.length;
+      
+      const toggle = document.createElement("span");
+      toggle.className = "category-toggle";
+      toggle.textContent = "⌄";
+      
+      header.appendChild(title);
+      header.appendChild(count);
+      header.appendChild(toggle);
+      
+      // Create content
+      const content = document.createElement("div");
+      content.className = "category-content";
+      
+      const isTilted = !document.body.classList.contains("light-mode");
+      const now = Date.now();
+      
+      casinos.forEach(casino => {
+        const row = document.createElement("div");
+        row.className = "table-row";
+        row.dataset.casino = casino.name;
+        
+        let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+        
+        if (isAvailable) {
           row.innerHTML = `
             <div class="tooltip">
               <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
               <span class="tooltiptext">${casino.tooltip || ''}</span>
             </div>
             <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" /></div>
-            <div class="last-collected available">Available!</div>`;
-          availableContainer.appendChild(row);
-          // Attach event handler
-          const anchor = row.querySelector("a");
-          anchor.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.open(link, '_blank');
-            setTimeout(() => handleBonusClick(casino.name), 100);
-          });
-          anchor.addEventListener('keydown', (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              anchor.click();
-            }
-          });
-          // Checkbox keyboard support
-          const checkbox = row.querySelector("input[type=checkbox]");
-          checkbox.addEventListener('keydown', (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              checkbox.click();
-            }
-          });
-          checkbox.addEventListener('click', () => {
-            handleBonusClick(casino.name);
-          });
-        });
-      }
-      // Render cooldown table
-      if (cooldown.length > 0) {
-        const header = document.createElement("h2");
-        header.textContent = "On Cooldown";
-        header.style.margin = "1.8em 0 0.5em 0";
-        header.style.fontSize = "1.15em";
-        header.style.letterSpacing = "0.01em";
-        header.style.textAlign = "left";
-        cooldownContainer.appendChild(header);
-        cooldown.forEach(casino => {
-          const row = document.createElement("div");
-          row.className = "table-row";
-          row.dataset.casino = casino.name;
-          let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
-          // Calculate time left
+            <div class="last-collected available">💎 Available! ✨</div>`;
+        } else {
           const minsLeft = Math.ceil((casino.next - now) / 60000);
           const h = Math.floor(minsLeft / 60), m = minsLeft % 60;
           row.innerHTML = `
@@ -1124,36 +1292,48 @@
             </div>
             <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" disabled /></div>
             <div class="last-collected timer"><span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span></div>`;
-          cooldownContainer.appendChild(row);
-          // Attach event handler
-          const anchor = row.querySelector("a");
-          anchor.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.open(link, '_blank');
-            setTimeout(() => handleBonusClick(casino.name), 100);
-          });
-          anchor.addEventListener('keydown', (e) => {
+        }
+        
+        content.appendChild(row);
+        
+        // Attach event handlers
+        const anchor = row.querySelector("a");
+        anchor.addEventListener('click', (event) => {
+          event.preventDefault();
+          window.open(link, '_blank');
+          setTimeout(() => handleBonusClick(casino.name), 100);
+        });
+        anchor.addEventListener('keydown', (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            anchor.click();
+          }
+        });
+        
+        const checkbox = row.querySelector("input[type=checkbox]");
+        if (!checkbox.disabled) {
+          checkbox.addEventListener('keydown', (e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              anchor.click();
+              checkbox.click();
             }
           });
-        });
-      }
-      // If all are on cooldown or all are available, show only one table (no split)
-      if (available.length === 0 || cooldown.length === 0) {
-        // Move all to availableContainer and hide cooldownContainer
-        if (cooldown.length === 0) {
-          cooldownContainer.style.display = "none";
-        } else {
-          availableContainer.style.display = "none";
+          checkbox.addEventListener('click', () => {
+            handleBonusClick(casino.name);
+          });
         }
-      } else {
-        availableContainer.style.display = "";
-        cooldownContainer.style.display = "";
-      }
+      });
+      
+      section.appendChild(header);
+      section.appendChild(content);
+      
+      return section;
     }
-    // --- Info popup logic (keyboard accessible) ---
+    
+    function toggleCategory(section) {
+      section.classList.toggle('collapsed');
+    }
+    
     const infoBtn = document.getElementById('info-btn');
     const infoPopup = document.getElementById('info-popup');
     if (infoBtn && infoPopup) {
