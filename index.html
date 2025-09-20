@@ -258,22 +258,63 @@
     }
     .table-row {
       display: grid; 
-      grid-template-columns: 2fr 1fr 2fr;
+      grid-template-columns: auto 2fr 1fr 2fr;
       gap: 12px; 
       padding: 18px; 
       margin: 0.8em 0;
       border-radius: 15px; 
       background: linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(44, 44, 44, 0.6) 100%);
-      border: 1px solid var(--gold-dark);
+      border: 1px solid var(--silver);
       box-shadow: 
         0 4px 12px rgba(0, 0, 0, 0.3),
-        0 0 25px rgba(212, 175, 55, 0.1),
-        inset 0 1px 0 rgba(189, 195, 199, 0.1);
+        0 0 25px rgba(156, 39, 176, 0.1),
+        inset 0 1px 0 rgba(192, 192, 192, 0.1);
       min-height: 68px;
       align-items: center;
       transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
+    }
+    
+    .casino-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 10;
+      position: relative;
+    }
+    
+    .favorite-btn, .hide-btn {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--silver);
+      color: var(--silver);
+      font-size: 1em;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      width: 28px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      position: relative;
+    }
+    
+    .favorite-btn:hover {
+      background: rgba(255, 215, 0, 0.3);
+      border-color: gold;
+      color: gold;
+      transform: scale(1.1);
+      text-shadow: 0 0 4px gold;
+    }
+    
+    .hide-btn:hover {
+      background: rgba(255, 0, 0, 0.3);
+      border-color: #ff6b6b;
+      color: #ff6b6b;
+      transform: scale(1.1);
     }
     .table-row::before {
       content: '';
@@ -1189,6 +1230,7 @@
       
       const isTilted = !document.body.classList.contains("light-mode");
       let data = window.casinoData || [];
+      const now = Date.now();
       
       // Apply search filter
       if (casinoFilter) {
@@ -1197,90 +1239,196 @@
         );
       }
       
-      // Define categories
-      const categories = {
-        crypto: { name: "🪙 Crypto Casinos", casinos: [] },
-        instant: { name: "⚡ Instant Cashout", casinos: [] },
-        sports: { name: "🏆 Sports Betting", casinos: [] },
-        vpn: { name: "🌐 VPN Required", casinos: [] },
-        social: { name: "🎰 Social Casinos", casinos: [] }
-      };
+      // Filter out hidden casinos
+      data = data.filter(casino => {
+        const isHidden = localStorage.getItem("hidden_" + casino.name) === "true";
+        return !isHidden;
+      });
       
-      const now = Date.now();
-      
-      // Categorize and partition casinos
-      data.forEach(casino => {
+      // Prepare casino data with availability and metadata
+      const allCasinos = data.map(casino => {
         const next = localStorage.getItem("casino_" + casino.name);
         const isAvailable = !next || now >= +next;
-        const casinoData = isAvailable ? casino : { ...casino, next: +next };
+        const isFavorite = localStorage.getItem("favorite_" + casino.name) === "true";
+        const lastUsed = localStorage.getItem("lastused_" + casino.name) || "0";
         
-        const category = casino.category || 'social';
-        if (categories[category]) {
-          categories[category].casinos.push({ ...casinoData, isAvailable });
-        } else {
-          categories.social.casinos.push({ ...casinoData, isAvailable });
-        }
+        return {
+          ...casino,
+          isAvailable,
+          isFavorite,
+          lastUsed: parseInt(lastUsed, 10),
+          next: next ? parseInt(next, 10) : 0
+        };
       });
       
-      // Render available casinos by category
-      let hasAvailable = false;
-      Object.keys(categories).forEach(categoryKey => {
-        const category = categories[categoryKey];
-        const availableCasinos = category.casinos.filter(c => c.isAvailable);
-        
-        if (availableCasinos.length > 0) {
-          hasAvailable = true;
-          const section = createCategorySection(categoryKey, category.name, availableCasinos, true);
-          availableContainer.appendChild(section);
+      // Separate available and cooldown casinos
+      const availableCasinos = allCasinos.filter(c => c.isAvailable);
+      const cooldownCasinos = allCasinos.filter(c => !c.isAvailable);
+      
+      // Sort available casinos: favorites first, then by last used (most recent first), then alphabetical
+      availableCasinos.sort((a, b) => {
+        if (a.isFavorite !== b.isFavorite) {
+          return b.isFavorite - a.isFavorite; // favorites first
         }
+        if (a.lastUsed !== b.lastUsed) {
+          return b.lastUsed - a.lastUsed; // most recently used first
+        }
+        return a.name.localeCompare(b.name); // alphabetical fallback
       });
       
-      if (hasAvailable) {
+      // Sort cooldown casinos by time remaining (most time left first)
+      cooldownCasinos.sort((a, b) => (b.next - now) - (a.next - now));
+      
+      // Render available casinos
+      if (availableCasinos.length > 0) {
         const header = document.createElement("h2");
         header.textContent = "Available to Collect";
         header.style.margin = "1.2em 0 1em 0";
         header.style.fontSize = "1.4em";
         header.style.textAlign = "center";
-        availableContainer.insertBefore(header, availableContainer.firstChild);
+        header.style.fontFamily = "'Cinzel Decorative', serif";
+        availableContainer.appendChild(header);
+        
+        availableCasinos.forEach(casino => {
+          const row = createCasinoRow(casino, true);
+          availableContainer.appendChild(row);
+        });
       }
       
-      // Render cooldown casinos by category
-      let hasCooldown = false;
-      Object.keys(categories).forEach(categoryKey => {
-        const category = categories[categoryKey];
-        const cooldownCasinos = category.casinos.filter(c => !c.isAvailable);
-        
-        if (cooldownCasinos.length > 0) {
-          hasCooldown = true;
-          // Sort by most time left
-          cooldownCasinos.sort((a, b) => (b.next - now) - (a.next - now));
-          const section = createCategorySection(categoryKey, category.name, cooldownCasinos, false);
-          cooldownContainer.appendChild(section);
-        }
-      });
-      
-      if (hasCooldown) {
+      // Render cooldown casinos
+      if (cooldownCasinos.length > 0) {
         const header = document.createElement("h2");
         header.textContent = "On Cooldown";
         header.style.margin = "2em 0 1em 0";
         header.style.fontSize = "1.3em";
         header.style.textAlign = "center";
-        cooldownContainer.insertBefore(header, cooldownContainer.firstChild);
+        header.style.fontFamily = "'Cinzel Decorative', serif";
+        cooldownContainer.appendChild(header);
+        
+        cooldownCasinos.forEach(casino => {
+          const row = createCasinoRow(casino, false);
+          cooldownContainer.appendChild(row);
+        });
       }
       
       // Show/hide sections based on content
       if (casinoFilter) {
-        if (!hasAvailable && !hasCooldown) {
+        if (availableCasinos.length === 0 && cooldownCasinos.length === 0) {
           availableContainer.innerHTML = "<p style='text-align:center;color:var(--text);margin:2em;'>No casinos match your search.</p>";
           cooldownContainer.style.display = "none";
         } else {
-          availableContainer.style.display = hasAvailable ? "" : "none";
-          cooldownContainer.style.display = hasCooldown ? "" : "none";
+          availableContainer.style.display = availableCasinos.length > 0 ? "" : "none";
+          cooldownContainer.style.display = cooldownCasinos.length > 0 ? "" : "none";
         }
       } else {
         availableContainer.style.display = "";
         cooldownContainer.style.display = "";
       }
+    }
+    
+    function createCasinoRow(casino, isAvailable) {
+      const row = document.createElement("div");
+      row.className = "table-row";
+      row.dataset.casino = casino.name;
+      
+      const isTilted = !document.body.classList.contains("light-mode");
+      const link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+      const now = Date.now();
+      
+      // Create favorite button
+      const favoriteBtn = document.createElement("button");
+      favoriteBtn.className = "favorite-btn";
+      favoriteBtn.innerHTML = casino.isFavorite ? "⭐" : "☆";
+      favoriteBtn.title = casino.isFavorite ? "Remove from favorites" : "Add to favorites";
+      favoriteBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleFavorite(casino.name);
+      };
+      
+      // Create hide button
+      const hideBtn = document.createElement("button");
+      hideBtn.className = "hide-btn";
+      hideBtn.innerHTML = "👁";
+      hideBtn.title = "Hide this casino";
+      hideBtn.onclick = (e) => {
+        e.stopPropagation();
+        hideCasino(casino.name);
+      };
+      
+      // Create main content
+      let statusText, statusClass;
+      if (isAvailable) {
+        statusText = "💎 Available! ✨";
+        statusClass = "available";
+      } else {
+        const timeLeft = casino.next - now;
+        statusText = formatTime(timeLeft);
+        statusClass = "timer";
+      }
+      
+      row.innerHTML = `
+        <div class="casino-controls">
+          ${favoriteBtn.outerHTML}
+          ${hideBtn.outerHTML}
+        </div>
+        <div class="tooltip">
+          <a href="${link}" target="_blank" onclick="return handleCasinoLinkClick(event, '${casino.name}')">${casino.name}</a>
+          <span class="tooltiptext">${casino.tooltip || ''}</span>
+        </div>
+        <div><input type="checkbox" aria-label="Collected ${casino.name}?" /></div>
+        <div class="last-collected ${statusClass}">${statusText}</div>
+      `;
+      
+      // Re-attach event handlers since innerHTML overwrites them
+      const newFavoriteBtn = row.querySelector(".favorite-btn");
+      const newHideBtn = row.querySelector(".hide-btn");
+      
+      newFavoriteBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleFavorite(casino.name);
+      };
+      
+      newHideBtn.onclick = (e) => {
+        e.stopPropagation();
+        hideCasino(casino.name);
+      };
+      
+      return row;
+    }
+    
+    function toggleFavorite(casinoName) {
+      const currentFavorite = localStorage.getItem("favorite_" + casinoName) === "true";
+      localStorage.setItem("favorite_" + casinoName, (!currentFavorite).toString());
+      renderCasinoTable();
+    }
+    
+    function hideCasino(casinoName) {
+      if (confirm(`Hide ${casinoName}? You can restore it by clearing your browser data.`)) {
+        localStorage.setItem("hidden_" + casinoName, "true");
+        renderCasinoTable();
+      }
+    }
+    
+    function formatTime(ms) {
+      if (ms <= 0) return "Available!";
+      
+      const hours = Math.floor(ms / (1000 * 60 * 60));
+      const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+      
+      if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+      } else if (minutes > 0) {
+        return `${minutes}m ${seconds}s`;
+      } else {
+        return `${seconds}s`;
+      }
+    }
+    
+    function handleCasinoLinkClick(event, casinoName) {
+      // Track last used time for sorting
+      localStorage.setItem("lastused_" + casinoName, Date.now().toString());
+      return true; // Allow the link to open
     }
     
     function createCategorySection(categoryKey, categoryName, casinos, isAvailable) {
