@@ -3,36 +3,30 @@
   <meta charset="UTF-8" />
   <title>🎰 Tilted, baby</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* Enhanced Dark Theme - Modern Casino Aesthetic */
-      --bg: #0f0f0f;
-      --text: #f4d03f;
-      --link: #ffd700;
-      --link-hover: #ff6b6b;
-      --timer: #e55039;
-      --hover-bg: #1a1a1a;
+      /* Silver and Black Degen Glitter Theme */
+      --bg: #000000;
+      --text: #E0E0E0;
+      --link: #C0C0C0;
+      --link-hover: #9C27B0;
+      --timer: #9C27B0;
+      --hover-bg: #1A1A1A;
       --border: #333;
-      --success: #f39c12;
-      --accent: #e74c3c;
-      --category-bg: #1a1a1a;
+      --success: #B76E79;
+      --accent: #9C27B0;
+      --category-bg: #1A1A1A;
       --category-border: #444;
       --category-hover: #222;
-      --silver: #bdc3c7;
-      --dark-silver: #95a5a6;
-      --gold-bright: #f1c40f;
-      --gold-dark: #d4af37;
-      --red-bright: #ff4757;
-      --red-dark: #c0392b;
-      
-      /* Category-specific colors */
-      --crypto-accent: #f7931a;
-      --social-accent: #e74c3c;
-      --sports-accent: #3498db;
-      --vpn-accent: #9b59b6;
-      --instant-accent: #2ecc71;
+      --silver: #C0C0C0;
+      --dark-silver: #808080;
+      --bright-silver: #E8E8E8;
+      --purple-accent: #9C27B0;
+      --rose-gold: #B76E79;
+      --glow-purple: rgba(156, 39, 176, 0.5);
+      --glow-silver: rgba(192, 192, 192, 0.5);
     }
     .light-mode {
       /* Enhanced Light Theme - Clean Professional Look */
@@ -63,18 +57,18 @@
       --instant-accent: #27ae60;
     }
     body {
-      font-family: 'Orbitron', 'Montserrat', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       background: var(--bg);
       color: var(--text);
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Luxury casino pattern with silver sparkles, gold stars and red accents */
+      /* Silver and black degen glitter pattern */
       background-image: 
-        radial-gradient(circle at 20% 80%, rgba(192, 57, 43, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(189, 195, 199, 0.05) 0%, transparent 50%),
-        url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%230a0a0a"/><g opacity="0.6"><path d="M40 35l4 8 8-4-8 4-4 8-4-8-8 4 8-4 4-8z" fill="%23f1c40f"/><path d="M15 15l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%23e74c3c"/><path d="M65 65l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%23f39c12"/><circle cx="25" cy="55" r="2" fill="%23bdc3c7" opacity="0.8"/><circle cx="55" cy="25" r="1.5" fill="%23d4af37" opacity="0.9"/><circle cx="10" cy="70" r="1" fill="%23e74c3c" opacity="0.7"/><circle cx="70" cy="10" r="2" fill="%23f1c40f" opacity="0.6"/><rect x="30" y="5" width="1" height="3" fill="%23bdc3c7" opacity="0.4"/><rect x="50" y="75" width="1" height="3" fill="%23d4af37" opacity="0.5"/></g></svg>');
+        radial-gradient(circle at 20% 80%, rgba(156, 39, 176, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(192, 192, 192, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(183, 110, 121, 0.06) 0%, transparent 50%),
+        url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="80" height="80" fill="%23000000"/><g opacity="0.7"><path d="M40 35l4 8 8-4-8 4-4 8-4-8-8 4 8-4 4-8z" fill="%23C0C0C0"/><path d="M15 15l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%239C27B0"/><path d="M65 65l2.5 5 5-2.5-5 2.5-2.5 5-2.5-5-5 2.5 5-2.5 2.5-5z" fill="%23B76E79"/><circle cx="25" cy="55" r="2" fill="%23C0C0C0" opacity="0.8"/><circle cx="55" cy="25" r="1.5" fill="%239C27B0" opacity="0.9"/><circle cx="10" cy="70" r="1" fill="%23B76E79" opacity="0.7"/><circle cx="70" cy="10" r="2" fill="%23E8E8E8" opacity="0.6"/><rect x="30" y="5" width="1" height="3" fill="%23C0C0C0" opacity="0.5"/><rect x="50" y="75" width="1" height="3" fill="%239C27B0" opacity="0.4"/><circle cx="35" cy="75" r="0.5" fill="%23E8E8E8" opacity="0.8"/><circle cx="75" cy="35" r="0.8" fill="%23B76E79" opacity="0.6"/></g></svg>');
       background-size: 80px 80px;
       background-attachment: fixed;
     }
@@ -131,21 +125,22 @@
       border: 2px solid var(--gold-dark);
     }
     h1 { 
+      font-family: 'Cinzel Decorative', serif;
       text-align: center; 
       font-size: 2.4em; 
       margin-bottom: 1.2em;
       font-weight: 700;
       letter-spacing: -0.01em;
-      color: var(--gold-bright);
-      background: linear-gradient(135deg, var(--gold-bright), var(--silver), var(--gold-dark));
+      color: #C0C0C0;
+      background: linear-gradient(135deg, var(--bright-silver), var(--silver), var(--purple-accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: glitch 0.8s infinite, goldShimmer 5s ease-in-out infinite; 
+      animation: glitch 0.8s infinite, silverGlitter 5s ease-in-out infinite; 
       text-shadow: 
-        0 0 10px rgba(241, 196, 15, 0.8), 
-        0 0 25px rgba(212, 175, 55, 0.6), 
-        0 0 40px rgba(189, 195, 199, 0.4), 
+        0 0 10px rgba(192, 192, 192, 0.8), 
+        0 0 25px rgba(156, 39, 176, 0.6), 
+        0 0 40px rgba(192, 192, 192, 0.4), 
         0 3px 6px rgba(0, 0, 0, 0.9);
       position: relative;
     }
@@ -173,10 +168,12 @@
       font-weight: 700;
     }
     .toggle-mode {
+      font-family: 'Cinzel Decorative', serif;
       padding: 16px 36px;
-      background: linear-gradient(135deg, var(--red-bright) 0%, var(--gold-bright) 25%, var(--silver) 50%, var(--gold-dark) 75%, var(--red-dark) 100%);
-      color: white; 
-      border: 2px solid var(--gold-bright);
+      background: linear-gradient(135deg, #000000 0%, #1A1A1A 50%, #000000 100%);
+      color: var(--silver); 
+      border: 2px solid;
+      border-image: linear-gradient(135deg, var(--silver) 0%, var(--purple-accent) 50%, var(--silver) 100%) 1;
       border-radius: 15px;
       cursor: pointer; 
       font-size: 1.2em; 
@@ -185,13 +182,13 @@
       margin: 0 auto 1.5em;
       transition: all 0.4s ease;
       box-shadow: 
-        0 6px 20px rgba(192, 57, 43, 0.4), 
-        0 0 30px rgba(241, 196, 15, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 6px 20px rgba(156, 39, 176, 0.4), 
+        0 0 30px rgba(192, 192, 192, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
         inset 0 -1px 0 rgba(0, 0, 0, 0.2);
       text-shadow: 
-        0 0 12px rgba(255, 255, 255, 0.9), 
-        0 2px 4px rgba(0, 0, 0, 0.8);
+        0 0 10px rgba(192, 192, 192, 0.8), 
+        0 2px 4px rgba(0, 0, 0, 0.9);
       position: relative;
       overflow: hidden;
     }
@@ -210,13 +207,15 @@
     .toggle-mode:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow: 
-        0 12px 40px rgba(192, 57, 43, 0.6), 
-        0 0 50px rgba(241, 196, 15, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        0 12px 40px rgba(156, 39, 176, 0.6), 
+        0 0 50px rgba(192, 192, 192, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
       text-shadow: 
-        0 0 20px rgba(255, 255, 255, 1), 
+        0 0 20px rgba(192, 192, 192, 1), 
+        0 0 30px rgba(156, 39, 176, 0.8),
         0 2px 4px rgba(0, 0, 0, 0.9);
-      border-color: var(--silver);
+      border-image: linear-gradient(135deg, var(--bright-silver) 0%, var(--purple-accent) 50%, var(--bright-silver) 100%) 1;
+      animation: buttonGlow 2s ease-in-out infinite;
     }
     .toggle-mode:hover::before {
       opacity: 1;
@@ -225,6 +224,21 @@
     @keyframes shine {
       0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
       100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    @keyframes buttonGlow {
+      0%, 100% { 
+        box-shadow: 
+          0 12px 40px rgba(156, 39, 176, 0.6), 
+          0 0 50px rgba(192, 192, 192, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+      50% { 
+        box-shadow: 
+          0 12px 40px rgba(156, 39, 176, 0.8), 
+          0 0 60px rgba(192, 192, 192, 0.7),
+          0 0 80px rgba(156, 39, 176, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
     }
     .light-mode .toggle-mode {
       background: linear-gradient(135deg, var(--gold-dark) 0%, var(--silver) 25%, var(--red-bright) 50%, var(--gold-bright) 75%, var(--dark-silver) 100%);
@@ -244,22 +258,63 @@
     }
     .table-row {
       display: grid; 
-      grid-template-columns: 2fr 1fr 2fr;
+      grid-template-columns: auto 2fr 1fr 2fr;
       gap: 12px; 
       padding: 18px; 
       margin: 0.8em 0;
       border-radius: 15px; 
       background: linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(44, 44, 44, 0.6) 100%);
-      border: 1px solid var(--gold-dark);
+      border: 1px solid var(--silver);
       box-shadow: 
         0 4px 12px rgba(0, 0, 0, 0.3),
-        0 0 25px rgba(212, 175, 55, 0.1),
-        inset 0 1px 0 rgba(189, 195, 199, 0.1);
+        0 0 25px rgba(156, 39, 176, 0.1),
+        inset 0 1px 0 rgba(192, 192, 192, 0.1);
       min-height: 68px;
       align-items: center;
       transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
+    }
+    
+    .casino-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 10;
+      position: relative;
+    }
+    
+    .favorite-btn, .hide-btn {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--silver);
+      color: var(--silver);
+      font-size: 1em;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      width: 28px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      position: relative;
+    }
+    
+    .favorite-btn:hover {
+      background: rgba(255, 215, 0, 0.3);
+      border-color: gold;
+      color: gold;
+      transform: scale(1.1);
+      text-shadow: 0 0 4px gold;
+    }
+    
+    .hide-btn:hover {
+      background: rgba(255, 0, 0, 0.3);
+      border-color: #ff6b6b;
+      color: #ff6b6b;
+      transform: scale(1.1);
     }
     .table-row::before {
       content: '';
@@ -428,60 +483,60 @@
     
     
     .last-collected.available {
-      animation: pulseGlow 2.5s infinite;
+      animation: pulseSilverGlow 2.5s infinite;
       text-shadow: 0 0 4px #000, 0 0 8px #000;
       font-weight: 700;
-      color: var(--gold-bright);
+      color: var(--silver);
     }
     .last-collected.timer {
-      animation: pulseRedGlow 2.5s infinite;
+      animation: pulsePurpleGlow 2.5s infinite;
       text-shadow: 0 0 4px #000, 0 0 8px #000;
       font-weight: 700;
-      color: var(--red-bright);
+      color: var(--purple-accent);
     }
-    @keyframes pulseRedGlow {
+    @keyframes pulsePurpleGlow {
       0%,100% { 
-        color: var(--red-bright); 
+        color: var(--purple-accent); 
         text-shadow: 
-          0 0 10px var(--red-bright), 
-          0 0 20px var(--red-dark), 
+          0 0 10px var(--purple-accent), 
+          0 0 20px var(--rose-gold), 
           0 0 4px #000; 
       }
       25% { 
-        color: var(--red-dark); 
+        color: var(--rose-gold); 
         text-shadow: 
-          0 0 15px var(--red-dark), 
-          0 0 25px var(--red-bright), 
+          0 0 15px var(--rose-gold), 
+          0 0 25px var(--purple-accent), 
           0 0 4px #000; 
       }
       50% { 
-        color: #ff6b6b; 
+        color: var(--bright-silver); 
         text-shadow: 
-          0 0 18px #ff6b6b, 
-          0 0 30px var(--red-bright), 
+          0 0 18px var(--bright-silver), 
+          0 0 30px var(--purple-accent), 
           0 0 4px #000; 
       }
     }
-    @keyframes pulseGlow {
+    @keyframes pulseSilverGlow {
       0%,100% { 
-        color: var(--gold-bright); 
-        text-shadow: 
-          0 0 10px var(--gold-bright), 
-          0 0 20px var(--gold-dark), 
-          0 0 4px #000; 
-      }
-      25% { 
-        color: var(--gold-dark); 
-        text-shadow: 
-          0 0 15px var(--gold-dark), 
-          0 0 25px var(--silver), 
-          0 0 4px #000; 
-      }
-      50% { 
         color: var(--silver); 
         text-shadow: 
-          0 0 18px var(--silver), 
-          0 0 30px var(--gold-bright), 
+          0 0 10px var(--silver), 
+          0 0 20px var(--purple-accent), 
+          0 0 4px #000; 
+      }
+      25% { 
+        color: var(--purple-accent); 
+        text-shadow: 
+          0 0 15px var(--purple-accent), 
+          0 0 25px var(--bright-silver), 
+          0 0 4px #000; 
+      }
+      50% { 
+        color: var(--bright-silver); 
+        text-shadow: 
+          0 0 18px var(--bright-silver), 
+          0 0 30px var(--silver), 
           0 0 4px #000; 
       }
     }
@@ -549,6 +604,40 @@
     @keyframes sparkle {
       0%, 50%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
       25%, 75% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+    @keyframes silverGlitter {
+      0%, 100% { 
+        text-shadow: 
+          0 0 8px var(--silver), 
+          0 0 15px var(--purple-accent), 
+          0 0 25px var(--bright-silver),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1);
+      }
+      25% { 
+        text-shadow: 
+          0 0 12px var(--purple-accent), 
+          0 0 22px var(--silver), 
+          0 0 32px var(--rose-gold),
+          0 3px 6px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
+      }
+      50% { 
+        text-shadow: 
+          0 0 12px var(--rose-gold), 
+          0 0 22px var(--bright-silver), 
+          0 0 32px var(--purple-accent),
+          0 3px 6px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
+      }
+      75% { 
+        text-shadow: 
+          0 0 10px var(--bright-silver), 
+          0 0 20px var(--purple-accent), 
+          0 0 30px var(--silver),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1.01);
+      }
     }
     /* Add premium sparkle effects to available bonuses */
     .last-collected.available {
@@ -1141,6 +1230,7 @@
       
       const isTilted = !document.body.classList.contains("light-mode");
       let data = window.casinoData || [];
+      const now = Date.now();
       
       // Apply search filter
       if (casinoFilter) {
@@ -1149,90 +1239,196 @@
         );
       }
       
-      // Define categories
-      const categories = {
-        crypto: { name: "🪙 Crypto Casinos", casinos: [] },
-        instant: { name: "⚡ Instant Cashout", casinos: [] },
-        sports: { name: "🏆 Sports Betting", casinos: [] },
-        vpn: { name: "🌐 VPN Required", casinos: [] },
-        social: { name: "🎰 Social Casinos", casinos: [] }
-      };
+      // Filter out hidden casinos
+      data = data.filter(casino => {
+        const isHidden = localStorage.getItem("hidden_" + casino.name) === "true";
+        return !isHidden;
+      });
       
-      const now = Date.now();
-      
-      // Categorize and partition casinos
-      data.forEach(casino => {
+      // Prepare casino data with availability and metadata
+      const allCasinos = data.map(casino => {
         const next = localStorage.getItem("casino_" + casino.name);
         const isAvailable = !next || now >= +next;
-        const casinoData = isAvailable ? casino : { ...casino, next: +next };
+        const isFavorite = localStorage.getItem("favorite_" + casino.name) === "true";
+        const lastUsed = localStorage.getItem("lastused_" + casino.name) || "0";
         
-        const category = casino.category || 'social';
-        if (categories[category]) {
-          categories[category].casinos.push({ ...casinoData, isAvailable });
-        } else {
-          categories.social.casinos.push({ ...casinoData, isAvailable });
-        }
+        return {
+          ...casino,
+          isAvailable,
+          isFavorite,
+          lastUsed: parseInt(lastUsed, 10),
+          next: next ? parseInt(next, 10) : 0
+        };
       });
       
-      // Render available casinos by category
-      let hasAvailable = false;
-      Object.keys(categories).forEach(categoryKey => {
-        const category = categories[categoryKey];
-        const availableCasinos = category.casinos.filter(c => c.isAvailable);
-        
-        if (availableCasinos.length > 0) {
-          hasAvailable = true;
-          const section = createCategorySection(categoryKey, category.name, availableCasinos, true);
-          availableContainer.appendChild(section);
+      // Separate available and cooldown casinos
+      const availableCasinos = allCasinos.filter(c => c.isAvailable);
+      const cooldownCasinos = allCasinos.filter(c => !c.isAvailable);
+      
+      // Sort available casinos: favorites first, then by last used (most recent first), then alphabetical
+      availableCasinos.sort((a, b) => {
+        if (a.isFavorite !== b.isFavorite) {
+          return b.isFavorite - a.isFavorite; // favorites first
         }
+        if (a.lastUsed !== b.lastUsed) {
+          return b.lastUsed - a.lastUsed; // most recently used first
+        }
+        return a.name.localeCompare(b.name); // alphabetical fallback
       });
       
-      if (hasAvailable) {
+      // Sort cooldown casinos by time remaining (most time left first)
+      cooldownCasinos.sort((a, b) => (b.next - now) - (a.next - now));
+      
+      // Render available casinos
+      if (availableCasinos.length > 0) {
         const header = document.createElement("h2");
         header.textContent = "Available to Collect";
         header.style.margin = "1.2em 0 1em 0";
         header.style.fontSize = "1.4em";
         header.style.textAlign = "center";
-        availableContainer.insertBefore(header, availableContainer.firstChild);
+        header.style.fontFamily = "'Cinzel Decorative', serif";
+        availableContainer.appendChild(header);
+        
+        availableCasinos.forEach(casino => {
+          const row = createCasinoRow(casino, true);
+          availableContainer.appendChild(row);
+        });
       }
       
-      // Render cooldown casinos by category
-      let hasCooldown = false;
-      Object.keys(categories).forEach(categoryKey => {
-        const category = categories[categoryKey];
-        const cooldownCasinos = category.casinos.filter(c => !c.isAvailable);
-        
-        if (cooldownCasinos.length > 0) {
-          hasCooldown = true;
-          // Sort by most time left
-          cooldownCasinos.sort((a, b) => (b.next - now) - (a.next - now));
-          const section = createCategorySection(categoryKey, category.name, cooldownCasinos, false);
-          cooldownContainer.appendChild(section);
-        }
-      });
-      
-      if (hasCooldown) {
+      // Render cooldown casinos
+      if (cooldownCasinos.length > 0) {
         const header = document.createElement("h2");
         header.textContent = "On Cooldown";
         header.style.margin = "2em 0 1em 0";
         header.style.fontSize = "1.3em";
         header.style.textAlign = "center";
-        cooldownContainer.insertBefore(header, cooldownContainer.firstChild);
+        header.style.fontFamily = "'Cinzel Decorative', serif";
+        cooldownContainer.appendChild(header);
+        
+        cooldownCasinos.forEach(casino => {
+          const row = createCasinoRow(casino, false);
+          cooldownContainer.appendChild(row);
+        });
       }
       
       // Show/hide sections based on content
       if (casinoFilter) {
-        if (!hasAvailable && !hasCooldown) {
+        if (availableCasinos.length === 0 && cooldownCasinos.length === 0) {
           availableContainer.innerHTML = "<p style='text-align:center;color:var(--text);margin:2em;'>No casinos match your search.</p>";
           cooldownContainer.style.display = "none";
         } else {
-          availableContainer.style.display = hasAvailable ? "" : "none";
-          cooldownContainer.style.display = hasCooldown ? "" : "none";
+          availableContainer.style.display = availableCasinos.length > 0 ? "" : "none";
+          cooldownContainer.style.display = cooldownCasinos.length > 0 ? "" : "none";
         }
       } else {
         availableContainer.style.display = "";
         cooldownContainer.style.display = "";
       }
+    }
+    
+    function createCasinoRow(casino, isAvailable) {
+      const row = document.createElement("div");
+      row.className = "table-row";
+      row.dataset.casino = casino.name;
+      
+      const isTilted = !document.body.classList.contains("light-mode");
+      const link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+      const now = Date.now();
+      
+      // Create favorite button
+      const favoriteBtn = document.createElement("button");
+      favoriteBtn.className = "favorite-btn";
+      favoriteBtn.innerHTML = casino.isFavorite ? "⭐" : "☆";
+      favoriteBtn.title = casino.isFavorite ? "Remove from favorites" : "Add to favorites";
+      favoriteBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleFavorite(casino.name);
+      };
+      
+      // Create hide button
+      const hideBtn = document.createElement("button");
+      hideBtn.className = "hide-btn";
+      hideBtn.innerHTML = "👁";
+      hideBtn.title = "Hide this casino";
+      hideBtn.onclick = (e) => {
+        e.stopPropagation();
+        hideCasino(casino.name);
+      };
+      
+      // Create main content
+      let statusText, statusClass;
+      if (isAvailable) {
+        statusText = "💎 Available! ✨";
+        statusClass = "available";
+      } else {
+        const timeLeft = casino.next - now;
+        statusText = formatTime(timeLeft);
+        statusClass = "timer";
+      }
+      
+      row.innerHTML = `
+        <div class="casino-controls">
+          ${favoriteBtn.outerHTML}
+          ${hideBtn.outerHTML}
+        </div>
+        <div class="tooltip">
+          <a href="${link}" target="_blank" onclick="return handleCasinoLinkClick(event, '${casino.name}')">${casino.name}</a>
+          <span class="tooltiptext">${casino.tooltip || ''}</span>
+        </div>
+        <div><input type="checkbox" aria-label="Collected ${casino.name}?" /></div>
+        <div class="last-collected ${statusClass}">${statusText}</div>
+      `;
+      
+      // Re-attach event handlers since innerHTML overwrites them
+      const newFavoriteBtn = row.querySelector(".favorite-btn");
+      const newHideBtn = row.querySelector(".hide-btn");
+      
+      newFavoriteBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleFavorite(casino.name);
+      };
+      
+      newHideBtn.onclick = (e) => {
+        e.stopPropagation();
+        hideCasino(casino.name);
+      };
+      
+      return row;
+    }
+    
+    function toggleFavorite(casinoName) {
+      const currentFavorite = localStorage.getItem("favorite_" + casinoName) === "true";
+      localStorage.setItem("favorite_" + casinoName, (!currentFavorite).toString());
+      renderCasinoTable();
+    }
+    
+    function hideCasino(casinoName) {
+      if (confirm(`Hide ${casinoName}? You can restore it by clearing your browser data.`)) {
+        localStorage.setItem("hidden_" + casinoName, "true");
+        renderCasinoTable();
+      }
+    }
+    
+    function formatTime(ms) {
+      if (ms <= 0) return "Available!";
+      
+      const hours = Math.floor(ms / (1000 * 60 * 60));
+      const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+      
+      if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+      } else if (minutes > 0) {
+        return `${minutes}m ${seconds}s`;
+      } else {
+        return `${seconds}s`;
+      }
+    }
+    
+    function handleCasinoLinkClick(event, casinoName) {
+      // Track last used time for sorting
+      localStorage.setItem("lastused_" + casinoName, Date.now().toString());
+      return true; // Allow the link to open
     }
     
     function createCategorySection(categoryKey, categoryName, casinos, isAvailable) {
