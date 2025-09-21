@@ -809,6 +809,7 @@
     <div class="toggle-row">
       <button id="mode-toggle" class="toggle-mode">Untilt</button>
       <button id="info-btn" class="info-btn" aria-label="Info" tabindex="0">ⓘ</button>
+      <button id="admin-btn" class="admin-btn" aria-label="Admin Panel" tabindex="0" style="padding:8px 16px;background:#2c3e50;color:#fff;border:none;border-radius:8px;font-size:0.9em;cursor:pointer;">Admin</button>
     </div>
     <div id="info-popup" class="info-popup" role="dialog" aria-modal="true" aria-hidden="true">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
     <form class="search-bar" id="casino-search-form" autocomplete="off" onsubmit="return false;">
@@ -852,6 +853,30 @@
       <div id="bonus-modal-msg" style="font-size:1.15em;margin-bottom:1.2em;"></div>
       <button id="bonus-modal-yes" style="padding:10px 28px;margin:0 1em 0 0;background:#2cb67d;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Yes</button>
       <button id="bonus-modal-no" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">No</button>
+    </div>
+  </div>
+  <div id="admin-panel" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;">
+    <div style="background:#fff;color:#222;padding:2em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:90vw;max-height:90vh;overflow:auto;min-width:600px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2em;">
+        <h2 style="margin:0;">Admin Panel</h2>
+        <button id="admin-close-btn" style="background:#e91e63;color:#fff;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:18px;">×</button>
+      </div>
+      <div id="admin-stats">
+        <h3>Casino Link Statistics</h3>
+        <div id="admin-clicks-list" style="max-height:400px;overflow:auto;border:1px solid #ddd;padding:1em;border-radius:8px;background:#f9f9f9;">
+          <p>Loading statistics...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="admin-password-modal" style="display:none;position:fixed;z-index:3001;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;">
+    <div style="background:#fff;color:#222;padding:2em 1.5em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:400px;text-align:center;">
+      <h3 style="margin:0 0 1em 0;">Admin Access</h3>
+      <input type="password" id="admin-password-input" placeholder="Enter password" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:1em;margin-bottom:1em;">
+      <div>
+        <button id="admin-password-submit" style="padding:10px 28px;margin:0 1em 0 0;background:#2cb67d;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Login</button>
+        <button id="admin-password-cancel" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Cancel</button>
+      </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -900,6 +925,7 @@
       { name: "Bitsler", tilted: "https://www.bitsler.io/?ref=jmenichole", clean: "https://www.bitsler.io", category: "crypto" },
       { name: "Rolla", tilted: "https://www.rolla.com/?raf=3873", clean: "https://www.rolla.com", category: "crypto" },
       { name: "Punt", tilted: "https://punt.com/c/cg60pd", clean: "https://punt.com", category: "crypto" },
+      { name: "Shuffle.us", tilted: "https://shuffle.us?r=jmenichole", clean: "https://shuffle.us", category: "crypto" },
       
       // ⚡ Instant Cashout
       { name: "WowVegas", tilted: "https://www.wowvegas.com/?raf=3615494", clean: "https://www.wowvegas.com", category: "instant" },
@@ -912,6 +938,8 @@
       { name: "Zula Casino", tilted: "https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", clean: "https://www.zulacasino.com", category: "instant" },
       { name: "Fortune Coins", tilted: "https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", clean: "https://www.fortunecoins.com", category: "instant" },
       { name: "High 5 Casino", tilted: "https://high5casino.com/gc?adId=INV001%3AJmenichole", clean: "https://high5casino.com", category: "instant" },
+      { name: "Scrooge Casino", tilted: "https://refer.scrooge.casino/674fb6c5fbffe157e92556c8-1740545357394", clean: "https://scrooge.casino", category: "instant" },
+      { name: "American Luck", tilted: "https://americanluck.com/signup/e360918f-8986-4dec-9823-a902d3f4936a", clean: "https://americanluck.com", category: "instant" },
       
       // 🏆 Sports Betting
       { name: "Sportzino", tilted: "https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", clean: "https://sportzino.com", category: "sports" },
@@ -925,6 +953,9 @@
       { name: "JungleBet VPN", tilted: "https://junglebet.com/r/jmenichole", clean: "https://junglebet.com", category: "vpn" },
       { name: "Shuffle.com VPN", tilted: "https://shuffle.com?r=jHR7JnWRPF", clean: "https://shuffle.com", category: "vpn" },
       { name: "Stake.com VPN", tilted: "https://www.stake.com/?c=LAYP68hb", clean: "https://www.stake.com", category: "vpn" },
+      { name: "MetaWin VPN", tilted: "https://metawin.com/jmenichole007/", clean: "https://metawin.com", category: "vpn" },
+      { name: "The Money Factory VPN", tilted: "https://www.themoneyfactory.com/referral?referralcode=dcd04112-f619-48ee-aec6-2e5a84c9a6d2", clean: "https://www.themoneyfactory.com", category: "vpn" },
+      { name: "Thrill VPN", tilted: "https://thrill.com/?r=3E8477CE-1756119554", clean: "https://thrill.com", category: "vpn" },
       
       // 🎰 Social Casinos
       { name: "MetaWin", tilted: "https://metawin.com/jmenichole007/", clean: "https://metawin.com", category: "social" },
@@ -937,7 +968,7 @@
       { name: "Jackpota", tilted: "https://www.jackpota.com/?r=85453282", clean: "https://www.jackpota.com", category: "social" },
       { name: "MyPrize", tilted: "https://myprize.us/invite/jmenichole", clean: "https://myprize.us", category: "social" },
       { name: "Winna", tilted: "https://winna.com/?r=jmenichole", clean: "https://winna.com", category: "social" },
-      { name: "Club Poker", tilted: "https://play.clubs.poker/?referralCode=104192", clean: "https://play.clubs.poker", category: "social" },
+      { name: "Clubs Poker", tilted: "https://play.clubs.poker/?referralCode=104192", clean: "https://play.clubs.poker", category: "social" },
       { name: "Lonestar Casino", tilted: "https://lonestarcasino.com/refer/678504", clean: "https://lonestarcasino.com", category: "social" },
       { name: "Spree", tilted: "https://spree.com/?r=1450539", clean: "https://spree.com", category: "social" },
       { name: "SpinPals", tilted: "https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c", clean: "https://www.spinpals.com", category: "social" },
@@ -1496,6 +1527,7 @@
         const anchor = row.querySelector("a");
         anchor.addEventListener('click', (event) => {
           event.preventDefault();
+          trackCasinoClick(casino.name); // Track the click
           window.open(link, '_blank');
           setTimeout(() => handleBonusClick(casino.name), 100);
         });
@@ -1559,10 +1591,117 @@
         }
       }
     }
+    
+    // --- Admin Panel Functions ---
+    function initializeAdminPanel() {
+      const adminBtn = document.getElementById("admin-btn");
+      const adminPanel = document.getElementById("admin-panel");
+      const adminPasswordModal = document.getElementById("admin-password-modal");
+      const adminPasswordInput = document.getElementById("admin-password-input");
+      const adminPasswordSubmit = document.getElementById("admin-password-submit");
+      const adminPasswordCancel = document.getElementById("admin-password-cancel");
+      const adminCloseBtn = document.getElementById("admin-close-btn");
+      const adminClicksList = document.getElementById("admin-clicks-list");
+      
+      const ADMIN_PASSWORD = "jmenichole0098";
+      
+      // Initialize click tracking if not exists
+      if (!localStorage.getItem("casinoClickStats")) {
+        localStorage.setItem("casinoClickStats", JSON.stringify({}));
+      }
+      
+      // Show password modal
+      adminBtn.addEventListener("click", () => {
+        adminPasswordModal.style.display = "flex";
+        adminPasswordInput.focus();
+      });
+      
+      // Handle password submission
+      adminPasswordSubmit.addEventListener("click", () => {
+        if (adminPasswordInput.value === ADMIN_PASSWORD) {
+          adminPasswordModal.style.display = "none";
+          showAdminPanel();
+          adminPasswordInput.value = "";
+        } else {
+          alert("Incorrect password");
+          adminPasswordInput.focus();
+        }
+      });
+      
+      // Handle password input Enter key
+      adminPasswordInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          adminPasswordSubmit.click();
+        }
+      });
+      
+      // Cancel password modal
+      adminPasswordCancel.addEventListener("click", () => {
+        adminPasswordModal.style.display = "none";
+        adminPasswordInput.value = "";
+      });
+      
+      // Close admin panel
+      adminCloseBtn.addEventListener("click", () => {
+        adminPanel.style.display = "none";
+      });
+      
+      // Close modals on outside click
+      adminPasswordModal.addEventListener("click", (e) => {
+        if (e.target === adminPasswordModal) {
+          adminPasswordModal.style.display = "none";
+          adminPasswordInput.value = "";
+        }
+      });
+      
+      adminPanel.addEventListener("click", (e) => {
+        if (e.target === adminPanel) {
+          adminPanel.style.display = "none";
+        }
+      });
+      
+      function showAdminPanel() {
+        updateAdminStats();
+        adminPanel.style.display = "flex";
+      }
+      
+      function updateAdminStats() {
+        const clickStats = JSON.parse(localStorage.getItem("casinoClickStats") || "{}");
+        const totalClicks = Object.values(clickStats).reduce((sum, count) => sum + count, 0);
+        
+        let statsHtml = `<div style="margin-bottom: 1em; font-weight: bold;">Total Clicks: ${totalClicks}</div>`;
+        
+        if (Object.keys(clickStats).length === 0) {
+          statsHtml += "<p>No click data available yet.</p>";
+        } else {
+          // Sort by click count descending
+          const sortedStats = Object.entries(clickStats)
+            .sort(([,a], [,b]) => b - a)
+            .map(([casino, clicks]) => `
+              <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #eee;">
+                <span>${casino}</span>
+                <span style="font-weight: bold;">${clicks} clicks</span>
+              </div>
+            `).join('');
+          
+          statsHtml += '<div style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">' + sortedStats + '</div>';
+        }
+        
+        adminClicksList.innerHTML = statsHtml;
+      }
+    }
+    
+    function trackCasinoClick(casinoName) {
+      const clickStats = JSON.parse(localStorage.getItem("casinoClickStats") || "{}");
+      clickStats[casinoName] = (clickStats[casinoName] || 0) + 1;
+      localStorage.setItem("casinoClickStats", JSON.stringify(clickStats));
+    }
+    
     // --- Startup ---
     document.addEventListener("DOMContentLoaded", function() {
       const modeToggle = document.getElementById("mode-toggle");
       if (modeToggle) modeToggle.addEventListener("click", toggleMode);
+      initializeAdminPanel(); // Initialize admin panel
       renderCasinoTable();
       updateTimers();
       updateStats();
