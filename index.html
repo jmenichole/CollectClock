@@ -797,6 +797,180 @@
         height: 2.5em;
       }
     }
+    
+    /* Casino Information Cards */
+    .casino-info-btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      padding: 0.4em 0.8em;
+      font-size: 0.85em;
+      cursor: pointer;
+      margin-left: 0.5em;
+      transition: all 0.3s ease;
+      opacity: 0.8;
+    }
+    
+    .casino-info-btn:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .casino-info-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+    
+    .casino-info-card {
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      border-radius: 20px;
+      padding: 2em;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px var(--glow-purple);
+      position: relative;
+      animation: cardSlideIn 0.4s ease-out;
+    }
+    
+    @keyframes cardSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    
+    .casino-info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5em;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 1em;
+    }
+    
+    .casino-info-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: var(--accent);
+      font-family: 'Cinzel Decorative', serif;
+    }
+    
+    .casino-info-close {
+      background: var(--link-hover);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: white;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .casino-info-close:hover {
+      transform: rotate(90deg);
+      box-shadow: 0 0 15px var(--link-hover);
+    }
+    
+    .casino-info-content {
+      line-height: 1.6;
+    }
+    
+    .casino-info-field {
+      margin-bottom: 1.2em;
+      padding: 1em;
+      background: var(--hover-bg);
+      border-radius: 12px;
+      border-left: 4px solid var(--accent);
+    }
+    
+    .casino-info-label {
+      font-weight: bold;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5em;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .casino-info-value {
+      color: var(--text);
+      font-size: 1em;
+    }
+    
+    .trust-score {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+    
+    .trust-score-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .trust-score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--link-hover), var(--success));
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+    
+    .trust-score-number {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: var(--success);
+    }
+    
+    .casino-category-badge {
+      display: inline-block;
+      padding: 0.3em 0.8em;
+      background: var(--category-bg);
+      border: 1px solid var(--category-border);
+      border-radius: 20px;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.5em;
+    }
+    
+    @media (max-width: 600px) {
+      .casino-info-card {
+        padding: 1.5em;
+        width: 95%;
+        max-height: 90vh;
+      }
+      
+      .casino-info-btn {
+        font-size: 0.75em;
+        padding: 0.3em 0.6em;
+      }
+    }
   </style>
 </head>
 <body>
@@ -855,6 +1029,20 @@
       <button id="bonus-modal-no" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">No</button>
     </div>
   </div>
+  
+  <!-- Casino Information Modal -->
+  <div id="casino-info-modal" class="casino-info-modal">
+    <div class="casino-info-card">
+      <div class="casino-info-header">
+        <h3 id="casino-info-title" class="casino-info-title">Casino Information</h3>
+        <button class="casino-info-close" onclick="closeCasinoInfo()">✕</button>
+      </div>
+      <div id="casino-info-content" class="casino-info-content">
+        <!-- Content will be populated dynamically -->
+      </div>
+    </div>
+  </div>
+  
   <div id="admin-panel" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;">
     <div style="background:#fff;color:#222;padding:2em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:90vw;max-height:90vh;overflow:auto;min-width:600px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2em;">
@@ -920,16 +1108,81 @@
     ];
     window.casinoData = [
       // 🪙 Crypto Casinos
-      { name: "TrustDice", tilted: "https://trustdice.win/faucet/?ref=u_jmenichole", clean: "https://trustdice.win", category: "crypto" },
-      { name: "Stake US", tilted: "https://stake.us/?c=Jmenichole", clean: "https://stake.us", category: "crypto" },
-      { name: "Bitsler", tilted: "https://www.bitsler.io/?ref=jmenichole", clean: "https://www.bitsler.io", category: "crypto" },
+      { 
+        name: "TrustDice", 
+        tilted: "https://trustdice.win/faucet/?ref=u_jmenichole", 
+        clean: "https://trustdice.win", 
+        category: "crypto",
+        info: {
+          dailyBonus: "Free coins + 25% rakeback",
+          frequency: "Every 24 hours",
+          redemption: "Instant",
+          timeframe: "No minimum withdrawal",
+          notes: "Provably fair games, cryptocurrency focus",
+          trustScore: 85
+        }
+      },
+      { 
+        name: "Stake US", 
+        tilted: "https://stake.us/?c=Jmenichole", 
+        clean: "https://stake.us", 
+        category: "crypto",
+        info: {
+          dailyBonus: "$0.25-$1.00 daily bonus",
+          frequency: "Daily at midnight EST",
+          redemption: "Instant",
+          timeframe: "No wagering requirement",
+          notes: "US-licensed, sweepstakes casino",
+          trustScore: 92
+        }
+      },
+      { 
+        name: "Bitsler", 
+        tilted: "https://www.bitsler.io/?ref=jmenichole", 
+        clean: "https://www.bitsler.io", 
+        category: "crypto",
+        info: {
+          dailyBonus: "0.0001+ BTC faucet",
+          frequency: "Every 6 hours",
+          redemption: "Instant",
+          timeframe: "0.001 BTC minimum withdrawal",
+          notes: "Multi-crypto support, established 2015",
+          trustScore: 88
+        }
+      },
       { name: "Rolla", tilted: "https://www.rolla.com/?raf=3873", clean: "https://www.rolla.com", category: "crypto" },
       { name: "Punt", tilted: "https://punt.com/c/cg60pd", clean: "https://punt.com", category: "crypto" },
       { name: "Shuffle.us", tilted: "https://shuffle.us?r=jmenichole", clean: "https://shuffle.us", category: "crypto" },
       
       // ⚡ Instant Cashout
-      { name: "WowVegas", tilted: "https://www.wowvegas.com/?raf=3615494", clean: "https://www.wowvegas.com", category: "instant" },
-      { name: "Pulsz", tilted: "https://www.pulsz.com/?invited_by=utfk4r", clean: "https://www.pulsz.com", category: "instant" },
+      { 
+        name: "WowVegas", 
+        tilted: "https://www.wowvegas.com/?raf=3615494", 
+        clean: "https://www.wowvegas.com", 
+        category: "instant",
+        info: {
+          dailyBonus: "250K WOW Coins + 5 SC",
+          frequency: "Daily login bonus",
+          redemption: "Instant sweepstakes cashout",
+          timeframe: "Instant for crypto, 3-5 days for bank",
+          notes: "Social casino, sweepstakes model",
+          trustScore: 90
+        }
+      },
+      { 
+        name: "Pulsz", 
+        tilted: "https://www.pulsz.com/?invited_by=utfk4r", 
+        clean: "https://www.pulsz.com", 
+        category: "instant",
+        info: {
+          dailyBonus: "5K Pulsz + 2.3 SC daily",
+          frequency: "Every 24 hours",
+          redemption: "Instant withdrawal",
+          timeframe: "Instant crypto, 1-3 days ACH",
+          notes: "Established sweepstakes platform",
+          trustScore: 94
+        }
+      },
       { name: "Modo", tilted: "https://modo.us?referralCode=61MN6A", clean: "https://modo.us", category: "instant" },
       { name: "McLuck", tilted: "https://www.mcluck.com/lp/raf?r=61119407%2F908900038", clean: "https://www.mcluck.com", category: "instant" },
       { name: "Crown Coins", tilted: "https://crowncoinscasino.com/", clean: "https://crowncoinscasino.com", category: "instant" },
@@ -977,6 +1230,91 @@
       { name: "Spinsala", tilted: "https://spinsala.com/en?invite=daym", clean: "https://spinsala.com", category: "social" },
       { name: "Legendz", tilted: "https://legendz.com/?referred_by_id=221602", clean: "https://legendz.com", category: "social" },
     ];
+
+    // --- Casino Information Modal Functions ---
+    window.showCasinoInfo = function(casinoName) {
+      const casino = window.casinoData.find(c => c.name === casinoName);
+      if (!casino || !casino.info) return;
+      
+      const modal = document.getElementById('casino-info-modal');
+      const title = document.getElementById('casino-info-title');
+      const content = document.getElementById('casino-info-content');
+      
+      title.textContent = casino.name;
+      
+      // Build the content HTML
+      let contentHTML = `
+        <div class="casino-info-field">
+          <span class="casino-info-label">Daily Bonus</span>
+          <div class="casino-info-value">${casino.info.dailyBonus}</div>
+        </div>
+        
+        <div class="casino-info-field">
+          <span class="casino-info-label">Collection Frequency</span>
+          <div class="casino-info-value">${casino.info.frequency}</div>
+        </div>
+        
+        <div class="casino-info-field">
+          <span class="casino-info-label">Redemption Type</span>
+          <div class="casino-info-value">${casino.info.redemption}</div>
+        </div>
+        
+        <div class="casino-info-field">
+          <span class="casino-info-label">Withdrawal Timeframe</span>
+          <div class="casino-info-value">${casino.info.timeframe}</div>
+        </div>
+        
+        <div class="casino-info-field">
+          <span class="casino-info-label">Trust Score</span>
+          <div class="casino-info-value">
+            <div class="trust-score">
+              <div class="trust-score-bar">
+                <div class="trust-score-fill" style="width: ${casino.info.trustScore}%"></div>
+              </div>
+              <span class="trust-score-number">${casino.info.trustScore}/100</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="casino-info-field">
+          <span class="casino-info-label">Additional Notes</span>
+          <div class="casino-info-value">${casino.info.notes}</div>
+          <div class="casino-category-badge">${casino.category}</div>
+        </div>
+      `;
+      
+      content.innerHTML = contentHTML;
+      modal.style.display = 'flex';
+      
+      // Add keyboard event listener for escape key
+      document.addEventListener('keydown', window.handleCasinoInfoKeydown);
+      
+      // Focus the close button for accessibility
+      setTimeout(() => {
+        const closeBtn = modal.querySelector('.casino-info-close');
+        if (closeBtn) closeBtn.focus();
+      }, 100);
+    };
+    
+    window.closeCasinoInfo = function() {
+      const modal = document.getElementById('casino-info-modal');
+      modal.style.display = 'none';
+      document.removeEventListener('keydown', window.handleCasinoInfoKeydown);
+    };
+    
+    window.handleCasinoInfoKeydown = function(e) {
+      if (e.key === 'Escape') {
+        window.closeCasinoInfo();
+      }
+    };
+    
+    // Close modal when clicking outside of it
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('casino-info-modal');
+      if (e.target === modal) {
+        window.closeCasinoInfo();
+      }
+    });
 
     // --- Browser Notification Support ---
     let notificationsEnabled = false;
@@ -1386,6 +1724,12 @@
         hideCasino(casino.name);
       };
       
+      // Create info button if casino has detailed information
+      let infoButton = "";
+      if (casino.info) {
+        infoButton = `<button class="casino-info-btn" onclick="showCasinoInfo('${casino.name}')" title="View casino details">ⓘ</button>`;
+      }
+      
       // Create main content
       let statusText, statusClass;
       if (isAvailable) {
@@ -1404,6 +1748,7 @@
         </div>
         <div class="tooltip">
           <a href="${link}" target="_blank" onclick="return handleCasinoLinkClick(event, '${casino.name}')">${casino.name}</a>
+          ${infoButton}
           <span class="tooltiptext">${casino.tooltip || ''}</span>
         </div>
         <div><input type="checkbox" aria-label="Collected ${casino.name}?" /></div>
