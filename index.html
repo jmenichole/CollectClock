@@ -1103,6 +1103,14 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
+  // Fallback confetti function in case CDN is blocked
+  if (typeof confetti === 'undefined') {
+    window.confetti = function() {
+      console.log('Confetti would be displayed here');
+    };
+  }
+  </script>
+  <script>
   (function() {
     // --- Sound asset URLs (using local files) ---
     const tiltSound = new Audio("assets/audio/798635__cvltiv8r__cvlt-bass-94.wav");
