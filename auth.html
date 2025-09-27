@@ -5,21 +5,52 @@
   <title>Authenticating...</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #000;
-      color: #0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+      color: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       text-align: center;
+      margin: 0;
+    }
+    .auth-container {
+      background: rgba(42, 42, 42, 0.9);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 2px solid #555;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      color: #BB86FC;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    p {
+      color: #e0e0e0;
+      font-size: 1.1rem;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #555;
+      border-radius: 50%;
+      border-top-color: #BB86FC;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 0.5rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <div>
+  <div class="auth-container">
     <h1>Linking your Discord...</h1>
-    <p>Please wait.</p>
+    <p>Please wait.<span class="loading"></span></p>
   </div>
   <script>
     async function handleAuth() {
@@ -28,7 +59,7 @@
       const token = params.get("access_token");
 
       if (!token) {
-        document.body.innerHTML = "<h1>Missing token.</h1>";
+        document.querySelector('.auth-container').innerHTML = "<h1>Missing token.</h1>";
         return;
       }
 
@@ -53,7 +84,7 @@
         window.location.href = "index.html";
       } catch (err) {
         console.error("Auth failed", err);
-        document.body.innerHTML = "<h1>Authentication failed.</h1>";
+        document.querySelector('.auth-container').innerHTML = "<h1>Authentication failed.</h1>";
       }
     }
 
