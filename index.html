@@ -257,13 +257,11 @@
       padding: 20px; 
       margin: 12px 0;
       border-radius: 16px; 
-      background: linear-gradient(135deg, rgba(28, 28, 28, 0.95) 0%, rgba(44, 44, 44, 0.85) 100%);
-      border: 2px solid rgba(156, 39, 176, 0.3);
+      background: linear-gradient(135deg, rgba(66, 66, 66, 0.9) 0%, rgba(42, 42, 42, 0.9) 100%);
+      border: 1px solid var(--border);
       box-shadow: 
-        0 8px 24px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(156, 39, 176, 0.15),
-        inset 0 1px 0 rgba(192, 192, 192, 0.15),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(187, 134, 252, 0.1);
       min-height: 80px;
       align-items: center;
       transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -326,28 +324,34 @@
       transition: left 0.6s ease;
     }
     .table-row:hover { 
-      background: linear-gradient(135deg, rgba(156, 39, 176, 0.3) 0%, rgba(192, 192, 192, 0.2) 50%, rgba(156, 39, 176, 0.3) 100%);
-      color: #fff; 
-      transform: translateY(-4px) scale(1.02);
+      background: linear-gradient(135deg, rgba(187, 134, 252, 0.2) 0%, rgba(245, 245, 245, 0.1) 50%, rgba(187, 134, 252, 0.2) 100%);
+      color: var(--text); 
+      transform: translateY(-2px) scale(1.01);
       box-shadow: 
-        0 16px 40px rgba(156, 39, 176, 0.4), 
-        0 0 50px rgba(192, 192, 192, 0.2),
-        inset 0 2px 0 rgba(255, 255, 255, 0.25);
-      border-color: rgba(156, 39, 176, 0.6);
+        0 8px 24px rgba(187, 134, 252, 0.3), 
+        0 0 30px rgba(245, 245, 245, 0.1);
+      border-color: var(--accent);
     }
     .table-row:hover::before {
       left: 100%;
     }
     .light-mode .table-row {
-      background: linear-gradient(135deg, rgba(236, 240, 241, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-      border: 1px solid var(--silver);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+      border: 1px solid var(--border);
+      color: var(--text);
       box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        0 0 25px rgba(212, 175, 55, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        0 0 15px rgba(25, 118, 210, 0.05);
     }
     .light-mode .table-row:hover { 
-      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--red-bright) 50%, var(--gold-bright) 100%);
+      background: linear-gradient(135deg, rgba(25, 118, 210, 0.08) 0%, rgba(33, 150, 243, 0.06) 50%, rgba(25, 118, 210, 0.08) 100%);
+      color: var(--text);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 
+        0 6px 16px rgba(25, 118, 210, 0.15), 
+        0 0 20px rgba(25, 118, 210, 0.1);
+      border-color: var(--accent);
+    }
       color: #fff; 
       box-shadow: 
         0 8px 20px rgba(52, 152, 219, 0.25), 
