@@ -256,27 +256,25 @@
     
     
     .last-collected.available {
-      animation: pulseSilverGlow 2s infinite;
-      text-shadow: 0 0 8px rgba(192, 192, 192, 0.8), 0 0 16px rgba(156, 39, 176, 0.6);
+      text-shadow: 0 0 8px rgba(81, 207, 102, 0.8);
       font-weight: 800;
       font-size: 1.1em;
-      color: #00ff88;
-      background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(156, 39, 176, 0.1));
+      color: var(--success);
+      background: var(--card-bg);
       padding: 8px 16px;
       border-radius: 20px;
-      border: 2px solid rgba(0, 255, 136, 0.3);
+      border: 2px solid var(--success);
       text-align: center;
     }
     .last-collected.timer {
-      animation: pulsePurpleGlow 2s infinite;
-      text-shadow: 0 0 8px rgba(156, 39, 176, 0.8), 0 0 16px rgba(192, 192, 192, 0.4);
+      text-shadow: 0 0 8px rgba(255, 107, 107, 0.8);
       font-weight: 700;
       font-size: 1.1em;
-      color: var(--purple-accent);
-      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(0, 0, 0, 0.3));
+      color: var(--timer);
+      background: var(--card-bg);
       padding: 8px 16px;
       border-radius: 20px;
-      border: 2px solid rgba(156, 39, 176, 0.4);
+      border: 2px solid var(--timer);
       text-align: center;
     }
     @keyframes pulsePurpleGlow {
@@ -324,20 +322,6 @@
           0 0 30px var(--silver), 
           0 0 4px #000; 
       }
-    }
-    .light-mode .last-collected.available {
-      text-shadow: 
-        0 0 8px var(--gold-dark), 
-        0 0 15px var(--gold-bright),
-        0 1px 2px rgba(0, 0, 0, 0.3);
-      color: var(--gold-dark);
-    }
-    .light-mode .last-collected.timer {
-      text-shadow: 
-        0 0 8px var(--red-bright), 
-        0 0 15px var(--red-dark),
-        0 1px 2px rgba(0, 0, 0, 0.3);
-      color: var(--red-bright);
     }
     @keyframes glitch {
       0% { transform: none; }
@@ -513,11 +497,6 @@
       background: linear-gradient(135deg, rgba(189, 195, 199, 0.2), rgba(241, 196, 15, 0.1));
       transform: translateY(-2px);
     }
-    .light-mode footer a:hover {
-      text-shadow: 
-        0 0 12px rgba(149, 165, 166, 0.8),
-        0 0 20px rgba(212, 175, 55, 0.6);
-    }
     .profile-pic {
       width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
       border: 2px solid #5865F2; box-shadow: 0 1px 4px #5865F299;
@@ -575,10 +554,6 @@
       border: 2px solid var(--accent);
       box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     }
-    .light-mode .search-bar input[type="search"]:focus {
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 12px rgba(255, 0, 128, 0.3);
-    }
     .search-bar button {
       padding: 0.8em 1.4em;
       border-radius: 10px;
@@ -594,10 +569,6 @@
       background: var(--link-hover);
       transform: translateY(-1px);
       box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
-    }
-    .light-mode .search-bar button:hover {
-      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.5), 0 0 25px rgba(251, 191, 36, 0.3);
-      text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);
     }
     @media (max-width: 600px) {
       .container { padding: 0.5em; }
