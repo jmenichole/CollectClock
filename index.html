@@ -1,60 +1,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>🎰 Tilted, baby</title>
+  <title>🎯 CollectClock - Daily Casino Bonuses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* Enhanced Dark Theme - Improved Readability */
-      --bg: #121212;
-      --text: #F5F5F5;
-      --link: #E3E3E3;
-      --link-hover: #BB86FC;
-      --timer: #BB86FC;
-      --hover-bg: #2A2A2A;
-      --border: #555;
-      --success: #4CAF50;
-      --accent: #BB86FC;
-      --category-bg: #2A2A2A;
-      --category-border: #666;
-      --category-hover: #3A3A3A;
-      --silver: #E0E0E0;
-      --dark-silver: #B0B0B0;
-      --bright-silver: #F5F5F5;
-      --purple-accent: #BB86FC;
-      --rose-gold: #FFB74D;
-      --glow-purple: rgba(187, 134, 252, 0.6);
-      --glow-silver: rgba(245, 245, 245, 0.6);
-    }
-    .light-mode {
-      /* Enhanced Light Theme - Clean and Readable */
-      --bg: #FAFAFA;
-      --text: #212121;
-      --link: #1976D2;
-      --link-hover: #1565C0;
-      --timer: #1976D2;
-      --hover-bg: #F5F5F5;
-      --border: #E0E0E0;
-      --success: #388E3C;
-      --accent: #1976D2;
-      --category-bg: #FFFFFF;
-      --category-border: #E0E0E0;
-      --category-hover: #F0F0F0;
-      --silver: #757575;
-      --dark-silver: #616161;
-      --gold-bright: #1976D2;
-      --gold-dark: #1565C0;
-      --red-bright: #42A5F5;
-      --red-dark: #1976D2;
-      
-      /* Category-specific colors */
-      --crypto-accent: #FF9800;
-      --social-accent: #2196F3;
-      --sports-accent: #4CAF50;
-      --vpn-accent: #9C27B0;
-      --instant-accent: #00BCD4;
+      /* Modern, clean color scheme */
+      --bg: #1a1a2e;
+      --text: #ffffff;
+      --text-secondary: #b4b4b4;
+      --link: #4a9eff;
+      --link-hover: #7bb3ff;
+      --timer: #ff6b6b;
+      --success: #51cf66;
+      --warning: #ffd43b;
+      --hover-bg: #252545;
+      --border: #3d3d5c;
+      --accent: #4a9eff;
+      --card-bg: #16213e;
+      --card-hover: #1e2a47;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --shadow-hover: rgba(74, 158, 255, 0.2);
     }
     body {
       font-family: 'Montserrat', sans-serif;
@@ -63,211 +31,52 @@
       margin: 0;
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
-      /* Subtle dark pattern for better readability */
       background-image: 
-        radial-gradient(circle at 20% 80%, rgba(187, 134, 252, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(245, 245, 245, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 183, 77, 0.04) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(74, 158, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
       background-size: 120px 120px;
       background-attachment: fixed;
     }
-    .light-mode body {
-      /* Clean light pattern */
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(25, 118, 210, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(33, 150, 243, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(117, 117, 117, 0.03) 0%, transparent 50%);
-      background-size: 150px 150px;
-      background-attachment: fixed;
-    }
     .container { 
-      max-width: 800px; 
-      margin: auto; 
+      max-width: 900px; 
+      margin: 2rem auto; 
       padding: 2rem;
-      background: rgba(42, 42, 42, 0.85);
-      border: 2px solid var(--border);
-      border-radius: 20px;
-      margin-top: 2rem;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3), 
-        0 0 20px rgba(187, 134, 252, 0.1);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px var(--shadow);
       backdrop-filter: blur(10px);
-      position: relative;
-    }
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 18px;
-      padding: 2px;
-      background: linear-gradient(45deg, var(--silver), var(--accent), var(--success));
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0.4;
-    }
-    .light-mode .container {
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.12), 
-        0 0 20px rgba(25, 118, 210, 0.08);
-      border: 2px solid var(--border);
     }
     h1 { 
-      font-family: 'Cinzel Decorative', serif;
+      font-family: 'Montserrat', sans-serif;
       text-align: center; 
-      font-size: 2.4em; 
-      margin-bottom: 1.2em;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: #C0C0C0;
-      background: linear-gradient(135deg, var(--bright-silver), var(--silver), var(--purple-accent));
+      font-size: 2.2em; 
+      margin-bottom: 1.5em;
+      font-weight: 600;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--accent), var(--link-hover));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: glitch 0.8s infinite, silverGlitter 5s ease-in-out infinite; 
-      text-shadow: 
-        0 0 10px rgba(192, 192, 192, 0.8), 
-        0 0 25px rgba(156, 39, 176, 0.6), 
-        0 0 40px rgba(192, 192, 192, 0.4), 
-        0 3px 6px rgba(0, 0, 0, 0.9);
-      position: relative;
     }
-    h1::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, var(--gold-bright), var(--red-bright), var(--silver));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      opacity: 0;
-      animation: titleFlash 6s infinite;
-      z-index: -1;
-    }
-    .light-mode h1 { 
-      animation: blueShimmer 5s ease-in-out infinite;
-      text-shadow: 
-        0 0 6px rgba(52, 152, 219, 0.4), 
-        0 0 10px rgba(149, 165, 166, 0.3), 
-        0 2px 4px rgba(0, 0, 0, 0.3);
-      font-weight: 700;
-    }
-    .toggle-mode {
-      font-family: 'Cinzel Decorative', serif;
-      padding: 16px 36px;
-      background: linear-gradient(135deg, #000000 0%, #1A1A1A 50%, #000000 100%);
-      color: var(--silver); 
-      border: 2px solid;
-      border-image: linear-gradient(135deg, var(--silver) 0%, var(--purple-accent) 50%, var(--silver) 100%) 1;
-      border-radius: 15px;
-      cursor: pointer; 
-      font-size: 1.2em; 
-      font-weight: 700;
-      display: block; 
-      margin: 0 auto 1.5em;
-      transition: all 0.4s ease;
-      box-shadow: 
-        0 6px 20px rgba(156, 39, 176, 0.4), 
-        0 0 30px rgba(192, 192, 192, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-      text-shadow: 
-        0 0 10px rgba(192, 192, 192, 0.8), 
-        0 2px 4px rgba(0, 0, 0, 0.9);
-      position: relative;
-      overflow: hidden;
-    }
-    .toggle-mode::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transform: rotate(45deg);
-      transition: all 0.6s ease;
-      opacity: 0;
-    }
-    .toggle-mode:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 
-        0 12px 40px rgba(156, 39, 176, 0.6), 
-        0 0 50px rgba(192, 192, 192, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      text-shadow: 
-        0 0 20px rgba(192, 192, 192, 1), 
-        0 0 30px rgba(156, 39, 176, 0.8),
-        0 2px 4px rgba(0, 0, 0, 0.9);
-      border-image: linear-gradient(135deg, var(--bright-silver) 0%, var(--purple-accent) 50%, var(--bright-silver) 100%) 1;
-      animation: buttonGlow 2s ease-in-out infinite;
-    }
-    .toggle-mode:hover::before {
-      opacity: 1;
-      animation: shine 1.2s ease-in-out;
-    }
-    @keyframes shine {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-    }
-    @keyframes buttonGlow {
-      0%, 100% { 
-        box-shadow: 
-          0 12px 40px rgba(156, 39, 176, 0.6), 
-          0 0 50px rgba(192, 192, 192, 0.5),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      }
-      50% { 
-        box-shadow: 
-          0 12px 40px rgba(156, 39, 176, 0.8), 
-          0 0 60px rgba(192, 192, 192, 0.7),
-          0 0 80px rgba(156, 39, 176, 0.4),
-          inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      }
-    }
-    .light-mode .toggle-mode {
-      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--silver) 25%, var(--red-bright) 50%, var(--gold-bright) 75%, var(--dark-silver) 100%);
-      box-shadow: 
-        0 4px 12px rgba(149, 165, 166, 0.2), 
-        0 0 15px rgba(52, 152, 219, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-    }
-    .light-mode .toggle-mode:hover {
-      box-shadow: 
-        0 6px 20px rgba(149, 165, 166, 0.3), 
-        0 0 20px rgba(52, 152, 219, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    .header-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
     }
     .table-row {
       display: grid; 
       grid-template-columns: auto 2fr auto auto 2fr;
       gap: 16px; 
-      padding: 20px; 
-      margin: 12px 0;
-      border-radius: 16px; 
-      background: linear-gradient(135deg, rgba(66, 66, 66, 0.9) 0%, rgba(42, 42, 42, 0.9) 100%);
+      padding: 16px; 
+      margin: 8px 0;
+      border-radius: 12px; 
+      background: var(--card-bg);
       border: 1px solid var(--border);
-      box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.3),
-        0 0 20px rgba(187, 134, 252, 0.1);
-      min-height: 80px;
+      box-shadow: 0 2px 8px var(--shadow);
+      min-height: 60px;
       align-items: center;
-      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
     }
     
     .casino-controls {
@@ -313,104 +122,33 @@
       transform: scale(1.15);
       box-shadow: 0 4px 12px rgba(255, 69, 69, 0.3);
     }
-    .table-row::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(241, 196, 15, 0.1), transparent);
-      transition: left 0.6s ease;
-    }
     .table-row:hover { 
-      background: linear-gradient(135deg, rgba(187, 134, 252, 0.2) 0%, rgba(245, 245, 245, 0.1) 50%, rgba(187, 134, 252, 0.2) 100%);
-      color: var(--text); 
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 
-        0 8px 24px rgba(187, 134, 252, 0.3), 
-        0 0 30px rgba(245, 245, 245, 0.1);
+      background: var(--card-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--shadow-hover);
       border-color: var(--accent);
-    }
-    .table-row:hover::before {
-      left: 100%;
-    }
-    .light-mode .table-row {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
-      border: 1px solid var(--border);
-      color: var(--text);
-      box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.08),
-        0 0 15px rgba(25, 118, 210, 0.05);
-    }
-    .light-mode .table-row:hover { 
-      background: linear-gradient(135deg, rgba(25, 118, 210, 0.08) 0%, rgba(33, 150, 243, 0.06) 50%, rgba(25, 118, 210, 0.08) 100%);
-      color: var(--text);
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 
-        0 6px 16px rgba(25, 118, 210, 0.15), 
-        0 0 20px rgba(25, 118, 210, 0.1);
-      border-color: var(--accent);
-    }
-      color: #fff; 
-      box-shadow: 
-        0 8px 20px rgba(52, 152, 219, 0.25), 
-        0 0 25px rgba(93, 173, 226, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      border-color: var(--dark-silver);
     }
     /* Enhanced Casino Link Styling */
     .table-row a {
-      color: var(--bright-silver);
+      color: var(--link);
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 600;
       font-size: 1.1em;
-      padding: 12px 18px;
-      border-radius: 12px;
-      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(192, 192, 192, 0.1));
-      border: 2px solid rgba(156, 39, 176, 0.4);
-      text-shadow: 0 0 10px rgba(192, 192, 192, 0.8);
+      padding: 10px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
       display: inline-block;
-      min-width: 140px;
+      min-width: 120px;
       text-align: center;
-    }
-    .table-row a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
+      background: var(--hover-bg);
+      border: 1px solid var(--border);
     }
     .table-row a:hover {
-      color: #fff;
-      background: linear-gradient(135deg, rgba(156, 39, 176, 0.6), rgba(192, 192, 192, 0.3));
-      border-color: rgba(255, 255, 255, 0.6);
-      text-shadow: 
-        0 0 20px rgba(255, 255, 255, 1),
-        0 2px 4px rgba(0, 0, 0, 0.8);
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
-    }
-    .table-row a:hover::before {
-      left: 100%;
-    }
-    .light-mode .table-row a {
-      color: var(--gold-dark);
-      background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(149, 165, 166, 0.05));
-      border-color: rgba(52, 152, 219, 0.3);
-      text-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
-    }
-    .light-mode .table-row a:hover {
-      background: linear-gradient(135deg, var(--gold-dark), var(--red-bright));
-      text-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.6),
-        0 1px 2px rgba(0, 0, 0, 0.5);
+      color: var(--link-hover);
+      background: var(--accent);
+      border-color: var(--link-hover);
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px var(--shadow-hover);
     }
     
     /* Enhanced Category Section Styling */
@@ -1141,14 +879,11 @@
 
   <div class="container">
     <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
-    <h1>Degen mode activated. Don't forget the juice ⚡</h1>
+    <h1>Daily Casino Bonus Tracker 🎯</h1>
     <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;">Login with Discord</a>
-    <div class="toggle-row">
-      <button id="mode-toggle" class="toggle-mode">Untilt</button>
-      <button id="info-btn" class="info-btn" aria-label="Info" tabindex="0">ⓘ</button>
+    <div class="header-actions">
       <button id="admin-btn" class="admin-btn" aria-label="Admin Panel" tabindex="0" style="padding:8px 16px;background:#2c3e50;color:#fff;border:none;border-radius:8px;font-size:0.9em;cursor:pointer;">Admin</button>
     </div>
-    <div id="info-popup" class="info-popup" role="dialog" aria-modal="true" aria-hidden="true">Switch between raw and referral links.<br>Tilt Mode supports dev, Untilt is mod-safe.</div>
     <form class="search-bar" id="casino-search-form" autocomplete="off" onsubmit="return false;">
       <input type="search" id="casino-search" placeholder="Search casinos..." aria-label="Search casinos" />
       <button type="button" id="casino-search-clear" aria-label="Clear search" tabindex="0" style="display:none;">✕</button>
@@ -1918,26 +1653,7 @@
       if (Math.random() < 0.2) showGifPopup();
       return true;
     }
-    function toggleMode() {
-      const body = document.body;
-      const isLight = body.classList.toggle("light-mode");
-      const h1 = document.querySelector("h1");
-      if (h1) h1.textContent = isLight
-        ? "Don't forget your daily bonus collection 💧"
-        : "Degen mode activated. Don't forget the juice ⚡";
-      document.title = isLight ? "🎯 Bonus Tracker - CollectClock" : "🎰 Tilted, baby";
-      const modeBtn = document.querySelector(".toggle-mode");
-      if (modeBtn) modeBtn.textContent = isLight ? "Tilt" : "Untilt";
-      try {
-        (isLight ? untiltSound : tiltSound).play();
-      } catch {}
-      if (!isLight && !localStorage.getItem("tiltConfettiShown")) {
-        confetti();
-        localStorage.setItem("tiltConfettiShown", "true");
-      }
-      localStorage.setItem("theme", isLight ? "light" : "dark");
-      renderCasinoTable(); // update links for mode
-    }
+    // Toggle mode functionality removed - always use affiliate links
     // --- Search/Filter Logic ---
     let casinoFilter = "";
     const searchInput = document.getElementById("casino-search");
@@ -2033,7 +1749,7 @@
       availableContainer.innerHTML = "";
       cooldownContainer.innerHTML = "";
       
-      const isTilted = !document.body.classList.contains("light-mode");
+      // Always use affiliate links
       let data = window.casinoData || [];
       const now = Date.now();
       
@@ -2226,8 +1942,8 @@
       row.className = "table-row";
       row.dataset.casino = casino.name;
       
-      const isTilted = !document.body.classList.contains("light-mode");
-      const link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
+      // Always use affiliate links (previously "tilted" links)
+      const link = casino.tilted;
       const now = Date.now();
       
       // Create favorite button
@@ -2546,9 +2262,7 @@
       updateTimers();
       updateStats();
       updateBonusCount();
-      // Restore theme - dark is now default
-      const theme = localStorage.getItem("theme");
-      if (theme === "light") document.body.classList.add("light-mode");
+      // Theme system removed - always use consistent styling
       // Request notification permission
       requestNotificationPermission();
       // Focus search bar on load for accessibility
