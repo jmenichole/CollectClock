@@ -258,22 +258,24 @@
     }
     .table-row {
       display: grid; 
-      grid-template-columns: auto 2fr 1fr 2fr;
-      gap: 12px; 
-      padding: 18px; 
-      margin: 0.8em 0;
-      border-radius: 15px; 
-      background: linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(44, 44, 44, 0.6) 100%);
-      border: 1px solid var(--silver);
+      grid-template-columns: auto 2fr auto auto 2fr;
+      gap: 16px; 
+      padding: 20px; 
+      margin: 12px 0;
+      border-radius: 16px; 
+      background: linear-gradient(135deg, rgba(28, 28, 28, 0.95) 0%, rgba(44, 44, 44, 0.85) 100%);
+      border: 2px solid rgba(156, 39, 176, 0.3);
       box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.3),
-        0 0 25px rgba(156, 39, 176, 0.1),
-        inset 0 1px 0 rgba(192, 192, 192, 0.1);
-      min-height: 68px;
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(156, 39, 176, 0.15),
+        inset 0 1px 0 rgba(192, 192, 192, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+      min-height: 80px;
       align-items: center;
-      transition: all 0.4s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(10px);
     }
     
     .casino-controls {
@@ -285,36 +287,39 @@
     }
     
     .favorite-btn, .hide-btn {
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid var(--silver);
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid rgba(156, 39, 176, 0.3);
       color: var(--silver);
-      font-size: 1em;
+      font-size: 1.1em;
       cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
-      transition: all 0.2s ease;
-      width: 28px;
-      height: 24px;
+      padding: 6px;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 10;
       position: relative;
+      backdrop-filter: blur(5px);
     }
     
     .favorite-btn:hover {
-      background: rgba(255, 215, 0, 0.3);
-      border-color: gold;
-      color: gold;
-      transform: scale(1.1);
-      text-shadow: 0 0 4px gold;
+      background: rgba(255, 215, 0, 0.2);
+      border-color: #ffd700;
+      color: #ffd700;
+      transform: scale(1.15);
+      text-shadow: 0 0 8px #ffd700;
+      box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
     }
     
     .hide-btn:hover {
-      background: rgba(255, 0, 0, 0.3);
-      border-color: #ff6b6b;
-      color: #ff6b6b;
-      transform: scale(1.1);
+      background: rgba(255, 69, 69, 0.2);
+      border-color: #ff4545;
+      color: #ff4545;
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(255, 69, 69, 0.3);
     }
     .table-row::before {
       content: '';
@@ -327,14 +332,14 @@
       transition: left 0.6s ease;
     }
     .table-row:hover { 
-      background: linear-gradient(135deg, var(--red-dark) 0%, var(--gold-dark) 50%, var(--red-bright) 100%);
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.3) 0%, rgba(192, 192, 192, 0.2) 50%, rgba(156, 39, 176, 0.3) 100%);
       color: #fff; 
-      transform: translateY(-3px) scale(1.01);
+      transform: translateY(-4px) scale(1.02);
       box-shadow: 
-        0 12px 30px rgba(192, 57, 43, 0.4), 
-        0 0 40px rgba(241, 196, 15, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      border-color: var(--silver);
+        0 16px 40px rgba(156, 39, 176, 0.4), 
+        0 0 50px rgba(192, 192, 192, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.25);
+      border-color: rgba(156, 39, 176, 0.6);
     }
     .table-row:hover::before {
       left: 100%;
@@ -356,19 +361,23 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
       border-color: var(--dark-silver);
     }
-    /* Premium Casino-style link effects */
+    /* Enhanced Casino Link Styling */
     .table-row a {
-      color: var(--gold-bright);
+      color: var(--bright-silver);
       text-decoration: none;
       font-weight: 700;
-      padding: 0.6em 1.2em;
-      border-radius: 10px;
-      transition: all 0.4s ease;
+      font-size: 1.1em;
+      padding: 12px 18px;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
       position: relative;
       overflow: hidden;
-      background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(189, 195, 199, 0.05));
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(192, 192, 192, 0.1));
+      border: 2px solid rgba(156, 39, 176, 0.4);
+      text-shadow: 0 0 10px rgba(192, 192, 192, 0.8);
+      display: inline-block;
+      min-width: 140px;
+      text-align: center;
     }
     .table-row a::before {
       content: '';
@@ -382,12 +391,13 @@
     }
     .table-row a:hover {
       color: #fff;
-      background: linear-gradient(135deg, var(--gold-bright), var(--red-bright));
-      border-color: var(--silver);
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.6), rgba(192, 192, 192, 0.3));
+      border-color: rgba(255, 255, 255, 0.6);
       text-shadow: 
-        0 0 15px rgba(255, 255, 255, 0.9),
-        0 2px 4px rgba(0, 0, 0, 0.7);
+        0 0 20px rgba(255, 255, 255, 1),
+        0 2px 4px rgba(0, 0, 0, 0.8);
       transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
     }
     .table-row a:hover::before {
       left: 100%;
@@ -405,57 +415,70 @@
         0 1px 2px rgba(0, 0, 0, 0.5);
     }
     
-    /* Category Section Styling */
+    /* Enhanced Category Section Styling */
     .category-section {
-      margin: 2em 0;
-      background: var(--category-bg);
-      border: 1px solid var(--category-border);
-      border-radius: 12px;
+      margin: 1.5em 0;
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(0, 0, 0, 0.3));
+      border: 2px solid rgba(156, 39, 176, 0.3);
+      border-radius: 16px;
       overflow: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
     
     .category-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 1.5rem;
-      background: linear-gradient(135deg, var(--category-bg) 0%, var(--category-hover) 100%);
-      border-bottom: 1px solid var(--category-border);
+      padding: 16px 24px;
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(0, 0, 0, 0.4));
+      border-bottom: 2px solid rgba(156, 39, 176, 0.2);
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
       position: relative;
     }
     
     .category-header:hover {
-      background: linear-gradient(135deg, var(--category-hover) 0%, var(--hover-bg) 100%);
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.3), rgba(192, 192, 192, 0.1));
+      border-bottom-color: rgba(156, 39, 176, 0.4);
     }
     
     .category-title {
-      font-size: 1.2em;
-      font-weight: 600;
-      color: var(--text);
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--bright-silver);
       margin: 0;
       display: flex;
       align-items: center;
-      gap: 0.5em;
+      gap: 12px;
+      font-family: 'Cinzel Decorative', serif;
+      text-shadow: 0 0 10px rgba(192, 192, 192, 0.6);
+    }
+    
+    .category-icon {
+      font-size: 1.4em;
+      filter: drop-shadow(0 0 8px rgba(156, 39, 176, 0.6));
     }
     
     .category-count {
-      background: var(--accent);
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.8), rgba(192, 192, 192, 0.6));
       color: white;
-      padding: 0.2em 0.6em;
+      padding: 6px 12px;
       border-radius: 20px;
-      font-size: 0.8em;
+      font-size: 0.9em;
       font-weight: bold;
-      min-width: 1.5em;
+      min-width: 24px;
       text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 15px rgba(156, 39, 176, 0.4);
     }
     
     .category-toggle {
-      font-size: 1.2em;
-      transition: transform 0.3s ease;
-      color: var(--text);
+      font-size: 1.4em;
+      transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      color: var(--bright-silver);
+      filter: drop-shadow(0 0 6px rgba(192, 192, 192, 0.6));
     }
     
     .category-section.collapsed .category-toggle {
@@ -464,9 +487,9 @@
     
     .category-content {
       padding: 0;
-      max-height: 2000px;
+      max-height: 5000px;
       overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
     
     .category-section.collapsed .category-content {
@@ -474,25 +497,51 @@
       padding: 0;
     }
     
-    /* Category-specific accent colors */
-    .category-crypto .category-title { color: var(--crypto-accent); }
-    .category-social .category-title { color: var(--social-accent); }
-    .category-sports .category-title { color: var(--sports-accent); }
-    .category-vpn .category-title { color: var(--vpn-accent); }
-    .category-instant .category-title { color: var(--instant-accent); }
+    /* Category-specific styling */
+    .category-crypto .category-title { color: #f39c12; }
+    .category-crypto .category-icon { filter: drop-shadow(0 0 8px #f39c12); }
+    .category-crypto .category-count { background: linear-gradient(135deg, #f39c12, #e67e22); }
+    
+    .category-social .category-title { color: #3498db; }
+    .category-social .category-icon { filter: drop-shadow(0 0 8px #3498db); }
+    .category-social .category-count { background: linear-gradient(135deg, #3498db, #2980b9); }
+    
+    .category-sports .category-title { color: #e74c3c; }
+    .category-sports .category-icon { filter: drop-shadow(0 0 8px #e74c3c); }
+    .category-sports .category-count { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+    
+    .category-vpn .category-title { color: #9b59b6; }
+    .category-vpn .category-icon { filter: drop-shadow(0 0 8px #9b59b6); }
+    .category-vpn .category-count { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+    
+    .category-instant .category-title { color: #27ae60; }
+    .category-instant .category-icon { filter: drop-shadow(0 0 8px #27ae60); }
+    .category-instant .category-count { background: linear-gradient(135deg, #27ae60, #229954); }
     
     
     .last-collected.available {
-      animation: pulseSilverGlow 2.5s infinite;
-      text-shadow: 0 0 4px #000, 0 0 8px #000;
-      font-weight: 700;
-      color: var(--silver);
+      animation: pulseSilverGlow 2s infinite;
+      text-shadow: 0 0 8px rgba(192, 192, 192, 0.8), 0 0 16px rgba(156, 39, 176, 0.6);
+      font-weight: 800;
+      font-size: 1.1em;
+      color: #00ff88;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(156, 39, 176, 0.1));
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid rgba(0, 255, 136, 0.3);
+      text-align: center;
     }
     .last-collected.timer {
-      animation: pulsePurpleGlow 2.5s infinite;
-      text-shadow: 0 0 4px #000, 0 0 8px #000;
+      animation: pulsePurpleGlow 2s infinite;
+      text-shadow: 0 0 8px rgba(156, 39, 176, 0.8), 0 0 16px rgba(192, 192, 192, 0.4);
       font-weight: 700;
+      font-size: 1.1em;
       color: var(--purple-accent);
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(0, 0, 0, 0.3));
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid rgba(156, 39, 176, 0.4);
+      text-align: center;
     }
     @keyframes pulsePurpleGlow {
       0%,100% { 
@@ -827,9 +876,91 @@
         padding: 0.7em 0.2em;
       }
       .table-row input[type="checkbox"] {
-        width: 2.5em;
-        height: 2.5em;
+        width: 2.8em;
+        height: 2.8em;
       }
+    }
+    
+    /* Enhanced Checkbox Styling */
+    .table-row input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      appearance: none;
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(0, 0, 0, 0.3));
+      border: 2px solid rgba(156, 39, 176, 0.4);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      position: relative;
+      backdrop-filter: blur(5px);
+    }
+    
+    .table-row input[type="checkbox"]:checked {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.8), rgba(156, 39, 176, 0.6));
+      border-color: #00ff88;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+    }
+    
+    .table-row input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .table-row input[type="checkbox"]:hover {
+      transform: scale(1.1);
+      border-color: rgba(156, 39, 176, 0.8);
+      box-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
+    }
+    
+    /* Enhanced Casino Bonus Information Display */
+    .casino-bonus-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.9em;
+      text-align: center;
+      min-width: 120px;
+    }
+    
+    .bonus-amount {
+      font-weight: 700;
+      color: #00ff88;
+      text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+    
+    .trust-score-display {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8em;
+    }
+    
+    .trust-score-number {
+      font-weight: bold;
+      color: var(--bright-silver);
+    }
+    
+    .trust-stars {
+      color: #ffd700;
+      text-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
+    }
+    
+    .no-bonus-info {
+      color: var(--text);
+      opacity: 0.7;
+      font-size: 0.8em;
     }
     
     /* Casino Information Cards */
@@ -1955,36 +2086,33 @@
       // Sort cooldown casinos by time remaining (most time left first)
       cooldownCasinos.sort((a, b) => (b.next - now) - (a.next - now));
       
-      // Render available casinos
+      // Define category metadata
+      const categoryInfo = {
+        crypto: { name: "🪙 Crypto Casinos", icon: "₿", color: "#f39c12" },
+        social: { name: "🎰 Social Casinos", icon: "🎲", color: "#3498db" },
+        sports: { name: "⚽ Sports Betting", icon: "🏈", color: "#e74c3c" },
+        vpn: { name: "🌐 VPN Required", icon: "🔒", color: "#9b59b6" },
+        instant: { name: "⚡ Instant Payout", icon: "💨", color: "#27ae60" }
+      };
+      
+      // Render available casinos by category
       if (availableCasinos.length > 0) {
         const header = document.createElement("h2");
-        header.textContent = "Available to Collect";
-        header.style.margin = "1.2em 0 1em 0";
-        header.style.fontSize = "1.4em";
-        header.style.textAlign = "center";
-        header.style.fontFamily = "'Cinzel Decorative', serif";
+        header.textContent = "💎 Available to Collect";
+        header.style.cssText = "margin:1.5em 0 1.2em 0;font-size:1.6em;text-align:center;font-family:'Cinzel Decorative', serif;color:var(--bright-silver);text-shadow:0 0 15px rgba(0, 255, 136, 0.6);";
         availableContainer.appendChild(header);
         
-        availableCasinos.forEach(casino => {
-          const row = createCasinoRow(casino, true);
-          availableContainer.appendChild(row);
-        });
+        renderCasinosByCategory(availableCasinos, availableContainer, categoryInfo, true);
       }
       
-      // Render cooldown casinos
+      // Render cooldown casinos by category
       if (cooldownCasinos.length > 0) {
         const header = document.createElement("h2");
-        header.textContent = "On Cooldown";
-        header.style.margin = "2em 0 1em 0";
-        header.style.fontSize = "1.3em";
-        header.style.textAlign = "center";
-        header.style.fontFamily = "'Cinzel Decorative', serif";
+        header.textContent = "⏳ On Cooldown";
+        header.style.cssText = "margin:2.5em 0 1.2em 0;font-size:1.4em;text-align:center;font-family:'Cinzel Decorative', serif;color:var(--purple-accent);text-shadow:0 0 12px rgba(156, 39, 176, 0.8);";
         cooldownContainer.appendChild(header);
         
-        cooldownCasinos.forEach(casino => {
-          const row = createCasinoRow(casino, false);
-          cooldownContainer.appendChild(row);
-        });
+        renderCasinosByCategory(cooldownCasinos, cooldownContainer, categoryInfo, false);
       }
       
       // Show/hide sections based on content
@@ -2000,6 +2128,99 @@
         availableContainer.style.display = "";
         cooldownContainer.style.display = "";
       }
+    }
+    
+    function renderCasinosByCategory(casinos, container, categoryInfo, isAvailable) {
+      // Group casinos by category
+      const categorizedCasinos = {};
+      
+      casinos.forEach(casino => {
+        const category = casino.category || 'other';
+        if (!categorizedCasinos[category]) {
+          categorizedCasinos[category] = [];
+        }
+        categorizedCasinos[category].push(casino);
+      });
+      
+      // Sort categories by priority: favorites with content first, then by category order
+      const categoryOrder = ['crypto', 'social', 'instant', 'sports', 'vpn', 'other'];
+      const sortedCategories = Object.keys(categorizedCasinos).sort((a, b) => {
+        const aIndex = categoryOrder.indexOf(a);
+        const bIndex = categoryOrder.indexOf(b);
+        return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+      });
+      
+      sortedCategories.forEach(categoryKey => {
+        const casinos = categorizedCasinos[categoryKey];
+        if (casinos.length === 0) return;
+        
+        // Sort casinos within category: favorites first, then by last used, then alphabetical
+        casinos.sort((a, b) => {
+          if (a.isFavorite !== b.isFavorite) {
+            return b.isFavorite - a.isFavorite; // favorites first
+          }
+          if (a.lastUsed !== b.lastUsed) {
+            return b.lastUsed - a.lastUsed; // most recently used first
+          }
+          return a.name.localeCompare(b.name); // alphabetical fallback
+        });
+        
+        const categorySection = createCategorySection(categoryKey, casinos, categoryInfo, isAvailable);
+        container.appendChild(categorySection);
+      });
+    }
+    
+    function createCategorySection(categoryKey, casinos, categoryInfo, isAvailable) {
+      const section = document.createElement("div");
+      section.className = `category-section category-${categoryKey}`;
+      
+      const info = categoryInfo[categoryKey] || { 
+        name: categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1), 
+        icon: "🎰", 
+        color: "#888" 
+      };
+      
+      // Create header
+      const header = document.createElement("div");
+      header.className = "category-header";
+      header.innerHTML = `
+        <h3 class="category-title">
+          <span class="category-icon">${info.icon}</span>
+          ${info.name}
+        </h3>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="category-count">${casinos.length}</span>
+          <span class="category-toggle">▼</span>
+        </div>
+      `;
+      
+      // Create content container
+      const content = document.createElement("div");
+      content.className = "category-content";
+      
+      // Add casinos to content
+      casinos.forEach(casino => {
+        const row = createCasinoRow(casino, isAvailable);
+        content.appendChild(row);
+      });
+      
+      // Add click handler for collapse/expand
+      header.addEventListener('click', () => {
+        section.classList.toggle('collapsed');
+        const isCollapsed = section.classList.contains('collapsed');
+        localStorage.setItem(`category_${categoryKey}_collapsed`, isCollapsed.toString());
+      });
+      
+      // Restore collapse state
+      const isCollapsed = localStorage.getItem(`category_${categoryKey}_collapsed`) === 'true';
+      if (isCollapsed) {
+        section.classList.add('collapsed');
+      }
+      
+      section.appendChild(header);
+      section.appendChild(content);
+      
+      return section;
     }
     
     function createCasinoRow(casino, isAvailable) {
@@ -2048,6 +2269,20 @@
         statusClass = "timer";
       }
       
+      // Create bonus info display
+      let bonusInfo = "";
+      if (casino.info) {
+        const stars = casino.info.trustScore ? "★".repeat(Math.floor(casino.info.trustScore / 20)) : "";
+        bonusInfo = `
+          <div class="casino-bonus-info">
+            <div class="bonus-amount" title="${casino.info.dailyBonus || 'No bonus info'}">${casino.info.dailyBonus ? casino.info.dailyBonus.substring(0, 20) + (casino.info.dailyBonus.length > 20 ? '...' : '') : 'No bonus info'}</div>
+            ${casino.info.trustScore ? `<div class="trust-score-display"><span class="trust-score-number">${casino.info.trustScore}</span><span class="trust-stars">${stars}</span></div>` : ''}
+          </div>
+        `;
+      } else {
+        bonusInfo = `<div class="casino-bonus-info"><div class="no-bonus-info">Bonus info<br>not available</div></div>`;
+      }
+      
       row.innerHTML = `
         <div class="casino-controls">
           ${favoriteBtn.outerHTML}
@@ -2058,6 +2293,7 @@
           ${infoButton}
           <span class="tooltiptext">${casino.tooltip || ''}</span>
         </div>
+        ${bonusInfo}
         <div><input type="checkbox" aria-label="Collected ${casino.name}?" /></div>
         <div class="last-collected ${statusClass}">${statusText}</div>
       `;
@@ -2114,105 +2350,59 @@
       return true; // Allow the link to open
     }
     
-    function createCategorySection(categoryKey, categoryName, casinos, isAvailable) {
+    function createCategorySection(categoryKey, casinos, categoryInfo, isAvailable) {
       const section = document.createElement("div");
       section.className = `category-section category-${categoryKey}`;
+      
+      const info = categoryInfo[categoryKey] || { 
+        name: categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1), 
+        icon: "🎰", 
+        color: "#888" 
+      };
       
       // Create header
       const header = document.createElement("div");
       header.className = "category-header";
-      header.onclick = () => toggleCategory(section);
+      header.innerHTML = `
+        <h3 class="category-title">
+          <span class="category-icon">${info.icon}</span>
+          ${info.name}
+        </h3>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="category-count">${casinos.length}</span>
+          <span class="category-toggle">▼</span>
+        </div>
+      `;
       
-      const title = document.createElement("h3");
-      title.className = "category-title";
-      title.textContent = categoryName;
-      
-      const count = document.createElement("span");
-      count.className = "category-count";
-      count.textContent = casinos.length;
-      
-      const toggle = document.createElement("span");
-      toggle.className = "category-toggle";
-      toggle.textContent = "⌄";
-      
-      header.appendChild(title);
-      header.appendChild(count);
-      header.appendChild(toggle);
-      
-      // Create content
+      // Create content container
       const content = document.createElement("div");
       content.className = "category-content";
       
-      const isTilted = !document.body.classList.contains("light-mode");
-      const now = Date.now();
-      
+      // Add casinos to content
       casinos.forEach(casino => {
-        const row = document.createElement("div");
-        row.className = "table-row";
-        row.dataset.casino = casino.name;
-        
-        let link = isTilted ? casino.tilted : (casino.clean || casino.tilted);
-        
-        if (isAvailable) {
-          row.innerHTML = `
-            <div class="tooltip">
-              <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
-              <span class="tooltiptext">${casino.tooltip || ''}</span>
-            </div>
-            <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" /></div>
-            <div class="last-collected available">💎 Available! ✨</div>`;
-        } else {
-          const minsLeft = Math.ceil((casino.next - now) / 60000);
-          const h = Math.floor(minsLeft / 60), m = minsLeft % 60;
-          row.innerHTML = `
-            <div class="tooltip">
-              <a href="${link}" target="_blank" tabindex="0">${casino.name}</a>
-              <span class="tooltiptext">${casino.tooltip || ''}</span>
-            </div>
-            <div><input type="checkbox" aria-label="Collected ${casino.name}?" tabindex="0" disabled /></div>
-            <div class="last-collected timer"><span class="flip-clock"><span class="digit">${h}</span>h <span class="digit">${m}</span>m</span></div>`;
-        }
-        
+        const row = createCasinoRow(casino, isAvailable);
         content.appendChild(row);
-        
-        // Attach event handlers
-        const anchor = row.querySelector("a");
-        anchor.addEventListener('click', (event) => {
-          event.preventDefault();
-          trackCasinoClick(casino.name); // Track the click
-          window.open(link, '_blank');
-          setTimeout(() => handleBonusClick(casino.name), 100);
-        });
-        anchor.addEventListener('keydown', (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            anchor.click();
-          }
-        });
-        
-        const checkbox = row.querySelector("input[type=checkbox]");
-        if (!checkbox.disabled) {
-          checkbox.addEventListener('keydown', (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              checkbox.click();
-            }
-          });
-          checkbox.addEventListener('click', () => {
-            handleBonusClick(casino.name);
-          });
-        }
       });
+      
+      // Add click handler for collapse/expand
+      header.addEventListener('click', () => {
+        section.classList.toggle('collapsed');
+        const isCollapsed = section.classList.contains('collapsed');
+        localStorage.setItem(`category_${categoryKey}_collapsed`, isCollapsed.toString());
+      });
+      
+      // Restore collapse state
+      const isCollapsed = localStorage.getItem(`category_${categoryKey}_collapsed`) === 'true';
+      if (isCollapsed) {
+        section.classList.add('collapsed');
+      }
       
       section.appendChild(header);
       section.appendChild(content);
       
       return section;
     }
-    
-    function toggleCategory(section) {
-      section.classList.toggle('collapsed');
-    }
+
     
     const infoBtn = document.getElementById('info-btn');
     const infoPopup = document.getElementById('info-popup');
