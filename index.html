@@ -7,22 +7,29 @@
   
   <style>
     :root {
-      /* Modern, clean color scheme */
+      /* Improved color scheme with better contrast for accessibility */
       --bg: #1a1a2e;
       --text: #ffffff;
-      --text-secondary: #b4b4b4;
-      --link: #4a9eff;
-      --link-hover: #7bb3ff;
-      --timer: #ff6b6b;
-      --success: #51cf66;
-      --warning: #ffd43b;
-      --hover-bg: #252545;
-      --border: #3d3d5c;
-      --accent: #4a9eff;
-      --card-bg: #16213e;
-      --card-hover: #1e2a47;
-      --shadow: rgba(0, 0, 0, 0.3);
-      --shadow-hover: rgba(74, 158, 255, 0.2);
+      --text-secondary: #d1d5db;
+      --link: #60a5fa;
+      --link-hover: #3b82f6;
+      --link-visited: #c084fc;
+      --timer: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --hover-bg: #374151;
+      --border: #4b5563;
+      --accent: #3b82f6;
+      --card-bg: #1f2937;
+      --card-hover: #374151;
+      --shadow: rgba(0, 0, 0, 0.25);
+      --shadow-hover: rgba(59, 130, 246, 0.25);
+      
+      /* Status colors with better contrast */
+      --available-bg: rgba(34, 197, 94, 0.1);
+      --available-border: #22c55e;
+      --cooldown-bg: rgba(239, 68, 68, 0.1);
+      --cooldown-border: #ef4444;
     }
     body {
       font-family: 'Montserrat', sans-serif;
@@ -39,13 +46,14 @@
     }
     .container { 
       max-width: 900px; 
-      margin: 2rem auto; 
-      padding: 2rem;
+      margin: 1rem auto; 
+      padding: 1rem;
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 16px;
       box-shadow: 0 8px 32px var(--shadow);
       backdrop-filter: blur(10px);
+      width: calc(100% - 2rem);
     }
     h1 { 
       font-family: 'Montserrat', sans-serif;
@@ -134,21 +142,29 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 1.1em;
-      padding: 10px 16px;
+      padding: 12px 16px;
       border-radius: 8px;
       transition: all 0.3s ease;
       display: inline-block;
       min-width: 120px;
       text-align: center;
       background: var(--hover-bg);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
+      position: relative;
     }
     .table-row a:hover {
-      color: var(--link-hover);
+      color: #ffffff;
       background: var(--accent);
       border-color: var(--link-hover);
       transform: scale(1.02);
       box-shadow: 0 4px 12px var(--shadow-hover);
+    }
+    .table-row a:visited {
+      color: var(--link-visited);
+    }
+    .table-row a:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
     
     /* Enhanced Category Section Styling */
@@ -256,26 +272,28 @@
     
     
     .last-collected.available {
-      text-shadow: 0 0 8px rgba(81, 207, 102, 0.8);
-      font-weight: 800;
-      font-size: 1.1em;
+      text-shadow: none;
+      font-weight: 700;
+      font-size: 1em;
       color: var(--success);
-      background: var(--card-bg);
+      background: var(--available-bg);
       padding: 8px 16px;
       border-radius: 20px;
-      border: 2px solid var(--success);
+      border: 2px solid var(--available-border);
       text-align: center;
+      min-width: 100px;
     }
     .last-collected.timer {
-      text-shadow: 0 0 8px rgba(255, 107, 107, 0.8);
+      text-shadow: none;
       font-weight: 700;
-      font-size: 1.1em;
+      font-size: 1em;
       color: var(--timer);
-      background: var(--card-bg);
+      background: var(--cooldown-bg);
       padding: 8px 16px;
       border-radius: 20px;
-      border: 2px solid var(--timer);
+      border: 2px solid var(--cooldown-border);
       text-align: center;
+      min-width: 100px;
     }
     @keyframes pulsePurpleGlow {
       0%,100% { 
@@ -570,21 +588,75 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
     }
-    @media (max-width: 600px) {
-      .container { padding: 0.5em; }
-      .toggle-row { flex-direction: column; gap: 0.7em; }
-      .info-popup { top: 90px; font-size: 1em; padding: 1em; }
-      h1 { font-size: 1.2em; }
-      .table-row { font-size: 0.98em; }
-      .profile-pic { width: 28px; height: 28px; }
-      .table-row a {
-        font-size: 1.05em;
-        min-width: 90px;
-        padding: 0.7em 0.2em;
+    @media (max-width: 768px) {
+      .container { 
+        margin: 0.5rem;
+        padding: 1rem;
+        width: calc(100% - 1rem);
       }
-      .table-row input[type="checkbox"] {
-        width: 2.8em;
-        height: 2.8em;
+      
+      h1 { 
+        font-size: 1.8em; 
+        margin-bottom: 1rem;
+      }
+      
+      .table-row { 
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+        padding: 12px;
+        font-size: 0.9em;
+      }
+      
+      .table-row a {
+        font-size: 1em;
+        min-width: 100px;
+        padding: 10px 12px;
+      }
+      
+      .casino-bonus-info {
+        font-size: 0.85em;
+      }
+      
+      .last-collected.available,
+      .last-collected.timer {
+        font-size: 0.9em;
+        padding: 6px 12px;
+        min-width: 80px;
+      }
+      
+      .search-bar input[type="search"] {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 12px 16px;
+      }
+      
+      .header-actions {
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        margin: 0.25rem;
+        padding: 0.75rem;
+        width: calc(100% - 0.5rem);
+        border-radius: 12px;
+      }
+      
+      .table-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        text-align: center;
+      }
+      
+      .casino-controls {
+        flex-direction: row;
+        justify-content: center;
+        gap: 8px;
+      }
+      
+      h1 {
+        font-size: 1.5em;
       }
     }
     
@@ -849,9 +921,7 @@
 
 
   <div class="container">
-    <div id="user-info" style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:1em;"></div>
     <h1>Daily Casino Bonus Tracker 🎯</h1>
-    <a id="discord-login-btn" class="login-btn" href="#" style="display:inline-block;margin:0 auto 1em auto;padding:10px 20px;background:#5865F2;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;">Login with Discord</a>
     <div class="header-actions">
       <button id="admin-btn" class="admin-btn" aria-label="Admin Panel" tabindex="0" style="padding:8px 16px;background:#2c3e50;color:#fff;border:none;border-radius:8px;font-size:0.9em;cursor:pointer;">Admin</button>
     </div>
@@ -952,31 +1022,7 @@
     const untiltSound = new Audio("assets/audio/810164__mokasza__awesome-bubble-pop.mp3");
     const uwuSound = new Audio("assets/audio/800976__sadiquecat__other-uwu-2.wav");
 
-    // --- Discord OAuth ---
-    const DISCORD_CLIENT_ID = "1336968746450812928";
-    const discordLoginBtn = document.getElementById('discord-login-btn');
-    const userInfoDiv = document.getElementById('user-info');
-    function renderUserInfo() {
-      const user = JSON.parse(localStorage.getItem("discordUser") || "{}");
-      userInfoDiv.innerHTML = "";
-      if (user && user.username) {
-        let avatarUrl = user.avatar
-          ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-          : `https://cdn.discordapp.com/embed/avatars/${(user.discriminator % 5)}.png`;
-        userInfoDiv.innerHTML = `<img src="${avatarUrl}" class="profile-pic" alt="Profile" /> <span style='font-weight:bold;'>${user.username}#${user.discriminator}</span>`;
-        if (discordLoginBtn) discordLoginBtn.style.display = "none";
-      } else {
-        if (discordLoginBtn) discordLoginBtn.style.display = "inline-block";
-      }
-    }
-    if (discordLoginBtn && DISCORD_CLIENT_ID) {
-      const redirect = encodeURIComponent(window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/auth.html'));
-      discordLoginBtn.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=token&scope=identify`;
-    }
-    renderUserInfo();
-    window.addEventListener('storage', function(e) {
-      if (e.key === 'discordUser') renderUserInfo();
-    });
+    // --- Casino data and functionality ---
 
     const gifUrls = [
       "https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif",
