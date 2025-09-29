@@ -1,9 +1,9 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>🎯 CollectClock - Daily Casino Bonuses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -58,7 +58,6 @@
       margin: 2rem 0;
       letter-spacing: -0.025em;
     }
-
     .header-actions {
       display: flex;
       justify-content: space-between;
@@ -453,7 +452,6 @@
       .trust-score {
         display: none;
       }
-    }
   </style>
 </head>
 <body>
@@ -462,55 +460,693 @@
     
     <div class="header-actions">
       <div class="search-container">
-        <input type="text" class="search-input" id="casino-search" placeholder="Search casinos..." />
+        <input type="text" class="search-input" id="search-input" placeholder="Search casinos..." />
       </div>
       <button class="admin-btn" id="admin-btn">Admin</button>
     </div>
-
-    <div id="casino-table-available"></div>
-    <div id="casino-table-cooldown" style="margin-top:2rem;"></div>
+      50% { 
+        color: var(--bright-silver); 
+        text-shadow: 
+          0 0 18px var(--bright-silver), 
+          0 0 30px var(--purple-accent), 
+          0 0 4px #000; 
+      }
+    }
+    @keyframes pulseSilverGlow {
+      0%,100% { 
+        color: var(--silver); 
+        text-shadow: 
+          0 0 10px var(--silver), 
+          0 0 20px var(--purple-accent), 
+          0 0 4px #000; 
+      }
+      25% { 
+        color: var(--purple-accent); 
+        text-shadow: 
+          0 0 15px var(--purple-accent), 
+          0 0 25px var(--bright-silver), 
+          0 0 4px #000; 
+      }
+      50% { 
+        color: var(--bright-silver); 
+        text-shadow: 
+          0 0 18px var(--bright-silver), 
+          0 0 30px var(--silver), 
+          0 0 4px #000; 
+      }
+    }
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: translate(-1px, 1px); }
+      40% { transform: translate(1px, -1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+      100% { transform: none; }
+    }
+    /* Casino Glitter Effects */
+    @keyframes goldShimmer {
+      0%, 100% { 
+        text-shadow: 
+          0 0 8px var(--gold-bright), 
+          0 0 15px var(--gold-dark), 
+          0 0 25px var(--silver),
+          0 3px 6px rgba(0, 0, 0, 0.8);
+        transform: scale(1);
+      }
+      25% { 
+        text-shadow: 
+          0 0 15px var(--silver), 
+          0 0 25px var(--gold-bright), 
+          0 0 35px var(--red-bright),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1.01);
+      }
+      50% { 
+        text-shadow: 
+          0 0 12px var(--red-bright), 
+          0 0 22px var(--gold-bright), 
+          0 0 32px var(--silver),
+          0 3px 6px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
+      }
+      75% { 
+        text-shadow: 
+          0 0 10px var(--gold-dark), 
+          0 0 20px var(--silver), 
+          0 0 30px var(--gold-bright),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1.01);
+      }
+    }
+    @keyframes blueShimmer {
+      0%, 100% { 
+        text-shadow: 
+          0 0 5px var(--gold-bright), 
+          0 0 10px var(--gold-dark), 
+          0 0 15px var(--silver),
+          0 2px 4px rgba(0, 0, 0, 0.6);
+        transform: scale(1);
+      }
+      25% { 
+        text-shadow: 
+          0 0 8px var(--silver), 
+          0 0 15px var(--gold-bright), 
+          0 0 20px var(--red-bright),
+          0 2px 4px rgba(0, 0, 0, 0.7);
+        transform: scale(1.005);
+      }
+      50% { 
+        text-shadow: 
+          0 0 7px var(--red-bright), 
+          0 0 12px var(--gold-bright), 
+          0 0 18px var(--silver),
+          0 2px 4px rgba(0, 0, 0, 0.6);
+        transform: scale(1.01);
+      }
+      75% { 
+        text-shadow: 
+          0 0 6px var(--gold-dark), 
+          0 0 12px var(--silver), 
+          0 0 18px var(--gold-bright),
+          0 2px 4px rgba(0, 0, 0, 0.7);
+        transform: scale(1.005);
+      }
+    }
+    @keyframes titleFlash {
+      0%, 95%, 100% { opacity: 0; }
+      96%, 99% { opacity: 0.3; }
+    }
+    @keyframes sparkle {
+      0%, 50%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      25%, 75% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+    @keyframes silverGlitter {
+      0%, 100% { 
+        text-shadow: 
+          0 0 8px var(--silver), 
+          0 0 15px var(--purple-accent), 
+          0 0 25px var(--bright-silver),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1);
+      }
+      25% { 
+        text-shadow: 
+          0 0 12px var(--purple-accent), 
+          0 0 22px var(--silver), 
+          0 0 32px var(--rose-gold),
+          0 3px 6px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
+      }
+      50% { 
+        text-shadow: 
+          0 0 12px var(--rose-gold), 
+          0 0 22px var(--bright-silver), 
+          0 0 32px var(--purple-accent),
+          0 3px 6px rgba(0, 0, 0, 0.8);
+        transform: scale(1.02);
+      }
+      75% { 
+        text-shadow: 
+          0 0 10px var(--bright-silver), 
+          0 0 20px var(--purple-accent), 
+          0 0 30px var(--silver),
+          0 3px 6px rgba(0, 0, 0, 0.9);
+        transform: scale(1.01);
+      }
+    }
+    /* Add premium sparkle effects to available bonuses */
+    .last-collected.available {
+      position: relative;
+      animation: pulseGlow 2.5s infinite, goldShimmer 4s ease-in-out infinite;
+    }
+    .last-collected.available::after {
+      content: '✨';
+      position: absolute;
+      right: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: sparkle 2.2s infinite;
+      font-size: 0.9em;
+      filter: drop-shadow(0 0 6px var(--gold-bright));
+    }
+    .last-collected.available::before {
+      content: '💎';
+      position: absolute;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: sparkle 2.8s infinite reverse;
+      font-size: 0.7em;
+      filter: drop-shadow(0 0 4px var(--silver));
+    }
+    footer {
+      text-align: center; 
+      margin-top: 3em; 
+      padding: 2.5em 0;
+      font-size: 0.95em; 
+      background: linear-gradient(135deg, rgba(28, 28, 28, 0.9) 0%, rgba(44, 44, 44, 0.8) 100%);
+      border-top: 2px solid var(--gold-dark);
+      backdrop-filter: blur(15px);
+      box-shadow: 
+        0 -4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(189, 195, 199, 0.1);
+    }
+    footer a { 
+      color: var(--gold-bright); 
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.4s ease;
+      text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
+      padding: 0.3em 0.6em;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(189, 195, 199, 0.05));
+    }
+    footer a:hover { 
+      color: var(--silver); 
+      text-shadow: 
+        0 0 15px rgba(189, 195, 199, 0.9),
+        0 0 25px rgba(241, 196, 15, 0.6);
+      background: linear-gradient(135deg, rgba(189, 195, 199, 0.2), rgba(241, 196, 15, 0.1));
+      transform: translateY(-2px);
+    }
+    .profile-pic {
+      width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
+      border: 2px solid #5865F2; box-shadow: 0 1px 4px #5865F299;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden; width: max-content; background-color: #222;
+      color: #fff; text-align: center; border-radius: 6px; padding: 5px 10px;
+      position: absolute; z-index: 1; bottom: 125%; left: 50%;
+      transform: translateX(-50%); opacity: 0; transition: opacity 0.3s;
+    }
+    .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+    .toast {
+      position: fixed; bottom: 1em; left: 50%; transform: translateX(-50%);
+      background: #000; color: #fff; padding: 10px 20px; border-radius: 10px;
+      opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+    .toggle-row {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.7em; margin-bottom: 1em; flex-wrap: wrap;
+    }
+    .info-btn {
+      background: none; border: none; color: #5865F2; font-size: 1.3em;
+      cursor: pointer; padding: 0 0.2em; border-radius: 50%;
+      transition: background 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .info-btn:active, .info-btn.active { background: #e0e7ff; }
+    .info-popup {
+      position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+      background: #fff; color: #222; border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(34,34,59,0.12);
+      padding: 1.2em 1.5em; z-index: 2000; font-size: 1.1em;
+      max-width: 90vw; min-width: 220px; text-align: center; display: none;
+    }
+    .search-bar {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 1em auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .search-bar input[type="search"] {
+      flex: 1;
+      padding: 0.8em 1.2em;
+      font-size: 1.1em;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .search-bar input[type="search"]:focus {
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+    .search-bar button {
+      padding: 0.8em 1.4em;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: all 0.3s ease;
+    }
+    .search-bar button:hover {
+      background: var(--link-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
+    }
+    @media (max-width: 768px) {
+      .container { 
+        margin: 0.5rem;
+        padding: 1rem;
+        width: calc(100% - 1rem);
+      }
+      
+      h1 { 
+        font-size: 1.8em; 
+        margin-bottom: 1rem;
+      }
+      
+      .table-row { 
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+        padding: 12px;
+        font-size: 0.9em;
+      }
+      
+      .table-row a {
+        font-size: 1em;
+        min-width: 100px;
+        padding: 10px 12px;
+      }
+      
+      .casino-bonus-info {
+        font-size: 0.85em;
+      }
+      
+      .last-collected.available,
+      .last-collected.timer {
+        font-size: 0.9em;
+        padding: 6px 12px;
+        min-width: 80px;
+      }
+      
+      .search-bar input[type="search"] {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 12px 16px;
+      }
+      
+      .header-actions {
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+    }
     
-    <div class="bonus-count" id="bonus-count"></div>
+    @media (max-width: 480px) {
+      .container {
+        margin: 0.25rem;
+        padding: 0.75rem;
+        width: calc(100% - 0.5rem);
+        border-radius: 12px;
+      }
+      
+      .table-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        text-align: center;
+      }
+      
+      .casino-controls {
+        flex-direction: row;
+        justify-content: center;
+        gap: 8px;
+      }
+      
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+    
+    /* Enhanced Checkbox Styling */
+    .table-row input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      appearance: none;
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(0, 0, 0, 0.3));
+      border: 2px solid rgba(156, 39, 176, 0.4);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      position: relative;
+      backdrop-filter: blur(5px);
+    }
+    
+    .table-row input[type="checkbox"]:checked {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.8), rgba(156, 39, 176, 0.6));
+      border-color: #00ff88;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+    }
+    
+    .table-row input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .table-row input[type="checkbox"]:hover {
+      transform: scale(1.1);
+      border-color: rgba(156, 39, 176, 0.8);
+      box-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
+    }
+    
+    /* Enhanced Casino Bonus Information Display */
+    .casino-bonus-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.9em;
+      text-align: center;
+      min-width: 120px;
+    }
+    
+    .bonus-amount {
+      font-weight: 700;
+      color: #00ff88;
+      text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+    
+    .trust-score-display {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8em;
+    }
+    
+    .trust-score-number {
+      font-weight: bold;
+      color: var(--bright-silver);
+    }
+    
+    .trust-stars {
+      color: #ffd700;
+      text-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
+    }
+    
+    .no-bonus-info {
+      color: var(--text);
+      opacity: 0.7;
+      font-size: 0.8em;
+    }
+    
+    /* Casino Information Cards */
+    .casino-info-btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      padding: 0.4em 0.8em;
+      font-size: 0.85em;
+      cursor: pointer;
+      margin-left: 0.5em;
+      transition: all 0.3s ease;
+      opacity: 0.8;
+    }
+    
+    .casino-info-btn:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .casino-info-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+    
+    .casino-info-card {
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      border-radius: 20px;
+      padding: 2em;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px var(--glow-purple);
+      position: relative;
+      animation: cardSlideIn 0.4s ease-out;
+    }
+    
+    @keyframes cardSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    
+    .casino-info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5em;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 1em;
+    }
+    
+    .casino-info-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: var(--accent);
+      font-family: 'Cinzel Decorative', serif;
+    }
+    
+    .casino-info-close {
+      background: var(--link-hover);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: white;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .casino-info-close:hover {
+      transform: rotate(90deg);
+      box-shadow: 0 0 15px var(--link-hover);
+    }
+    
+    .casino-info-content {
+      line-height: 1.6;
+    }
+    
+    .casino-info-field {
+      margin-bottom: 1.2em;
+      padding: 1em;
+      background: var(--hover-bg);
+      border-radius: 12px;
+      border-left: 4px solid var(--accent);
+    }
+    
+    .casino-info-label {
+      font-weight: bold;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5em;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .casino-info-value {
+      color: var(--text);
+      font-size: 1em;
+    }
+    
+    .trust-score {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+    
+    .trust-score-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .trust-score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--link-hover), var(--success));
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+    
+    .trust-score-number {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: var(--success);
+    }
+    
+    .casino-category-badge {
+      display: inline-block;
+      padding: 0.3em 0.8em;
+      background: var(--category-bg);
+      border: 1px solid var(--category-border);
+      border-radius: 20px;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.5em;
+    }
+    
+    @media (max-width: 600px) {
+      .casino-info-card {
+        padding: 1.5em;
+        width: 95%;
+        max-height: 90vh;
+      }
+      
+      .casino-info-btn {
+        font-size: 0.75em;
+        padding: 0.3em 0.6em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="container">
+    <h1>Daily Casino Bonus Tracker 🎯</h1>
+    <div class="header-actions">
+      <button id="admin-btn" class="admin-btn" aria-label="Admin Panel" tabindex="0" style="padding:8px 16px;background:#2c3e50;color:#fff;border:none;border-radius:8px;font-size:0.9em;cursor:pointer;">Admin</button>
+    </div>
+    <form class="search-bar" id="casino-search-form" autocomplete="off" onsubmit="return false;">
+      <input type="search" id="casino-search" placeholder="Search casinos..." aria-label="Search casinos" />
+      <button type="button" id="casino-search-clear" aria-label="Clear search" tabindex="0" style="display:none;">✕</button>
+    </form>
+    <div id="casino-table-available"></div>
+    <div id="casino-table-cooldown" style="margin-top:2.5em;"></div>
+    <div class="cta-premium" style="text-align:center;margin:1.5em 0 1em 0;"></div>
+    <div id="bonus-count" style="text-align:right;font-size:1.1em;font-weight:bold;margin-bottom:0.5em;"></div>
   </div>
-  
-  <footer class="footer">
-    <div class="footer-info" id="footer-info">
+  <footer>
+    <div id="footer-info" style="margin-bottom:1.2em;">
       made for degens by degens ❤️<br/>
       💡 Suggest a casino? <a href="https://discord.gg/3hmXPwwa" target="_blank" rel="noopener">Drop it in Discord</a><br/>
       ☕ Powered by <a href="https://ko-fi.com/jmenichole0" target="_blank" rel="noopener">Ko-fi</a>
     </div>
-    <button class="reset-btn" id="reset-timers-btn">Reset All Timers</button>
+   
+    <button id="reset-timers-btn" style="position:absolute;right:18px;bottom:18px;padding:7px 18px;font-size:0.98em;border-radius:8px;background:#e0e7ef;color:#333;border:none;box-shadow:0 2px 8px #0001;opacity:0.7;transition:opacity 0.2s;z-index:10000;cursor:pointer;outline:none;min-width:120px;" title="Reset all casino timers">Reset All Timers</button>
   </footer>
-
+  <style>
+    @media (max-width: 600px) {
+      #reset-timers-btn {
+        right: 10px;
+        bottom: 10px;
+        font-size: 0.92em;
+        min-width: 90px;
+        padding: 6px 10px;
+      }
+    }
+    #reset-timers-btn:hover, #reset-timers-btn:focus {
+      opacity: 1;
+      background: #ffe0e7;
+      color: #e91e63;
+    }
+    </style>
   <div class="toast" aria-live="polite"></div>
   <div id="gif-popup" style="display:none;"></div>
   <div id="bonus-modal" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
     <div style="background:#fff;color:#222;padding:2em 1.5em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:90vw;text-align:center;">
       <div id="bonus-modal-msg" style="font-size:1.15em;margin-bottom:1.2em;"></div>
-      <div>
-        <button id="bonus-modal-yes" style="padding:10px 28px;margin:0 1em 0 0;background:#2cb67d;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Yes</button>
-        <button id="bonus-modal-no" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">No</button>
-      </div>
+      <button id="bonus-modal-yes" style="padding:10px 28px;margin:0 1em 0 0;background:#2cb67d;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Yes</button>
+      <button id="bonus-modal-no" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">No</button>
     </div>
   </div>
-  <div id="casino-info-modal" style="display:none;position:fixed;z-index:2000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+  
+  <!-- Casino Information Modal -->
+  <div id="casino-info-modal" class="casino-info-modal">
     <div class="casino-info-card">
       <div class="casino-info-header">
-        <h3 id="casino-info-title"></h3>
-        <button id="casino-info-close" style="background:none;border:none;font-size:1.5em;cursor:pointer;color:#666;">×</button>
+        <h3 id="casino-info-title" class="casino-info-title">Casino Information</h3>
+        <button class="casino-info-close" onclick="closeCasinoInfo()">✕</button>
       </div>
-      <div id="casino-info-content"></div>
+      <div id="casino-info-content" class="casino-info-content">
+        <!-- Content will be populated dynamically -->
+      </div>
     </div>
   </div>
+  
   <div id="admin-panel" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;">
-    <div style="background:#fff;color:#222;padding:2em 1.5em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:800px;max-height:90vh;overflow:auto;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5em;">
+    <div style="background:#fff;color:#222;padding:2em;border-radius:16px;box-shadow:0 4px 24px #000a;max-width:90vw;max-height:90vh;overflow:auto;min-width:600px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2em;">
         <h2 style="margin:0;">Admin Panel</h2>
-        <button id="admin-close-btn" style="background:none;border:none;font-size:1.5em;cursor:pointer;color:#666;">×</button>
+        <button id="admin-close-btn" style="background:#e91e63;color:#fff;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:18px;">×</button>
       </div>
-      <h3>Casino Click Statistics</h3>
-      <div id="admin-clicks-list" style="max-height:400px;overflow:auto;border:1px solid #ddd;padding:1em;border-radius:8px;background:#f9f9f9;">
-        <p>Loading statistics...</p>
+      <div id="admin-stats">
+        <h3>Casino Link Statistics</h3>
+        <div id="admin-clicks-list" style="max-height:400px;overflow:auto;border:1px solid #ddd;padding:1em;border-radius:8px;background:#f9f9f9;">
+          <p>Loading statistics...</p>
+        </div>
       </div>
     </div>
   </div>
@@ -523,7 +1159,8 @@
         <button id="admin-password-cancel" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Cancel</button>
       </div>
     </div>
-  </div>  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
   // Fallback confetti function in case CDN is blocked
   if (typeof confetti === 'undefined') {
