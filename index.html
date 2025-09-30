@@ -168,105 +168,32 @@
     
     .table-row {
       display: grid; 
-      grid-template-columns: auto 1fr auto auto auto;
-      gap: 1rem; 
-      padding: 1rem; 
-      border-radius: 12px; 
+      grid-template-columns: 1fr auto auto;
+      gap: 1.5rem; 
+      padding: 0.875rem 1rem; 
+      border-radius: 8px; 
       background: var(--card-bg);
       border: 1px solid var(--border);
       align-items: center;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
     }
     
     .table-row:hover {
-      background: var(--card-hover);
-      box-shadow: 0 2px 8px var(--shadow-hover);
-    }
-    
-    .casino-controls {
-      display: flex;
-      gap: 0.25rem;
-    }
-    
-    .favorite-btn, .hide-btn {
-      width: 32px;
-      height: 32px;
-      background: var(--border-light);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.875rem;
-      transition: all 0.2s ease;
-    }
-    
-    .favorite-btn:hover, .hide-btn:hover {
-      background: var(--accent-light);
-      color: var(--accent);
       border-color: var(--accent);
+      box-shadow: 0 1px 4px var(--shadow);
     }
     
-    .casino-name {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    
-    .casino-link {
+    .casino-name a {
       color: var(--primary);
       text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.15s ease;
     }
     
-    .casino-link:hover {
+    .casino-name a:hover {
       color: var(--accent);
-    }
-    
-    .info-btn {
-      width: 20px;
-      height: 20px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border: none;
-      border-radius: 50%;
-      font-size: 0.75rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-    }
-    
-    .info-btn:hover {
-      background: var(--accent);
-      color: white;
-    }
-    
-    .bonus-info {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      max-width: 200px;
-    }
-    
-    .trust-score {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-    }
-    
-    .score-number {
-      font-weight: 600;
-      color: var(--text);
-    }
-    
-    .stars {
-      color: var(--warning);
+      text-decoration: underline;
     }
     
     .collect-checkbox {
@@ -277,6 +204,7 @@
       background: var(--card-bg);
       cursor: pointer;
       transition: all 0.2s ease;
+      margin: 0;
     }
     
     .collect-checkbox:checked {
@@ -289,39 +217,24 @@
       cursor: not-allowed;
     }
     
-    .status-badge {
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      text-align: center;
-      min-width: 100px;
-    }
-    
-    .status-available {
-      background: var(--success-light);
-      color: var(--success);
-    }
-    
-    .status-cooldown {
-      background: var(--danger-light);
-      color: var(--danger);
-    }
-    
-    .flip-clock {
+    .timer-display {
       font-family: 'Courier New', monospace;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      min-width: 90px;
+      text-align: right;
+      cursor: pointer;
+      user-select: none;
     }
     
-    .digit {
-      background: var(--primary);
-      color: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-weight: bold;
-      font-size: 0.75rem;
+    .timer-display:hover {
+      color: var(--accent);
+    }
+    
+    .timer-display.available {
+      color: var(--success);
+      font-weight: 700;
     }
     
     .bonus-count {
@@ -441,17 +354,14 @@
       }
       
       .table-row {
-        grid-template-columns: auto 1fr auto;
-        gap: 0.5rem;
-        padding: 0.75rem;
+        grid-template-columns: 1fr auto auto;
+        gap: 0.75rem;
+        padding: 0.675rem 0.75rem;
       }
       
-      .bonus-info {
-        display: none;
-      }
-      
-      .trust-score {
-        display: none;
+      .timer-display {
+        font-size: 0.8rem;
+        min-width: 80px;
       }
     }
   </style>
@@ -1480,100 +1390,24 @@
       const link = casino.tilted;
       const now = Date.now();
       
-      // Create favorite button
-      const favoriteBtn = document.createElement("button");
-      favoriteBtn.className = "favorite-btn";
-      favoriteBtn.innerHTML = casino.isFavorite ? "⭐" : "☆";
-      favoriteBtn.title = casino.isFavorite ? "Remove from favorites" : "Add to favorites";
-      favoriteBtn.onclick = (e) => {
-        e.stopPropagation();
-        toggleFavorite(casino.name);
-      };
-      
-      // Create hide button
-      const hideBtn = document.createElement("button");
-      hideBtn.className = "hide-btn";
-      hideBtn.innerHTML = "👁";
-      hideBtn.title = "Hide this casino";
-      hideBtn.onclick = (e) => {
-        e.stopPropagation();
-        hideCasino(casino.name);
-      };
-      
-      // Create info button if casino has detailed information
-      let infoButton = "";
-      if (casino.info) {
-        infoButton = `<button class="casino-info-btn" onclick="showCasinoInfo('${casino.name}')" title="View casino details">ⓘ</button>`;
-      }
-      
-      // Create main content
-      let statusText, statusClass;
+      // Create timer display
+      let timerText;
       if (isAvailable) {
-        statusText = "💎 Available! ✨";
-        statusClass = "available";
+        timerText = "Available!";
       } else {
         const timeLeft = casino.next - now;
-        statusText = formatTime(timeLeft);
-        statusClass = "timer";
-      }
-      
-      // Create bonus info display
-      let bonusInfo = "";
-      if (casino.info) {
-        const stars = casino.info.trustScore ? "★".repeat(Math.floor(casino.info.trustScore / 20)) : "";
-        bonusInfo = `
-          <div class="casino-bonus-info">
-            <div class="bonus-amount" title="${casino.info.dailyBonus || 'No bonus info'}">${casino.info.dailyBonus ? casino.info.dailyBonus.substring(0, 20) + (casino.info.dailyBonus.length > 20 ? '...' : '') : 'No bonus info'}</div>
-            ${casino.info.trustScore ? `<div class="trust-score-display"><span class="trust-score-number">${casino.info.trustScore}</span><span class="trust-stars">${stars}</span></div>` : ''}
-          </div>
-        `;
-      } else {
-        bonusInfo = `<div class="casino-bonus-info"><div class="no-bonus-info">Bonus info<br>not available</div></div>`;
+        timerText = formatTime(timeLeft);
       }
       
       row.innerHTML = `
-        <div class="casino-controls">
-          ${favoriteBtn.outerHTML}
-          ${hideBtn.outerHTML}
-        </div>
-        <div class="tooltip">
+        <div class="casino-name">
           <a href="${link}" target="_blank" onclick="return handleCasinoLinkClick(event, '${casino.name}')">${casino.name}</a>
-          ${infoButton}
-          <span class="tooltiptext">${casino.tooltip || ''}</span>
         </div>
-        ${bonusInfo}
-        <div><input type="checkbox" aria-label="Collected ${casino.name}?" /></div>
-        <div class="last-collected ${statusClass}">${statusText}</div>
+        <input type="checkbox" class="collect-checkbox" aria-label="Collected ${casino.name}?" />
+        <div class="timer-display ${isAvailable ? 'available' : ''}" onclick="editTimer('${casino.name}')" title="Click to edit timer">${timerText}</div>
       `;
       
-      // Re-attach event handlers since innerHTML overwrites them
-      const newFavoriteBtn = row.querySelector(".favorite-btn");
-      const newHideBtn = row.querySelector(".hide-btn");
-      
-      newFavoriteBtn.onclick = (e) => {
-        e.stopPropagation();
-        toggleFavorite(casino.name);
-      };
-      
-      newHideBtn.onclick = (e) => {
-        e.stopPropagation();
-        hideCasino(casino.name);
-      };
-      
       return row;
-    }
-    
-    function toggleFavorite(casinoName) {
-      const currentFavorite = localStorage.getItem("favorite_" + casinoName) === "true";
-      localStorage.setItem("favorite_" + casinoName, (!currentFavorite).toString());
-      renderCasinoTable();
-    }
-    
-    function hideCasino(casinoName) {
-      if (confirm(`Hide ${casinoName}? You can restore it by clearing your browser data.`)) {
-        localStorage.setItem("hidden_" + casinoName, "true");
-        renderCasinoTable();
-      }
     }
     
     function formatTime(ms) {
@@ -1590,6 +1424,55 @@
       } else {
         return `${seconds}s`;
       }
+    }
+    
+    function editTimer(casinoName) {
+      const currentNext = localStorage.getItem("casino_" + casinoName);
+      let currentMinutes = 1440; // Default to 24 hours
+      
+      if (currentNext) {
+        const timeLeft = parseInt(currentNext) - Date.now();
+        if (timeLeft > 0) {
+          currentMinutes = Math.ceil(timeLeft / 60000);
+        }
+      }
+      
+      const input = prompt(`Edit timer for ${casinoName}\n\nEnter time until next collection:\nExamples: "24h", "5h", "2h 30m", "90m"\n\nCurrent: ${Math.floor(currentMinutes / 60)}h ${currentMinutes % 60}m`, `${Math.floor(currentMinutes / 60)}h ${currentMinutes % 60}m`);
+      
+      if (input === null) return; // User cancelled
+      
+      const mins = parseTimeInput(input);
+      if (isNaN(mins) || mins <= 0) {
+        alert("Invalid input. Please use formats like '24h', '5h', '2h 30m', or '90m'.");
+        return;
+      }
+      
+      const next = Date.now() + mins * 60000;
+      localStorage.setItem("casino_" + casinoName, next);
+      localStorage.setItem("casino_timer_" + casinoName, mins);
+      renderCasinoTable();
+    }
+    
+    // Make editTimer available globally
+    window.editTimer = editTimer;
+    
+    function parseTimeInput(input) {
+      if (!input) return NaN;
+      input = input.toLowerCase().trim();
+      
+      // Match patterns like "5h", "2h 30m", "90m"
+      const hourMatch = input.match(/(\d+)\s*h/);
+      const minMatch = input.match(/(\d+)\s*m/);
+      
+      let total = 0;
+      if (hourMatch) total += parseInt(hourMatch[1]) * 60;
+      if (minMatch) total += parseInt(minMatch[1]);
+      
+      if (total === 0 && !isNaN(parseInt(input))) {
+        total = parseInt(input);
+      }
+      
+      return total > 0 ? total : NaN;
     }
     
     function handleCasinoLinkClick(event, casinoName) {
