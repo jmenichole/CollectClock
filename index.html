@@ -7,7 +7,7 @@
   
   <style>
     :root {
-      /* Clean, modern color palette */
+      /* Light mode color palette */
       --bg: #f8fafc;
       --text: #1e293b;
       --text-secondary: #64748b;
@@ -28,6 +28,30 @@
       --card-hover: #f8fafc;
       --shadow: rgba(15, 23, 42, 0.08);
       --shadow-hover: rgba(15, 23, 42, 0.12);
+    }
+    
+    [data-theme="dark"] {
+      /* Dark mode color palette */
+      --bg: #0f172a;
+      --text: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --primary: #f1f5f9;
+      --primary-light: #cbd5e1;
+      --accent: #60a5fa;
+      --accent-light: #1e3a5f;
+      --success: #34d399;
+      --success-light: #064e3b;
+      --danger: #f87171;
+      --danger-light: #7f1d1d;
+      --warning: #fbbf24;
+      --warning-light: #78350f;
+      --border: #1e293b;
+      --border-light: #334155;
+      --card-bg: #1e293b;
+      --card-hover: #334155;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --shadow-hover: rgba(0, 0, 0, 0.4);
     }
     
     * {
@@ -102,6 +126,27 @@
     
     .admin-btn:hover {
       background: var(--primary-light);
+    }
+    
+    .theme-toggle {
+      padding: 0.75rem;
+      background: var(--card-bg);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+    }
+    
+    .theme-toggle:hover {
+      background: var(--card-hover);
+      border-color: var(--accent);
     }
     
     .casino-category {
@@ -374,6 +419,9 @@
       <div class="search-container">
         <input type="text" class="search-input" id="casino-search" placeholder="Search casinos..." />
       </div>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <span id="theme-icon">🌙</span>
+      </button>
       <button class="admin-btn" id="admin-btn">Admin</button>
     </div>
 
@@ -441,6 +489,32 @@
       console.log('Confetti would be displayed here');
     };
   }
+  </script>
+  <script>
+  // Theme toggle functionality
+  (function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+    
+    // Load saved theme preference or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    function updateThemeIcon(theme) {
+      themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+  })();
   </script>
   <script>
   (function() {
