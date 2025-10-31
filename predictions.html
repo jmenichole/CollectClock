@@ -1234,6 +1234,12 @@
         timeGaps.push(gap);
       }
       
+      // Guard against empty timeGaps array
+      if (timeGaps.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary);">Insufficient data for pattern analysis.</p>';
+        return;
+      }
+      
       const avgGap = timeGaps.reduce((a, b) => a + b, 0) / timeGaps.length;
       const minGap = Math.min(...timeGaps);
       const maxGap = Math.max(...timeGaps);
@@ -1414,10 +1420,23 @@
       subscription.notificationSent = true;
       localStorage.setItem('codepsychee_subscription', JSON.stringify(subscription));
       
-      console.log('Discord notification would be sent:', webhookData);
+      console.log('Discord notification prepared:', webhookData);
       
-      // In production, this would POST to a Discord webhook URL
-      // For now, just log it and show browser notification
+      /* 
+       * PRODUCTION IMPLEMENTATION NOTES:
+       * For full Discord integration, you'll need:
+       * 1. A server-side endpoint to handle Discord webhook POSTs (security)
+       * 2. Store Discord webhook URL in environment variables (never in client code)
+       * 3. POST webhookData to your server endpoint
+       * 4. Server validates and forwards to Discord webhook
+       * 
+       * Example: fetch('/api/send-discord-notification', { 
+       *   method: 'POST', 
+       *   body: JSON.stringify(webhookData) 
+       * })
+       */
+      
+      // For now, show browser notification as fallback
       if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('🔮 CodePsychee Alert', {
           body: `Bonus code drop predicted within the hour! Check Instagram soon.`,
