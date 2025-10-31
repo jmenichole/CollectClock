@@ -382,6 +382,19 @@
       display: none !important;
     }
     
+    /* Category filter buttons */
+    .category-filter-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px var(--shadow);
+    }
+    
+    .category-filter-btn.active {
+      background: var(--accent) !important;
+      color: #fff !important;
+      border-color: var(--accent);
+    }
+    
     /* Responsive design */
     @media (max-width: 768px) {
       .container {
@@ -422,13 +435,26 @@
       <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
         <span id="theme-icon">🌙</span>
       </button>
+      <button class="admin-btn" id="help-btn" title="Show help and keyboard shortcuts (Press ?)">❓ Help</button>
       <button class="admin-btn" id="admin-btn">Admin</button>
+    </div>
+    
+    <div style="display:flex;gap:0.5rem;margin:1.5rem 0;flex-wrap:wrap;justify-content:center;">
+      <button class="category-filter-btn active" data-category="all" style="padding:0.5rem 1rem;border:2px solid var(--border);background:var(--accent);color:#fff;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s;">🎯 All</button>
+      <button class="category-filter-btn" data-category="crypto" style="padding:0.5rem 1rem;border:2px solid var(--border);background:var(--card-bg);color:var(--text);border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s;">🪙 Crypto</button>
+      <button class="category-filter-btn" data-category="instant" style="padding:0.5rem 1rem;border:2px solid var(--border);background:var(--card-bg);color:var(--text);border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s;">⚡ Instant</button>
+      <button class="category-filter-btn" data-category="social" style="padding:0.5rem 1rem;border:2px solid var(--border);background:var(--card-bg);color:var(--text);border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s;">🎰 Social</button>
     </div>
 
     <div id="casino-table-available"></div>
     <div id="casino-table-cooldown" style="margin-top:2rem;"></div>
     
-    <div class="bonus-count" id="bonus-count"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:2rem 0;flex-wrap:wrap;gap:1rem;">
+      <div class="bonus-count" id="bonus-count" style="margin:0;"></div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="admin-btn" id="refresh-stats-btn" style="background:var(--accent);padding:0.5rem 1rem;font-size:0.85rem;" title="Refresh statistics and timers">🔄 Refresh</button>
+      </div>
+    </div>
   </div>
   
   <footer class="footer">
@@ -479,6 +505,82 @@
       <div>
         <button id="admin-password-submit" style="padding:10px 28px;margin:0 1em 0 0;background:#2cb67d;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Login</button>
         <button id="admin-password-cancel" style="padding:10px 28px;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:bold;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Help Modal -->
+  <div id="help-modal" style="display:none;position:fixed;z-index:3000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;overflow-y:auto;">
+    <div style="background:var(--card-bg);color:var(--text);padding:2em 1.5em;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.3);max-width:700px;max-height:90vh;overflow-y:auto;margin:2em;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5em;border-bottom:2px solid var(--border);padding-bottom:1em;">
+        <h2 style="margin:0;color:var(--primary);">📚 CollectClock Help & Guide</h2>
+        <button id="help-close-btn" style="background:none;border:none;font-size:1.8em;cursor:pointer;color:var(--text-secondary);line-height:1;">×</button>
+      </div>
+      
+      <div style="margin-bottom:2em;">
+        <h3 style="color:var(--accent);margin-bottom:0.5em;">🎯 How It Works</h3>
+        <p style="line-height:1.6;color:var(--text-secondary);">CollectClock helps you track daily casino bonuses and free plays across multiple platforms. Click the checkbox when you collect a bonus, and it will start a countdown timer until your next collection is available.</p>
+      </div>
+      
+      <div style="margin-bottom:2em;">
+        <h3 style="color:var(--accent);margin-bottom:0.5em;">⌨️ Keyboard Shortcuts</h3>
+        <div style="background:var(--border-light);padding:1em;border-radius:8px;">
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:0.5em 1em;font-family:monospace;font-size:0.9em;">
+            <strong style="color:var(--primary);">?</strong><span style="color:var(--text-secondary);">Show this help modal</span>
+            <strong style="color:var(--primary);">Esc</strong><span style="color:var(--text-secondary);">Close modal or clear search</span>
+            <strong style="color:var(--primary);">↑/↓</strong><span style="color:var(--text-secondary);">Navigate between casinos</span>
+            <strong style="color:var(--primary);">Tab</strong><span style="color:var(--text-secondary);">Move to next element</span>
+            <strong style="color:var(--primary);">/</strong><span style="color:var(--text-secondary);">Focus search box</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom:2em;">
+        <h3 style="color:var(--accent);margin-bottom:0.5em;">💡 Pro Tips</h3>
+        <ul style="line-height:1.8;color:var(--text-secondary);padding-left:1.5em;">
+          <li><strong>Click casino names</strong> to visit and collect bonuses (affiliate links help support this tool!)</li>
+          <li><strong>Click timers</strong> to manually edit countdown times</li>
+          <li><strong>Search casinos</strong> using the search bar at the top</li>
+          <li><strong>Categories expand/collapse</strong> - click category headers to organize your view</li>
+          <li><strong>Dark mode toggle</strong> - click the moon/sun icon for your preferred theme</li>
+          <li><strong>Data is saved locally</strong> in your browser - clear browser data will reset your timers</li>
+        </ul>
+      </div>
+      
+      <div style="margin-bottom:2em;">
+        <h3 style="color:var(--accent);margin-bottom:0.5em;">🔧 Advanced Features</h3>
+        <div style="background:var(--border-light);padding:1em;border-radius:8px;">
+          <p style="margin:0 0 1em 0;color:var(--text-secondary);"><strong>Export/Import Data:</strong> Use the buttons below to backup or restore your collection data.</p>
+          <div style="display:flex;gap:0.5em;flex-wrap:wrap;">
+            <button id="export-data-btn" style="padding:0.5em 1em;background:var(--success);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;">📥 Export Data</button>
+            <button id="import-data-btn" style="padding:0.5em 1em;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;">📤 Import Data</button>
+            <button id="clear-all-btn" style="padding:0.5em 1em;background:var(--danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;">🗑️ Clear All Data</button>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom:1em;">
+        <h3 style="color:var(--accent);margin-bottom:0.5em;">📊 Statistics</h3>
+        <div style="background:var(--border-light);padding:1em;border-radius:8px;">
+          <div id="help-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1em;">
+            <div>
+              <div style="font-size:1.5em;font-weight:bold;color:var(--success);" id="total-collections">0</div>
+              <div style="color:var(--text-secondary);font-size:0.9em;">Total Collections</div>
+            </div>
+            <div>
+              <div style="font-size:1.5em;font-weight:bold;color:var(--accent);" id="available-now">0</div>
+              <div style="color:var(--text-secondary);font-size:0.9em;">Available Now</div>
+            </div>
+            <div>
+              <div style="font-size:1.5em;font-weight:bold;color:var(--warning);" id="on-cooldown">0</div>
+              <div style="color:var(--text-secondary);font-size:0.9em;">On Cooldown</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align:center;padding-top:1em;border-top:1px solid var(--border);">
+        <button id="help-close-btn-bottom" style="padding:0.75em 2em;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500;">Got it!</button>
       </div>
     </div>
   </div>  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -1179,20 +1281,25 @@
     // Toggle mode functionality removed - always use affiliate links
     // --- Search/Filter Logic ---
     let casinoFilter = "";
+    let categoryFilter = "all";
     const searchInput = document.getElementById("casino-search");
     const searchClearBtn = document.getElementById("casino-search-clear");
     if (searchInput) {
       searchInput.addEventListener("input", function() {
         casinoFilter = searchInput.value.trim().toLowerCase();
         renderCasinoTable();
-        searchClearBtn.style.display = casinoFilter ? "inline-block" : "none";
+        if (searchClearBtn) {
+          searchClearBtn.style.display = casinoFilter ? "inline-block" : "none";
+        }
       });
       searchInput.addEventListener("keydown", function(e) {
         if (e.key === "Escape") {
           searchInput.value = "";
           casinoFilter = "";
           renderCasinoTable();
-          searchClearBtn.style.display = "none";
+          if (searchClearBtn) {
+            searchClearBtn.style.display = "none";
+          }
         }
       });
     }
@@ -1283,6 +1390,11 @@
         );
       }
       
+      // Apply category filter
+      if (categoryFilter && categoryFilter !== "all") {
+        data = data.filter(c => c.category === categoryFilter);
+      }
+      
       // Filter out hidden casinos
       data = data.filter(casino => {
         const isHidden = localStorage.getItem("hidden_" + casino.name) === "true";
@@ -1340,6 +1452,16 @@
         availableContainer.appendChild(header);
         
         renderCasinosByCategory(availableCasinos, availableContainer, categoryInfo, true);
+      } else if (!casinoFilter && categoryFilter === "all") {
+        // Show helpful message when no casinos are available
+        availableContainer.innerHTML = `
+          <div style="text-align:center;padding:3rem 1rem;color:var(--text-secondary);">
+            <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
+            <h3 style="color:var(--primary);margin-bottom:0.5rem;">All bonuses collected!</h3>
+            <p>Great job! Check back when timers expire to collect more bonuses.</p>
+            <p style="font-size:0.9em;margin-top:1rem;">💡 Tip: Click the help button (?) to learn more features!</p>
+          </div>
+        `;
       }
       
       // Render cooldown casinos by category
@@ -1749,11 +1871,199 @@
       localStorage.setItem("casinoClickStats", JSON.stringify(clickStats));
     }
     
+    // --- Help Modal Functions ---
+    function initializeHelpModal() {
+      const helpBtn = document.getElementById("help-btn");
+      const helpModal = document.getElementById("help-modal");
+      const helpCloseBtn = document.getElementById("help-close-btn");
+      const helpCloseBtnBottom = document.getElementById("help-close-btn-bottom");
+      const exportBtn = document.getElementById("export-data-btn");
+      const importBtn = document.getElementById("import-data-btn");
+      const clearAllBtn = document.getElementById("clear-all-btn");
+      
+      // Show help modal
+      function showHelpModal() {
+        updateHelpStats();
+        helpModal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+      
+      // Close help modal
+      function closeHelpModal() {
+        helpModal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+      
+      // Event listeners
+      if (helpBtn) helpBtn.addEventListener("click", showHelpModal);
+      if (helpCloseBtn) helpCloseBtn.addEventListener("click", closeHelpModal);
+      if (helpCloseBtnBottom) helpCloseBtnBottom.addEventListener("click", closeHelpModal);
+      
+      // Close on outside click
+      helpModal.addEventListener("click", (e) => {
+        if (e.target === helpModal) closeHelpModal();
+      });
+      
+      // Keyboard shortcut to open help (?)
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "?" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          const activeElement = document.activeElement;
+          if (activeElement.tagName !== "INPUT" && activeElement.tagName !== "TEXTAREA") {
+            e.preventDefault();
+            showHelpModal();
+          }
+        }
+        // Forward slash to focus search
+        if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          const activeElement = document.activeElement;
+          if (activeElement.tagName !== "INPUT" && activeElement.tagName !== "TEXTAREA") {
+            e.preventDefault();
+            const searchInput = document.getElementById("casino-search");
+            if (searchInput) searchInput.focus();
+          }
+        }
+      });
+      
+      // Export data functionality
+      if (exportBtn) {
+        exportBtn.addEventListener("click", () => {
+          try {
+            const data = {};
+            for (let i = 0; i < localStorage.length; i++) {
+              const key = localStorage.key(i);
+              data[key] = localStorage.getItem(key);
+            }
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `collectclock-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Data exported successfully!");
+          } catch (err) {
+            console.error("Export failed:", err);
+            showToast("Export failed. Check console for details.");
+          }
+        });
+      }
+      
+      // Import data functionality
+      if (importBtn) {
+        importBtn.addEventListener("click", () => {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.accept = ".json";
+          input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              try {
+                const data = JSON.parse(event.target.result);
+                if (confirm("This will overwrite your current data. Continue?")) {
+                  Object.keys(data).forEach(key => {
+                    localStorage.setItem(key, data[key]);
+                  });
+                  showToast("Data imported successfully! Refreshing...");
+                  setTimeout(() => window.location.reload(), 1500);
+                }
+              } catch (err) {
+                console.error("Import failed:", err);
+                alert("Invalid file format. Please select a valid CollectClock backup file.");
+              }
+            };
+            reader.readAsText(file);
+          };
+          input.click();
+        });
+      }
+      
+      // Clear all data functionality
+      if (clearAllBtn) {
+        clearAllBtn.addEventListener("click", () => {
+          if (confirm("⚠️ This will delete ALL your data including timers, collections, and settings. This cannot be undone!\n\nAre you absolutely sure?")) {
+            if (confirm("Final confirmation: Delete everything?")) {
+              localStorage.clear();
+              showToast("All data cleared. Refreshing...");
+              setTimeout(() => window.location.reload(), 1500);
+            }
+          }
+        });
+      }
+      
+      // Check if first visit and show help
+      if (!localStorage.getItem("hasVisited")) {
+        setTimeout(() => {
+          showHelpModal();
+          localStorage.setItem("hasVisited", "true");
+        }, 1000);
+      }
+      
+      // Refresh stats button
+      const refreshBtn = document.getElementById("refresh-stats-btn");
+      if (refreshBtn) {
+        refreshBtn.addEventListener("click", () => {
+          updateTimers();
+          updateStats();
+          updateBonusCount();
+          renderCasinoTable();
+          showToast("Stats refreshed!");
+        });
+      }
+      
+      // Category filter buttons
+      const categoryFilterBtns = document.querySelectorAll(".category-filter-btn");
+      categoryFilterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          categoryFilter = btn.dataset.category;
+          // Update active state
+          categoryFilterBtns.forEach(b => {
+            b.classList.remove("active");
+            b.style.background = "var(--card-bg)";
+            b.style.color = "var(--text)";
+          });
+          btn.classList.add("active");
+          btn.style.background = "var(--accent)";
+          btn.style.color = "#fff";
+          renderCasinoTable();
+        });
+      });
+    }
+    
+    function updateHelpStats() {
+      const totalCollections = +(localStorage.getItem("collect_count") || 0);
+      const now = Date.now();
+      let availableCount = 0;
+      let cooldownCount = 0;
+      
+      window.casinoData.forEach(casino => {
+        const next = localStorage.getItem("casino_" + casino.name);
+        const isHidden = localStorage.getItem("hidden_" + casino.name) === "true";
+        if (!isHidden) {
+          if (!next || now >= +next) {
+            availableCount++;
+          } else {
+            cooldownCount++;
+          }
+        }
+      });
+      
+      document.getElementById("total-collections").textContent = totalCollections;
+      document.getElementById("available-now").textContent = availableCount;
+      document.getElementById("on-cooldown").textContent = cooldownCount;
+    }
+    
     // --- Startup ---
     document.addEventListener("DOMContentLoaded", function() {
       const modeToggle = document.getElementById("mode-toggle");
       if (modeToggle) modeToggle.addEventListener("click", toggleMode);
       initializeAdminPanel(); // Initialize admin panel
+      initializeHelpModal(); // Initialize help modal and features
       renderCasinoTable();
       updateTimers();
       updateStats();
