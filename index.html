@@ -2053,9 +2053,13 @@
         }
       });
       
-      document.getElementById("total-collections").textContent = totalCollections;
-      document.getElementById("available-now").textContent = availableCount;
-      document.getElementById("on-cooldown").textContent = cooldownCount;
+      const totalCollectionsEl = document.getElementById("total-collections");
+      const availableNowEl = document.getElementById("available-now");
+      const onCooldownEl = document.getElementById("on-cooldown");
+      
+      if (totalCollectionsEl) totalCollectionsEl.textContent = totalCollections;
+      if (availableNowEl) availableNowEl.textContent = availableCount;
+      if (onCooldownEl) onCooldownEl.textContent = cooldownCount;
     }
     
     // --- Startup ---
