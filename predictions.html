@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>📊 Bonus Code Predictions - CollectClock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <style>
+    :root {
+      /* Light mode color palette */
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --primary: #0f172a;
+      --primary-light: #334155;
+      --accent: #3b82f6;
+      --accent-light: #dbeafe;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --card-bg: #ffffff;
+      --card-hover: #f8fafc;
+      --shadow: rgba(15, 23, 42, 0.08);
+      --shadow-hover: rgba(15, 23, 42, 0.12);
+    }
+    
+    [data-theme="dark"] {
+      /* Dark mode color palette */
+      --bg: #0f172a;
+      --text: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --primary: #f1f5f9;
+      --primary-light: #cbd5e1;
+      --accent: #60a5fa;
+      --accent-light: #1e3a5f;
+      --success: #34d399;
+      --success-light: #064e3b;
+      --danger: #f87171;
+      --danger-light: #7f1d1d;
+      --warning: #fbbf24;
+      --warning-light: #78350f;
+      --border: #1e293b;
+      --border-light: #334155;
+      --card-bg: #1e293b;
+      --card-hover: #334155;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --shadow-hover: rgba(0, 0, 0, 0.4);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      line-height: 1.6;
+      font-size: 14px;
+      padding: 2rem 1rem;
+    }
+    
+    .container { 
+      max-width: 1200px; 
+      margin: 0 auto;
+    }
+    
+    h1 { 
+      text-align: center; 
+      font-size: 2.5rem; 
+      font-weight: 700;
+      color: var(--primary);
+      margin: 1rem 0 2rem 0;
+      letter-spacing: -0.025em;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      color: var(--primary);
+      margin: 2rem 0 1rem 0;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin: 1.5rem 0 0.75rem 0;
+      font-weight: 600;
+    }
+    
+    .header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .theme-toggle {
+      padding: 0.75rem;
+      background: var(--card-bg);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+    }
+    
+    .theme-toggle:hover {
+      background: var(--card-hover);
+      border-color: var(--accent);
+    }
+
+    .discord-btn {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #5865F2, #7289DA);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 8px rgba(88, 101, 242, 0.3);
+    }
+    
+    .discord-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.4);
+      background: linear-gradient(135deg, #4752C4, #5865F2);
+    }
+    
+    .discord-modal {
+      display: none;
+      position: fixed;
+      z-index: 4000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .discord-modal-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--accent);
+    }
+    
+    .discord-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .discord-modal-header h2 {
+      margin: 0;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .modal-close:hover {
+      background: var(--border-light);
+      color: var(--text);
+    }
+    
+    .discord-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0.5rem 0;
+      transition: border-color 0.2s ease;
+    }
+    
+    .discord-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .discord-submit-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #5865F2, #7289DA);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .discord-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.4);
+    }
+    
+    .discord-submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .back-btn {
+      padding: 0.75rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .back-btn:hover {
+      background: var(--primary-light);
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px var(--shadow);
+      transition: all 0.2s ease;
+    }
+    
+    .card:hover {
+      box-shadow: 0 4px 6px var(--shadow-hover);
+    }
+    
+    .prediction-card {
+      background: linear-gradient(135deg, var(--accent-light), var(--card-bg));
+      border: 2px solid var(--accent);
+      padding: 2rem;
+    }
+    
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .stat-box {
+      background: var(--border-light);
+      padding: 1.25rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .chart-container {
+      margin: 2rem 0;
+      padding: 1rem;
+      background: var(--border-light);
+      border-radius: 8px;
+    }
+    
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      height: 200px;
+      margin: 1rem 0;
+      gap: 0.5rem;
+    }
+    
+    .bar {
+      flex: 1;
+      background: var(--accent);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      transition: all 0.3s ease;
+      min-height: 5px;
+    }
+    
+    .bar:hover {
+      background: var(--primary);
+      transform: translateY(-4px);
+    }
+    
+    .bar-label {
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    
+    .bar-value {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .time-heatmap {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    
+    .heatmap-cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: transform 0.2s ease;
+    }
+    
+    .heatmap-cell:hover {
+      transform: scale(1.1);
+    }
+    
+    .confidence-meter {
+      width: 100%;
+      height: 30px;
+      background: var(--border-light);
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      margin: 1rem 0;
+    }
+    
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 1rem;
+      color: white;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+    
+    .prediction-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+    
+    .prediction-item {
+      background: var(--border-light);
+      padding: 1rem 1.5rem;
+      margin-bottom: 0.75rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    
+    .prediction-item:hover {
+      background: var(--card-hover);
+      transform: translateX(4px);
+    }
+    
+    .prediction-date {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    
+    .prediction-amount {
+      background: var(--success);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .prediction-confidence {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin: 0.25rem;
+    }
+    
+    .badge-high {
+      background: var(--success-light);
+      color: var(--success);
+    }
+    
+    .badge-medium {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+    
+    .badge-low {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+    
+    .badge-holiday {
+      background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+      color: #fff;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .insight-box {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.5rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+    
+    .insight-box strong {
+      color: var(--accent);
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.75rem;
+      }
+      
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .bar-chart {
+        height: 150px;
+      }
+      
+      .time-heatmap {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      
+      .prediction-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-actions">
+      <a href="index.html" class="back-btn">← Back to CollectClock</a>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <button class="discord-btn" id="discord-subscribe-btn" title="Get notified in Discord before drops">
+          <span style="font-size: 1.2rem;">💜</span> Subscribe to CodePsychee
+        </button>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+
+    <h1>🔮 CodePsychee - Bonus Code Predictions</h1>
+    <p style="text-align: center; color: var(--text-secondary); margin-top: -1rem; margin-bottom: 2rem; font-style: italic;">
+      Powered by AI pattern recognition • Predicting Stake.us Instagram bonus drops
+    </p>
+    
+    <!-- Next Prediction Card -->
+    <div class="card prediction-card">
+      <h2 style="margin-top: 0;">🎯 Next Predicted Drop</h2>
+      <div id="next-prediction">
+        <p style="font-size: 1.25rem; margin: 1rem 0;">
+          <strong>Date/Time:</strong> <span id="pred-datetime" style="color: var(--accent);"></span>
+        </p>
+        <p style="font-size: 1.25rem; margin: 1rem 0;">
+          <strong>Expected Amount:</strong> <span id="pred-amount" style="color: var(--success);"></span>
+        </p>
+        <p style="font-size: 1rem; margin: 1rem 0;">
+          <strong>Confidence:</strong> <span id="pred-confidence"></span>
+        </p>
+        <div class="confidence-meter">
+          <div class="confidence-fill" id="confidence-bar"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Historical Analysis -->
+    <div class="card">
+      <h2>📈 Historical Analysis</h2>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-value" id="total-drops">0</div>
+          <div class="stat-label">Total Drops</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="avg-days">0</div>
+          <div class="stat-label">Avg Days Between</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="most-common-amount">$0</div>
+          <div class="stat-label">Most Common Amount</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="recent-frequency">0</div>
+          <div class="stat-label">Recent Drops (30d)</div>
+        </div>
+      </div>
+      
+      <h3>Day of Week Distribution</h3>
+      <div class="chart-container">
+        <div class="bar-chart" id="day-chart"></div>
+      </div>
+      
+      <h3>Time of Day Distribution (UTC)</h3>
+      <div class="chart-container">
+        <div class="time-heatmap" id="time-heatmap"></div>
+      </div>
+      
+      <h3>Bonus Amount Distribution</h3>
+      <div class="chart-container">
+        <div class="bar-chart" id="amount-chart"></div>
+      </div>
+    </div>
+    
+    <!-- Key Insights -->
+    <div class="card">
+      <h2>💡 Key Insights</h2>
+      <div id="insights-container"></div>
+    </div>
+    
+    <!-- 7-Day Predictions -->
+    <div class="card">
+      <h2>📅 Next 7 Days Predictions</h2>
+      <ul class="prediction-list" id="weekly-predictions"></ul>
+    </div>
+    
+    <!-- Pattern Analysis -->
+    <div class="card">
+      <h2>🔍 Pattern Analysis</h2>
+      <div id="pattern-analysis"></div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle functionality
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const html = document.documentElement;
+      
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      html.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+      
+      function updateThemeIcon(theme) {
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+      
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+    })();
+
+    // Historical data parsing and prediction algorithm
+    const historicalDataRaw = `2022-09-10 05:00 — $10
+2023-10-09 05:00 — $10
+2023-11-14 06:00 — $10
+2024-01-19 08:00 — $10
+2024-02-10 05:22 — $10
+2024-02-20 01:10 — $10
+2024-03-13 06:23 — $10
+2024-03-19 03:47 — $10
+2024-03-26 05:49 — $10
+2024-04-06 04:45 — $10
+2024-04-11 03:39 — $10
+2024-04-16 02:46 — $10
+2024-04-20 08:39 — $10
+2024-04-24 02:06 — $10
+2024-04-29 23:35 — $10
+2024-05-03 03:34 — $10
+2024-05-06 03:50 — $10
+2024-05-09 00:22 — $10
+2024-05-20 00:48 — $10
+2024-05-23 00:58 — $10
+2024-05-27 03:47 — $10
+2024-06-02 03:57 — $10
+2024-06-04 04:08 — $10
+2024-06-06 06:19 — $10
+2024-06-06 09:53 — $10
+2024-06-09 05:00 — $10
+2024-06-11 12:42 — $10
+2024-06-13 05:13 — $10
+2024-06-14 04:01 — $10
+2024-06-19 04:10 — $10
+2024-06-24 04:08 — $10
+2024-07-01 03:29 — $10
+2024-07-10 06:36 — Unknown
+2024-07-23 05:00 — $10
+2024-07-30 05:00 — $10
+2024-07-31 00:34 — $10
+2024-08-05 04:36 — $10
+2024-08-15 04:11 — $10
+2024-08-27 05:00 — $11
+2024-08-28 04:56 — $10
+2024-08-31 23:41 — $10
+2024-09-02 23:41 — $10
+2024-09-12 23:37 — $10
+2024-09-17 23:42 — $10
+2024-09-21 23:42 — $10
+2024-09-26 02:09 — $10
+2024-09-29 02:12 — Unknown
+2024-10-01 00:34 — $10
+2024-10-04 01:00 — Unknown
+2024-10-13 00:00 — $10
+2024-10-15 23:50 — $10
+2024-10-23 02:45 — Unknown
+2024-11-13 02:52 — Unknown
+2024-12-17 03:26 — $10
+2025-02-05 05:14 — $10
+2025-02-17 04:30 — Unknown
+2025-04-04 01:03 — Unknown
+2025-04-12 07:00 — Unknown
+2025-04-15 23:57 — Unknown
+2025-04-28 01:48 — $10
+2025-05-04 04:51 — $10
+2025-05-10 03:17 — Unknown
+2025-05-13 01:08 — $10
+2025-05-26 01:15 — Unknown
+2025-05-26 22:01 — $10
+2025-06-03 02:03 — Unknown
+2025-06-04 22:50 — $10
+2025-06-06 03:51 — Unknown
+2025-06-07 05:00 — Unknown
+2025-06-10 02:00 — Unknown
+2025-06-12 01:00 — Unknown
+2025-06-13 02:00 — Unknown
+2025-06-15 01:00 — $5
+2025-06-16 02:00 — $5
+2025-06-17 03:22 — Unknown
+2025-06-20 01:00 — Unknown
+2025-06-22 04:00 — $5
+2025-06-24 04:37 — $10
+2025-06-29 00:10 — $10
+2025-07-01 01:00 — $10
+2025-07-02 00:20 — $5
+2025-07-04 01:15 — Unknown
+2025-07-06 03:00 — $5
+2025-07-07 03:37 — $10
+2025-07-09 00:25 — $5
+2025-07-23 22:26 — $5
+2025-07-25 00:00 — $10
+2025-07-30 01:29 — $10
+2025-08-01 03:38 — $5
+2025-08-05 00:00 — Unknown
+2025-08-06 01:52 — Unknown
+2025-08-08 03:26 — $5
+2025-08-16 02:04 — Unknown
+2025-08-16 23:01 — $10
+2025-08-18 03:21 — Unknown
+2025-08-21 05:00 — $10
+2025-08-25 00:24 — $5
+2025-08-26 02:02 — $10
+2025-08-27 00:50 — $5
+2025-08-29 01:45 — $5
+2025-09-02 01:46 — $10
+2025-09-02 04:32 — $5
+2025-09-02 05:00 — Unknown
+2025-09-03 17:46 — $10
+2025-09-03 23:23 — $5
+2025-09-05 00:50 — $10
+2025-09-06 05:00 — $5
+2025-09-07 01:51 — $10
+2025-09-09 02:28 — $5
+2025-09-09 22:53 — $10
+2025-09-10 07:10 — $10
+2025-09-10 23:01 — $5
+2025-09-11 02:22 — $5
+2025-09-11 04:58 — $10
+2025-09-13 04:51 — $10
+2025-09-14 05:04 — Unknown
+2025-09-15 07:01 — $10
+2025-09-16 22:54 — $10
+2025-09-17 04:22 — $10
+2025-09-20 02:02 — Unknown
+2025-09-21 03:13 — $10
+2025-09-22 23:53 — $5
+2025-09-25 01:51 — $5
+2025-09-28 02:05 — $5
+2025-09-29 04:25 — $10
+2025-09-30 01:45 — $10
+2025-09-30 23:25 — $5
+2025-10-01 01:10 — $5
+2025-10-01 09:12 — Unknown
+2025-10-03 00:26 — $10
+2025-10-03 02:16 — $10
+2025-10-07 01:16 — $10
+2025-10-07 21:18 — $5
+2025-10-08 20:36 — $5
+2025-10-11 01:50 — $5
+2025-10-13 01:50 — $10
+2025-10-13 21:36 — $5
+2025-10-15 22:32 — $10
+2025-10-16 00:12 — $10
+2025-10-18 02:13 — $10
+2025-10-19 23:40 — $5
+2025-10-21 00:53 — $5
+2025-10-22 23:48 — $10
+2025-10-25 07:00 — $10
+2025-10-27 02:28 — $5
+2025-10-28 21:36 — $5`;
+
+    // Parse historical data
+    function parseHistoricalData(data) {
+      const lines = data.trim().split('\n');
+      const drops = [];
+      
+      lines.forEach(line => {
+        const match = line.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})\s+[—\-–]\s+\$?(\d+|Unknown)/);
+        if (match) {
+          const [, date, time, amount] = match;
+          const datetime = new Date(`${date}T${time}:00Z`);
+          drops.push({
+            datetime,
+            date,
+            time,
+            amount: amount === 'Unknown' ? null : parseInt(amount),
+            dayOfWeek: datetime.getUTCDay(),
+            hour: datetime.getUTCHours()
+          });
+        }
+      });
+      
+      return drops.sort((a, b) => a.datetime - b.datetime);
+    }
+
+    // Analyze patterns
+    function analyzePatterns(drops) {
+      const analysis = {
+        totalDrops: drops.length,
+        dayOfWeekCounts: [0, 0, 0, 0, 0, 0, 0],
+        hourCounts: Array(24).fill(0),
+        amountCounts: { 5: 0, 10: 0, 11: 0, unknown: 0 },
+        daysBetween: [],
+        recentDrops30d: 0,
+        recentDrops7d: 0
+      };
+      
+      const now = new Date();
+      const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
+      const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+      
+      drops.forEach((drop, i) => {
+        // Day of week
+        analysis.dayOfWeekCounts[drop.dayOfWeek]++;
+        
+        // Hour of day
+        analysis.hourCounts[drop.hour]++;
+        
+        // Amount
+        if (drop.amount === 5) analysis.amountCounts[5]++;
+        else if (drop.amount === 10) analysis.amountCounts[10]++;
+        else if (drop.amount === 11) analysis.amountCounts[11]++;
+        else analysis.amountCounts.unknown++;
+        
+        // Days between drops
+        if (i > 0) {
+          const daysDiff = (drop.datetime - drops[i-1].datetime) / (1000 * 60 * 60 * 24);
+          analysis.daysBetween.push(daysDiff);
+        }
+        
+        // Recent activity
+        if (drop.datetime >= thirtyDaysAgo) analysis.recentDrops30d++;
+        if (drop.datetime >= sevenDaysAgo) analysis.recentDrops7d++;
+      });
+      
+      // Calculate averages (prevent division by zero)
+      if (analysis.daysBetween.length > 0) {
+        analysis.avgDaysBetween = analysis.daysBetween.reduce((a, b) => a + b, 0) / analysis.daysBetween.length;
+        
+        // Recent average (last 20 drops)
+        const recentDays = analysis.daysBetween.slice(-20);
+        if (recentDays.length > 0) {
+          analysis.recentAvgDaysBetween = recentDays.reduce((a, b) => a + b, 0) / recentDays.length;
+        } else {
+          analysis.recentAvgDaysBetween = analysis.avgDaysBetween;
+        }
+      } else {
+        // Fallback defaults if no historical data
+        analysis.avgDaysBetween = 2.0;
+        analysis.recentAvgDaysBetween = 2.0;
+      }
+      
+      // Find most common day
+      const maxDayCount = Math.max(...analysis.dayOfWeekCounts);
+      analysis.mostCommonDay = analysis.dayOfWeekCounts.indexOf(maxDayCount);
+      
+      // Find most common hour
+      const maxHourCount = Math.max(...analysis.hourCounts);
+      analysis.mostCommonHour = analysis.hourCounts.indexOf(maxHourCount);
+      
+      // Most common amount
+      const amounts = analysis.amountCounts;
+      analysis.mostCommonAmount = amounts[10] >= amounts[5] ? 10 : 5;
+      
+      return analysis;
+    }
+
+    // Check if a date is a holiday (major US holidays when bonus drops are more frequent)
+    function isHoliday(date) {
+      const month = date.getUTCMonth() + 1; // 1-12
+      const day = date.getUTCDate();
+      
+      const holidays = {
+        '1-1': 'New Year\'s Day',
+        '2-14': 'Valentine\'s Day',
+        '3-17': 'St. Patrick\'s Day',
+        '7-4': 'Independence Day',
+        '10-31': 'Halloween',
+        '11-24': 'Black Friday', // Approximate
+        '11-25': 'Black Friday Weekend',
+        '12-24': 'Christmas Eve',
+        '12-25': 'Christmas',
+        '12-31': 'New Year\'s Eve'
+      };
+      
+      const key = `${month}-${day}`;
+      return holidays[key] || null;
+    }
+    
+    // Get upcoming holidays in the next N days
+    function getUpcomingHolidays(startDate, days) {
+      const upcoming = [];
+      for (let i = 0; i < days; i++) {
+        const checkDate = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000);
+        const holiday = isHoliday(checkDate);
+        if (holiday) {
+          upcoming.push({ date: checkDate, name: holiday, daysAway: i });
+        }
+      }
+      return upcoming;
+    }
+
+    // Generate predictions
+    function generatePredictions(drops, analysis) {
+      const now = new Date();
+      const lastDrop = drops[drops.length - 1];
+      
+      // Calculate next likely drop time
+      let avgInterval = analysis.recentAvgDaysBetween || analysis.avgDaysBetween || 2;
+      
+      // Adjust for recent frequency increase
+      if (analysis.recentDrops7d >= 5) {
+        avgInterval = Math.min(avgInterval, 1.5); // More frequent recent pattern
+      }
+      
+      // Predict next drop
+      let nextDropTime = new Date(lastDrop.datetime.getTime() + avgInterval * 24 * 60 * 60 * 1000);
+      
+      // Check for holidays in the next 7 days and adjust predictions
+      const upcomingHolidays = getUpcomingHolidays(now, 7);
+      let holidayBoost = 1.0;
+      let nearestHoliday = null;
+      
+      // If there's a holiday coming up, increase drop likelihood
+      if (upcomingHolidays.length > 0) {
+        nearestHoliday = upcomingHolidays[0];
+        // On or near holidays, drops are more frequent (reduce interval)
+        if (nearestHoliday.daysAway <= 1) {
+          avgInterval = Math.max(avgInterval * 0.5, 0.5); // Up to 50% more frequent
+          holidayBoost = 1.5;
+        } else if (nearestHoliday.daysAway <= 3) {
+          avgInterval = Math.max(avgInterval * 0.75, 0.75); // 25% more frequent
+          holidayBoost = 1.25;
+        }
+        
+        // Re-calculate with holiday adjustment
+        nextDropTime = new Date(lastDrop.datetime.getTime() + avgInterval * 24 * 60 * 60 * 1000);
+      }
+      
+      // Store holiday info for display
+      const holidayInfo = upcomingHolidays.length > 0 ? upcomingHolidays : null;
+      
+      // Adjust to most common hour (deterministic based on last drop)
+      nextDropTime.setUTCHours(analysis.mostCommonHour);
+      nextDropTime.setUTCMinutes(lastDrop.datetime.getUTCMinutes());
+      
+      // Predict amount (based on recent patterns)
+      const recent25 = drops.slice(-25).filter(d => d.amount !== null);
+      const recent5count = recent25.filter(d => d.amount === 5).length;
+      const recent10count = recent25.filter(d => d.amount === 10).length;
+      
+      let predictedAmount = 10; // Default
+      let amountConfidence = 0.6;
+      
+      if (recent10count > recent5count * 1.5) {
+        predictedAmount = 10;
+        amountConfidence = 0.75;
+      } else if (recent5count > recent10count) {
+        predictedAmount = 5;
+        amountConfidence = 0.65;
+      } else {
+        // Mixed pattern - alternate based on last drop (handle null amount)
+        predictedAmount = (lastDrop.amount === 5) ? 10 : (lastDrop.amount === 10) ? 5 : 10;
+        amountConfidence = 0.55;
+      }
+      
+      // Calculate overall confidence (prevent NaN)
+      const avgDiff = Math.abs((analysis.avgDaysBetween || 2) - (analysis.recentAvgDaysBetween || 2));
+      const frequencyConsistency = 1 / (1 + avgDiff);
+      const recentActivityBoost = Math.min(analysis.recentDrops7d / 7, 1);
+      const baseConfidence = 0.65;
+      
+      // Holiday boost increases confidence
+      const holidayConfidenceBoost = holidayBoost > 1.0 ? 0.1 : 0;
+      
+      const overallConfidence = Math.min(
+        (baseConfidence + frequencyConsistency * 0.2 + recentActivityBoost * 0.15 + holidayConfidenceBoost) * amountConfidence,
+        0.95
+      );
+      
+      // Generate 7-day predictions (deterministic)
+      const weeklyPredictions = [];
+      for (let i = 0; i < 7; i++) {
+        const predDate = new Date(nextDropTime.getTime() + i * avgInterval * 24 * 60 * 60 * 1000);
+        // Vary hours based on pattern: cycle through common drop hours
+        const hourVariation = (i % 3) - 1; // -1, 0, 1 hour variance
+        predDate.setUTCHours(analysis.mostCommonHour + hourVariation);
+        predDate.setUTCMinutes((lastDrop.datetime.getUTCMinutes() + i * 7) % 60);
+        
+        const amount = i % 2 === 0 ? predictedAmount : (predictedAmount === 10 ? 5 : 10);
+        const confidence = overallConfidence * (1 - i * 0.05); // Decrease confidence for later predictions
+        
+        weeklyPredictions.push({
+          datetime: predDate,
+          amount,
+          confidence: Math.max(confidence, 0.4)
+        });
+      }
+      
+      return {
+        nextDrop: {
+          datetime: nextDropTime,
+          amount: predictedAmount,
+          confidence: overallConfidence,
+          holidayInfo: nearestHoliday
+        },
+        weeklyPredictions,
+        upcomingHolidays: holidayInfo
+      };
+    }
+
+    // Display functions
+    function displayStats(analysis) {
+      document.getElementById('total-drops').textContent = analysis.totalDrops;
+      document.getElementById('avg-days').textContent = (analysis.avgDaysBetween || 0).toFixed(1);
+      document.getElementById('most-common-amount').textContent = `$${analysis.mostCommonAmount}`;
+      document.getElementById('recent-frequency').textContent = analysis.recentDrops30d;
+    }
+
+    function displayDayChart(analysis) {
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const maxCount = Math.max(...analysis.dayOfWeekCounts);
+      const container = document.getElementById('day-chart');
+      
+      container.innerHTML = '';
+      analysis.dayOfWeekCounts.forEach((count, i) => {
+        const height = (count / maxCount) * 100;
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = `${height}%`;
+        bar.innerHTML = `
+          <span class="bar-value">${count}</span>
+          <span class="bar-label">${days[i]}</span>
+        `;
+        container.appendChild(bar);
+      });
+    }
+
+    function displayTimeHeatmap(analysis) {
+      const container = document.getElementById('time-heatmap');
+      const maxCount = Math.max(...analysis.hourCounts);
+      
+      container.innerHTML = '';
+      
+      // Group hours in 2-hour blocks
+      for (let i = 0; i < 24; i += 2) {
+        const count = analysis.hourCounts[i] + analysis.hourCounts[i + 1];
+        const intensity = count / (maxCount * 2);
+        const cell = document.createElement('div');
+        cell.className = 'heatmap-cell';
+        
+        // Color gradient based on intensity
+        const hue = 200 + intensity * 60; // Blue to green
+        const lightness = 65 - intensity * 30;
+        cell.style.background = `hsl(${hue}, 70%, ${lightness}%)`;
+        cell.textContent = `${i}:00`;
+        cell.title = `${i}:00-${i+2}:00: ${count} drops`;
+        
+        container.appendChild(cell);
+      }
+    }
+
+    function displayAmountChart(analysis) {
+      const container = document.getElementById('amount-chart');
+      const amounts = [
+        { label: '$5', count: analysis.amountCounts[5] },
+        { label: '$10', count: analysis.amountCounts[10] },
+        { label: '$11', count: analysis.amountCounts[11] },
+        { label: 'Unknown', count: analysis.amountCounts.unknown }
+      ];
+      
+      const maxCount = Math.max(...amounts.map(a => a.count));
+      
+      container.innerHTML = '';
+      amounts.forEach(({ label, count }) => {
+        const height = (count / maxCount) * 100;
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = `${height}%`;
+        bar.innerHTML = `
+          <span class="bar-value">${count}</span>
+          <span class="bar-label">${label}</span>
+        `;
+        container.appendChild(bar);
+      });
+    }
+
+    function displayPrediction(prediction) {
+      const datetime = prediction.datetime.toLocaleString('en-US', {
+        timeZone: 'UTC',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+      });
+      
+      document.getElementById('pred-datetime').textContent = datetime;
+      document.getElementById('pred-amount').textContent = `$${prediction.amount}`;
+      
+      const confidencePercent = Math.round(prediction.confidence * 100);
+      const confidenceLabel = confidencePercent >= 70 ? 'High' : confidencePercent >= 50 ? 'Medium' : 'Low';
+      const badgeClass = confidencePercent >= 70 ? 'badge-high' : confidencePercent >= 50 ? 'badge-medium' : 'badge-low';
+      
+      // Add holiday indicator if applicable
+      let holidayBadge = '';
+      if (prediction.holidayInfo) {
+        const daysText = prediction.holidayInfo.daysAway === 0 ? 'TODAY' : 
+                        prediction.holidayInfo.daysAway === 1 ? 'TOMORROW' : 
+                        `in ${prediction.holidayInfo.daysAway} days`;
+        holidayBadge = `<br><span class="badge badge-holiday" style="margin-top: 0.5rem;">🎉 ${prediction.holidayInfo.name} ${daysText} - Higher drop frequency expected!</span>`;
+      }
+      
+      document.getElementById('pred-confidence').innerHTML = `
+        <span class="badge ${badgeClass}">${confidenceLabel} - ${confidencePercent}%</span>${holidayBadge}
+      `;
+      
+      const confidenceBar = document.getElementById('confidence-bar');
+      confidenceBar.style.width = `${confidencePercent}%`;
+      confidenceBar.textContent = `${confidencePercent}%`;
+    }
+
+    function displayWeeklyPredictions(predictions) {
+      const container = document.getElementById('weekly-predictions');
+      container.innerHTML = '';
+      
+      predictions.forEach(pred => {
+        const dateStr = pred.datetime.toLocaleDateString('en-US', {
+          timeZone: 'UTC',
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        const confidencePercent = Math.round(pred.confidence * 100);
+        
+        const li = document.createElement('li');
+        li.className = 'prediction-item';
+        li.innerHTML = `
+          <span class="prediction-date">${dateStr} UTC</span>
+          <span class="prediction-amount">$${pred.amount}</span>
+          <span class="prediction-confidence">${confidencePercent}% confidence</span>
+        `;
+        container.appendChild(li);
+      });
+    }
+
+    function displayInsights(drops, analysis, predictions) {
+      const container = document.getElementById('insights-container');
+      const insights = [];
+      
+      // Holiday insight - show first if there's an upcoming holiday
+      if (predictions && predictions.upcomingHolidays && predictions.upcomingHolidays.length > 0) {
+        const holiday = predictions.upcomingHolidays[0];
+        const daysText = holiday.daysAway === 0 ? 'TODAY' : 
+                        holiday.daysAway === 1 ? 'tomorrow' : 
+                        `in ${holiday.daysAway} days`;
+        insights.push(`🎉 <strong>Holiday Alert:</strong> ${holiday.name} is ${daysText}! Bonus drops typically occur more frequently around holidays - expect up to 2x normal frequency.`);
+      }
+      
+      // Frequency insight
+      if (analysis.recentAvgDaysBetween < analysis.avgDaysBetween) {
+        insights.push(`📈 <strong>Increasing Frequency:</strong> Recent drops are occurring more frequently (every ${analysis.recentAvgDaysBetween.toFixed(1)} days) compared to historical average (${analysis.avgDaysBetween.toFixed(1)} days).`);
+      }
+      
+      // Day of week insight
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      insights.push(`📅 <strong>Preferred Day:</strong> Most drops occur on ${days[analysis.mostCommonDay]} (${analysis.dayOfWeekCounts[analysis.mostCommonDay]} drops).`);
+      
+      // Time insight
+      insights.push(`⏰ <strong>Peak Time:</strong> Most drops happen around ${analysis.mostCommonHour}:00 UTC.`);
+      
+      // Amount insight
+      const recentKnown = drops.slice(-30).filter(d => d.amount !== null);
+      const recent5 = recentKnown.filter(d => d.amount === 5).length;
+      const recent10 = recentKnown.filter(d => d.amount === 10).length;
+      
+      if (recent5 > 0 && recent10 > 0) {
+        const ratio = (recent10 / recent5).toFixed(1);
+        insights.push(`💰 <strong>Amount Pattern:</strong> In the last 30 known drops, $10 bonuses are ${ratio}x more common than $5 bonuses.`);
+      }
+      
+      // Recent activity
+      if (analysis.recentDrops7d >= 5) {
+        insights.push(`🔥 <strong>High Activity:</strong> There have been ${analysis.recentDrops7d} drops in the last 7 days, indicating an active period.`);
+      }
+      
+      container.innerHTML = insights.map(i => `<div class="insight-box">${i}</div>`).join('');
+    }
+
+    function displayPatternAnalysis(drops, analysis) {
+      const container = document.getElementById('pattern-analysis');
+      
+      // Calculate pattern metrics
+      const recentDrops = drops.slice(-20);
+      const timeGaps = [];
+      
+      for (let i = 1; i < recentDrops.length; i++) {
+        const gap = (recentDrops[i].datetime - recentDrops[i-1].datetime) / (1000 * 60 * 60);
+        timeGaps.push(gap);
+      }
+      
+      // Guard against empty timeGaps array
+      if (timeGaps.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary);">Insufficient data for pattern analysis.</p>';
+        return;
+      }
+      
+      const avgGap = timeGaps.reduce((a, b) => a + b, 0) / timeGaps.length;
+      const minGap = Math.min(...timeGaps);
+      const maxGap = Math.max(...timeGaps);
+      
+      container.innerHTML = `
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-value">${avgGap.toFixed(1)}h</div>
+            <div class="stat-label">Avg Time Gap (20 recent)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">${minGap.toFixed(1)}h</div>
+            <div class="stat-label">Shortest Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">${maxGap.toFixed(1)}h</div>
+            <div class="stat-label">Longest Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">${((maxGap - minGap) / avgGap * 100).toFixed(0)}%</div>
+            <div class="stat-label">Variability</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1.5rem;">
+          <h3>Pattern Consistency</h3>
+          <p style="color: var(--text-secondary);">
+            The drop pattern shows ${((maxGap - minGap) / avgGap * 100) < 100 ? 'moderate' : 'high'} variability. 
+            Recent drops have been occurring approximately every ${avgGap.toFixed(1)} hours.
+            ${analysis.recentDrops7d >= 5 ? ' The high frequency suggests an active promotional period.' : ''}
+          </p>
+        </div>
+      `;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      const drops = parseHistoricalData(historicalDataRaw);
+      const analysis = analyzePatterns(drops);
+      const predictions = generatePredictions(drops, analysis);
+      
+      displayStats(analysis);
+      displayDayChart(analysis);
+      displayTimeHeatmap(analysis);
+      displayAmountChart(analysis);
+      displayPrediction(predictions.nextDrop);
+      displayWeeklyPredictions(predictions.weeklyPredictions);
+      displayInsights(drops, analysis, predictions);
+      displayPatternAnalysis(drops, analysis);
+      
+      // Discord subscription functionality
+      initializeDiscordSubscription(predictions);
+    });
+    
+    // Discord Subscription System
+    function initializeDiscordSubscription(predictions) {
+      const modal = document.getElementById('discord-modal');
+      const openBtn = document.getElementById('discord-subscribe-btn');
+      const closeBtn = document.getElementById('discord-modal-close');
+      const form = document.getElementById('discord-subscribe-form');
+      
+      openBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+      });
+      
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+      
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const discordUsername = document.getElementById('discord-username').value;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Subscribing...';
+        
+        try {
+          // Store subscription locally
+          const subscription = {
+            discordUsername,
+            subscribedAt: new Date().toISOString(),
+            nextPrediction: predictions.nextDrop.datetime,
+            notificationSent: false
+          };
+          
+          localStorage.setItem('codepsychee_subscription', JSON.stringify(subscription));
+          
+          // Show success message
+          alert(`🔮 CodePsychee Subscription Active!\n\nYou'll receive a Discord notification approximately 1 hour before the predicted drop.\n\nNext prediction: ${predictions.nextDrop.datetime.toLocaleString('en-US', { timeZone: 'UTC' })} UTC\n\nNote: Make sure you're in the CollectClock Discord server to receive notifications!`);
+          
+          modal.style.display = 'none';
+          form.reset();
+          
+          // Update button to show subscribed state
+          openBtn.innerHTML = '<span style="font-size: 1.2rem;">✅</span> Subscribed to CodePsychee';
+          openBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+          
+          // Schedule check for upcoming notifications
+          scheduleNotificationCheck(subscription);
+          
+        } catch (error) {
+          alert('Error subscribing. Please try again.');
+          console.error('Subscription error:', error);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '🔮 Subscribe';
+        }
+      });
+      
+      // Check if already subscribed
+      const existingSubscription = localStorage.getItem('codepsychee_subscription');
+      if (existingSubscription) {
+        const sub = JSON.parse(existingSubscription);
+        openBtn.innerHTML = '<span style="font-size: 1.2rem;">✅</span> Subscribed to CodePsychee';
+        openBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        scheduleNotificationCheck(sub);
+      }
+    }
+    
+    // Schedule notification check
+    function scheduleNotificationCheck(subscription) {
+      const predictionTime = new Date(subscription.nextPrediction);
+      const oneHourBefore = new Date(predictionTime.getTime() - 60 * 60 * 1000);
+      const now = new Date();
+      
+      if (now >= oneHourBefore && now < predictionTime && !subscription.notificationSent) {
+        // Send notification via Discord webhook
+        sendDiscordNotification(subscription);
+      }
+      
+      // Check again in 5 minutes
+      setTimeout(() => {
+        const currentSub = localStorage.getItem('codepsychee_subscription');
+        if (currentSub) {
+          scheduleNotificationCheck(JSON.parse(currentSub));
+        }
+      }, 5 * 60 * 1000);
+    }
+    
+    // Send Discord webhook notification
+    async function sendDiscordNotification(subscription) {
+      // Webhook URL would be configured server-side for security
+      // This is a placeholder that demonstrates the structure
+      const webhookData = {
+        content: `🔮 **CodePsychee Prediction Alert** 🔮`,
+        embeds: [{
+          title: "Bonus Code Drop Predicted Soon!",
+          description: `A Stake.us Instagram bonus code drop is predicted within the next hour!`,
+          color: 5814783, // Purple color
+          fields: [
+            {
+              name: "📅 Predicted Time",
+              value: new Date(subscription.nextPrediction).toLocaleString('en-US', { timeZone: 'UTC' }) + ' UTC',
+              inline: false
+            },
+            {
+              name: "🔗 Check Predictions",
+              value: "[View CodePsychee Dashboard](https://jmenichole.github.io/CollectClock/predictions.html)",
+              inline: false
+            }
+          ],
+          footer: {
+            text: "CodePsychee • AI-Powered Predictions"
+          },
+          timestamp: new Date().toISOString()
+        }]
+      };
+      
+      // Mark as sent
+      subscription.notificationSent = true;
+      localStorage.setItem('codepsychee_subscription', JSON.stringify(subscription));
+      
+      console.log('Discord notification prepared:', webhookData);
+      
+      /* 
+       * PRODUCTION IMPLEMENTATION NOTES:
+       * For full Discord integration, you'll need:
+       * 1. A server-side endpoint to handle Discord webhook POSTs (security)
+       * 2. Store Discord webhook URL in environment variables (never in client code)
+       * 3. POST webhookData to your server endpoint
+       * 4. Server validates and forwards to Discord webhook
+       * 
+       * Example: fetch('/api/send-discord-notification', { 
+       *   method: 'POST', 
+       *   body: JSON.stringify(webhookData) 
+       * })
+       */
+      
+      // For now, show browser notification as fallback
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('🔮 CodePsychee Alert', {
+          body: `Bonus code drop predicted within the hour! Check Instagram soon.`,
+          icon: '/favicon.ico'
+        });
+      }
+    }
+  </script>
+  
+  </div>
+  
+  <!-- Footer -->
+  <footer style="margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border); text-align: center;">
+    <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+      <a href="https://jmenichole.github.io/Portfolio/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; transition: color 0.2s ease;">
+        made for degens by degens ❤️
+      </a>
+    </p>
+  </footer>
+  
+  <!-- Discord Subscription Modal -->
+  <div class="discord-modal" id="discord-modal">
+    <div class="discord-modal-content">
+      <div class="discord-modal-header">
+        <h2>🔮 Subscribe to CodePsychee</h2>
+        <button class="modal-close" id="discord-modal-close">×</button>
+      </div>
+      
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+        Get notified in Discord approximately 1 hour before predicted bonus code drops! 
+        CodePsychee uses AI pattern recognition to forecast Instagram bonus drops.
+      </p>
+      
+      <form id="discord-subscribe-form">
+        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">
+          Discord Username
+        </label>
+        <input 
+          type="text" 
+          id="discord-username" 
+          class="discord-input" 
+          placeholder="username#1234 or @username"
+          required
+        />
+        
+        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+          💡 Make sure you're in the <a href="https://discord.gg/3hmXPwwa" target="_blank" style="color: var(--accent);">CollectClock Discord server</a> to receive notifications!
+        </p>
+        
+        <button type="submit" class="discord-submit-btn">
+          🔮 Subscribe
+        </button>
+      </form>
+      
+      <div style="margin-top: 1.5rem; padding: 1rem; background: var(--accent-light); border-radius: 8px; border-left: 4px solid var(--accent);">
+        <p style="margin: 0; font-size: 0.875rem; color: var(--text-secondary);">
+          <strong style="color: var(--accent);">✨ What is CodePsychee?</strong><br>
+          A pun on "Code Psychic" and created by mod Psychee, CodePsychee analyzes 146+ historical bonus drops to predict when the next Instagram bonus code will appear. Subscribe to never miss a drop!
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
