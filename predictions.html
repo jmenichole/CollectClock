@@ -506,6 +506,31 @@
       color: var(--accent);
     }
     
+    .refresh-btn {
+      margin-left: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .refresh-btn:hover {
+      background: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    
+    .refresh-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
     @media (max-width: 768px) {
       h1 {
         font-size: 1.75rem;
@@ -651,8 +676,31 @@
       });
     })();
 
-    // Historical data parsing and prediction algorithm
-    const historicalDataRaw = `2022-09-10 05:00 — $10
+    // Global variables for data
+    let historicalDataRaw = null;
+    let dataLastUpdated = null;
+    
+    // Fetch historical data from JSON file
+    async function loadHistoricalData() {
+      try {
+        const response = await fetch('bonus-drops-data.json');
+        if (!response.ok) {
+          throw new Error('Failed to load bonus drops data');
+        }
+        const data = await response.json();
+        dataLastUpdated = new Date(data.lastUpdated);
+        
+        // Convert JSON to the text format expected by the parser
+        historicalDataRaw = data.drops.map(drop => {
+          const amount = drop.amount === null ? 'Unknown' : `$${drop.amount}`;
+          return `${drop.date} ${drop.time} — ${amount}`;
+        }).join('\n');
+        
+        return true;
+      } catch (error) {
+        console.error('Error loading bonus drops data:', error);
+        // Fallback to embedded data if fetch fails
+        historicalDataRaw = `2022-09-10 05:00 — $10
 2023-10-09 05:00 — $10
 2023-11-14 06:00 — $10
 2024-01-19 08:00 — $10
@@ -797,7 +845,14 @@
 2025-10-22 23:48 — $10
 2025-10-25 07:00 — $10
 2025-10-27 02:28 — $5
-2025-10-28 21:36 — $5`;
+2025-10-28 21:36 — $5
+2025-10-30 10:30 — $5
+2025-11-01 02:15 — $10
+2025-11-02 01:30 — $5`;
+        dataLastUpdated = new Date('2025-11-02T03:21:00Z');
+        return false;
+      }
+    }
 
     // Parse historical data
     function parseHistoricalData(data) {
@@ -908,6 +963,9 @@
         '10-31': 'Halloween',
         '11-24': 'Black Friday', // Approximate
         '11-25': 'Black Friday Weekend',
+        '11-27': 'Thanksgiving Eve',
+        '11-28': 'Thanksgiving',
+        '11-29': 'Thanksgiving Weekend',
         '12-24': 'Christmas Eve',
         '12-25': 'Christmas',
         '12-31': 'New Year\'s Eve'
@@ -1039,6 +1097,74 @@
       };
     }
 
+    // Display data freshness indicator
+    function displayDataFreshness() {
+      if (!dataLastUpdated) return;
+      
+      const now = new Date();
+      const hoursSinceUpdate = (now - dataLastUpdated) / (1000 * 60 * 60);
+      const daysSinceUpdate = Math.floor(hoursSinceUpdate / 24);
+      
+      let freshnessText = '';
+      let freshnessClass = '';
+      
+      if (hoursSinceUpdate < 24) {
+        freshnessText = `Updated ${Math.floor(hoursSinceUpdate)}h ago`;
+        freshnessClass = 'badge-high';
+      } else if (daysSinceUpdate < 3) {
+        freshnessText = `Updated ${daysSinceUpdate} day${daysSinceUpdate > 1 ? 's' : ''} ago`;
+        freshnessClass = 'badge-medium';
+      } else {
+        freshnessText = `Updated ${daysSinceUpdate} days ago`;
+        freshnessClass = 'badge-low';
+      }
+      
+      const dateStr = dataLastUpdated.toLocaleString('en-US', {
+        timeZone: 'UTC',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+      });
+      
+      // Add freshness indicator after the subtitle
+      const subtitle = document.querySelector('h1 + p');
+      if (subtitle && !document.getElementById('data-freshness')) {
+        const freshnessDiv = document.createElement('div');
+        freshnessDiv.id = 'data-freshness';
+        freshnessDiv.style.textAlign = 'center';
+        freshnessDiv.style.marginTop = '-1rem';
+        freshnessDiv.style.marginBottom = '2rem';
+        freshnessDiv.innerHTML = `
+          <span class="badge ${freshnessClass}" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+            📊 ${freshnessText} • ${dateStr}
+          </span>
+          <button id="refresh-data-btn" class="refresh-btn">
+            🔄 Refresh
+          </button>
+        `;
+        subtitle.after(freshnessDiv);
+        
+        // Add refresh button handler
+        document.getElementById('refresh-data-btn').addEventListener('click', async () => {
+          const btn = document.getElementById('refresh-data-btn');
+          btn.textContent = '⏳ Refreshing...';
+          btn.disabled = true;
+          
+          await loadHistoricalData();
+          initializePredictions();
+          
+          btn.textContent = '✓ Refreshed';
+          setTimeout(() => {
+            btn.textContent = '🔄 Refresh';
+            btn.disabled = false;
+          }, 2000);
+        });
+      }
+    }
+    
     // Display functions
     function displayStats(analysis) {
       document.getElementById('total-drops').textContent = analysis.totalDrops;
@@ -1275,8 +1401,8 @@
       `;
     }
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
+    // Main initialization function
+    function initializePredictions() {
       const drops = parseHistoricalData(historicalDataRaw);
       const analysis = analyzePatterns(drops);
       const predictions = generatePredictions(drops, analysis);
@@ -1289,9 +1415,48 @@
       displayWeeklyPredictions(predictions.weeklyPredictions);
       displayInsights(drops, analysis, predictions);
       displayPatternAnalysis(drops, analysis);
+      displayDataFreshness();
       
-      // Discord subscription functionality
-      initializeDiscordSubscription(predictions);
+      // Discord subscription functionality (only initialize once)
+      if (!document.querySelector('#discord-subscribe-form').hasAttribute('data-initialized')) {
+        initializeDiscordSubscription(predictions);
+        document.querySelector('#discord-subscribe-form').setAttribute('data-initialized', 'true');
+      }
+    }
+    
+    // Initialize - Load data and run predictions
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Show loading indicator
+      const container = document.querySelector('.container');
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'loading-indicator';
+      loadingDiv.style.textAlign = 'center';
+      loadingDiv.style.padding = '2rem';
+      loadingDiv.style.fontSize = '1.2rem';
+      loadingDiv.style.color = 'var(--text-secondary)';
+      loadingDiv.innerHTML = '⏳ Loading bonus drop data...';
+      container.insertBefore(loadingDiv, container.children[1]);
+      
+      // Load data
+      await loadHistoricalData();
+      
+      // Remove loading indicator
+      loadingDiv.remove();
+      
+      // Initialize predictions
+      initializePredictions();
+      
+      // Auto-refresh every 5 minutes to check for data updates
+      setInterval(async () => {
+        const oldLastUpdated = dataLastUpdated ? dataLastUpdated.getTime() : 0;
+        await loadHistoricalData();
+        
+        // Only reinitialize if data changed
+        if (dataLastUpdated && dataLastUpdated.getTime() !== oldLastUpdated) {
+          console.log('New data detected, refreshing predictions...');
+          initializePredictions();
+        }
+      }, 5 * 60 * 1000); // 5 minutes
     });
     
     // Discord Subscription System
@@ -1494,7 +1659,7 @@
       <div style="margin-top: 1.5rem; padding: 1rem; background: var(--accent-light); border-radius: 8px; border-left: 4px solid var(--accent);">
         <p style="margin: 0; font-size: 0.875rem; color: var(--text-secondary);">
           <strong style="color: var(--accent);">✨ What is CodePsychee?</strong><br>
-          A pun on "Code Psychic" and created by mod Psychee, CodePsychee analyzes 146+ historical bonus drops to predict when the next Instagram bonus code will appear. Subscribe to never miss a drop!
+          A pun on "Code Psychic" and created by mod Psychee, CodePsychee analyzes 147+ historical bonus drops to predict when the next Instagram bonus code will appear. Subscribe to never miss a drop!
         </p>
       </div>
     </div>
