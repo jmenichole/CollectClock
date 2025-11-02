@@ -531,6 +531,205 @@
       transform: none;
     }
     
+    .report-drop-btn {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--success), #059669);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+      margin-top: 1rem;
+    }
+    
+    .report-drop-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, #059669, #047857);
+    }
+    
+    .verification-modal {
+      display: none;
+      position: fixed;
+      z-index: 4000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    
+    .verification-modal-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--success);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.2s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--success);
+    }
+    
+    .form-submit-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, var(--success), #059669);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .form-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+    
+    .form-submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .accuracy-card {
+      background: linear-gradient(135deg, var(--success-light), var(--card-bg));
+      border: 2px solid var(--success);
+    }
+    
+    .accuracy-stat {
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .accuracy-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--success);
+      margin-bottom: 0.25rem;
+    }
+    
+    .accuracy-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .trend-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 1.25rem;
+      margin-left: 0.5rem;
+    }
+    
+    .trend-up {
+      color: var(--success);
+    }
+    
+    .trend-down {
+      color: var(--danger);
+    }
+    
+    .verification-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    
+    .verification-item {
+      background: var(--border-light);
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--success);
+    }
+    
+    .verification-item.inaccurate {
+      border-left-color: var(--warning);
+    }
+    
+    .verification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .verification-details {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    
+    .accuracy-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .accuracy-excellent {
+      background: var(--success-light);
+      color: var(--success);
+    }
+    
+    .accuracy-good {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+    
+    .accuracy-fair {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+    
+    .accuracy-poor {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+    
     @media (max-width: 768px) {
       h1 {
         font-size: 1.75rem;
@@ -591,6 +790,41 @@
         <div class="confidence-meter">
           <div class="confidence-fill" id="confidence-bar"></div>
         </div>
+        <button class="report-drop-btn" id="report-drop-btn">
+          ✅ Report Actual Drop
+        </button>
+      </div>
+    </div>
+    
+    <!-- Accuracy Metrics Card -->
+    <div class="card accuracy-card" id="accuracy-metrics-section">
+      <h2 style="margin-top: 0;">📊 Prediction Accuracy Metrics</h2>
+      <div class="stat-grid">
+        <div class="accuracy-stat">
+          <div class="accuracy-value" id="overall-accuracy">--%</div>
+          <div class="accuracy-label">Overall Accuracy</div>
+        </div>
+        <div class="accuracy-stat">
+          <div class="accuracy-value" id="verified-predictions">0</div>
+          <div class="accuracy-label">Verified Predictions</div>
+        </div>
+        <div class="accuracy-stat">
+          <div class="accuracy-value" id="avg-time-diff">-- min</div>
+          <div class="accuracy-label">Avg Time Diff</div>
+        </div>
+        <div class="accuracy-stat">
+          <div class="accuracy-value" id="amount-accuracy">--%</div>
+          <div class="accuracy-label">Amount Accuracy</div>
+        </div>
+      </div>
+      
+      <div id="accuracy-trend" style="margin-top: 1.5rem; text-align: center; color: var(--text-secondary);">
+        <p id="trend-message">Start verifying predictions to see accuracy trends!</p>
+      </div>
+      
+      <div id="recent-verifications-container" style="margin-top: 1.5rem; display: none;">
+        <h3>Recent Verifications</h3>
+        <ul class="verification-list" id="recent-verifications"></ul>
       </div>
     </div>
     
@@ -679,6 +913,58 @@
     // Global variables for data
     let historicalDataRaw = null;
     let dataLastUpdated = null;
+    let accuracyData = null;
+    let currentPrediction = null;
+    
+    // Load accuracy data from JSON file
+    async function loadAccuracyData() {
+      try {
+        const response = await fetch('prediction-accuracy.json');
+        if (!response.ok) {
+          throw new Error('Failed to load accuracy data');
+        }
+        accuracyData = await response.json();
+        
+        // Also check localStorage for any unsaved data
+        const localData = localStorage.getItem('codepsychee_accuracy_local');
+        if (localData) {
+          const local = JSON.parse(localData);
+          // Merge local data with server data
+          accuracyData.predictions = [...accuracyData.predictions, ...local.predictions];
+          accuracyData.verifications = [...accuracyData.verifications, ...local.verifications];
+        }
+        
+        return true;
+      } catch (error) {
+        console.error('Error loading accuracy data:', error);
+        // Initialize with empty structure
+        accuracyData = {
+          version: "1.0",
+          lastUpdated: new Date().toISOString(),
+          predictions: [],
+          verifications: [],
+          accuracyMetrics: {
+            totalPredictions: 0,
+            totalVerifications: 0,
+            successfulPredictions: 0,
+            averageTimeDifferenceMinutes: 0,
+            amountAccuracy: 0,
+            overallAccuracyRate: 0,
+            improvementTrend: []
+          }
+        };
+        
+        // Try to load from localStorage as fallback
+        const localData = localStorage.getItem('codepsychee_accuracy_local');
+        if (localData) {
+          const local = JSON.parse(localData);
+          accuracyData.predictions = local.predictions || [];
+          accuracyData.verifications = local.verifications || [];
+        }
+        
+        return false;
+      }
+    }
     
     // Fetch historical data from JSON file
     async function loadHistoricalData() {
@@ -1097,6 +1383,320 @@
       };
     }
 
+    // Store prediction for later verification
+    function storePrediction(prediction) {
+      const predictionRecord = {
+        id: `pred_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+        predictionDate: new Date().toISOString(),
+        predictedDropDate: prediction.datetime.toISOString(),
+        predictedAmount: prediction.amount,
+        confidence: prediction.confidence,
+        verified: false,
+        verificationId: null
+      };
+      
+      accuracyData.predictions.push(predictionRecord);
+      currentPrediction = predictionRecord;
+      
+      // Save to localStorage as backup
+      saveAccuracyDataLocally();
+      
+      return predictionRecord;
+    }
+    
+    // Save accuracy data to localStorage
+    function saveAccuracyDataLocally() {
+      try {
+        const localData = {
+          predictions: accuracyData.predictions,
+          verifications: accuracyData.verifications,
+          lastUpdated: new Date().toISOString()
+        };
+        localStorage.setItem('codepsychee_accuracy_local', JSON.stringify(localData));
+      } catch (error) {
+        console.error('Error saving to localStorage:', error);
+      }
+    }
+    
+    // Calculate accuracy metrics
+    function calculateAccuracyMetrics() {
+      const verifications = accuracyData.verifications;
+      const predictions = accuracyData.predictions;
+      
+      if (verifications.length === 0) {
+        return {
+          totalPredictions: predictions.length,
+          totalVerifications: 0,
+          successfulPredictions: 0,
+          averageTimeDifferenceMinutes: 0,
+          amountAccuracy: 0,
+          overallAccuracyRate: 0,
+          improvementTrend: []
+        };
+      }
+      
+      // Calculate time accuracy (predictions within 3 hours = successful)
+      const timeDiffs = verifications
+        .filter(v => v.timeDifferenceMinutes !== null)
+        .map(v => Math.abs(v.timeDifferenceMinutes));
+      
+      const avgTimeDiff = timeDiffs.length > 0 
+        ? timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length 
+        : 0;
+      
+      const successfulTime = verifications.filter(v => 
+        v.timeDifferenceMinutes !== null && Math.abs(v.timeDifferenceMinutes) <= 180
+      ).length;
+      
+      // Calculate amount accuracy
+      const amountMatches = verifications.filter(v => v.amountMatch === true).length;
+      const amountAccuracy = verifications.length > 0 
+        ? (amountMatches / verifications.length) * 100 
+        : 0;
+      
+      // Overall accuracy (time + amount combined)
+      const overallSuccess = verifications.filter(v => 
+        v.amountMatch === true && v.timeDifferenceMinutes !== null && Math.abs(v.timeDifferenceMinutes) <= 180
+      ).length;
+      
+      const overallAccuracyRate = verifications.length > 0 
+        ? (overallSuccess / verifications.length) * 100 
+        : 0;
+      
+      // Calculate improvement trend (last 10 verifications vs previous 10)
+      const recentVerifications = verifications.slice(-10);
+      const previousVerifications = verifications.slice(-20, -10);
+      
+      const recentAccuracy = recentVerifications.length > 0
+        ? (recentVerifications.filter(v => v.amountMatch && Math.abs(v.timeDifferenceMinutes || 0) <= 180).length / recentVerifications.length) * 100
+        : 0;
+      
+      const previousAccuracy = previousVerifications.length > 0
+        ? (previousVerifications.filter(v => v.amountMatch && Math.abs(v.timeDifferenceMinutes || 0) <= 180).length / previousVerifications.length) * 100
+        : 0;
+      
+      const improvementTrend = recentAccuracy - previousAccuracy;
+      
+      return {
+        totalPredictions: predictions.length,
+        totalVerifications: verifications.length,
+        successfulPredictions: overallSuccess,
+        averageTimeDifferenceMinutes: avgTimeDiff,
+        amountAccuracy: amountAccuracy,
+        overallAccuracyRate: overallAccuracyRate,
+        improvementTrend: improvementTrend,
+        recentAccuracy: recentAccuracy,
+        previousAccuracy: previousAccuracy
+      };
+    }
+    
+    // Display accuracy metrics
+    function displayAccuracyMetrics() {
+      const metrics = calculateAccuracyMetrics();
+      
+      document.getElementById('overall-accuracy').textContent = 
+        metrics.totalVerifications > 0 ? `${Math.round(metrics.overallAccuracyRate)}%` : '--%';
+      
+      document.getElementById('verified-predictions').textContent = metrics.totalVerifications;
+      
+      document.getElementById('avg-time-diff').textContent = 
+        metrics.totalVerifications > 0 ? `${Math.round(metrics.averageTimeDifferenceMinutes)} min` : '-- min';
+      
+      document.getElementById('amount-accuracy').textContent = 
+        metrics.totalVerifications > 0 ? `${Math.round(metrics.amountAccuracy)}%` : '--%';
+      
+      // Display trend
+      const trendMessage = document.getElementById('trend-message');
+      if (metrics.totalVerifications === 0) {
+        trendMessage.innerHTML = 'Start verifying predictions to see accuracy trends!';
+      } else if (metrics.totalVerifications < 10) {
+        trendMessage.innerHTML = `📈 Keep verifying! Need at least 10 verifications to show trends. (${metrics.totalVerifications}/10)`;
+      } else {
+        const trendIcon = metrics.improvementTrend > 0 ? '📈' : metrics.improvementTrend < 0 ? '📉' : '➡️';
+        const trendClass = metrics.improvementTrend > 0 ? 'trend-up' : metrics.improvementTrend < 0 ? 'trend-down' : '';
+        const trendText = Math.abs(metrics.improvementTrend).toFixed(1);
+        
+        trendMessage.innerHTML = `
+          ${trendIcon} <strong>Accuracy Trend:</strong> 
+          <span class="${trendClass}">${metrics.improvementTrend > 0 ? '+' : ''}${trendText}%</span> 
+          compared to previous predictions
+          <br>
+          <small style="opacity: 0.8;">Recent: ${Math.round(metrics.recentAccuracy)}% • Previous: ${Math.round(metrics.previousAccuracy)}%</small>
+        `;
+      }
+      
+      // Display recent verifications
+      displayRecentVerifications();
+    }
+    
+    // Display recent verifications
+    function displayRecentVerifications() {
+      const verifications = accuracyData.verifications.slice(-5).reverse();
+      const container = document.getElementById('recent-verifications-container');
+      const list = document.getElementById('recent-verifications');
+      
+      if (verifications.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+      
+      container.style.display = 'block';
+      list.innerHTML = '';
+      
+      verifications.forEach(verification => {
+        const actualDate = new Date(verification.actualDropDate);
+        const dateStr = actualDate.toLocaleString('en-US', {
+          timeZone: 'UTC',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        const timeDiff = verification.timeDifferenceMinutes;
+        const amountMatch = verification.amountMatch;
+        
+        let accuracyClass = 'accuracy-excellent';
+        let accuracyLabel = 'Excellent';
+        
+        if (timeDiff !== null) {
+          const absDiff = Math.abs(timeDiff);
+          if (absDiff <= 60 && amountMatch) {
+            accuracyClass = 'accuracy-excellent';
+            accuracyLabel = 'Excellent';
+          } else if (absDiff <= 180 && amountMatch) {
+            accuracyClass = 'accuracy-good';
+            accuracyLabel = 'Good';
+          } else if (absDiff <= 360) {
+            accuracyClass = 'accuracy-fair';
+            accuracyLabel = 'Fair';
+          } else {
+            accuracyClass = 'accuracy-poor';
+            accuracyLabel = 'Needs Improvement';
+          }
+        }
+        
+        const li = document.createElement('li');
+        li.className = `verification-item ${!amountMatch || (timeDiff && Math.abs(timeDiff) > 180) ? 'inaccurate' : ''}`;
+        li.innerHTML = `
+          <div class="verification-header">
+            <strong>${dateStr} UTC</strong>
+            <span class="accuracy-badge ${accuracyClass}">${accuracyLabel}</span>
+          </div>
+          <div class="verification-details">
+            💰 Actual: $${verification.actualAmount} • 
+            ${timeDiff !== null ? `⏱️ Time diff: ${Math.abs(timeDiff)} min ${timeDiff > 0 ? 'late' : 'early'}` : 'No prediction match'} • 
+            ${amountMatch ? '✅ Amount matched' : '❌ Amount mismatch'}
+          </div>
+        `;
+        list.appendChild(li);
+      });
+    }
+    
+    // Handle verification form submission
+    function handleVerificationSubmit(e) {
+      e.preventDefault();
+      
+      const date = document.getElementById('actual-drop-date').value;
+      const time = document.getElementById('actual-drop-time').value;
+      const amountSelect = document.getElementById('actual-amount').value;
+      const notes = document.getElementById('notes').value;
+      
+      const actualAmount = amountSelect === 'other' ? null : parseInt(amountSelect, 10);
+      const actualDropDate = new Date(`${date}T${time}:00Z`);
+      
+      // Find matching prediction (within 24 hours)
+      let matchedPrediction = null;
+      let timeDiff = null;
+      
+      for (const pred of accuracyData.predictions) {
+        if (pred.verified) continue;
+        
+        const predDate = new Date(pred.predictedDropDate);
+        const diff = (actualDropDate - predDate) / (1000 * 60); // minutes
+        
+        if (Math.abs(diff) <= 24 * 60) { // Within 24 hours
+          matchedPrediction = pred;
+          timeDiff = diff;
+          break;
+        }
+      }
+      
+      // Create verification record
+      const verification = {
+        id: `verif_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+        verificationDate: new Date().toISOString(),
+        actualDropDate: actualDropDate.toISOString(),
+        actualAmount: actualAmount,
+        predictionId: matchedPrediction ? matchedPrediction.id : null,
+        timeDifferenceMinutes: timeDiff,
+        amountMatch: matchedPrediction && actualAmount !== null ? matchedPrediction.predictedAmount === actualAmount : false,
+        addedToHistorical: false,
+        notes: notes || null
+      };
+      
+      // Mark prediction as verified
+      if (matchedPrediction) {
+        matchedPrediction.verified = true;
+        matchedPrediction.verificationId = verification.id;
+      }
+      
+      // Add to verifications
+      accuracyData.verifications.push(verification);
+      
+      // Save locally
+      saveAccuracyDataLocally();
+      
+      // Update metrics display
+      displayAccuracyMetrics();
+      
+      // Show success message
+      const accuracy = verification.amountMatch && timeDiff && Math.abs(timeDiff) <= 180 ? 'accurate' : 'recorded';
+      alert(`✅ Verification ${accuracy}!\n\n` +
+            `Actual: $${actualAmount ?? 'Unknown'} at ${actualDropDate.toLocaleString('en-US', { timeZone: 'UTC' })} UTC\n` +
+            (timeDiff !== null ? `Time difference: ${Math.abs(Math.round(timeDiff))} minutes ${timeDiff > 0 ? 'later' : 'earlier'} than predicted\n` : '') +
+            (verification.amountMatch ? '✅ Amount matched prediction!' : '❌ Amount differed from prediction') +
+            '\n\nThank you for helping improve CodePsychee!'
+      );
+      
+      // Close modal and reset form
+      document.getElementById('verification-modal').style.display = 'none';
+      e.target.reset();
+      
+      // Suggest adding to historical data
+      if (actualAmount !== null && !verification.addedToHistorical) {
+        setTimeout(() => {
+          if (confirm('Would you like to add this verified drop to the historical database?\n\n' +
+                     'This will help improve future predictions for everyone!')) {
+            addVerifiedDropToHistorical(verification);
+          }
+        }, 1000);
+      }
+    }
+    
+    // Add verified drop to historical database
+    function addVerifiedDropToHistorical(verification) {
+      const actualDate = new Date(verification.actualDropDate);
+      const dateStr = actualDate.toISOString().split('T')[0];
+      const timeStr = actualDate.toISOString().split('T')[1].substring(0, 5);
+      
+      // Add to the historicalDataRaw string
+      const newEntry = `${dateStr} ${timeStr} — $${verification.actualAmount ?? 'Unknown'}`;
+      historicalDataRaw += '\n' + newEntry;
+      
+      // Mark as added
+      verification.addedToHistorical = true;
+      saveAccuracyDataLocally();
+      
+      // Refresh predictions with new data
+      initializePredictions();
+      
+      alert('✅ Verified drop added to historical database!\n\nPredictions have been recalculated with the new data.');
+      
+      // Note: In a full implementation, this would also update bonus-drops-data.json on the server
+      console.log('Note: In production, this would update bonus-drops-data.json on the server');
+    }
+    
     // Display data freshness indicator
     function displayDataFreshness() {
       if (!dataLastUpdated) return;
@@ -1417,11 +2017,59 @@
       displayPatternAnalysis(drops, analysis);
       displayDataFreshness();
       
+      // Store prediction for tracking
+      if (accuracyData) {
+        storePrediction(predictions.nextDrop);
+      }
+      
+      // Display accuracy metrics
+      if (accuracyData) {
+        displayAccuracyMetrics();
+      }
+      
       // Discord subscription functionality (only initialize once)
       if (!document.querySelector('#discord-subscribe-form').hasAttribute('data-initialized')) {
         initializeDiscordSubscription(predictions);
         document.querySelector('#discord-subscribe-form').setAttribute('data-initialized', 'true');
       }
+      
+      // Initialize verification modal (only once)
+      if (!document.getElementById('verification-modal').hasAttribute('data-initialized')) {
+        initializeVerificationModal();
+        document.getElementById('verification-modal').setAttribute('data-initialized', 'true');
+      }
+    }
+    
+    // Initialize verification modal
+    function initializeVerificationModal() {
+      const modal = document.getElementById('verification-modal');
+      const openBtn = document.getElementById('report-drop-btn');
+      const closeBtn = document.getElementById('verification-modal-close');
+      const form = document.getElementById('verification-form');
+      
+      openBtn.addEventListener('click', () => {
+        // Pre-fill with current date/time
+        const now = new Date();
+        const dateStr = now.toISOString().split('T')[0];
+        const timeStr = now.toISOString().split('T')[1].substring(0, 5);
+        
+        document.getElementById('actual-drop-date').value = dateStr;
+        document.getElementById('actual-drop-time').value = timeStr;
+        
+        modal.style.display = 'flex';
+      });
+      
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+      
+      form.addEventListener('submit', handleVerificationSubmit);
     }
     
     // Initialize - Load data and run predictions
@@ -1438,7 +2086,10 @@
       container.insertBefore(loadingDiv, container.children[1]);
       
       // Load data
-      await loadHistoricalData();
+      await Promise.all([
+        loadHistoricalData(),
+        loadAccuracyData()
+      ]);
       
       // Remove loading indicator
       loadingDiv.remove();
@@ -1449,7 +2100,10 @@
       // Auto-refresh every 5 minutes to check for data updates
       setInterval(async () => {
         const oldLastUpdated = dataLastUpdated ? dataLastUpdated.getTime() : 0;
-        await loadHistoricalData();
+        await Promise.all([
+          loadHistoricalData(),
+          loadAccuracyData()
+        ]);
         
         // Only reinitialize if data changed
         if (dataLastUpdated && dataLastUpdated.getTime() !== oldLastUpdated) {
@@ -1660,6 +2314,76 @@
         <p style="margin: 0; font-size: 0.875rem; color: var(--text-secondary);">
           <strong style="color: var(--accent);">✨ What is CodePsychee?</strong><br>
           A pun on "Code Psychic" and created by mod Psychee, CodePsychee analyzes 147+ historical bonus drops to predict when the next Instagram bonus code will appear. Subscribe to never miss a drop!
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Report Drop Verification Modal -->
+  <div class="verification-modal" id="verification-modal">
+    <div class="verification-modal-content">
+      <div class="discord-modal-header">
+        <h2>✅ Report Actual Drop</h2>
+        <button class="modal-close" id="verification-modal-close">×</button>
+      </div>
+      
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+        Help improve CodePsychee's accuracy by reporting when actual bonus drops occur. 
+        Your feedback trains the AI to make better predictions!
+      </p>
+      
+      <form id="verification-form">
+        <div class="form-group">
+          <label for="actual-drop-date">Actual Drop Date</label>
+          <input 
+            type="date" 
+            id="actual-drop-date" 
+            class="form-input" 
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="actual-drop-time">Actual Drop Time (UTC)</label>
+          <input 
+            type="time" 
+            id="actual-drop-time" 
+            class="form-input" 
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="actual-amount">Actual Bonus Amount ($)</label>
+          <select id="actual-amount" class="form-input" required>
+            <option value="">Select amount...</option>
+            <option value="5">$5</option>
+            <option value="10">$10</option>
+            <option value="11">$11</option>
+            <option value="other">Other/Unknown</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="notes">Notes (optional)</label>
+          <textarea 
+            id="notes" 
+            class="form-input" 
+            rows="3"
+            placeholder="Any additional details about the drop..."
+          ></textarea>
+        </div>
+        
+        <button type="submit" class="form-submit-btn">
+          📊 Submit Verification
+        </button>
+      </form>
+      
+      <div style="margin-top: 1.5rem; padding: 1rem; background: var(--success-light); border-radius: 8px; border-left: 4px solid var(--success);">
+        <p style="margin: 0; font-size: 0.875rem; color: var(--text-secondary);">
+          <strong style="color: var(--success);">🎯 How it works:</strong><br>
+          When you report an actual drop, CodePsychee compares it with its prediction to calculate accuracy. 
+          The system learns from these verifications to improve future predictions and automatically adds verified drops to the historical database.
         </p>
       </div>
     </div>

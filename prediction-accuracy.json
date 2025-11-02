@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2025-11-02T08:44:59.795Z",
+  "predictions": [],
+  "verifications": [],
+  "accuracyMetrics": {
+    "totalPredictions": 0,
+    "totalVerifications": 0,
+    "successfulPredictions": 0,
+    "averageTimeDifferenceMinutes": 0,
+    "amountAccuracy": 0,
+    "overallAccuracyRate": 0,
+    "improvementTrend": []
+  },
+  "schema": {
+    "predictions": {
+      "description": "Array of predictions made by the system",
+      "fields": {
+        "id": "Unique prediction identifier",
+        "predictionDate": "When the prediction was made (ISO 8601)",
+        "predictedDropDate": "Predicted date/time of drop (ISO 8601)",
+        "predictedAmount": "Predicted bonus amount ($)",
+        "confidence": "Confidence level (0-1)",
+        "verified": "Whether this prediction has been verified",
+        "verificationId": "ID of the verification record (if verified)"
+      }
+    },
+    "verifications": {
+      "description": "Array of user-reported actual drops",
+      "fields": {
+        "id": "Unique verification identifier",
+        "verificationDate": "When the verification was submitted (ISO 8601)",
+        "actualDropDate": "Actual date/time of drop (ISO 8601)",
+        "actualAmount": "Actual bonus amount ($)",
+        "predictionId": "ID of the prediction being verified (if matched)",
+        "timeDifferenceMinutes": "Difference between predicted and actual (minutes)",
+        "amountMatch": "Whether the amount matched",
+        "addedToHistorical": "Whether this was added to bonus-drops-data.json"
+      }
+    }
+  }
+}
