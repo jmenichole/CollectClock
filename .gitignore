@@ -6,6 +6,8 @@ after_light.png
 # Temporary files
 tmp/
 .tmp/
+*.old
+*.backup
 
 # IDE files
 .vscode/
