@@ -1,57 +1,232 @@
 [
   {
+    "brand": "TrustDice",
+    "bonus": "Free coins + 25% rakeback",
+    "url": "https://trustdice.win",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
     "brand": "Stake.us",
+    "bonus": "10,000 GC + 1 Stake Cash (SC)",
+    "url": "https://stake.us",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Bitsler",
+    "bonus": "0.0001+ BTC faucet",
+    "url": "https://www.bitsler.io",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Rolla",
     "bonus": "Daily Free Play",
-    "url": "https://stake.us/",
+    "url": "https://www.rolla.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Punt",
+    "bonus": "1,000 GC + 0.10 SC every hour (up to 24,000 GC + 2.4 SC/day)",
+    "url": "https://punt.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Shuffle.us",
+    "bonus": "Daily Free Play",
+    "url": "https://shuffle.us",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "WOW Vegas",
+    "bonus": "~750–175,000+ WOW Coins and ~0.1–3.5+ SC (by VIP level)",
+    "url": "https://www.wowvegas.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Pulsz",
+    "bonus": "2,500 GC + 0.30 SC (rising with streak)",
+    "url": "https://www.pulsz.com",
+    "verified": "2025-11-04",
+    "code": "PULSE10"
+  },
+  {
+    "brand": "Modo",
+    "bonus": "Daily Login Bonus",
+    "url": "https://modo.us",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "McLuck",
+    "bonus": "2,500 GC + up to 2.5 SC (random)",
+    "url": "https://www.mcluck.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Crown Coins",
+    "bonus": "5,000 GC (Day 1) up to 100,000 GC (Day 30)",
+    "url": "https://crowncoinscasino.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Chanced",
+    "bonus": "~5,000–20,000 Gold Coins + up to 1 Sweeps Coin",
+    "url": "https://chanced.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Pulsz Bingo",
+    "bonus": "Daily Bingo Bonus",
+    "url": "https://www.pulszbingo.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Zula Casino",
+    "bonus": "10,000 GC + 1 SC",
+    "url": "https://www.zulacasino.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Fortune Coins",
+    "bonus": "Up to 300,000 GC + 100 FC (≈1 SC) per 7-day cycle",
+    "url": "https://www.fortunecoins.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "High 5 Casino",
+    "bonus": "~0.1 SC per day (plus small GC/diamond bonuses)",
+    "url": "https://high5casino.com",
+    "verified": "2025-11-04",
+    "code": "HIGH5DAILY"
+  },
+  {
+    "brand": "Scrooge Casino",
+    "bonus": "Daily Free Credits",
+    "url": "https://scrooge.casino",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "American Luck",
+    "bonus": "Daily Free Coins",
+    "url": "https://americanluck.com",
     "verified": "2025-11-04",
     "code": null
   },
   {
     "brand": "Chumba Casino",
-    "bonus": "Free Sweeps Coins",
-    "url": "https://chumbacasino.com/",
+    "bonus": "200,000 GC + 1 SC",
+    "url": "https://chumbacasino.com",
     "verified": "2025-11-04",
     "code": "CHUMBAFREE5"
   },
   {
-    "brand": "WOW Vegas",
-    "bonus": "Daily Coins & Free Spins",
-    "url": "https://wowvegas.com/",
-    "verified": "2025-11-03",
+    "brand": "Global Poker",
+    "bonus": "1,000 GC (base) up to 2,500 GC (Day 7 streak)",
+    "url": "https://globalpoker.com",
+    "verified": "2025-11-04",
     "code": null
   },
   {
-    "brand": "Pulsz",
-    "bonus": "Daily Login Bonus",
-    "url": "https://pulsz.com/",
+    "brand": "LuckyLand Slots",
+    "bonus": "2,400 GC + 0.3 SC (Days 1–6); 1.0 SC (Day 7) + 400 GC every 4h",
+    "url": "https://luckyland.com",
     "verified": "2025-11-04",
-    "code": "PULSE10"
-  },
-  {
-    "brand": "Fortune Coins",
-    "bonus": "Daily Free Coins",
-    "url": "https://fortunecoins.com/",
-    "verified": "2025-11-03",
     "code": null
   },
   {
-    "brand": "High 5 Casino",
-    "bonus": "Daily Free Credits",
-    "url": "https://high5casino.com/",
+    "brand": "Sportzino",
+    "bonus": "Daily Sports Bonus",
+    "url": "https://sportzino.com",
     "verified": "2025-11-04",
-    "code": "HIGH5DAILY"
+    "code": null
   },
   {
-    "brand": "McLuck",
-    "bonus": "Daily Bonus Coins",
-    "url": "https://mcluck.com/",
-    "verified": "2025-11-02",
+    "brand": "Hello Millions",
+    "bonus": "~1,500 GC + 0.2 SC per daily spin",
+    "url": "https://www.hellomillions.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Mega Bonanza",
+    "bonus": "1,500 GC + 0.20 SC",
+    "url": "https://www.megabonanza.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Real Prize",
+    "bonus": "Base 1,500 GC + 0.30 SC (increases via VIP to 25k GC + 5 SC)",
+    "url": "https://www.realprize.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "LuckyBird",
+    "bonus": "~2,000 GC + 0.2 SC (rising to 1 SC at higher VIP)",
+    "url": "https://luckybird.vip",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "PlayFame",
+    "bonus": "1,500 GC + 0.2–2 SC (varies/random)",
+    "url": "https://www.playfame.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Jackpota",
+    "bonus": "1,500 GC + 0.20 SC",
+    "url": "https://www.jackpota.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Clubs Poker",
+    "bonus": "Daily Poker Bonus",
+    "url": "https://clubs.poker",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Spree",
+    "bonus": "Daily Free Spins",
+    "url": "https://spree.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "FortuneWheelz",
+    "bonus": "Day 1: 20 GC + 20 Fortune Coins; up to 10 free spins (Day 7)",
+    "url": "https://fortunewheelz.com",
+    "verified": "2025-11-04",
+    "code": null
+  },
+  {
+    "brand": "Zoot",
+    "bonus": "~1,000 GC daily (plus occasional 0.5 SC)",
+    "url": "https://getzoot.us",
+    "verified": "2025-11-04",
     "code": null
   },
   {
     "brand": "Funrize",
     "bonus": "Daily Free Spins",
-    "url": "https://funrize.com/",
+    "url": "https://funrize.com",
     "verified": "2025-11-04",
     "code": "FUN100"
   }
