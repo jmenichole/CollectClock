@@ -2120,8 +2120,35 @@
       const closeBtn = document.getElementById('discord-modal-close');
       const form = document.getElementById('discord-subscribe-form');
       
+      // Function to autofill Discord username from wallet/auth
+      function autofillDiscordUsername() {
+        try {
+          const discordUser = localStorage.getItem('discordUser');
+          if (discordUser) {
+            const userData = JSON.parse(discordUser);
+            const usernameInput = document.getElementById('discord-username');
+            
+            if (usernameInput && userData.username) {
+              // Format username with discriminator if available
+              const formattedUsername = userData.discriminator && userData.discriminator !== '0'
+                ? `${userData.username}#${userData.discriminator}`
+                : `@${userData.username}`;
+              
+              // Only autofill if the field is empty
+              if (!usernameInput.value) {
+                usernameInput.value = formattedUsername;
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Error autofilling Discord username:', error);
+        }
+      }
+      
       openBtn.addEventListener('click', () => {
         modal.style.display = 'flex';
+        // Autofill discord username from stored Discord auth data
+        autofillDiscordUsername();
       });
       
       closeBtn.addEventListener('click', () => {
