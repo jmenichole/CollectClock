@@ -2,145 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>CollectClock</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CollectClock - Your daily source for sweepstakes and social casino bonus links">
-  <title>🎯 CollectClock - Daily Casino Bonuses</title>
-  
-  <!-- Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-  
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="container">
-      <div class="header-content">
-        <div class="header-top">
-          <h1 class="logo">
-            <span>🎯</span>
-            <span>CollectClock</span>
-          </h1>
-          <div class="header-actions">
-            <button id="submit-casino-btn" class="btn btn-primary" aria-label="Submit a new casino bonus">
-              ➕ Submit Casino
-            </button>
-            <button id="favorites-toggle" class="btn btn-secondary" aria-label="Toggle favorites filter">
-              ⭐ Favorites
-            </button>
-            <button id="theme-toggle" class="btn btn-icon btn-secondary" aria-label="Toggle dark mode">
-              🌙
-            </button>
-          </div>
-        </div>
-        
-        <div class="controls">
-          <div class="search-container">
-            <input 
-              type="text" 
-              id="search-input" 
-              class="search-input" 
-              placeholder="Search by brand or keyword..."
-              aria-label="Search bonuses"
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
 
-  <!-- Main Content -->
-  <main>
-    <div class="container">
-      <!-- Info Bar -->
-      <div class="info-bar">
-        <div>
-          <p id="last-updated" class="last-updated">Loading...</p>
-          <p id="bonus-count" class="last-updated"></p>
-        </div>
-        <div class="sort-controls">
-          <button id="help-trigger" class="help-icon" aria-label="How to use CollectClock">❔</button>
-          <div id="help-popover" class="help-popover" role="dialog" aria-modal="false" aria-hidden="true">
-            <p><strong>Quick tips:</strong></p>
-            <ul>
-              <li>Filter bonuses by name or keyword.</li>
-              <li>Star your go-to casinos for fast access.</li>
-              <li>Use "Update Bonus" on any card to track amount + collecting window.</li>
-            </ul>
-          </div>
-          <label for="sort-select">Sort by:</label>
-          <select id="sort-select" class="sort-select" aria-label="Sort bonuses">
-            <option value="verified">Recently Verified</option>
-            <option value="brand">Brand Name</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Bonus Grid -->
-      <div id="bonus-grid" class="bonus-grid">
-        <!-- Cards will be dynamically inserted here -->
-        <div class="empty-state">
-          <h2>Loading bonuses...</h2>
-          <p>Please wait while we fetch the latest daily bonuses.</p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 CollectClock. All rights reserved.</p>
-      <p>Please gamble responsibly. 18+ only.</p>
-      <p style="margin-top: 0.5rem; font-size: 0.75rem;">
-        <a href="https://github.com/jmenichole/CollectClock" target="_blank" rel="noopener" style="color: var(--accent);">GitHub</a> | 
-        <a href="https://linkedin.com/in/jmenichole0" target="_blank" rel="noopener" style="color: var(--accent);">LinkedIn</a>
-      </p>
-    </div>
-  </footer>
-
-  <!-- Submit Casino Modal -->
-  <div id="submit-casino-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-overlay" data-close="true"></div>
-    <div class="modal-content">
-      <button class="modal-close" data-close="true" aria-label="Close submit casino form">✖</button>
-      <h2>Submit a Casino</h2>
-      <p class="modal-subtitle">Help keep CollectClock fresh. Your submission is stored locally so you can keep tabs on it.</p>
-      <form id="submit-casino-form" class="modal-form">
-        <div class="form-group">
-          <label for="casino-name">Casino name</label>
-          <input type="text" id="casino-name" name="casinoName" required placeholder="Lucky Jamie's Palace">
-        </div>
-        <div class="form-group">
-          <label for="casino-url">Casino URL</label>
-          <input type="url" id="casino-url" name="casinoUrl" required placeholder="https://example.com">
-        </div>
-        <div class="form-group">
-          <label for="casino-bonus">Bonus description</label>
-          <input type="text" id="casino-bonus" name="casinoBonus" required placeholder="25 free sweeps + 10% rakeback">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="casino-amount">Bonus amount</label>
-            <input type="text" id="casino-amount" name="casinoAmount" placeholder="e.g. 10,000 GC">
-          </div>
-          <div class="form-group">
-            <label for="casino-window">Collecting window</label>
-            <input type="text" id="casino-window" name="casinoWindow" placeholder="e.g. Every 24 hours">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="casino-code">Bonus code (optional)</label>
-          <input type="text" id="casino-code" name="casinoCode" placeholder="BONUS2025">
-        </div>
-        <button type="submit" class="btn btn-primary submit-btn">Submit casino</button>
-      </form>
-      <div id="submit-casino-success" class="modal-success" role="status" aria-live="polite"></div>
-    </div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo"> CollectClock</h1>
+    <button id="add-casino-btn" class="btn">➕ Add Casino</button>
   </div>
+</header>
 
-  <!-- App Script -->
-  <script src="assets/js/app.js"></script>
+<main class="container">
+  <div id="bonus-grid" class="bonus-grid"></div>
+</main>
+
+<!-- ADD CASINO MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Add Casino</h2>
+
+    <input id="name" placeholder="Casino name">
+    <input id="url" placeholder="Casino URL">
+    <input id="bonus" placeholder="Bonus description">
+    <input id="amount" placeholder="Bonus amount">
+    <input id="window" placeholder="Collecting window">
+
+    <label class="checkbox">
+      <input type="checkbox" id="global-submit">
+      Submit for global approval
+    </label>
+
+    <button id="submit-casino" class="btn primary">Add</button>
+    <button id="close-modal" class="btn ghost">Cancel</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
