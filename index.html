@@ -1,45 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <title>CollectClock</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
-<script src="assets/js/app.js"></script>
+<meta charset="UTF-8" />
+<title>CollectClock</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+<style>
+* { box-sizing: border-box; font-family: system-ui, sans-serif; }
+
+body {
+  margin: 0;
+  background: #f6f7fb;
+  color: #222;
+}
+
+header {
+  background: #111;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: none;
+}
+
+.primary {
+  background: #4f46e5;
+  color: white;
+}
+
+main {
+  padding: 1rem;
+}
+
+h2 {
+  margin-top: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.card small {
+  color: #666;
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #4f46e5;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.options {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.options button {
+  background: none;
+  font-size: 1.2rem;
+}
+
+.edit input {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden { display: none; }
+
+.modal-content {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 320px;
+}
+
+.modal-content input {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox {
+  font-size: 0.9rem;
+}
+</style>
 </head>
+
 <body>
 
-<header class="header">
-  <div class="header-left">
-    <h1>🎯 CollectClock</h1>
-    <span class="subtitle">Daily casino bonus tracker</span>
-  </div>
-  <div class="header-right">
-    <button id="addCasinoBtn">➕ Add Casino</button>
-  </div>
+<header>
+  <h1>🎯 CollectClock</h1>
+  <button id="openModal" class="primary">➕ Add Casino</button>
 </header>
 
-<main class="container">
+<main>
+  <h2>Approved Casinos</h2>
+  <div id="approved" class="grid"></div>
 
-  <section class="section">
-    <h2>Approved Casinos</h2>
-    <div id="approvedGrid" class="card-grid"></div>
-  </section>
-
-  <section class="section">
-    <h2>Pending Submissions</h2>
-    <div id="pendingGrid" class="card-grid muted"></div>
-  </section>
-
+  <h2>Pending Submissions</h2>
+  <div id="pending" class="grid"></div>
 </main>
 
-<!-- ADD CASINO MODAL -->
+<!-- MODAL -->
 <div id="modal" class="modal hidden">
   <div class="modal-content">
-    <h2>Add Casino</h2>
+    <h3>Add Casino</h3>
 
     <input id="name" placeholder="Casino name">
     <input id="url" placeholder="Casino URL">
@@ -48,19 +146,98 @@
     <input id="window" placeholder="Collecting window">
 
     <label class="checkbox">
-      <input type="checkbox" id="global">
-      Submit for global approval
+      <input type="checkbox" id="global"> Submit for global approval
     </label>
 
     <div class="modal-actions">
-      <button id="saveCasino">Add</button>
-      <button id="cancelCasino">Cancel</button>
+      <button id="save" class="primary">Add</button>
+      <button id="cancel">Cancel</button>
     </div>
   </div>
 </div>
 
-<script src="app.js"></script>
-  <script src="assets/js/app.js"></script>
+<script>
+const approvedEl = document.getElementById("approved");
+const pendingEl = document.getElementById("pending");
+const modal = document.getElementById("modal");
+
+let data = JSON.parse(localStorage.getItem("collectclock")) || {
+  approved: [],
+  pending: []
+};
+
+function save() {
+  localStorage.setItem("collectclock", JSON.stringify(data));
+}
+
+function render() {
+  approvedEl.innerHTML = "";
+  pendingEl.innerHTML = "";
+
+  data.approved.forEach((c, i) => approvedEl.appendChild(card(c, i, true)));
+  data.pending.forEach((c, i) => pendingEl.appendChild(card(c, i, false)));
+}
+
+function card(casino, index, isApproved) {
+  const el = document.createElement("div");
+  el.className = "card";
+
+  el.innerHTML = `
+    <div class="options">
+      <button>⚙️</button>
+    </div>
+    <h3>${casino.name}</h3>
+    <small>${casino.bonus}</small><br>
+    <small>Amount: ${casino.amount || "—"}</small><br>
+    <small>Window: ${casino.window || "—"}</small><br>
+    <small>Last collected: ${casino.lastCollected || "Never"}</small><br>
+    <a href="${casino.url}" target="_blank">Visit site</a>
+    ${!isApproved ? "<button class='primary'>Approve</button>" : ""}
+  `;
+
+  el.querySelector("a").onclick = () => {
+    casino.lastCollected = new Date().toLocaleString();
+    save();
+    render();
+  };
+
+  if (!isApproved) {
+    el.querySelector("button.primary").onclick = () => {
+      data.approved.push(casino);
+      data.pending.splice(index, 1);
+      save();
+      render();
+    };
+  }
+
+  return el;
+}
+
+document.getElementById("openModal").onclick = () => modal.classList.remove("hidden");
+document.getElementById("cancel").onclick = () => modal.classList.add("hidden");
+
+document.getElementById("save").onclick = () => {
+  const casino = {
+    name: name.value,
+    url: url.value,
+    bonus: bonus.value,
+    amount: amount.value,
+    window: window.value,
+    lastCollected: null
+  };
+
+  document.getElementById("global").checked
+    ? data.pending.push(casino)
+    : data.approved.push(casino);
+
+  save();
+  modal.classList.add("hidden");
+  document.querySelectorAll("input").forEach(i => i.value = "");
+  render();
+};
+
+render();
+</script>
 
 </body>
 </html>
