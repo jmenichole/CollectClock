@@ -27,11 +27,43 @@ header {
   padding: 16px 20px;
   background: #0f1524;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Changed to column to stack title and controls */
+  gap: 15px; /* Space between title and controls */
+  align-items: flex-start; /* Align header content to the left */
 }
 
-h1 { font-size: 18px; margin: 0; }
+header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  width: 100%; /* Make controls take full width */
+}
+
+input[type="text"], textarea, select { /* Added select here */
+  background: #0f1524;
+  border: 1px solid #222;
+  padding: 8px;
+  color: white;
+  border-radius: 6px;
+  width: 100%; /* Ensure full width for form inputs and selects */
+  font-family: inherit; /* Inherit font from body */
+}
+
+select {
+  -webkit-appearance: none; /* Remove default arrow on WebKit browsers */
+  -moz-appearance: none;    /* Remove default arrow on Firefox */
+  appearance: none;         /* Remove default arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2300ffc6'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5em;
+  padding-right: 2.5rem; /* Make space for the custom arrow */
+}
+
 
 button {
   background: var(--accent);
@@ -113,21 +145,11 @@ form {
   gap: 10px;
 }
 
-input[type="text"], textarea {
-  background: #0f1524;
-  border: 1px solid #222;
-  padding: 8px;
-  color: white;
-  border-radius: 6px;
-  width: 100%;
-}
-
 textarea {
     min-height: 60px;
     resize: vertical;
 }
 
-/* Removed admin-specific styles */
 </style>
 </head>
 
@@ -135,7 +157,16 @@ textarea {
 
 <header>
   <h1>🎰 Casino Collector</h1>
-  <!-- Removed admin status and toggle -->
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search casinos..." />
+    <select id="sortSelect">
+      <option value="status-ready-first">Collection Status</option>
+      <option value="name-asc">Name (A-Z)</option>
+      <option value="name-desc">Name (Z-A)</option>
+      <option value="lastCollected-desc">Last Collected (Newest)</option>
+      <option value="lastCollected-asc">Last Collected (Oldest)</option>
+    </select>
+  </div>
 </header>
 
 <div class="container" id="cards"></div>
@@ -145,9 +176,7 @@ textarea {
   <input id="name" placeholder="Casino name" type="text" required />
   <input id="url" placeholder="Referral URL" type="text" required />
   <textarea id="notes" placeholder="Optional notes"></textarea>
-  <!-- Removed "Needs admin approval" checkbox -->
   <button type="submit">Add</button>
-  <!-- Removed Admin Login Button -->
 </form>
 
 <script>
@@ -162,6 +191,8 @@ const RENDER_INTERVAL_MS = 60 * 1000; // Re-render every minute for countdowns
 ======================= */
 let state = JSON.parse(localStorage.getItem("casinos")) || [];
 let renderTimer = null; // To manage the interval for re-rendering
+let searchQuery = ''; // New state for search query
+let currentSort = 'status-ready-first'; // New state for current sort, default to status
 
 /* =======================
    HELPER FUNCTIONS
@@ -176,10 +207,29 @@ function formatTimeLeft(ms) {
 
   let parts = [];
   if (hours > 0) parts.push(`${hours}h`);
-  if (minutes > 0 || (hours === 0 && parts.length === 0)) parts.push(`${minutes}m`);
+  if (minutes > 0 || (hours === 0 && parts.length === 0 && totalSeconds > 0)) parts.push(`${minutes}m`);
   
+  // If totalSeconds is 0 (e.g., ms was 500), return "0m"
+  if (parts.length === 0 && totalSeconds === 0) return "0m";
+
   return parts.join(' ');
 }
+
+// Helper to get a numeric value for collection status for sorting
+function getCollectionTimeRemaining(casino) {
+    if (!casino.lastCollected) {
+        return 0; // "Never collected" is treated as "Ready"
+    }
+    const nextCollectTimestamp = casino.lastCollected + (COLLECT_WINDOW_HOURS * 60 * 60 * 1000);
+    const currentTime = Date.now();
+    
+    if (currentTime >= nextCollectTimestamp) {
+        return 0; // "Ready to collect"
+    } else {
+        return nextCollectTimestamp - currentTime; // Time left in milliseconds
+    }
+}
+
 
 /* =======================
    DEFAULT DATA (YOUR LIST)
@@ -244,13 +294,12 @@ if (!state.length) {
 "https://kickr.com/signup/doxe8c09"
   ];
   state = urls.map(u => ({
-    name: new URL(u).hostname.replace('www.', ''), // Cleaner names
+    name: new URL(u).hostname.replace('www.', ''),
     url: u,
     lastCollected: null,
-    approved: true, // Always approved now
-    notes: "" // Add empty notes for existing items
+    notes: ""
   }));
-  save(); // Save initial state and render
+  save();
 }
 
 /* =======================
@@ -260,26 +309,50 @@ function render() {
   const root = document.getElementById("cards");
   root.innerHTML = "";
 
-  state.forEach((c, i) => {
-    // No more filtering based on approval status or isAdmin
-    
+  // 1. Filter based on search query
+  const lowerCaseSearchQuery = searchQuery.toLowerCase();
+  let filteredState = state.filter(c => {
+    return c.name.toLowerCase().includes(lowerCaseSearchQuery) ||
+           c.url.toLowerCase().includes(lowerCaseSearchQuery) ||
+           c.notes.toLowerCase().includes(lowerCaseSearchQuery);
+  });
+
+  // 2. Sort based on currentSort
+  filteredState.sort((a, b) => {
+    switch (currentSort) {
+      case 'name-asc':
+        return a.name.localeCompare(b.name);
+      case 'name-desc':
+        return b.name.localeCompare(a.name);
+      case 'lastCollected-asc':
+        // Treat null (Never) as 0 for sorting purposes
+        return (a.lastCollected || 0) - (b.lastCollected || 0);
+      case 'lastCollected-desc':
+        return (b.lastCollected || 0) - (a.lastCollected || 0);
+      case 'status-ready-first':
+        const statusA = getCollectionTimeRemaining(a);
+        const statusB = getCollectionTimeRemaining(b);
+        if (statusA === statusB) {
+            return a.name.localeCompare(b.name); // Secondary sort by name if statuses are same
+        }
+        return statusA - statusB;
+      default:
+        return 0;
+    }
+  });
+
+
+  filteredState.forEach((c, i) => {
     let statusText = "";
     let statusClass = "";
-    if (!c.lastCollected) {
+    const timeLeftMs = getCollectionTimeRemaining(c); // Use helper for consistency
+
+    if (timeLeftMs === 0) {
       statusText = "Ready to collect";
       statusClass = "status-ready";
     } else {
-      const nextCollectTimestamp = c.lastCollected + (COLLECT_WINDOW_HOURS * 60 * 60 * 1000);
-      const currentTime = Date.now();
-
-      if (currentTime >= nextCollectTimestamp) {
-        statusText = "Ready to collect";
-        statusClass = "status-ready";
-      } else {
-        const timeLeft = nextCollectTimestamp - currentTime;
-        statusText = `Available in ${formatTimeLeft(timeLeft)}`;
-        statusClass = "status-countdown";
-      }
+      statusText = `Available in ${formatTimeLeft(timeLeftMs)}`;
+      statusClass = "status-countdown";
     }
 
     const card = document.createElement("div");
@@ -287,28 +360,26 @@ function render() {
 
     card.innerHTML = `
       <strong>${c.name}</strong>
-      <a href="${c.url}" target="_blank">Open</a>
+      <a href="${c.url}" target="_blank" title="${c.url}">Open</a>
       <div class="meta">
         Last collected:
         ${c.lastCollected ? new Date(c.lastCollected).toLocaleString() : "Never"}
       </div>
       <div class="status-text ${statusClass}">${statusText}</div>
       ${c.notes ? `<div class="notes-display">Notes: ${c.notes}</div>` : ''}
-      <!-- Removed admin action buttons -->
     `;
 
     const openLink = card.querySelector("a");
     if (openLink) {
         openLink.addEventListener("click", () => {
             c.lastCollected = Date.now();
-            save(); // Save after updating lastCollected
+            save();
         });
     }
 
     root.appendChild(card);
   });
   
-  // Clear existing timer and set a new one to re-render periodically
   if (renderTimer) {
       clearInterval(renderTimer);
   }
@@ -318,8 +389,6 @@ function render() {
 /* =======================
    ACTIONS
 ======================= */
-// Removed approve(i) and reject(i) functions
-
 document.getElementById("addForm").addEventListener("submit", e => {
   e.preventDefault();
 
@@ -331,7 +400,6 @@ document.getElementById("addForm").addEventListener("submit", e => {
     name: nameInput.value.replace('www.', ''),
     url: urlInput.value,
     lastCollected: null, 
-    approved: true, // Always true now
     notes: notesInput.value.trim()
   });
 
@@ -339,8 +407,17 @@ document.getElementById("addForm").addEventListener("submit", e => {
   save();
 });
 
-// Removed event listener for adminLoginButton
-// Removed event listener for showPendingOnlyToggle
+// Event listener for search input
+document.getElementById("searchInput").addEventListener("input", e => {
+    searchQuery = e.target.value;
+    render(); // Re-render to apply search filter
+});
+
+// Event listener for sort dropdown
+document.getElementById("sortSelect").addEventListener("change", e => {
+    currentSort = e.target.value;
+    render(); // Re-render to apply new sort order
+});
 
 function save() {
   localStorage.setItem("casinos", JSON.stringify(state));
@@ -348,7 +425,7 @@ function save() {
 }
 
 // Initial render when the page loads
-save(); // Call save() which in turn calls render() and sets up the timer
+save();
 </script>
 
 </body>
