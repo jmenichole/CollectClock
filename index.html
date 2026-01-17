@@ -10,7 +10,8 @@
   --card: #121826;
   --accent: #00ffc6;
   --muted: #8b93a7;
-  --danger: #ff4d4d;
+  --ready-status: #50fa7b; /* Greenish for ready */
+  --countdown-status: #ffcc00; /* Yellowish for countdown */
 }
 
 * { box-sizing: border-box; }
@@ -40,18 +41,19 @@ button {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
+  transition: background 0.2s ease;
+  margin-top: 8px; /* Added spacing for buttons */
 }
 
-button.danger {
-  background: var(--danger);
-  color: white;
+button:hover {
+    filter: brightness(0.9);
 }
 
 .container {
   padding: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+  gap: 24px;
 }
 
 .card {
@@ -61,17 +63,47 @@ button.danger {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
 }
 
 .card a {
   color: var(--accent);
   word-break: break-all;
   text-decoration: none;
+  font-weight: 600;
+  transition: text-decoration 0.2s ease;
+}
+
+.card a:hover {
+    text-decoration: underline;
 }
 
 .meta {
   font-size: 12px;
   color: var(--muted);
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.status-ready {
+  color: var(--ready-status);
+}
+
+.status-countdown {
+  color: var(--countdown-status);
+}
+
+.card .notes-display {
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-top: 8px;
+    margin-top: 8px;
+    white-space: pre-wrap; /* Preserve line breaks in notes */
 }
 
 form {
@@ -81,18 +113,21 @@ form {
   gap: 10px;
 }
 
-input {
+input[type="text"], textarea {
   background: #0f1524;
   border: 1px solid #222;
   padding: 8px;
   color: white;
   border-radius: 6px;
+  width: 100%;
 }
 
-.admin {
-  color: var(--accent);
-  font-size: 12px;
+textarea {
+    min-height: 60px;
+    resize: vertical;
 }
+
+/* Removed admin-specific styles */
 </style>
 </head>
 
@@ -100,46 +135,51 @@ input {
 
 <header>
   <h1>🎰 Casino Collector</h1>
-  <div class="admin" id="adminStatus">Not Admin</div>
+  <!-- Removed admin status and toggle -->
 </header>
 
 <div class="container" id="cards"></div>
 
 <form id="addForm">
   <strong>Add Casino</strong>
-  <input id="name" placeholder="Casino name" required />
-  <input id="url" placeholder="Referral URL" required />
-  <label>
-    <input type="checkbox" id="needsApproval" />
-    Needs admin approval
-  </label>
-  <button>Add</button>
+  <input id="name" placeholder="Casino name" type="text" required />
+  <input id="url" placeholder="Referral URL" type="text" required />
+  <textarea id="notes" placeholder="Optional notes"></textarea>
+  <!-- Removed "Needs admin approval" checkbox -->
+  <button type="submit">Add</button>
+  <!-- Removed Admin Login Button -->
 </form>
 
 <script>
 /* =======================
    CONFIG
 ======================= */
-const ADMIN_DISCORD_ID = "1153034319271559328";
+const COLLECT_WINDOW_HOURS = 24;
+const RENDER_INTERVAL_MS = 60 * 1000; // Re-render every minute for countdowns
 
 /* =======================
    STATE
 ======================= */
 let state = JSON.parse(localStorage.getItem("casinos")) || [];
-let isAdmin = false;
+let renderTimer = null; // To manage the interval for re-rendering
 
 /* =======================
-   MOCK DISCORD LOGIN
-   (replace later w/ OAuth)
+   HELPER FUNCTIONS
 ======================= */
-const fakeDiscordLogin = () => {
-  const id = prompt("Enter Discord ID (admin only):");
-  if (id === ADMIN_DISCORD_ID) {
-    isAdmin = true;
-    document.getElementById("adminStatus").textContent = "Admin Logged In";
-  }
-};
-fakeDiscordLogin();
+
+// Function to format milliseconds into "Xh Ym"
+function formatTimeLeft(ms) {
+  if (ms <= 0) return "";
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+  let parts = [];
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0 || (hours === 0 && parts.length === 0)) parts.push(`${minutes}m`);
+  
+  return parts.join(' ');
+}
 
 /* =======================
    DEFAULT DATA (YOUR LIST)
@@ -201,15 +241,16 @@ if (!state.length) {
 "https://Legendzcasino.com",
 "https://luckybitsvegas.com/gc?adId=INV001%3Ajmenichole",
 "https://shuffle.us?r=Rl93OJoflX",
-"https://kickr.com/signup/doxe8c09" 
+"https://kickr.com/signup/doxe8c09"
   ];
   state = urls.map(u => ({
-    name: new URL(u).hostname,
+    name: new URL(u).hostname.replace('www.', ''), // Cleaner names
     url: u,
     lastCollected: null,
-    approved: true
+    approved: true, // Always approved now
+    notes: "" // Add empty notes for existing items
   }));
-  save();
+  save(); // Save initial state and render
 }
 
 /* =======================
@@ -220,7 +261,26 @@ function render() {
   root.innerHTML = "";
 
   state.forEach((c, i) => {
-    if (!c.approved && !isAdmin) return;
+    // No more filtering based on approval status or isAdmin
+    
+    let statusText = "";
+    let statusClass = "";
+    if (!c.lastCollected) {
+      statusText = "Ready to collect";
+      statusClass = "status-ready";
+    } else {
+      const nextCollectTimestamp = c.lastCollected + (COLLECT_WINDOW_HOURS * 60 * 60 * 1000);
+      const currentTime = Date.now();
+
+      if (currentTime >= nextCollectTimestamp) {
+        statusText = "Ready to collect";
+        statusClass = "status-ready";
+      } else {
+        const timeLeft = nextCollectTimestamp - currentTime;
+        statusText = `Available in ${formatTimeLeft(timeLeft)}`;
+        statusClass = "status-countdown";
+      }
+    }
 
     const card = document.createElement("div");
     card.className = "card";
@@ -232,46 +292,63 @@ function render() {
         Last collected:
         ${c.lastCollected ? new Date(c.lastCollected).toLocaleString() : "Never"}
       </div>
-      ${isAdmin && !c.approved ? `<button class="danger" onclick="approve(${i})">Approve</button>` : ""}
+      <div class="status-text ${statusClass}">${statusText}</div>
+      ${c.notes ? `<div class="notes-display">Notes: ${c.notes}</div>` : ''}
+      <!-- Removed admin action buttons -->
     `;
 
-    card.querySelector("a").addEventListener("click", () => {
-      c.lastCollected = Date.now();
-      save();
-    });
+    const openLink = card.querySelector("a");
+    if (openLink) {
+        openLink.addEventListener("click", () => {
+            c.lastCollected = Date.now();
+            save(); // Save after updating lastCollected
+        });
+    }
 
     root.appendChild(card);
   });
+  
+  // Clear existing timer and set a new one to re-render periodically
+  if (renderTimer) {
+      clearInterval(renderTimer);
+  }
+  renderTimer = setInterval(render, RENDER_INTERVAL_MS);
 }
 
 /* =======================
    ACTIONS
 ======================= */
-function approve(i) {
-  state[i].approved = true;
-  save();
-}
+// Removed approve(i) and reject(i) functions
 
 document.getElementById("addForm").addEventListener("submit", e => {
   e.preventDefault();
 
+  const nameInput = document.getElementById("name");
+  const urlInput = document.getElementById("url");
+  const notesInput = document.getElementById("notes");
+
   state.push({
-    name: name.value,
-    url: url.value,
-    lastCollected: null,
-    approved: !needsApproval.checked
+    name: nameInput.value.replace('www.', ''),
+    url: urlInput.value,
+    lastCollected: null, 
+    approved: true, // Always true now
+    notes: notesInput.value.trim()
   });
 
   e.target.reset();
   save();
 });
 
+// Removed event listener for adminLoginButton
+// Removed event listener for showPendingOnlyToggle
+
 function save() {
   localStorage.setItem("casinos", JSON.stringify(state));
   render();
 }
 
-render();
+// Initial render when the page loads
+save(); // Call save() which in turn calls render() and sets up the timer
 </script>
 
 </body>
