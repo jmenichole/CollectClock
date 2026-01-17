@@ -2,119 +2,96 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>CollectClock</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Casino Collector</title>
 
 <style>
-* { box-sizing: border-box; font-family: system-ui, sans-serif; }
+:root {
+  --bg: #0b0f14;
+  --card: #121826;
+  --accent: #00ffc6;
+  --muted: #8b93a7;
+  --danger: #ff4d4d;
+}
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: #f6f7fb;
-  color: #222;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg);
+  color: white;
 }
 
 header {
-  background: #111;
-  color: white;
-  padding: 1rem;
+  padding: 16px 20px;
+  background: #0f1524;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+h1 { font-size: 18px; margin: 0; }
+
 button {
-  cursor: pointer;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
+  background: var(--accent);
+  color: black;
   border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.primary {
-  background: #4f46e5;
+button.danger {
+  background: var(--danger);
   color: white;
 }
 
-main {
-  padding: 1rem;
-}
-
-h2 {
-  margin-top: 2rem;
-}
-
-.grid {
+.container {
+  padding: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
+  gap: 16px;
 }
 
 .card {
-  background: white;
-  padding: 1rem;
+  background: var(--card);
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  position: relative;
-}
-
-.card small {
-  color: #666;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .card a {
-  display: inline-block;
-  margin-top: 0.5rem;
-  color: #4f46e5;
-  font-weight: 600;
+  color: var(--accent);
+  word-break: break-all;
   text-decoration: none;
 }
 
-.options {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+.meta {
+  font-size: 12px;
+  color: var(--muted);
 }
 
-.options button {
-  background: none;
-  font-size: 1.2rem;
+form {
+  padding: 16px;
+  border-top: 1px solid #222;
+  display: grid;
+  gap: 10px;
 }
 
-.edit input {
-  width: 100%;
-  margin-top: 0.25rem;
+input {
+  background: #0f1524;
+  border: 1px solid #222;
+  padding: 8px;
+  color: white;
+  border-radius: 6px;
 }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hidden { display: none; }
-
-.modal-content {
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
-  width: 320px;
-}
-
-.modal-content input {
-  width: 100%;
-  margin-bottom: 0.5rem;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
-.checkbox {
-  font-size: 0.9rem;
+.admin {
+  color: var(--accent);
+  font-size: 12px;
 }
 </style>
 </head>
@@ -122,119 +99,177 @@ h2 {
 <body>
 
 <header>
-  <h1>🎯 CollectClock</h1>
-  <button id="openModal" class="primary">➕ Add Casino</button>
+  <h1>🎰 Casino Collector</h1>
+  <div class="admin" id="adminStatus">Not Admin</div>
 </header>
 
-<main>
-  <h2>Approved Casinos</h2>
-  <div id="approved" class="grid"></div>
+<div class="container" id="cards"></div>
 
-  <h2>Pending Submissions</h2>
-  <div id="pending" class="grid"></div>
-</main>
-
-<!-- MODAL -->
-<div id="modal" class="modal hidden">
-  <div class="modal-content">
-    <h3>Add Casino</h3>
-
-    <input id="name" placeholder="Casino name">
-    <input id="url" placeholder="Casino URL">
-    <input id="bonus" placeholder="Bonus description">
-    <input id="amount" placeholder="Bonus amount">
-    <input id="window" placeholder="Collecting window">
-
-    <label class="checkbox">
-      <input type="checkbox" id="global"> Submit for global approval
-    </label>
-
-    <div class="modal-actions">
-      <button id="save" class="primary">Add</button>
-      <button id="cancel">Cancel</button>
-    </div>
-  </div>
-</div>
+<form id="addForm">
+  <strong>Add Casino</strong>
+  <input id="name" placeholder="Casino name" required />
+  <input id="url" placeholder="Referral URL" required />
+  <label>
+    <input type="checkbox" id="needsApproval" />
+    Needs admin approval
+  </label>
+  <button>Add</button>
+</form>
 
 <script>
-const approvedEl = document.getElementById("approved");
-const pendingEl = document.getElementById("pending");
-const modal = document.getElementById("modal");
+/* =======================
+   CONFIG
+======================= */
+const ADMIN_DISCORD_ID = "1153034319271559328";
 
-let data = JSON.parse(localStorage.getItem("collectclock")) || {
-  approved: [],
-  pending: []
-};
+/* =======================
+   STATE
+======================= */
+let state = JSON.parse(localStorage.getItem("casinos")) || [];
+let isAdmin = false;
 
-function save() {
-  localStorage.setItem("collectclock", JSON.stringify(data));
-}
-
-function render() {
-  approvedEl.innerHTML = "";
-  pendingEl.innerHTML = "";
-
-  data.approved.forEach((c, i) => approvedEl.appendChild(card(c, i, true)));
-  data.pending.forEach((c, i) => pendingEl.appendChild(card(c, i, false)));
-}
-
-function card(casino, index, isApproved) {
-  const el = document.createElement("div");
-  el.className = "card";
-
-  el.innerHTML = `
-    <div class="options">
-      <button>⚙️</button>
-    </div>
-    <h3>${casino.name}</h3>
-    <small>${casino.bonus}</small><br>
-    <small>Amount: ${casino.amount || "—"}</small><br>
-    <small>Window: ${casino.window || "—"}</small><br>
-    <small>Last collected: ${casino.lastCollected || "Never"}</small><br>
-    <a href="${casino.url}" target="_blank">Visit site</a>
-    ${!isApproved ? "<button class='primary'>Approve</button>" : ""}
-  `;
-
-  el.querySelector("a").onclick = () => {
-    casino.lastCollected = new Date().toLocaleString();
-    save();
-    render();
-  };
-
-  if (!isApproved) {
-    el.querySelector("button.primary").onclick = () => {
-      data.approved.push(casino);
-      data.pending.splice(index, 1);
-      save();
-      render();
-    };
+/* =======================
+   MOCK DISCORD LOGIN
+   (replace later w/ OAuth)
+======================= */
+const fakeDiscordLogin = () => {
+  const id = prompt("Enter Discord ID (admin only):");
+  if (id === ADMIN_DISCORD_ID) {
+    isAdmin = true;
+    document.getElementById("adminStatus").textContent = "Admin Logged In";
   }
+};
+fakeDiscordLogin();
 
-  return el;
+/* =======================
+   DEFAULT DATA (YOUR LIST)
+======================= */
+if (!state.length) {
+  const urls = [
+"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867",
+"https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739",
+"https://www.megabonanza.com/?r=72781897",
+"https://www.realprize.com/refer/317136",
+"https://www.wowvegas.com/?raf=3615494",
+"https://www.pulsz.com/?invited_by=utfk4r",
+"https://modo.us?referralCode=61MN6A",
+"https://www.mcluck.com/lp/raf?r=61119407%2F908900038",
+"https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends",
+"https://chanced.com/c/ysa096",
+"https://stake.us/?c=Jmenichole",
+"https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4",
+"https://www.playfame.com/lp/raf?r=1275975417",
+"https://www.pulszbingo.com/?invited_by=eg6mbf",
+"https://www.jackpota.com/?r=85453282",
+"https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd",
+"https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029",
+"https://www.bitsler.com/?ref=jmenichole",
+"https://myprize.us/invite/jmenichole",
+"https://winna.com/?r=jmenichole",
+"https://play.clubs.poker/?referralCode=104192",
+"https://www.rolla.com/?raf=3873",
+"https://lonestarcasino.com/refer/678504",
+"https://spree.com/?r=1450539",
+"https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c",
+"https://high5casino.com/gc?adId=INV001%3AJmenichole",
+"https://trustdice.win/faucet/?ref=u_jmenichole",
+"https://punt.com/c/cg60pd",
+"https://fortunewheelz.com/?invited_by=P36ZS6",
+"https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE",
+"https://spinsala.com/en?invite=daym",
+"https://legendz.com/?referred_by_id=221602",
+"https://nolimitcoins.com/?invited_by=ZI1JIU",
+"https://slips.com/invite?code=6901",
+"https://app.prizepicks.com/sign-up?invite_code=PR-N0MTQX8&source=iosShare",
+"https://click.dabble.com/GaFA/js1v7hqv",
+"https://gamba.com?c=Jme",
+"https://www.goated.com/r/YDRZLJ",
+"https://junglebet.com/r/jmenichole",
+"https://shuffle.com?r=jHR7JnWRPF",
+"https://www.stake.com/?c=LAYP68hb",
+"https://clash.gg/r/stakestats",
+"https://www.cases.gg/r/JMENICHOLE",
+"https://jemlit.com/en/a/Jmenichole",
+"https://roxymoxy.com/home?invite=f94f874427",
+"https://www.rolla.com/?raf=3873",
+"https://roxymoxy.com",
+"https://rollingriches.com",
+"https://ragingbull.com",
+"https://moonspin.com",
+"https://lunalandcasino.com",
+"https://luckylandslots.com",
+"https://Legendzcasino.com",
+"https://luckybitsvegas.com/gc?adId=INV001%3Ajmenichole",
+"https://shuffle.us?r=Rl93OJoflX",
+"https://kickr.com/signup/doxe8c09" 
+  ];
+  state = urls.map(u => ({
+    name: new URL(u).hostname,
+    url: u,
+    lastCollected: null,
+    approved: true
+  }));
+  save();
 }
 
-document.getElementById("openModal").onclick = () => modal.classList.remove("hidden");
-document.getElementById("cancel").onclick = () => modal.classList.add("hidden");
+/* =======================
+   RENDER
+======================= */
+function render() {
+  const root = document.getElementById("cards");
+  root.innerHTML = "";
 
-document.getElementById("save").onclick = () => {
-  const casino = {
+  state.forEach((c, i) => {
+    if (!c.approved && !isAdmin) return;
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <strong>${c.name}</strong>
+      <a href="${c.url}" target="_blank">Open</a>
+      <div class="meta">
+        Last collected:
+        ${c.lastCollected ? new Date(c.lastCollected).toLocaleString() : "Never"}
+      </div>
+      ${isAdmin && !c.approved ? `<button class="danger" onclick="approve(${i})">Approve</button>` : ""}
+    `;
+
+    card.querySelector("a").addEventListener("click", () => {
+      c.lastCollected = Date.now();
+      save();
+    });
+
+    root.appendChild(card);
+  });
+}
+
+/* =======================
+   ACTIONS
+======================= */
+function approve(i) {
+  state[i].approved = true;
+  save();
+}
+
+document.getElementById("addForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  state.push({
     name: name.value,
     url: url.value,
-    bonus: bonus.value,
-    amount: amount.value,
-    window: window.value,
-    lastCollected: null
-  };
+    lastCollected: null,
+    approved: !needsApproval.checked
+  });
 
-  document.getElementById("global").checked
-    ? data.pending.push(casino)
-    : data.approved.push(casino);
-
+  e.target.reset();
   save();
-  modal.classList.add("hidden");
-  document.querySelectorAll("input").forEach(i => i.value = "");
+});
+
+function save() {
+  localStorage.setItem("casinos", JSON.stringify(state));
   render();
-};
+}
 
 render();
 </script>
