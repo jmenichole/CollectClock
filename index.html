@@ -9,14 +9,27 @@
 <body>
 
 <header class="header">
-  <div class="container">
-    <h1 class="logo"> CollectClock</h1>
-    <button id="add-casino-btn" class="btn">➕ Add Casino</button>
+  <div class="header-left">
+    <h1>🎯 CollectClock</h1>
+    <span class="subtitle">Daily casino bonus tracker</span>
+  </div>
+  <div class="header-right">
+    <button id="addCasinoBtn">➕ Add Casino</button>
   </div>
 </header>
 
 <main class="container">
-  <div id="bonus-grid" class="bonus-grid"></div>
+
+  <section class="section">
+    <h2>Approved Casinos</h2>
+    <div id="approvedGrid" class="card-grid"></div>
+  </section>
+
+  <section class="section">
+    <h2>Pending Submissions</h2>
+    <div id="pendingGrid" class="card-grid muted"></div>
+  </section>
+
 </main>
 
 <!-- ADD CASINO MODAL -->
@@ -31,12 +44,14 @@
     <input id="window" placeholder="Collecting window">
 
     <label class="checkbox">
-      <input type="checkbox" id="global-submit">
+      <input type="checkbox" id="global">
       Submit for global approval
     </label>
 
-    <button id="submit-casino" class="btn primary">Add</button>
-    <button id="close-modal" class="btn ghost">Cancel</button>
+    <div class="modal-actions">
+      <button id="saveCasino">Add</button>
+      <button id="cancelCasino">Cancel</button>
+    </div>
   </div>
 </div>
 
