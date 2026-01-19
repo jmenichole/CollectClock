@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Casino Collector</title>
+<title>Collect Clock - Casino Bonus Time Tracker</title>
 
 <style>
 :root {
@@ -12,6 +12,7 @@
   --muted: #8b93a7;
   --ready-status: #50fa7b; /* Greenish for ready */
   --countdown-status: #ffcc00; /* Yellowish for countdown */
+  --card-hover-glow: #00ffc6; /* New color for card hover glow */
 }
 
 * { box-sizing: border-box; }
@@ -27,9 +28,9 @@ header {
   padding: 16px 20px;
   background: #0f1524;
   display: flex;
-  flex-direction: column; /* Changed to column to stack title and controls */
-  gap: 15px; /* Space between title and controls */
-  align-items: flex-start; /* Align header content to the left */
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
 }
 
 header h1 {
@@ -40,30 +41,37 @@ header h1 {
 .controls {
   display: flex;
   gap: 10px;
-  width: 100%; /* Make controls take full width */
+  width: 100%;
+  align-items: center;
 }
 
-input[type="text"], textarea, select { /* Added select here */
+input, textarea, select {
   background: #0f1524;
   border: 1px solid #222;
   padding: 8px;
   color: white;
   border-radius: 6px;
-  width: 100%; /* Ensure full width for form inputs and selects */
-  font-family: inherit; /* Inherit font from body */
+  font-family: inherit;
 }
 
-select {
-  -webkit-appearance: none; /* Remove default arrow on WebKit browsers */
-  -moz-appearance: none;    /* Remove default arrow on Firefox */
-  appearance: none;         /* Remove default arrow */
+#searchInput {
+  flex-grow: 1;
+}
+
+#sortSelect {
+  width: auto;
+  min-width: 180px;
+  flex-shrink: 0;
+  
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2300ffc6'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.5rem center;
   background-size: 1.5em;
-  padding-right: 2.5rem; /* Make space for the custom arrow */
+  padding-right: 2.5rem;
 }
-
 
 button {
   background: var(--accent);
@@ -74,7 +82,6 @@ button {
   cursor: pointer;
   font-weight: 600;
   transition: background 0.2s ease;
-  margin-top: 8px; /* Added spacing for buttons */
 }
 
 button:hover {
@@ -96,6 +103,13 @@ button:hover {
   flex-direction: column;
   gap: 8px;
   position: relative;
+  /* Hover effect for glow */
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Initial transparent shadow */
+  transition: box-shadow 0.3s ease-in-out; /* Smooth transition for the glow */
+}
+
+.card:hover {
+  box-shadow: 0 0 10px 2px var(--card-hover-glow); /* Glowing effect */
 }
 
 .card a {
@@ -135,7 +149,7 @@ button:hover {
     border-top: 1px dashed rgba(255, 255, 255, 0.1);
     padding-top: 8px;
     margin-top: 8px;
-    white-space: pre-wrap; /* Preserve line breaks in notes */
+    white-space: pre-wrap;
 }
 
 form {
@@ -145,11 +159,20 @@ form {
   gap: 10px;
 }
 
-textarea {
+form input,
+form textarea,
+form button {
+    width: 100%;
+}
+
+form textarea {
     min-height: 60px;
     resize: vertical;
 }
 
+form button {
+    margin-top: 0; 
+}
 </style>
 </head>
 
@@ -184,21 +207,20 @@ textarea {
    CONFIG
 ======================= */
 const COLLECT_WINDOW_HOURS = 24;
-const RENDER_INTERVAL_MS = 60 * 1000; // Re-render every minute for countdowns
+const RENDER_INTERVAL_MS = 60 * 1000;
 
 /* =======================
    STATE
 ======================= */
 let state = JSON.parse(localStorage.getItem("casinos")) || [];
-let renderTimer = null; // To manage the interval for re-rendering
-let searchQuery = ''; // New state for search query
-let currentSort = 'status-ready-first'; // New state for current sort, default to status
+let renderTimer = null;
+let searchQuery = '';
+let currentSort = 'status-ready-first';
 
 /* =======================
    HELPER FUNCTIONS
 ======================= */
 
-// Function to format milliseconds into "Xh Ym"
 function formatTimeLeft(ms) {
   if (ms <= 0) return "";
   const totalSeconds = Math.floor(ms / 1000);
@@ -209,27 +231,63 @@ function formatTimeLeft(ms) {
   if (hours > 0) parts.push(`${hours}h`);
   if (minutes > 0 || (hours === 0 && parts.length === 0 && totalSeconds > 0)) parts.push(`${minutes}m`);
   
-  // If totalSeconds is 0 (e.g., ms was 500), return "0m"
   if (parts.length === 0 && totalSeconds === 0) return "0m";
 
   return parts.join(' ');
 }
 
-// Helper to get a numeric value for collection status for sorting
 function getCollectionTimeRemaining(casino) {
     if (!casino.lastCollected) {
-        return 0; // "Never collected" is treated as "Ready"
+        return 0;
     }
     const nextCollectTimestamp = casino.lastCollected + (COLLECT_WINDOW_HOURS * 60 * 60 * 1000);
     const currentTime = Date.now();
     
     if (currentTime >= nextCollectTimestamp) {
-        return 0; // "Ready to collect"
+        return 0;
     } else {
-        return nextCollectTimestamp - currentTime; // Time left in milliseconds
+        return nextCollectTimestamp - currentTime;
     }
 }
 
+function createDisplayableName(url) {
+    try {
+        const hostname = new URL(url).hostname;
+        let name = hostname.replace('www.', '');
+        
+        const tlds = ['.com', '.us', '.net', '.org', '.io', '.gg', '.win', '.poker', '.site', '.app']; // Added more TLDs
+        for (const tld of tlds) {
+            if (name.endsWith(tld)) {
+                name = name.slice(0, -tld.length);
+                break;
+            }
+        }
+
+        name = name.split('.').map(part => {
+            // Capitalize first letter of each part, but don't capitalize if it's already an acronym-like string
+            if (part.length <= 3 && part.toUpperCase() === part) {
+                return part; // Keep "US" as "US" not "Us"
+            }
+            return part.charAt(0).toUpperCase() + part.slice(1);
+        }).join(' ');
+
+        return name.trim() || hostname;
+    } catch (e) {
+        console.error("Error creating display name for URL:", url, e);
+        return url;
+    }
+}
+
+// NEW: Function to normalize URLs for comparison (strips trailing slashes)
+function normalizeUrl(url) {
+    try {
+        const u = new URL(url);
+        return u.href.replace(/\/+$/, ''); // Strip trailing slash for consistency
+    } catch (e) {
+        // If it's not a valid URL, just strip trailing slash for basic consistency
+        return url.replace(/\/+$/, '');
+    }
+}
 
 /* =======================
    DEFAULT DATA (YOUR LIST)
@@ -268,8 +326,13 @@ if (!state.length) {
 "https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE",
 "https://spinsala.com/en?invite=daym",
 "https://legendz.com/?referred_by_id=221602",
+"https://nolimitcoins.com/?invited_by=ZI1JIU",
+"https://slips.com/invite?code=6901",
+"https://app.prizepicks.com/sign-up?invite_code=PR-N0MTQX8&source=iosShare",
+"https://click.dabble.com/GaFA/js1v7hqv",
 "https://gamba.com?c=Jme",
 "https://www.goated.com/r/YDRZLJ",
+"https://junglebet.com/r/jmenichole",
 "https://shuffle.com?r=jHR7JnWRPF",
 "https://www.stake.com/?c=LAYP68hb",
 "https://clash.gg/r/stakestats",
@@ -277,6 +340,10 @@ if (!state.length) {
 "https://jemlit.com/en/a/Jmenichole",
 "https://roxymoxy.com/home?invite=f94f874427",
 "https://www.rolla.com/?raf=3873",
+"https://roxymoxy.com",
+"https://rollingriches.com",
+"https://ragingbull.com",
+"https://moonspin.com",
 "https://lunalandcasino.com",
 "https://luckylandslots.com",
 "https://Legendzcasino.com",
@@ -285,7 +352,7 @@ if (!state.length) {
 "https://kickr.com/signup/doxe8c09"
   ];
   state = urls.map(u => ({
-    name: new URL(u).hostname.replace('www.', ''),
+    name: createDisplayableName(u),
     url: u,
     lastCollected: null,
     notes: ""
@@ -316,7 +383,6 @@ function render() {
       case 'name-desc':
         return b.name.localeCompare(a.name);
       case 'lastCollected-asc':
-        // Treat null (Never) as 0 for sorting purposes
         return (a.lastCollected || 0) - (b.lastCollected || 0);
       case 'lastCollected-desc':
         return (b.lastCollected || 0) - (a.lastCollected || 0);
@@ -324,7 +390,7 @@ function render() {
         const statusA = getCollectionTimeRemaining(a);
         const statusB = getCollectionTimeRemaining(b);
         if (statusA === statusB) {
-            return a.name.localeCompare(b.name); // Secondary sort by name if statuses are same
+            return a.name.localeCompare(b.name);
         }
         return statusA - statusB;
       default:
@@ -333,10 +399,10 @@ function render() {
   });
 
 
-  filteredState.forEach((c, i) => {
+  filteredState.forEach((c) => {
     let statusText = "";
     let statusClass = "";
-    const timeLeftMs = getCollectionTimeRemaining(c); // Use helper for consistency
+    const timeLeftMs = getCollectionTimeRemaining(c);
 
     if (timeLeftMs === 0) {
       statusText = "Ready to collect";
@@ -387,9 +453,18 @@ document.getElementById("addForm").addEventListener("submit", e => {
   const urlInput = document.getElementById("url");
   const notesInput = document.getElementById("notes");
 
+  const newUrl = normalizeUrl(urlInput.value); // Normalize new URL for comparison
+
+  // NEW: Check for duplicates before adding
+  const isDuplicate = state.some(casino => normalizeUrl(casino.url) === newUrl);
+  if (isDuplicate) {
+    alert("This casino URL already exists in your list!");
+    return; // Stop the function here if it's a duplicate
+  }
+
   state.push({
-    name: nameInput.value.replace('www.', ''),
-    url: urlInput.value,
+    name: nameInput.value.trim(),
+    url: urlInput.value, // Store original URL
     lastCollected: null, 
     notes: notesInput.value.trim()
   });
@@ -398,16 +473,14 @@ document.getElementById("addForm").addEventListener("submit", e => {
   save();
 });
 
-// Event listener for search input
 document.getElementById("searchInput").addEventListener("input", e => {
     searchQuery = e.target.value;
-    render(); // Re-render to apply search filter
+    render();
 });
 
-// Event listener for sort dropdown
 document.getElementById("sortSelect").addEventListener("change", e => {
     currentSort = e.target.value;
-    render(); // Re-render to apply new sort order
+    render();
 });
 
 function save() {
