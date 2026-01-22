@@ -1,485 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Collect Clock - Casino Bonus Time Tracker</title>
+  <meta charset="UTF-8" />
+  <title>Collect Clock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-:root {
-  --bg: #0b0f14;
-  --card: #121826;
-  --accent: #00ffc6;
-  --muted: #8b93a7;
-  --ready-status: #50fa7b; /* Greenish for ready */
-  --countdown-status: #ffcc00; /* Yellowish for countdown */
-  --card-hover-glow: #00ffc6; /* New color for card hover glow */
-}
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #141a2e;
+      --border: #1f2538;
+      --text: #e8ebff;
+      --muted: #9aa4ff;
+      --ready: #1db954;
+      --soon: #ffb020;
+      --later: #ff5c5c;
+    }
 
-* { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: Inter, system-ui, sans-serif;
-  background: var(--bg);
-  color: white;
-}
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-header {
-  padding: 16px 20px;
-  background: #0f1524;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: flex-start;
-}
+    header {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+    }
 
-header h1 {
-  font-size: 18px;
-  margin: 0;
-}
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
 
-.controls {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  align-items: center;
-}
+    .next-ready {
+      width: 100%;
+      background: #0f1524;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-input, textarea, select {
-  background: #0f1524;
-  border: 1px solid #222;
-  padding: 8px;
-  color: white;
-  border-radius: 6px;
-  font-family: inherit;
-}
+    .container {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
 
-#searchInput {
-  flex-grow: 1;
-}
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+    }
 
-#sortSelect {
-  width: auto;
-  min-width: 180px;
-  flex-shrink: 0;
-  
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2300ffc6'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1.5em;
-  padding-right: 2.5rem;
-}
+    .card h3 {
+      margin: 0;
+      font-size: 16px;
+    }
 
-button {
-  background: var(--accent);
-  color: black;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s ease;
-}
+    .status-text {
+      font-size: 14px;
+      font-weight: 600;
+    }
 
-button:hover {
-    filter: brightness(0.9);
-}
+    .ready { color: var(--ready); }
+    .soon { color: var(--soon); }
+    .later { color: var(--later); }
 
-.container {
-  padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
-}
-
-.card {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-  /* Hover effect for glow */
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Initial transparent shadow */
-  transition: box-shadow 0.3s ease-in-out; /* Smooth transition for the glow */
-}
-
-.card:hover {
-  box-shadow: 0 0 10px 2px var(--card-hover-glow); /* Glowing effect */
-}
-
-.card a {
-  color: var(--accent);
-  word-break: break-all;
-  text-decoration: none;
-  font-weight: 600;
-  transition: text-decoration 0.2s ease;
-}
-
-.card a:hover {
-    text-decoration: underline;
-}
-
-.meta {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.status-text {
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 4px;
-}
-
-.status-ready {
-  color: var(--ready-status);
-}
-
-.status-countdown {
-  color: var(--countdown-status);
-}
-
-.card .notes-display {
-    font-size: 12px;
-    color: var(--muted);
-    border-top: 1px dashed rgba(255, 255, 255, 0.1);
-    padding-top: 8px;
-    margin-top: 8px;
-    white-space: pre-wrap;
-}
-
-form {
-  padding: 16px;
-  border-top: 1px solid #222;
-  display: grid;
-  gap: 10px;
-}
-
-form input,
-form textarea,
-form button {
-    width: 100%;
-}
-
-form textarea {
-    min-height: 60px;
-    resize: vertical;
-}
-
-form button {
-    margin-top: 0; 
-}
-</style>
+    .meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
 </head>
 
 <body>
+  <header>
+    <h1>🎰 Collect Clock</h1>
+  </header>
 
-<header>
-  <h1>🎰 Casino Collector</h1>
-  <div class="controls">
-    <input type="text" id="searchInput" placeholder="Search casinos..." />
-    <select id="sortSelect">
-      <option value="status-ready-first">Collection Status</option>
-      <option value="name-asc">Name (A-Z)</option>
-      <option value="name-desc">Name (Z-A)</option>
-      <option value="lastCollected-desc">Last Collected (Newest)</option>
-      <option value="lastCollected-asc">Last Collected (Oldest)</option>
-    </select>
-  </div>
-</header>
+  <div id="nextReady" class="next-ready"></div>
+  <div class="container" id="cards"></div>
 
-<div class="container" id="cards"></div>
+  <script>
+    let state = [
+      { name:"HelloMillions", url:"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867" },
+      { name:"SpinBlitz", url:"https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739" },
+      { name:"MegaBonanza", url:"https://www.megabonanza.com/?r=72781897" },
+      { name:"RealPrize", url:"https://www.realprize.com/refer/317136" },
+      { name:"WOW Vegas", url:"https://www.wowvegas.com/?raf=3615494" },
+      { name:"Pulsz", url:"https://www.pulsz.com/?invited_by=utfk4r" },
+      { name:"Modo", url:"https://modo.us?referralCode=61MN6A" },
+      { name:"McLuck", url:"https://www.mcluck.com/lp/raf?r=61119407%2F908900038" },
+      { name:"Crown Coins", url:"https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends" },
+      { name:"Chanced", url:"https://chanced.com/c/ysa096" },
 
-<form id="addForm">
-  <strong>Add Casino</strong>
-  <input id="name" placeholder="Casino name" type="text" required />
-  <input id="url" placeholder="Referral URL" type="text" required />
-  <textarea id="notes" placeholder="Optional notes"></textarea>
-  <button type="submit">Add</button>
-</form>
+      { name:"Stake.us", url:"https://stake.us/?c=Jmenichole" },
+      { name:"Sportzino", url:"https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4" },
+      { name:"PlayFame", url:"https://www.playfame.com/lp/raf?r=1275975417" },
+      { name:"Pulsz Bingo", url:"https://www.pulszbingo.com/?invited_by=eg6mbf" },
+      { name:"Jackpota", url:"https://www.jackpota.com/?r=85453282" },
+      { name:"Zula Casino", url:"https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd" },
+      { name:"Fortune Coins", url:"https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029" },
+      { name:"MyPrize", url:"https://myprize.us/invite/jmenichole" },
+      { name:"Winna", url:"https://winna.com/?r=jmenichole" },
+      { name:"Clubs Poker", url:"https://play.clubs.poker/?referralCode=104192" },
 
-<script>
-/* =======================
-   CONFIG
-======================= */
-const COLLECT_WINDOW_HOURS = 24;
-const RENDER_INTERVAL_MS = 60 * 1000;
+      { name:"Rolla", url:"https://www.rolla.com/?raf=3873" },
+      { name:"Lone Star Casino", url:"https://lonestarcasino.com/refer/678504" },
+      { name:"Spree", url:"https://spree.com/?r=1450539" },
+      { name:"SpinPals", url:"https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c" },
+      { name:"High 5 Casino", url:"https://high5casino.com/gc?adId=INV001%3AJmenichole" },
+      { name:"TrustDice", url:"https://trustdice.win/faucet/?ref=u_jmenichole" },
+      { name:"Punt", url:"https://punt.com/c/cg60pd" },
+      { name:"FortuneWheelz", url:"https://fortunewheelz.com/?invited_by=P36ZS6" },
+      { name:"Zoot", url:"https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE" },
+      { name:"Spinsala", url:"https://spinsala.com/en?invite=daym" },
 
-/* =======================
-   STATE
-======================= */
-let state = JSON.parse(localStorage.getItem("casinos")) || [];
-let renderTimer = null;
-let searchQuery = '';
-let currentSort = 'status-ready-first';
+      { name:"Legendz", url:"https://legendz.com/?referred_by_id=221602" },
+      { name:"NoLimit Coins", url:"https://nolimitcoins.com/?invited_by=ZI1JIU" },
+      { name:"Gamba", url:"https://gamba.com?c=Jme" },
+      { name:"American Luck", url:"https://americanluck.com/signup/e360918f-8986-4dec-9823-a902d3f4936a" },
+      { name:"Goated", url:"https://www.goated.com/r/YDRZLJ" },
+      { name:"Shuffle", url:"https://shuffle.com?r=jHR7JnWRPF" },
+      { name:"Stake (Global)", url:"https://www.stake.com/?c=LAYP68hb" },
+      { name:"Clash.gg", url:"https://clash.gg/r/stakestats" },
+      { name:"Cases.gg", url:"https://www.cases.gg/r/JMENICHOLE" },
+      { name:"Jemlit", url:"https://jemlit.com/en/a/Jmenichole" },
 
-/* =======================
-   HELPER FUNCTIONS
-======================= */
+      { name:"RoxyMoxy", url:"https://roxymoxy.com/home?invite=f94f874427" },
+      { name:"LuckyLand Slots", url:"https://luckylandslots.com" },
+      { name:"LuckyBits Vegas", url:"https://luckybitsvegas.com/gc?adId=INV001%3Ajmenichole" },
+      { name:"Shuffle.us", url:"https://shuffle.us?r=Rl93OJoflX" },
+      { name:"Kickr", url:"https://kickr.com/signup/doxe8c09" }
+    ].map(c => ({ ...c, cooldownHours: 24, lastCollected: null }));
 
-function formatTimeLeft(ms) {
-  if (ms <= 0) return "";
-  const totalSeconds = Math.floor(ms / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const STORAGE_KEY = "collectClockFull";
 
-  let parts = [];
-  if (hours > 0) parts.push(`${hours}h`);
-  if (minutes > 0 || (hours === 0 && parts.length === 0 && totalSeconds > 0)) parts.push(`${minutes}m`);
-  
-  if (parts.length === 0 && totalSeconds === 0) return "0m";
-
-  return parts.join(' ');
-}
-
-function getCollectionTimeRemaining(casino) {
-    if (!casino.lastCollected) {
-        return 0;
-    }
-    const nextCollectTimestamp = casino.lastCollected + (COLLECT_WINDOW_HOURS * 60 * 60 * 1000);
-    const currentTime = Date.now();
-    
-    if (currentTime >= nextCollectTimestamp) {
-        return 0;
-    } else {
-        return nextCollectTimestamp - currentTime;
-    }
-}
-
-function createDisplayableName(url) {
-    try {
-        const hostname = new URL(url).hostname;
-        let name = hostname.replace('www.', '');
-        
-        const tlds = ['.com', '.us', '.net', '.org', '.io', '.gg', '.win', '.poker', '.site', '.app']; // Added more TLDs
-        for (const tld of tlds) {
-            if (name.endsWith(tld)) {
-                name = name.slice(0, -tld.length);
-                break;
-            }
-        }
-
-        name = name.split('.').map(part => {
-            // Capitalize first letter of each part, but don't capitalize if it's already an acronym-like string
-            if (part.length <= 3 && part.toUpperCase() === part) {
-                return part; // Keep "US" as "US" not "Us"
-            }
-            return part.charAt(0).toUpperCase() + part.slice(1);
-        }).join(' ');
-
-        return name.trim() || hostname;
-    } catch (e) {
-        console.error("Error creating display name for URL:", url, e);
-        return url;
-    }
-}
-
-// NEW: Function to normalize URLs for comparison (strips trailing slashes)
-function normalizeUrl(url) {
-    try {
-        const u = new URL(url);
-        return u.href.replace(/\/+$/, ''); // Strip trailing slash for consistency
-    } catch (e) {
-        // If it's not a valid URL, just strip trailing slash for basic consistency
-        return url.replace(/\/+$/, '');
-    }
-}
-
-/* =======================
-   DEFAULT DATA (YOUR LIST)
-======================= */
-if (!state.length) {
-  const urls = [
-"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867",
-"https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739",
-"https://www.megabonanza.com/?r=72781897",
-"https://www.realprize.com/refer/317136",
-"https://www.wowvegas.com/?raf=3615494",
-"https://www.pulsz.com/?invited_by=utfk4r",
-"https://modo.us?referralCode=61MN6A",
-"https://www.mcluck.com/lp/raf?r=61119407%2F908900038",
-"https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends",
-"https://chanced.com/c/ysa096",
-"https://stake.us/?c=Jmenichole",
-"https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4",
-"https://www.playfame.com/lp/raf?r=1275975417",
-"https://www.pulszbingo.com/?invited_by=eg6mbf",
-"https://www.jackpota.com/?r=85453282",
-"https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd",
-"https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029",
-"https://myprize.us/invite/jmenichole",
-"https://winna.com/?r=jmenichole",
-"https://play.clubs.poker/?referralCode=104192",
-"https://www.rolla.com/?raf=3873",
-"https://lonestarcasino.com/refer/678504",
-"https://spree.com/?r=1450539",
-"https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c",
-"https://high5casino.com/gc?adId=INV001%3AJmenichole",
-"https://trustdice.win/faucet/?ref=u_jmenichole",
-"https://punt.com/c/cg60pd",
-"https://fortunewheelz.com/?invited_by=P36ZS6",
-"https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE",
-"https://spinsala.com/en?invite=daym",
-"https://legendz.com/?referred_by_id=221602",
-"https://nolimitcoins.com/?invited_by=ZI1JIU",
-"https://gamba.com?c=Jme",
-"https://americanluck.com/signup/e360918f-8986-4dec-9823-a902d3f4936a",
-"https://www.goated.com/r/YDRZLJ",
-"https://shuffle.com?r=jHR7JnWRPF",
-"https://www.stake.com/?c=LAYP68hb",
-"https://clash.gg/r/stakestats",
-"https://www.cases.gg/r/JMENICHOLE",
-"https://jemlit.com/en/a/Jmenichole",
-"https://roxymoxy.com/home?invite=f94f874427",
-"https://luckylandslots.com",
-"https://luckybitsvegas.com/gc?adId=INV001%3Ajmenichole",
-"https://shuffle.us?r=Rl93OJoflX",
-"https://kickr.com/signup/doxe8c09"
-  ];
-  state = urls.map(u => ({
-    name: createDisplayableName(u),
-    url: u,
-    lastCollected: null,
-    notes: ""
-  }));
-  save();
-}
-
-/* =======================
-   RENDER
-======================= */
-function render() {
-  const root = document.getElementById("cards");
-  root.innerHTML = "";
-
-  // 1. Filter based on search query
-  const lowerCaseSearchQuery = searchQuery.toLowerCase();
-  let filteredState = state.filter(c => {
-    return c.name.toLowerCase().includes(lowerCaseSearchQuery) ||
-           c.url.toLowerCase().includes(lowerCaseSearchQuery) ||
-           c.notes.toLowerCase().includes(lowerCaseSearchQuery);
-  });
-
-  // 2. Sort based on currentSort
-  filteredState.sort((a, b) => {
-    switch (currentSort) {
-      case 'name-asc':
-        return a.name.localeCompare(b.name);
-      case 'name-desc':
-        return b.name.localeCompare(a.name);
-      case 'lastCollected-asc':
-        return (a.lastCollected || 0) - (b.lastCollected || 0);
-      case 'lastCollected-desc':
-        return (b.lastCollected || 0) - (a.lastCollected || 0);
-      case 'status-ready-first':
-        const statusA = getCollectionTimeRemaining(a);
-        const statusB = getCollectionTimeRemaining(b);
-        if (statusA === statusB) {
-            return a.name.localeCompare(b.name);
-        }
-        return statusA - statusB;
-      default:
-        return 0;
-    }
-  });
-
-
-  filteredState.forEach((c) => {
-    let statusText = "";
-    let statusClass = "";
-    const timeLeftMs = getCollectionTimeRemaining(c);
-
-    if (timeLeftMs === 0) {
-      statusText = "Ready to collect";
-      statusClass = "status-ready";
-    } else {
-      statusText = `Available in ${formatTimeLeft(timeLeftMs)}`;
-      statusClass = "status-countdown";
+    function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    function load(){
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (s) state = JSON.parse(s);
     }
 
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <strong>${c.name}</strong>
-      <a href="${c.url}" target="_blank" title="${c.url}">Open</a>
-      <div class="meta">
-        Last collected:
-        ${c.lastCollected ? new Date(c.lastCollected).toLocaleString() : "Never"}
-      </div>
-      <div class="status-text ${statusClass}">${statusText}</div>
-      ${c.notes ? `<div class="notes-display">Notes: ${c.notes}</div>` : ''}
-    `;
-
-    const openLink = card.querySelector("a");
-    if (openLink) {
-        openLink.addEventListener("click", () => {
-            c.lastCollected = Date.now();
-            save();
-        });
+    function remaining(c){
+      if (!c.lastCollected) return 0;
+      return Math.max(0, c.lastCollected + c.cooldownHours*3600000 - Date.now());
     }
 
-    root.appendChild(card);
-  });
-  
-  if (renderTimer) {
-      clearInterval(renderTimer);
-  }
-  renderTimer = setInterval(render, RENDER_INTERVAL_MS);
-}
+    function fmt(ms){
+      const m = Math.ceil(ms/60000);
+      return `${Math.floor(m/60)}h ${m%60}m`;
+    }
 
-/* =======================
-   ACTIONS
-======================= */
-document.getElementById("addForm").addEventListener("submit", e => {
-  e.preventDefault();
+    function render(){
+      const root = document.getElementById("cards");
+      root.innerHTML = "";
 
-  const nameInput = document.getElementById("name");
-  const urlInput = document.getElementById("url");
-  const notesInput = document.getElementById("notes");
+      const sorted = [...state].sort((a,b)=>remaining(a)-remaining(b));
+      let ready = 0;
 
-  const newUrl = normalizeUrl(urlInput.value); // Normalize new URL for comparison
+      for (const c of sorted){
+        const r = remaining(c);
+        if (!r) ready++;
 
-  // NEW: Check for duplicates before adding
-  const isDuplicate = state.some(casino => normalizeUrl(casino.url) === newUrl);
-  if (isDuplicate) {
-    alert("This casino URL already exists in your list!");
-    return; // Stop the function here if it's a duplicate
-  }
+        const card = document.createElement("div");
+        card.className = "card";
+        card.onclick = () => {
+          c.lastCollected = Date.now();
+          save();
+          window.open(c.url, "_blank");
+          render();
+        };
 
-  state.push({
-    name: nameInput.value.trim(),
-    url: urlInput.value, // Store original URL
-    lastCollected: null, 
-    notes: notesInput.value.trim()
-  });
+        card.innerHTML = `
+          <h3>${c.name}</h3>
+          <div class="status-text ${r? (r<3600000?"soon":"later"):"ready"}">
+            ${r?fmt(r):"Ready to collect"}
+          </div>
+          <div class="meta">Cooldown: 24h</div>
+        `;
+        root.appendChild(card);
+      }
 
-  e.target.reset();
-  save();
-});
+      document.getElementById("nextReady").textContent =
+        ready ? `${ready} ready to collect` : `Next ready in ${fmt(sorted.find(c=>remaining(c))?.lastCollected)}`;
+    }
 
-document.getElementById("searchInput").addEventListener("input", e => {
-    searchQuery = e.target.value;
+    load();
     render();
-});
-
-document.getElementById("sortSelect").addEventListener("change", e => {
-    currentSort = e.target.value;
-    render();
-});
-
-function save() {
-  localStorage.setItem("casinos", JSON.stringify(state));
-  render();
-}
-
-// Initial render when the page loads
-save();
-</script>
-
+    setInterval(render, 60000);
+  </script>
 </body>
 </html>
