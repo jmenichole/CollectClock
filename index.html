@@ -15,20 +15,30 @@
       --ready: #1db954;
       --soon: #ffb020;
       --later: #ff5c5c;
+      --accent: #2b3350;
     }
 
     * { box-sizing: border-box; }
 
+    /* background with subtle depth + noise */
     body {
       margin: 0;
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--text);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      /* layered background: soft radial highlights + tiny SVG noise tile */
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 12%),
+        radial-gradient(circle at 85% 80%, rgba(255,255,255,0.01), transparent 10%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100' height='100' filter='url(%23n)' fill='black' opacity='0.03'/></svg>");
+      background-repeat: repeat, repeat, repeat;
+      background-blend-mode: overlay, overlay;
     }
 
     header {
       padding: 12px 20px;
       border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
     }
 
     header h1 {
@@ -45,6 +55,13 @@
       color: var(--muted);
     }
 
+    .section-heading {
+      padding: 12px 20px;
+      font-size: 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
     .container {
       padding: 16px;
       display: grid;
@@ -53,7 +70,7 @@
     }
 
     .card {
-      background: var(--card);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent), var(--card);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 14px;
@@ -61,7 +78,13 @@
       flex-direction: column;
       gap: 8px;
       cursor: pointer;
+      position: relative; /* for options button */
+      min-height: 96px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      transition: transform 160ms ease, box-shadow 160ms ease;
     }
+
+    .card:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(2,6,23,0.7); }
 
     .card h3 {
       margin: 0;
@@ -81,6 +104,82 @@
       font-size: 12px;
       color: var(--muted);
     }
+
+    /* options button (top-right) */
+    .opts {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-weight: 700;
+      user-select: none;
+    }
+    .opts:hover { background: var(--accent); border-color: var(--border); color: var(--text); }
+
+    /* small popover form */
+    .popover {
+      position: absolute;
+      right: 12px;
+      top: 36px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 8px;
+      width: 240px;
+      z-index: 40;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    .popover label {
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+    .popover input[type="number"],
+    .popover input[type="text"] {
+      width:100%;
+      padding:6px 8px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:#0b1220;
+      color:var(--text);
+      margin-bottom:8px;
+      font-size:13px;
+    }
+    .popover .row {
+      display:flex;
+      gap:8px;
+    }
+    .popover button {
+      flex:1;
+      padding:6px 8px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--text);
+      cursor:pointer;
+    }
+    .popover button.save { background:var(--ready); color:#071207; border-color:transparent; }
+    .popover button.cancel { background:transparent; color:var(--muted); }
+
+    footer {
+      padding: 12px 20px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: linear-gradient(0deg, rgba(255,255,255,0.01), transparent);
+    }
+
   </style>
 </head>
 
@@ -90,9 +189,18 @@
   </header>
 
   <div id="nextReady" class="next-ready"></div>
+
+  <!-- Main collect cards -->
   <div class="container" id="cards"></div>
 
+  <!-- Separate section for Get Paid To Sites (no cooldown / no lastCollected) -->
+  <div class="section-heading">Get Paid To Sites</div>
+  <div class="container" id="paidCards"></div>
+
+  <footer>made for degens by degens</footer>
+
   <script>
+    // initial list (as before) — we'll store per-site cooldownHours and optional bonusDetails
     let state = [
       { name:"HelloMillions", url:"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867" },
       { name:"SpinBlitz", url:"https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739" },
@@ -143,24 +251,105 @@
       { name:"LuckyBits Vegas", url:"https://luckybitsvegas.com/gc?adId=INV001%3Ajmenichole" },
       { name:"Shuffle.us", url:"https://shuffle.us?r=Rl93OJoflX" },
       { name:"Kickr", url:"https://kickr.com/signup/doxe8c09" }
-    ].map(c => ({ ...c, cooldownHours: 24, lastCollected: null }));
+    ]
+    // default properties: cooldownHours (hours between collects) and optional bonusDetails
+    .map(c => ({ ...c, cooldownHours: 24, bonusDetails: "", lastCollected: null }));
+
+    // Static Get Paid To Sites list — unchanged
+    const paidSites = [
+      { name: "Auto-mine Bitcoin Daily To Play Casino Games", url: "https://emberfund.onelink.me/ljTI/l4g18zii?mining_referrer_id=MNGX1VVREUE" },
+      { name: "FreeCash Surveys & Games", url: "https://freecash.com/r/IAI3V" },
+      { name: "Share unused bandwidth and get paid (Honeygain)", url: "https://join.honeygain.com/JAMIE864F2" },
+      { name: "Web3 platform for micro-tasking: side hu$tle (Jumptask)", url: "https://www.jumptask.io/r/sopypokofuvi" },
+      { name: "Discover high paying crypto bounties (Superteam Earn)", url: "https://www.earn.superteam.fun/r/KRNMB6H" },
+      { name: "Get free gift cards for doing things online (Swagbucks)", url: "https://www.swagbucks.com/profile/Jmenichole?rp=1" }
+    ];
 
     const STORAGE_KEY = "collectClockFull";
 
     function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
     function load(){
       const s = localStorage.getItem(STORAGE_KEY);
-      if (s) state = JSON.parse(s);
+      if (s) {
+        try {
+          const parsed = JSON.parse(s);
+          // keep backward compatibility: if some items don't have bonusDetails/cooldownHours, set defaults
+          state = parsed.map(item => ({
+            ...item,
+            cooldownHours: item.cooldownHours ?? 24,
+            bonusDetails: item.bonusDetails ?? "",
+            lastCollected: item.lastCollected ?? null
+          }));
+        } catch(e) {
+          console.error("Failed to parse stored state:", e);
+        }
+      }
     }
 
+    // milliseconds remaining until next availability
     function remaining(c){
       if (!c.lastCollected) return 0;
-      return Math.max(0, c.lastCollected + c.cooldownHours*3600000 - Date.now());
+      return Math.max(0, (c.lastCollected + c.cooldownHours*3600000) - Date.now());
     }
 
     function fmt(ms){
+      if (!ms || ms <= 0) return "0h 0m";
       const m = Math.ceil(ms/60000);
       return `${Math.floor(m/60)}h ${m%60}m`;
+    }
+
+    // create and show a small popover on the card to edit cooldownHours and bonusDetails
+    function showEditPopover(cardElem, c) {
+      // remove existing popovers
+      document.querySelectorAll(".popover").forEach(p => p.remove());
+
+      const pop = document.createElement("div");
+      pop.className = "popover";
+
+      pop.innerHTML = `
+        <label>Collection interval (hours)</label>
+        <input type="number" min="1" step="1" id="p-cool" value="${c.cooldownHours}">
+        <label>Bonus details (optional)</label>
+        <input type="text" id="p-details" placeholder="e.g. $1.00 spin, 12hr window" value="${escapeHtml(c.bonusDetails)}">
+        <div class="row">
+          <button class="cancel">Cancel</button>
+          <button class="save">Save</button>
+        </div>
+      `;
+
+      // stop clicks inside popover from closing/propagating
+      pop.addEventListener("click", e => e.stopPropagation());
+
+      const inpCool = pop.querySelector("#p-cool");
+      const inpDetails = pop.querySelector("#p-details");
+      const btnSave = pop.querySelector("button.save");
+      const btnCancel = pop.querySelector("button.cancel");
+
+      btnCancel.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        pop.remove();
+      });
+
+      btnSave.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const newHours = parseInt(inpCool.value, 10) || 24;
+        c.cooldownHours = newHours;
+        c.bonusDetails = inpDetails.value.trim();
+        save();
+        render(); // re-render card (and meta)
+        pop.remove();
+      });
+
+      // attach and close when clicking elsewhere
+      cardElem.appendChild(pop);
+      // close popover if clicking anywhere else on document
+      const onDocClick = () => { pop.remove(); document.removeEventListener("click", onDocClick); };
+      setTimeout(() => document.addEventListener("click", onDocClick), 0);
+    }
+
+    // Escape minimal HTML for value attribute display
+    function escapeHtml(str){
+      return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
     }
 
     function render(){
@@ -176,6 +365,8 @@
 
         const card = document.createElement("div");
         card.className = "card";
+
+        // clicking the card opens the link and records lastCollected (existing behavior)
         card.onclick = () => {
           c.lastCollected = Date.now();
           save();
@@ -183,23 +374,75 @@
           render();
         };
 
-        card.innerHTML = `
+        // options button ("" as requested) — stops propagation so it doesn't trigger card click
+        const opts = document.createElement("div");
+        opts.className = "opts";
+        opts.title = "Edit bonus details";
+        opts.textContent = ":"; // user wanted ":" in top right
+        opts.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showEditPopover(card, c);
+        });
+        card.appendChild(opts);
+
+        // main inner html
+        const statusClass = r ? (r < 3600000 ? "soon" : "later") : "ready";
+        const statusText = r ? fmt(r) : "Not visited today";
+        const bonusText = c.bonusDetails ? ` · ${c.bonusDetails}` : "";
+
+        card.innerHTML += `
           <h3>${c.name}</h3>
-          <div class="status-text ${r? (r<3600000?"soon":"later"):"ready"}">
-            ${r?fmt(r):"Ready to collect"}
+          <div class="status-text ${statusClass}">
+            ${statusText}
           </div>
-          <div class="meta">Cooldown: 24h</div>
+          <div class="meta">Next bonus: ${c.cooldownHours}h${bonusText}</div>
         `;
         root.appendChild(card);
       }
 
-      document.getElementById("nextReady").textContent =
-        ready ? `${ready} ready to collect` : `Next ready in ${fmt(sorted.find(c=>remaining(c))?.lastCollected)}`;
+      // compute next ready time if none ready
+      if (ready) {
+        document.getElementById("nextReady").textContent = \
+        `${ready} not visited today`;
+      } else {
+        // find the smallest positive remaining
+        const nextSel = sorted.map(s => ({s, r: remaining(s)})).filter(x => x.r > 0).sort((a,b)=>a.r-b.r)[0];
+        if (nextSel) {
+          document.getElementById("nextReady").textContent = `Next ready in ${fmt(nextSel.r)} — ${nextSel.s.name}`;
+        } else {
+          document.getElementById("nextReady").textContent = `All clear`;
+        }
+      }
     }
 
+    // Render paid sites without any cooldown/lastCollected logic.
+    function renderPaid(){
+      const root = document.getElementById("paidCards");
+      root.innerHTML = "";
+
+      for (const s of paidSites){
+        const card = document.createElement("div");
+        card.className = "card";
+        // Only opens the referral link — no state mutation
+        card.onclick = () => window.open(s.url, "_blank");
+
+        card.innerHTML = `
+          <h3>${s.name}</h3>
+          <div class="meta">Referral / Get Paid</div>
+        `;
+        root.appendChild(card);
+      }
+    }
+
+    // bootstrap
     load();
     render();
-    setInterval(render, 60000);
+    renderPaid();
+    setInterval(()=>{
+      render();
+      // paid sites are static; re-rendering is harmless
+      renderPaid();
+    }, 60000);
   </script>
 </body>
 </html>
