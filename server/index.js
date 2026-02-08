@@ -4,9 +4,21 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
-require('./config/passport'); // Import passport configuration
+const http = require('http');
+const { Server } = require('socket.io');
+
+require('./config/passport');
+const bot = require('./bot');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: { origin: "*" }
+});
+
+// Make io accessible to bot
+bot.setIo(io);
+
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -55,6 +67,36 @@ app.get('/auth/logout', (req, res) => {
 });
 
 // API Routes
+app.get('/api/user/settings', async (req, res) => {
+    if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
+    res.json({
+        casinoSettings: req.user.casinoSettings,
+        globalSettings: req.user.globalSettings
+    });
+});
+
+app.post('/api/user/settings', async (req, res) => {
+    if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
+    const { casinoSettings, globalSettings } = req.body;
+    
+    // Check for bonus changes to track nerfs
+    casinoSettings.forEach(newSet => {
+        const oldSet = req.user.casinoSettings.find(s => s.name === newSet.name);
+        if (oldSet && oldSet.bonusAmount !== newSet.bonusAmount) {
+            newSet.history = oldSet.history || [];
+            newSet.history.push({
+                bonusAmount: oldSet.bonusAmount,
+                timestamp: new Date()
+            });
+        }
+    });
+
+    req.user.casinoSettings = casinoSettings;
+    req.user.globalSettings = globalSettings;
+    await req.user.save();
+    res.json({ message: 'Settings saved' });
+});
+
 app.post('/api/submit-casino', async (req, res) => {
     const { name, url } = req.body;
     const DISCORD_WEBHOOK_URL = process.env.DISCORD_SUBMISSION_WEBHOOK;
@@ -89,6 +131,6 @@ app.post('/api/submit-casino', async (req, res) => {
     res.json({ message: 'Submitted successfully' });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

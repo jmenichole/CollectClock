@@ -7,7 +7,11 @@ const CasinoSettingsSchema = new mongoose.Schema({
     bonusAmount: { type: String, default: '' },
     notes: { type: String, default: '' },
     hidden: { type: Boolean, default: false },
-    isConfigured: { type: Boolean, default: false } // To track if the user has set up this casino
+    isConfigured: { type: Boolean, default: false },
+    history: [{
+        bonusAmount: String,
+        timestamp: { type: Date, default: Date.now }
+    }]
 });
 
 const UserSchema = new mongoose.Schema({

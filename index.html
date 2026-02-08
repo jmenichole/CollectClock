@@ -7,6 +7,7 @@
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#050814" />
   <link rel="apple-touch-icon" href="https://www.google.com/s2/favicons?domain=stake.us&size=180" />
+  <script src="/socket.io/socket.io.js"></script>
 
   <style>
     :root {
@@ -472,6 +473,41 @@
 
     .discord-link:hover { text-decoration: underline; }
 
+    /* Live Drop Notification */
+    #liveDropToast {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #5865F2;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: none;
+      z-index: 2000;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      animation: slideUp 0.3s ease-out;
+      max-width: 300px;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .btn-discord {
+      background: #5865F2;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      text-decoration: none;
+    }
   </style>
 </head>
 
@@ -479,6 +515,14 @@
   <header>
     <h1>🎰 Collect Clock</h1>
     <div style="display: flex; gap: 12px; align-items: center;">
+      <a href="/auth/discord" class="btn-discord" id="loginBtn">
+        <img src="https://cdn.prod.website-files.com/6257adef93867e3d03940e41/625e4f2007d05e58c704f601_Discord-LogoColor.png" width="20" alt="">
+        Login
+      </a>
+      <div id="userProfile" style="display: none; align-items: center; gap: 8px;">
+        <img id="userAvatar" src="" width="32" style="border-radius: 50%;">
+        <span id="userName" style="font-size: 14px; font-weight: 600;"></span>
+      </div>
       <button class="btn-settings" style="background: var(--accent); border-color: var(--muted);" onclick="openSubmitModal()">➕ Submit Casino</button>
       <button class="btn-open-all" id="openAllBtn" style="display: none;" onclick="openAllReady()">🚀 Open All Ready</button>
       <input type="text" class="search-box" placeholder="Search casinos..." id="searchInp">
@@ -583,6 +627,11 @@
   <div class="section-heading">Get Paid To Sites</div>
   <div class="container" id="paidCards"></div>
 
+  <div id="liveDropToast">
+    <div style="font-size: 10px; opacity: 0.8; margin-bottom: 4px;">LIVE DROP ALERT</div>
+    <div id="dropContent" style="font-weight: 600;"></div>
+  </div>
+
   <footer>MADE FOR DEGENS BY DEGENS</footer>
 
   <script>
@@ -675,9 +724,46 @@
       notificationVolume: 0.5
     };
 
+    let currentUser = null;
+    const socket = io();
+
+    socket.on('liveDrop', (data) => {
+      const toast = document.getElementById('liveDropToast');
+      const content = document.getElementById('dropContent');
+      content.textContent = `${data.author}: ${data.content}`;
+      toast.style.display = 'block';
+      
+      if (globalSettings.soundEnabled) {
+        const dropSound = new Audio("./assets/audio/800976__sadiquecat__other-uwu-2.wav");
+        dropSound.volume = globalSettings.notificationVolume;
+        dropSound.play().catch(e => {});
+      }
+
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 5000);
+    });
+
+    async function syncToBackend() {
+      if (!currentUser) return;
+      try {
+        await fetch('/api/user/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            casinoSettings: state,
+            globalSettings: globalSettings
+          })
+        });
+      } catch (err) {
+        console.error('Failed to sync to backend:', err);
+      }
+    }
+
     function save(){ 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
       localStorage.setItem(CONFIG_KEY, JSON.stringify(globalSettings));
+      syncToBackend();
     }
     function load(){
       const s = localStorage.getItem(STORAGE_KEY);
@@ -1089,8 +1175,41 @@
       }
     }
 
+    async function checkAuth() {
+      try {
+        const response = await fetch('/auth/success');
+        if (response.ok) {
+          const data = await response.json();
+          currentUser = data.user;
+          document.getElementById('loginBtn').style.display = 'none';
+          document.getElementById('userProfile').style.display = 'flex';
+          document.getElementById('userName').textContent = currentUser.username;
+          document.getElementById('userAvatar').src = currentUser.avatar 
+            ? `https://cdn.discordapp.com/avatars/${currentUser.discordId}/${currentUser.avatar}.png`
+            : "https://cdn.discordapp.com/embed/avatars/0.png";
+          
+          // Sync backend data to local if backend has data
+          if (currentUser.casinoSettings && currentUser.casinoSettings.length > 0) {
+            // merge logic as in load()
+            state = state.map(def => {
+                const saved = currentUser.casinoSettings.find(p => p.name === def.name);
+                if (saved) {
+                    return { ...def, ...saved };
+                }
+                return def;
+            });
+            globalSettings = currentUser.globalSettings || globalSettings;
+            render();
+          }
+        }
+      } catch (err) {
+        console.error('Auth check failed:', err);
+      }
+    }
+
     // bootstrap
     load();
+    checkAuth();
     render();
     renderPaid();
     setInterval(()=>{
