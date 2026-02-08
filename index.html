@@ -7,177 +7,233 @@
 
   <style>
     :root {
-      --bg: #0b1020;
-      --card: #141a2e;
-      --border: #1f2538;
+      --bg: #050814;
+      --card: rgba(20, 26, 46, 0.6);
+      --border: rgba(31, 37, 56, 0.5);
       --text: #e8ebff;
       --muted: #9aa4ff;
-      --ready: #1db954;
+      --ready: #00ffa3;
       --soon: #ffb020;
       --later: #ff5c5c;
-      --accent: #2b3350;
+      --accent: rgba(43, 51, 80, 0.8);
+      --glass-blur: blur(12px);
     }
 
     * { box-sizing: border-box; }
 
-    /* background with subtle depth + noise */
     body {
       margin: 0;
       background-color: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      /* layered background: soft radial highlights + tiny SVG noise tile */
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-image:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 12%),
-        radial-gradient(circle at 85% 80%, rgba(255,255,255,0.01), transparent 10%),
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100' height='100' filter='url(%23n)' fill='black' opacity='0.03'/></svg>");
-      background-repeat: repeat, repeat, repeat;
-      background-blend-mode: overlay, overlay;
+        radial-gradient(circle at 10% 10%, rgba(0, 255, 163, 0.05), transparent 25%),
+        radial-gradient(circle at 90% 90%, rgba(154, 164, 255, 0.05), transparent 25%);
+      background-attachment: fixed;
+      min-height: 100vh;
     }
 
     header {
-      padding: 12px 20px;
+      padding: 20px;
       border-bottom: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      background: rgba(5, 8, 20, 0.8);
+      backdrop-filter: var(--glass-blur);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
+      background: linear-gradient(45deg, #e8ebff, #9aa4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .search-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      color: var(--text);
+      width: 250px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--ready);
+      box-shadow: 0 0 15px rgba(0, 255, 163, 0.2);
+      width: 300px;
     }
 
     .next-ready {
       width: 100%;
-      background: #0f1524;
+      background: rgba(15, 21, 36, 0.6);
+      backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid var(--border);
-      padding: 8px 20px;
+      padding: 10px 20px;
       font-size: 13px;
       color: var(--muted);
+      text-align: center;
+      font-weight: 500;
     }
 
     .section-heading {
-      padding: 12px 20px;
-      font-size: 14px;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
+      padding: 24px 20px 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ready);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .container {
-      padding: 16px;
+      padding: 20px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent), var(--card);
+      background: var(--card);
+      backdrop-filter: var(--glass-blur);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
+      border-radius: 16px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
       cursor: pointer;
-      position: relative; /* for options button */
-      min-height: 96px;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
-      transition: transform 160ms ease, box-shadow 160ms ease;
+      position: relative;
+      min-height: 120px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: fadeIn 0.5s ease-out forwards;
     }
 
-    .card:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(2,6,23,0.7); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--ready);
+      box-shadow: 0 12px 40px 0 rgba(0, 255, 163, 0.15);
+    }
 
     .card h3 {
       margin: 0;
-      font-size: 16px;
+      font-size: 18px;
+      letter-spacing: -0.5px;
     }
 
-    .status-text {
-      font-size: 14px;
-      font-weight: 600;
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      width: fit-content;
     }
 
-    .ready { color: var(--ready); }
-    .soon { color: var(--soon); }
-    .later { color: var(--later); }
+    .badge-ready { background: rgba(0, 255, 163, 0.1); color: var(--ready); border: 1px solid rgba(0, 255, 163, 0.2); }
+    .badge-soon { background: rgba(255, 176, 32, 0.1); color: var(--soon); border: 1px solid rgba(255, 176, 32, 0.2); }
+    .badge-later { background: rgba(255, 92, 92, 0.1); color: var(--later); border: 1px solid rgba(255, 92, 92, 0.2); }
 
     .meta {
       font-size: 12px;
       color: var(--muted);
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* options button (top-right) */
+    /* options button */
     .opts {
       position: absolute;
-      right: 8px;
-      top: 8px;
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
+      right: 12px;
+      top: 12px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
       display:flex;
       align-items:center;
       justify-content:center;
-      background: transparent;
+      background: rgba(255, 255, 255, 0.05);
       color: var(--muted);
-      border: 1px solid transparent;
+      border: 1px solid var(--border);
       cursor: pointer;
-      font-weight: 700;
-      user-select: none;
+      transition: all 0.2s ease;
     }
-    .opts:hover { background: var(--accent); border-color: var(--border); color: var(--text); }
+    .opts:hover { background: var(--ready); color: var(--bg); border-color: var(--ready); }
 
     /* small popover form */
     .popover {
       position: absolute;
       right: 12px;
-      top: 36px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 10px;
-      border-radius: 8px;
-      width: 240px;
+      top: 48px;
+      background: #141a2e;
+      border: 1px solid var(--ready);
+      padding: 16px;
+      border-radius: 12px;
+      width: 260px;
       z-index: 40;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: var(--glass-blur);
     }
     .popover label {
       display:block;
-      font-size:12px;
+      font-size:11px;
       color:var(--muted);
-      margin-bottom:4px;
+      margin-bottom:6px;
+      text-transform: uppercase;
+      font-weight: 700;
     }
     .popover input[type="number"],
     .popover input[type="text"] {
       width:100%;
-      padding:6px 8px;
-      border-radius:6px;
+      padding:10px 12px;
+      border-radius:8px;
       border:1px solid var(--border);
-      background:#0b1220;
+      background:rgba(0,0,0,0.3);
       color:var(--text);
-      margin-bottom:8px;
+      margin-bottom:12px;
       font-size:13px;
     }
     .popover .row {
       display:flex;
-      gap:8px;
+      gap:10px;
     }
     .popover button {
       flex:1;
-      padding:6px 8px;
-      border-radius:6px;
+      padding:10px;
+      border-radius:8px;
       border:1px solid var(--border);
       background:transparent;
       color:var(--text);
       cursor:pointer;
+      font-weight: 600;
+      font-size: 13px;
     }
-    .popover button.save { background:var(--ready); color:#071207; border-color:transparent; }
+    .popover button.save { background:var(--ready); color:var(--bg); border-color:transparent; }
     .popover button.cancel { background:transparent; color:var(--muted); }
 
     footer {
-      padding: 12px 20px;
+      padding: 40px 20px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       text-align: center;
-      border-top: 1px solid var(--border);
-      background: linear-gradient(0deg, rgba(255,255,255,0.01), transparent);
+      opacity: 0.6;
     }
 
   </style>
@@ -186,20 +242,27 @@
 <body>
   <header>
     <h1>🎰 Collect Clock</h1>
+    <input type="text" class="search-box" placeholder="Search casinos..." id="searchInp">
   </header>
 
   <div id="nextReady" class="next-ready"></div>
 
-  <!-- Main collect cards -->
+  <div class="section-heading">Casino Bonuses</div>
   <div class="container" id="cards"></div>
 
-  <!-- Separate section for Get Paid To Sites (no cooldown / no lastCollected) -->
   <div class="section-heading">Get Paid To Sites</div>
   <div class="container" id="paidCards"></div>
 
-  <footer>made for degens by degens</footer>
+  <footer>MADE FOR DEGENS BY DEGENS</footer>
 
   <script>
+    let searchTerm = "";
+    document.getElementById("searchInp").addEventListener("input", (e) => {
+      searchTerm = e.target.value.toLowerCase();
+      render();
+      renderPaid();
+    });
+
     // initial list (as before) — we'll store per-site cooldownHours and optional bonusDetails
     let state = [
       { name:"HelloMillions", url:"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867" },
@@ -356,7 +419,8 @@
       const root = document.getElementById("cards");
       root.innerHTML = "";
 
-      const sorted = [...state].sort((a,b)=>remaining(a)-remaining(b));
+      const filtered = state.filter(c => c.name.toLowerCase().includes(searchTerm));
+      const sorted = [...filtered].sort((a,b)=>remaining(a)-remaining(b));
       let ready = 0;
 
       for (const c of sorted){
@@ -374,11 +438,11 @@
           render();
         };
 
-        // options button ("" as requested) — stops propagation so it doesn't trigger card click
+        // options button
         const opts = document.createElement("div");
         opts.className = "opts";
         opts.title = "Edit bonus details";
-        opts.textContent = ":"; // user wanted ":" in top right
+        opts.textContent = "⚙";
         opts.addEventListener("click", (e) => {
           e.stopPropagation();
           showEditPopover(card, c);
@@ -386,27 +450,30 @@
         card.appendChild(opts);
 
         // main inner html
-        const statusClass = r ? (r < 3600000 ? "soon" : "later") : "ready";
-        const statusText = r ? fmt(r) : "Not visited today";
+        const statusClass = r ? (r < 3600000 ? "badge-soon" : "badge-later") : "badge-ready";
+        const statusText = r ? fmt(r) : "READY";
         const bonusText = c.bonusDetails ? ` · ${c.bonusDetails}` : "";
 
         card.innerHTML += `
           <h3>${c.name}</h3>
-          <div class="status-text ${statusClass}">
+          <div class="status-badge ${statusClass}">
             ${statusText}
           </div>
-          <div class="meta">Next bonus: ${c.cooldownHours}h${bonusText}</div>
+          <div class="meta">
+            <span>Next: ${c.cooldownHours}h${bonusText}</span>
+          </div>
         `;
         root.appendChild(card);
       }
 
       // compute next ready time if none ready
-      if (ready) {
-        document.getElementById("nextReady").textContent = \
-        `${ready} not visited today`;
+      const anyReady = state.filter(c => remaining(c) === 0).length;
+      if (anyReady) {
+        document.getElementById("nextReady").textContent = 
+        `${anyReady} bonuses ready to collect`;
       } else {
-        // find the smallest positive remaining
-        const nextSel = sorted.map(s => ({s, r: remaining(s)})).filter(x => x.r > 0).sort((a,b)=>a.r-b.r)[0];
+        const allSorted = [...state].sort((a,b)=>remaining(a)-remaining(b));
+        const nextSel = allSorted.map(s => ({s, r: remaining(s)})).filter(x => x.r > 0).sort((a,b)=>a.r-b.r)[0];
         if (nextSel) {
           document.getElementById("nextReady").textContent = `Next ready in ${fmt(nextSel.r)} — ${nextSel.s.name}`;
         } else {
@@ -420,15 +487,17 @@
       const root = document.getElementById("paidCards");
       root.innerHTML = "";
 
-      for (const s of paidSites){
+      const filtered = paidSites.filter(s => s.name.toLowerCase().includes(searchTerm));
+
+      for (const s of filtered){
         const card = document.createElement("div");
         card.className = "card";
-        // Only opens the referral link — no state mutation
         card.onclick = () => window.open(s.url, "_blank");
 
         card.innerHTML = `
           <h3>${s.name}</h3>
-          <div class="meta">Referral / Get Paid</div>
+          <div class="status-badge badge-ready">REFERRAL</div>
+          <div class="meta">Get Paid Site</div>
         `;
         root.appendChild(card);
       }
