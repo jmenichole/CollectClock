@@ -158,76 +158,6 @@
       align-items: center;
     }
 
-    /* options button */
-    .opts {
-      position: absolute;
-      right: 12px;
-      top: 12px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .opts:hover { background: var(--ready); color: var(--bg); border-color: var(--ready); }
-
-    /* small popover form */
-    .popover {
-      position: absolute;
-      right: 12px;
-      top: 48px;
-      background: #141a2e;
-      border: 1px solid var(--ready);
-      padding: 16px;
-      border-radius: 12px;
-      width: 260px;
-      z-index: 40;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      backdrop-filter: var(--glass-blur);
-    }
-    .popover label {
-      display:block;
-      font-size:11px;
-      color:var(--muted);
-      margin-bottom:6px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-    .popover input[type="number"],
-    .popover input[type="text"] {
-      width:100%;
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,0.3);
-      color:var(--text);
-      margin-bottom:12px;
-      font-size:13px;
-    }
-    .popover .row {
-      display:flex;
-      gap:10px;
-    }
-    .popover button {
-      flex:1;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid var(--border);
-      background:transparent;
-      color:var(--text);
-      cursor:pointer;
-      font-weight: 600;
-      font-size: 13px;
-    }
-    .popover button.save { background:var(--ready); color:var(--bg); border-color:transparent; }
-    .popover button.cancel { background:transparent; color:var(--muted); }
-
     footer {
       padding: 40px 20px;
       color: var(--muted);
@@ -236,14 +166,209 @@
       opacity: 0.6;
     }
 
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #0f1524;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--ready);
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 0;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .settings-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .settings-table th {
+      text-align: left;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .settings-table td {
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .settings-table tr:hover {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .settings-table input {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .settings-table input:focus {
+      border-color: var(--ready);
+      outline: none;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #333;
+      transition: .4s;
+      border-radius: 20px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--ready);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .btn-settings {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-settings:hover {
+      background: var(--accent);
+      border-color: var(--ready);
+    }
+
+    .card .bonus-amt {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ready);
+      margin: 4px 0;
+    }
+
   </style>
 </head>
 
 <body>
   <header>
     <h1>🎰 Collect Clock</h1>
-    <input type="text" class="search-box" placeholder="Search casinos..." id="searchInp">
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <input type="text" class="search-box" placeholder="Search casinos..." id="searchInp">
+      <button class="btn-settings" onclick="openSettings()">⚙ Settings</button>
+    </div>
   </header>
+
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Global Settings</h2>
+        <button class="close-modal" onclick="closeSettings()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <table class="settings-table">
+          <thead>
+            <tr>
+              <th>Visible</th>
+              <th>Casino Name</th>
+              <th>Interval (Hrs)</th>
+              <th>Bonus Amount</th>
+            </tr>
+          </thead>
+          <tbody id="settingsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <div id="nextReady" class="next-ready"></div>
 
@@ -315,8 +440,15 @@
       { name:"Shuffle.us", url:"https://shuffle.us?r=Rl93OJoflX" },
       { name:"Kickr", url:"https://kickr.com/signup/doxe8c09" }
     ]
-    // default properties: cooldownHours (hours between collects) and optional bonusDetails
-    .map(c => ({ ...c, cooldownHours: 24, bonusDetails: "", lastCollected: null }));
+    // default properties
+    .map(c => ({ 
+      ...c, 
+      cooldownHours: 24, 
+      bonusDetails: "", 
+      lastCollected: null,
+      hidden: false,
+      bonusAmount: ""
+    }));
 
     // Static Get Paid To Sites list — unchanged
     const paidSites = [
@@ -336,13 +468,22 @@
       if (s) {
         try {
           const parsed = JSON.parse(s);
-          // keep backward compatibility: if some items don't have bonusDetails/cooldownHours, set defaults
-          state = parsed.map(item => ({
-            ...item,
-            cooldownHours: item.cooldownHours ?? 24,
-            bonusDetails: item.bonusDetails ?? "",
-            lastCollected: item.lastCollected ?? null
-          }));
+          // merge parsed data with state to handle new casinos
+          state = state.map(def => {
+            const saved = parsed.find(p => p.name === def.name);
+            if (saved) {
+              return {
+                ...def,
+                ...saved,
+                cooldownHours: saved.cooldownHours ?? def.cooldownHours,
+                bonusDetails: saved.bonusDetails ?? def.bonusDetails,
+                lastCollected: saved.lastCollected ?? def.lastCollected,
+                hidden: saved.hidden ?? def.hidden,
+                bonusAmount: saved.bonusAmount ?? def.bonusAmount
+              };
+            }
+            return def;
+          });
         } catch(e) {
           console.error("Failed to parse stored state:", e);
         }
@@ -361,76 +502,29 @@
       return `${Math.floor(m/60)}h ${m%60}m`;
     }
 
-    // create and show a small popover on the card to edit cooldownHours and bonusDetails
-    function showEditPopover(cardElem, c) {
-      // remove existing popovers
-      document.querySelectorAll(".popover").forEach(p => p.remove());
-
-      const pop = document.createElement("div");
-      pop.className = "popover";
-
-      pop.innerHTML = `
-        <label>Collection interval (hours)</label>
-        <input type="number" min="1" step="1" id="p-cool" value="${c.cooldownHours}">
-        <label>Bonus details (optional)</label>
-        <input type="text" id="p-details" placeholder="e.g. $1.00 spin, 12hr window" value="${escapeHtml(c.bonusDetails)}">
-        <div class="row">
-          <button class="cancel">Cancel</button>
-          <button class="save">Save</button>
-        </div>
-      `;
-
-      // stop clicks inside popover from closing/propagating
-      pop.addEventListener("click", e => e.stopPropagation());
-
-      const inpCool = pop.querySelector("#p-cool");
-      const inpDetails = pop.querySelector("#p-details");
-      const btnSave = pop.querySelector("button.save");
-      const btnCancel = pop.querySelector("button.cancel");
-
-      btnCancel.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        pop.remove();
-      });
-
-      btnSave.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        const newHours = parseInt(inpCool.value, 10) || 24;
-        c.cooldownHours = newHours;
-        c.bonusDetails = inpDetails.value.trim();
-        save();
-        render(); // re-render card (and meta)
-        pop.remove();
-      });
-
-      // attach and close when clicking elsewhere
-      cardElem.appendChild(pop);
-      // close popover if clicking anywhere else on document
-      const onDocClick = () => { pop.remove(); document.removeEventListener("click", onDocClick); };
-      setTimeout(() => document.addEventListener("click", onDocClick), 0);
-    }
-
-    // Escape minimal HTML for value attribute display
-    function escapeHtml(str){
-      return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-    }
-
     function render(){
       const root = document.getElementById("cards");
       root.innerHTML = "";
 
-      const filtered = state.filter(c => c.name.toLowerCase().includes(searchTerm));
-      const sorted = [...filtered].sort((a,b)=>remaining(a)-remaining(b));
-      let ready = 0;
+      const filtered = state.filter(c => !c.hidden && c.name.toLowerCase().includes(searchTerm));
+      
+      // Auto-sort: Ready first, then by time remaining
+      const sorted = [...filtered].sort((a,b) => {
+        const remA = remaining(a);
+        const remB = remaining(b);
+        if (remA === 0 && remB !== 0) return -1;
+        if (remA !== 0 && remB === 0) return 1;
+        return remA - remB;
+      });
+
+      let readyCount = state.filter(c => !c.hidden && remaining(c) === 0).length;
 
       for (const c of sorted){
         const r = remaining(c);
-        if (!r) ready++;
 
         const card = document.createElement("div");
         card.className = "card";
 
-        // clicking the card opens the link and records lastCollected (existing behavior)
         card.onclick = () => {
           c.lastCollected = Date.now();
           save();
@@ -438,24 +532,13 @@
           render();
         };
 
-        // options button
-        const opts = document.createElement("div");
-        opts.className = "opts";
-        opts.title = "Edit bonus details";
-        opts.textContent = "⚙";
-        opts.addEventListener("click", (e) => {
-          e.stopPropagation();
-          showEditPopover(card, c);
-        });
-        card.appendChild(opts);
-
-        // main inner html
         const statusClass = r ? (r < 3600000 ? "badge-soon" : "badge-later") : "badge-ready";
         const statusText = r ? fmt(r) : "READY";
         const bonusText = c.bonusDetails ? ` · ${c.bonusDetails}` : "";
 
-        card.innerHTML += `
+        card.innerHTML = `
           <h3>${c.name}</h3>
+          ${c.bonusAmount ? `<div class="bonus-amt">${c.bonusAmount}</div>` : ""}
           <div class="status-badge ${statusClass}">
             ${statusText}
           </div>
@@ -467,13 +550,12 @@
       }
 
       // compute next ready time if none ready
-      const anyReady = state.filter(c => remaining(c) === 0).length;
-      if (anyReady) {
+      if (readyCount) {
         document.getElementById("nextReady").textContent = 
-        `${anyReady} bonuses ready to collect`;
+        `${readyCount} bonuses ready to collect`;
       } else {
-        const allSorted = [...state].sort((a,b)=>remaining(a)-remaining(b));
-        const nextSel = allSorted.map(s => ({s, r: remaining(s)})).filter(x => x.r > 0).sort((a,b)=>a.r-b.r)[0];
+        const visibleSorted = state.filter(c => !c.hidden).sort((a,b) => remaining(a) - remaining(b));
+        const nextSel = visibleSorted.map(s => ({s, r: remaining(s)})).filter(x => x.r > 0).sort((a,b)=>a.r-b.r)[0];
         if (nextSel) {
           document.getElementById("nextReady").textContent = `Next ready in ${fmt(nextSel.r)} — ${nextSel.s.name}`;
         } else {
@@ -481,6 +563,74 @@
         }
       }
     }
+
+    function openSettings() {
+      document.getElementById("settingsModal").style.display = "flex";
+      renderSettingsTable();
+    }
+
+    function closeSettings() {
+      document.getElementById("settingsModal").style.display = "none";
+      render(); // Refresh main view
+    }
+
+    function renderSettingsTable() {
+      const tbody = document.getElementById("settingsTableBody");
+      tbody.innerHTML = "";
+      
+      // Sort state alphabetically for settings
+      const alphaState = [...state].sort((a,b) => a.name.localeCompare(b.name));
+
+      for (const c of alphaState) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>
+            <label class="toggle-switch">
+              <input type="checkbox" ${c.hidden ? "" : "checked"} onchange="toggleCasino('${c.name}', this.checked)">
+              <span class="slider"></span>
+            </label>
+          </td>
+          <td>${c.name}</td>
+          <td>
+            <input type="number" value="${c.cooldownHours}" min="1" onchange="updateInterval('${c.name}', this.value)">
+          </td>
+          <td>
+            <input type="text" value="${c.bonusAmount}" placeholder="e.g. $1.00" onchange="updateBonusAmount('${c.name}', this.value)">
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    window.toggleCasino = (name, visible) => {
+      const c = state.find(x => x.name === name);
+      if (c) {
+        c.hidden = !visible;
+        save();
+      }
+    };
+
+    window.updateInterval = (name, hours) => {
+      const c = state.find(x => x.name === name);
+      if (c) {
+        c.cooldownHours = parseInt(hours) || 24;
+        save();
+      }
+    };
+
+    window.updateBonusAmount = (name, amount) => {
+      const c = state.find(x => x.name === name);
+      if (c) {
+        c.bonusAmount = amount.trim();
+        save();
+      }
+    };
+
+    // Close modal when clicking outside content
+    window.onclick = (event) => {
+      const modal = document.getElementById("settingsModal");
+      if (event.target == modal) closeSettings();
+    };
 
     // Render paid sites without any cooldown/lastCollected logic.
     function renderPaid(){
