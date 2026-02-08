@@ -8,6 +8,7 @@ const CasinoSettingsSchema = new mongoose.Schema({
     notes: { type: String, default: '' },
     hidden: { type: Boolean, default: false },
     isConfigured: { type: Boolean, default: false },
+    lastNotifiedAt: { type: Number, default: 0 },
     history: [{
         bonusAmount: String,
         timestamp: { type: Date, default: Date.now }
@@ -22,7 +23,8 @@ const UserSchema = new mongoose.Schema({
     casinoSettings: [CasinoSettingsSchema],
     globalSettings: {
         soundEnabled: { type: Boolean, default: true },
-        notificationVolume: { type: Number, default: 0.5 }
+        notificationVolume: { type: Number, default: 0.5 },
+        dmNotifications: { type: Boolean, default: false }
     },
     createdAt: { type: Date, default: Date.now }
 });

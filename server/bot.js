@@ -18,6 +18,41 @@ client.setIo = (socketIo) => {
 
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    
+    // Check for ready bonuses every 15 minutes
+    setInterval(async () => {
+        const users = await User.find({ 'globalSettings.dmNotifications': true });
+        for (const user of users) {
+            let userUpdated = false;
+            const readyNow = user.casinoSettings.filter(c => {
+                if (!c.lastCollected) return false;
+                const rem = (c.lastCollected + c.cooldownHours * 3600000) - Date.now();
+                const isReady = rem <= 0;
+                
+                // Only notify if ready AND not already notified for THIS collection cycle
+                if (isReady && (!c.lastNotifiedAt || c.lastNotifiedAt < c.lastCollected)) {
+                    c.lastNotifiedAt = Date.now();
+                    userUpdated = true;
+                    return true;
+                }
+                return false;
+            });
+
+            if (readyNow.length > 0) {
+                try {
+                    const discordUser = await client.users.fetch(user.discordId);
+                    const list = readyNow.map(c => `• **${c.name}**`).join('\n');
+                    await discordUser.send(`🔔 **Bonus Ready!**\nThe following casinos are ready to collect:\n${list}\n\n[Open Collect Clock](https://collectclock.com)`);
+                } catch (err) {
+                    console.error(`Failed to send DM to ${user.username}:`, err.message);
+                }
+            }
+            
+            if (userUpdated) {
+                await user.save();
+            }
+        }
+    }, 300000); // Check every 5 minutes now that it's more robust
 });
 
 client.on('messageCreate', async message => {

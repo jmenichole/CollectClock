@@ -59,7 +59,7 @@ app.get('/auth/success', (req, res) => {
     }
 });
 
-app.get('/auth/logout', (req, res) => {
+app.get('/auth/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
         res.redirect('/');
@@ -67,6 +67,42 @@ app.get('/auth/logout', (req, res) => {
 });
 
 // API Routes
+app.get('/api/admin/report', async (req, res) => {
+    const ADMIN_ID = process.env.ADMIN_DISCORD_ID || '1153034319271559328';
+    if (!req.user || req.user.discordId !== ADMIN_ID) {
+        return res.status(403).json({ error: 'Access denied' });
+    }
+
+    try {
+        const users = await mongoose.model('User').find({});
+        const report = {
+            totalUsers: users.length,
+            nerfAlerts: [],
+            topCasinos: {}
+        };
+
+        users.forEach(u => {
+            u.casinoSettings.forEach(c => {
+                if (c.history && c.history.length > 0) {
+                    report.nerfAlerts.push({
+                        username: u.username,
+                        casino: c.name,
+                        history: c.history
+                    });
+                }
+                
+                if (c.lastCollected) {
+                    report.topCasinos[c.name] = (report.topCasinos[c.name] || 0) + 1;
+                }
+            });
+        });
+
+        res.json(report);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.get('/api/user/settings', async (req, res) => {
     if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
     res.json({

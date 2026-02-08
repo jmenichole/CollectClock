@@ -540,6 +540,13 @@
           <input type="file" id="importFile" style="display: none;" onchange="importSettings(event)">
           <button class="close-modal" onclick="closeSettings()">&times;</button>
         </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <label class="toggle-switch">
+            <input type="checkbox" id="dmToggle" onchange="toggleDm(this.checked)">
+            <span class="slider"></span>
+          </label>
+          <span>Discord DMs</span>
+        </div>
       </div>
       <div class="modal-body">
         <div class="general-prefs">
@@ -765,29 +772,32 @@
       localStorage.setItem(CONFIG_KEY, JSON.stringify(globalSettings));
       syncToBackend();
     }
+    function mergeState(parsedData) {
+      if (!Array.isArray(parsedData)) return;
+      state = state.map(def => {
+        const saved = parsedData.find(p => p.name === def.name);
+        if (saved) {
+          return {
+            ...def,
+            ...saved,
+            cooldownHours: saved.cooldownHours ?? def.cooldownHours,
+            bonusDetails: saved.bonusDetails ?? def.bonusDetails,
+            lastCollected: saved.lastCollected ?? def.lastCollected,
+            hidden: saved.hidden ?? def.hidden,
+            bonusAmount: saved.bonusAmount ?? def.bonusAmount,
+            notes: saved.notes ?? def.notes,
+            isConfigured: saved.isConfigured ?? def.isConfigured
+          };
+        }
+        return def;
+      });
+    }
+
     function load(){
       const s = localStorage.getItem(STORAGE_KEY);
       if (s) {
         try {
-          const parsed = JSON.parse(s);
-          // merge parsed data with state to handle new casinos
-          state = state.map(def => {
-            const saved = parsed.find(p => p.name === def.name);
-            if (saved) {
-              return {
-                ...def,
-                ...saved,
-                cooldownHours: saved.cooldownHours ?? def.cooldownHours,
-                bonusDetails: saved.bonusDetails ?? def.bonusDetails,
-                lastCollected: saved.lastCollected ?? def.lastCollected,
-                hidden: saved.hidden ?? def.hidden,
-                bonusAmount: saved.bonusAmount ?? def.bonusAmount,
-                notes: saved.notes ?? def.notes,
-                isConfigured: saved.isConfigured ?? def.isConfigured
-              };
-            }
-            return def;
-          });
+          mergeState(JSON.parse(s));
         } catch(e) {
           console.error("Failed to parse stored state:", e);
         }
@@ -861,13 +871,12 @@
         card.className = `card ${statusClass}`;
 
         card.onclick = () => {
-          if (!c.isConfigured) {
-            openConfigModal(c);
-            return;
-          }
           c.lastCollected = Date.now();
           save();
           window.open(c.url, "_blank");
+          if (!c.isConfigured) {
+            openConfigModal(c);
+          }
           render();
         };
 
@@ -916,13 +925,17 @@
 
     function openAllReady() {
       const ready = state.filter(c => !c.hidden && remaining(c) === 0);
-      if (confirm(`Open all ${ready.length} ready casinos?`)) {
-        ready.forEach(c => {
-          c.lastCollected = Date.now();
-          window.open(c.url, "_blank");
+      if (confirm(`Open all ${ready.length} ready casinos? (Note: Your browser might block multiple popups)`)) {
+        ready.forEach((c, index) => {
+          setTimeout(() => {
+            c.lastCollected = Date.now();
+            window.open(c.url, "_blank");
+            if (index === ready.length - 1) {
+              save();
+              render();
+            }
+          }, index * 600); // 600ms delay between opens to help bypass blockers
         });
-        save();
-        render();
       }
     }
 
@@ -1019,9 +1032,7 @@
         pendingConfigCasino.cooldownHours = parseInt(document.getElementById("configHours").value) || 24;
         pendingConfigCasino.bonusAmount = document.getElementById("configAmount").value.trim();
         pendingConfigCasino.isConfigured = true;
-        pendingConfigCasino.lastCollected = Date.now();
         save();
-        window.open(pendingConfigCasino.url, "_blank");
         document.getElementById("configModal").style.display = "none";
         render();
       }
@@ -1030,9 +1041,7 @@
     function skipConfig() {
       if (pendingConfigCasino) {
         pendingConfigCasino.isConfigured = true;
-        pendingConfigCasino.lastCollected = Date.now();
         save();
-        window.open(pendingConfigCasino.url, "_blank");
         document.getElementById("configModal").style.display = "none";
         render();
       }
@@ -1045,6 +1054,7 @@
       // Set global settings values
       document.getElementById("soundToggle").checked = globalSettings.soundEnabled;
       document.getElementById("volumeControl").value = globalSettings.notificationVolume;
+      document.getElementById("dmToggle").checked = globalSettings.dmNotifications || false;
       
       // Sort state alphabetically for settings
       const alphaState = [...state].sort((a,b) => a.name.localeCompare(b.name));
@@ -1075,6 +1085,11 @@
 
     window.toggleSound = (enabled) => {
       globalSettings.soundEnabled = enabled;
+      save();
+    };
+
+    window.toggleDm = (enabled) => {
+      globalSettings.dmNotifications = enabled;
       save();
     };
 
@@ -1190,15 +1205,11 @@
           
           // Sync backend data to local if backend has data
           if (currentUser.casinoSettings && currentUser.casinoSettings.length > 0) {
-            // merge logic as in load()
-            state = state.map(def => {
-                const saved = currentUser.casinoSettings.find(p => p.name === def.name);
-                if (saved) {
-                    return { ...def, ...saved };
-                }
-                return def;
-            });
+            mergeState(currentUser.casinoSettings);
             globalSettings = currentUser.globalSettings || globalSettings;
+            // Save synced data to local storage
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(globalSettings));
             render();
           }
         }

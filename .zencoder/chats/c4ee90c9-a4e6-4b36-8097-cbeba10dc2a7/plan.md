@@ -69,3 +69,46 @@ Save findings to `c:\Users\jmeni\CollectClock\.zencoder\chats\c4ee90c9-a4e6-4b36
 5. Develop Discord Bot for `/ready` command and DM notifications
 6. Implement "Live Drop" real-time push from Discord to Web UI
 7. Deploy Backend (Railway/Render) and Frontend (Vercel/Netlify)
+
+
+
+
+
+
+
+
+
+🚀 Deployment Steps
+To deploy this project for free or at a low cost:
+
+1. Database: MongoDB Atlas (Free Tier)
+Create a free cluster at mongodb.com.
+Whitelist 0.0.0.0/0 (or your deployment IP) in Network Access.
+Get your connection string (MONGODB_URI).
+2. Authentication: Discord Developer Portal
+Go to Discord Developer Portal.
+Create an application and a Bot.
+OAuth2: Add a redirect URI: https://your-app-url.com/auth/discord/callback.
+Get your DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, and DISCORD_BOT_TOKEN.
+Intents: Enable Message Content Intent and Server Members Intent under the Bot tab.
+3. Hosting: Railway or Render (Cheap/Free)
+Railway.app is highly recommended for Node.js + Bot projects.
+Connect your GitHub repository.
+Add these Environment Variables:
+MONGODB_URI: Your Atlas string.
+DISCORD_CLIENT_ID: From Discord portal.
+DISCORD_CLIENT_SECRET: From Discord portal.
+DISCORD_BOT_TOKEN: From Discord portal.
+SESSION_SECRET: Any random string (e.g., collect-clock-secret-123).
+DISCORD_SUBMISSION_WEBHOOK: Your webhook URL for site submissions.
+PORT: 5000 (or leave default).
+4. Register Slash Commands
+Once deployed, run the registration script once to make /ready appear in Discord:
+
+node server/registerCommands.js
+5. Progressive Web App (PWA)
+The app is already configured with manifest.json and sw.js. Users can "Add to Home Screen" on mobile for a native app experience.
+
+📊 How to view your Admin Report
+Once logged in via Discord, navigate to: https://your-app-url.com/api/admin/report This will return a JSON object with your site stats and nerf history.
+
