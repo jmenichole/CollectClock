@@ -6,6 +6,7 @@ const session = require('express-session');
 const passport = require('passport');
 const http = require('http');
 const { Server } = require('socket.io');
+const path = require('path');
 
 require('./config/passport');
 const bot = require('./bot');
@@ -31,6 +32,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Serve static files from the root directory
+app.use(express.static(path.join(__dirname, '../')));
 
 // MongoDB Connection
 if (process.env.MONGODB_URI) {

@@ -205,20 +205,29 @@
     @media (max-width: 600px) {
       header {
         flex-direction: column;
-        gap: 12px;
+        gap: 15px;
         padding: 15px;
       }
 
       header h1 {
-        font-size: 18px;
+        font-size: 22px;
+        margin-bottom: 5px;
+      }
+
+      header > div {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px !important;
       }
 
       .search-box {
-        width: 100%;
+        width: 100% !important;
+        order: -1; /* Keep search at top on mobile */
       }
 
-      .search-box:focus {
+      .btn-settings, .btn-discord {
         width: 100%;
+        justify-content: center;
       }
 
       .container {
@@ -244,7 +253,7 @@
         font-size: 12px;
       }
       
-      .btn-open-all, .btn-settings {
+      .btn-settings {
         padding: 6px 12px;
         font-size: 12px;
       }
@@ -443,23 +452,6 @@
       overflow: hidden;
     }
 
-    .btn-open-all {
-      background: var(--ready);
-      color: var(--bg);
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
-      transition: all 0.2s;
-    }
-
-    .btn-open-all:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(0, 255, 163, 0.4);
-    }
-
     .discord-link {
       display: flex;
       align-items: center;
@@ -523,10 +515,65 @@
         <img id="userAvatar" src="" width="32" style="border-radius: 50%;">
         <span id="userName" style="font-size: 14px; font-weight: 600;"></span>
       </div>
-      <button class="btn-settings" style="background: var(--accent); border-color: var(--muted);" onclick="openSubmitModal()">➕ Submit Casino</button>
-      <button class="btn-open-all" id="openAllBtn" style="display: none;" onclick="openAllReady()">🚀 Open All Ready</button>
-      <input type="text" class="search-box" placeholder="Search casinos..." id="searchInp">
-      <button class="btn-settings" onclick="openSettings()">⚙ Settings</button>
+      <a href="https://discord.gg/nzSwdDrw" target="_blank" class="btn-discord" title="Join our Discord to submit new casinos (channel #ask-for-help) or ask for help!">
+        <img src="https://cdn.prod.website-files.com/6257adef93867e3d03940e41/625e4f2007d05e58c704f601_Discord-LogoColor.png" width="20" alt="">
+        Submit / Help
+      </a>
+      <select id="stateFilter" class="search-box" style="width: 150px;" onchange="updateStateFilter()">
+        <option value="">Select State (USA)</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+      </select>
+      <input type="text" class="search-box" placeholder="Search casinos..." id="searchInp" title="Filter the list below by casino name">
+      <button class="btn-settings" onclick="openSettings()" title="Configure your collection intervals and notification settings">⚙ Settings</button>
     </div>
   </header>
 
@@ -578,29 +625,6 @@
     </div>
   </div>
 
-  <div class="modal-overlay" id="submitModal">
-    <div class="modal-content" style="max-width: 500px;">
-      <div class="modal-header">
-        <h2>Submit New Casino</h2>
-        <button class="close-modal" onclick="closeSubmitModal()">&times;</button>
-      </div>
-      <div class="modal-body" style="padding: 24px;">
-        <div style="display: flex; flex-direction: column; gap: 16px;">
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px;">CASINO NAME</label>
-            <input type="text" id="subName" class="search-box" style="width: 100%;" placeholder="e.g. Stake">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px;">REFERRAL URL (OPTIONAL)</label>
-            <input type="text" id="subUrl" class="search-box" style="width: 100%;" placeholder="https://...">
-          </div>
-          <button class="btn-open-all" style="width: 100%; margin-top: 8px;" onclick="submitCasino()">Submit for Review</button>
-          <p style="font-size: 11px; color: var(--muted); text-align: center; margin: 0;">Submitted casinos will be reviewed and added manually.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="modal-overlay" id="configModal">
     <div class="modal-content" style="max-width: 450px;">
       <div class="modal-header">
@@ -619,7 +643,7 @@
           </div>
           <div style="display: flex; gap: 12px; margin-top: 8px;">
             <button class="btn-settings" style="flex: 1; justify-content: center;" onclick="skipConfig()">Skip</button>
-            <button class="btn-open-all" style="flex: 2;" onclick="saveConfig()">Save & Continue</button>
+            <button class="btn-settings" style="flex: 2; background: var(--ready); color: var(--bg); border: none; justify-content: center;" onclick="saveConfig()">Save & Continue</button>
           </div>
         </div>
       </div>
@@ -639,10 +663,41 @@
     <div id="dropContent" style="font-weight: 600;"></div>
   </div>
 
+  <div class="container" style="margin-top: 40px; opacity: 0.8; font-size: 13px; line-height: 1.6; border-top: 1px solid var(--border); padding-top: 40px;">
+    <div style="grid-column: 1 / -1;">
+      <h2 style="color: var(--ready); font-size: 18px; margin-bottom: 15px;">💡 Need Help?</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+        <div>
+          <h3 style="color: var(--text); font-size: 14px; margin-bottom: 8px;">🔄 How it works</h3>
+          <p>Click any casino card to open the site and start your collection timer. The app will track when you're ready for your next bonus!</p>
+        </div>
+        <div>
+          <h3 style="color: var(--text); font-size: 14px; margin-bottom: 8px;">⚙️ Customizing</h3>
+          <p>Use the Settings (⚙) to hide casinos you don't use, adjust collection intervals, or set custom notes for specific sites.</p>
+        </div>
+        <div>
+          <h3 style="color: var(--text); font-size: 14px; margin-bottom: 8px;">🌍 Restrictions</h3>
+          <p>Some casinos require a <b>VPN</b> or are restricted in certain <b>US States</b>. Use the dropdown at the top to filter the list for your location.</p>
+        </div>
+        <div>
+          <h3 style="color: var(--text); font-size: 14px; margin-bottom: 8px;">➕ Add a Casino</h3>
+          <p>Want to see a casino added to the list? Join our <a href="https://discord.gg/nzSwdDrw" target="_blank" style="color: #5865F2; font-weight: 600;">Discord</a> and send a message in the <b>#ask-for-help</b> (ID: 1331707069774168196) channel!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer>MADE FOR DEGENS BY DEGENS</footer>
 
   <script>
     let searchTerm = "";
+    let selectedState = "";
+
+    function updateStateFilter() {
+      selectedState = document.getElementById("stateFilter").value;
+      render();
+    }
+
     document.getElementById("searchInp").addEventListener("input", (e) => {
       searchTerm = e.target.value.toLowerCase();
       render();
@@ -651,55 +706,55 @@
 
     // initial list (as before) — we'll store per-site cooldownHours and optional bonusDetails
     let state = [
-      { name:"HelloMillions", url:"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867" },
-      { name:"SpinBlitz", url:"https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739" },
-      { name:"MegaBonanza", url:"https://www.megabonanza.com/?r=72781897" },
-      { name:"RealPrize", url:"https://www.realprize.com/refer/317136" },
-      { name:"WOW Vegas", url:"https://www.wowvegas.com/?raf=3615494" },
-      { name:"Pulsz", url:"https://www.pulsz.com/?invited_by=utfk4r" },
-      { name:"Modo", url:"https://modo.us?referralCode=61MN6A" },
-      { name:"McLuck", url:"https://www.mcluck.com/lp/raf?r=61119407%2F908900038" },
-      { name:"Crown Coins", url:"https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends" },
-      { name:"Chanced", url:"https://chanced.com/c/ysa096" },
+      { name:"HelloMillions", url:"https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867", restricted: ["WA", "ID", "NV", "GA", "KY", "AL"] },
+      { name:"SpinBlitz", url:"https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739", restricted: ["WA", "ID", "NV", "GA", "KY", "AL"] },
+      { name:"MegaBonanza", url:"https://www.megabonanza.com/?r=72781897", restricted: ["WA", "ID", "NV", "GA", "KY", "AL"] },
+      { name:"RealPrize", url:"https://www.realprize.com/refer/317136", restricted: ["WA", "ID", "NV"] },
+      { name:"WOW Vegas", url:"https://www.wowvegas.com/?raf=3615494", restricted: ["WA", "ID", "NV"] },
+      { name:"Pulsz", url:"https://www.pulsz.com/?invited_by=utfk4r", restricted: ["WA", "ID", "NV"] },
+      { name:"Modo", url:"https://modo.us?referralCode=61MN6A", restricted: ["WA", "ID", "NV", "NJ", "PA", "WV"] },
+      { name:"McLuck", url:"https://www.mcluck.com/lp/raf?r=61119407%2F908900038", restricted: ["WA", "ID", "NV", "GA", "KY", "AL"] },
+      { name:"Crown Coins", url:"https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends", restricted: ["WA", "ID", "NV"] },
+      { name:"Chanced", url:"https://chanced.com/c/ysa096", restricted: ["WA", "ID", "NV"] },
 
-      { name:"Stake.us", url:"https://stake.us/?c=Jmenichole" },
-      { name:"Sportzino", url:"https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4" },
-      { name:"PlayFame", url:"https://www.playfame.com/lp/raf?r=1275975417" },
-      { name:"Pulsz Bingo", url:"https://www.pulszbingo.com/?invited_by=eg6mbf" },
-      { name:"Jackpota", url:"https://www.jackpota.com/?r=85453282" },
-      { name:"Zula Casino", url:"https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd" },
-      { name:"Fortune Coins", url:"https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029" },
-      { name:"MyPrize", url:"https://myprize.us/invite/jmenichole" },
+      { name:"Stake.us", url:"https://stake.us/?c=Jmenichole", restricted: ["WA", "ID", "NV", "KY", "MI", "VT"] },
+      { name:"Sportzino", url:"https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4", restricted: ["WA", "ID", "NV", "GA"] },
+      { name:"PlayFame", url:"https://www.playfame.com/lp/raf?r=1275975417", restricted: ["WA", "ID", "NV"] },
+      { name:"Pulsz Bingo", url:"https://www.pulszbingo.com/?invited_by=eg6mbf", restricted: ["WA", "ID", "NV"] },
+      { name:"Jackpota", url:"https://www.jackpota.com/?r=85453282", restricted: ["WA", "ID", "NV"] },
+      { name:"Zula Casino", url:"https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd", restricted: ["WA", "ID", "NV", "GA"] },
+      { name:"Fortune Coins", url:"https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029", restricted: ["WA", "ID", "NV", "GA"] },
+      { name:"MyPrize", url:"https://myprize.us/invite/jmenichole", restricted: ["WA", "NV"] },
       { name:"Winna", url:"https://winna.com/?r=jmenichole" },
-      { name:"Clubs Poker", url:"https://play.clubs.poker/?referralCode=104192" },
+      { name:"Clubs Poker", url:"https://play.clubs.poker/?referralCode=104192", restricted: ["WA", "ID", "NV"] },
 
       { name:"Rolla", url:"https://www.rolla.com/?raf=3873" },
       { name:"Lone Star Casino", url:"https://lonestarcasino.com/refer/678504" },
-      { name:"Spree", url:"https://spree.com/?r=1450539" },
+      { name:"Spree", url:"https://spree.com/?r=1450539", restricted: ["WA", "ID", "NV"] },
       { name:"SpinPals", url:"https://www.spinpals.com?referralcode=e851e1a8-c455-4a59-954d-b7fe0bbad04c" },
-      { name:"High 5 Casino", url:"https://high5casino.com/gc?adId=INV001%3AJmenichole" },
-      { name:"TrustDice", url:"https://trustdice.win/faucet/?ref=u_jmenichole" },
+      { name:"High 5 Casino", url:"https://high5casino.com/gc?adId=INV001%3AJmenichole", restricted: ["WA", "ID", "NV"] },
+      { name:"TrustDice", url:"https://trustdice.win/faucet/?ref=u_jmenichole", needsVPN: true },
       { name:"Punt", url:"https://punt.com/c/cg60pd" },
-      { name:"FortuneWheelz", url:"https://fortunewheelz.com/?invited_by=P36ZS6" },
-      { name:"Zoot", url:"https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE" },
+      { name:"FortuneWheelz", url:"https://fortunewheelz.com/?invited_by=P36ZS6", restricted: ["WA", "ID", "NV"] },
+      { name:"Zoot", url:"https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE", restricted: ["WA", "ID", "NV"] },
       { name:"Spinsala", url:"https://spinsala.com/en?invite=daym" },
 
-      { name:"Legendz", url:"https://legendz.com/?referred_by_id=221602" },
-      { name:"NoLimit Coins", url:"https://nolimitcoins.com/?invited_by=ZI1JIU" },
-      { name:"Gamba", url:"https://gamba.com?c=Jme" },
+      { name:"Legendz", url:"https://legendz.com/?referred_by_id=221602", restricted: ["WA", "ID", "NV"] },
+      { name:"NoLimit Coins", url:"https://nolimitcoins.com/?invited_by=ZI1JIU", restricted: ["WA", "ID", "NV"] },
+      { name:"Gamba", url:"https://gamba.com?c=Jme", needsVPN: true },
       { name:"American Luck", url:"https://americanluck.com/signup/e360918f-8986-4dec-9823-a902d3f4936a" },
-      { name:"Goated", url:"https://www.goated.com/r/YDRZLJ" },
-      { name:"Shuffle", url:"https://shuffle.com?r=jHR7JnWRPF" },
-      { name:"Stake (Global)", url:"https://www.stake.com/?c=LAYP68hb" },
-      { name:"Clash.gg", url:"https://clash.gg/r/stakestats" },
+      { name:"Goated", url:"https://www.goated.com/r/YDRZLJ", needsVPN: true },
+      { name:"Shuffle", url:"https://shuffle.com?r=jHR7JnWRPF", needsVPN: true },
+      { name:"Stake (Global)", url:"https://www.stake.com/?c=LAYP68hb", needsVPN: true },
+      { name:"Clash.gg", url:"https://clash.gg/r/stakestats", needsVPN: true },
       { name:"Cases.gg", url:"https://www.cases.gg/r/JMENICHOLE" },
       { name:"Jemlit", url:"https://jemlit.com/en/a/Jmenichole" },
 
       { name:"RoxyMoxy", url:"https://roxymoxy.com/home?invite=f94f874427" },
-      { name:"LuckyLand Slots", url:"https://luckylandslots.com" },
+      { name:"LuckyLand Slots", url:"https://luckylandslots.com", restricted: ["WA", "ID"] },
       { name:"LuckyBits Vegas", url:"https://luckybitsvegas.com/gc?adId=INV001%3Ajmenichole" },
-      { name:"Shuffle.us", url:"https://shuffle.us?r=Rl93OJoflX" },
-      { name:"Kickr", url:"https://kickr.com/signup/doxe8c09" }
+      { name:"Shuffle.us", url:"https://shuffle.us?r=Rl93OJoflX", restricted: ["WA", "ID", "NV"] },
+      { name:"Kickr", url:"https://kickr.com/signup/doxe8c09", restricted: ["WA", "ID", "NV"] }
     ]
     // default properties
     .map(c => ({ 
@@ -814,7 +869,7 @@
       }
       
       // Request notifications
-      if (Notification.permission === "default") {
+      if (window.Notification && Notification.permission === "default") {
         Notification.requestPermission();
       }
     }
@@ -829,16 +884,26 @@
     // milliseconds remaining until next availability
     function remaining(c){
       if (!c.lastCollected) return 0;
-      const rem = (c.lastCollected + c.cooldownHours*3600000) - Date.now();
+      const rem = (c.lastCollected + (c.cooldownHours || 24)*3600000) - Date.now();
       return Math.max(0, rem);
     }
 
     function render(){
       const root = document.getElementById("cards");
+      if (!root) return;
       root.innerHTML = "";
 
-      const filtered = state.filter(c => !c.hidden && c.name.toLowerCase().includes(searchTerm));
+      // Ensure searchTerm is synced with input
+      const searchInp = document.getElementById("searchInp");
+      if (searchInp) searchTerm = searchInp.value.toLowerCase();
+
+      let filtered = state.filter(c => !c.hidden && c.name.toLowerCase().includes(searchTerm));
       
+      // State Filter
+      if (selectedState) {
+        filtered = filtered.filter(c => !c.restricted || !c.restricted.includes(selectedState));
+      }
+
       // Auto-sort: Ready first, then by time remaining
       const sorted = [...filtered].sort((a,b) => {
         const remA = remaining(a);
@@ -848,27 +913,19 @@
         return remA - remB;
       });
 
-      let readyCasinos = state.filter(c => !c.hidden && remaining(c) === 0);
+      let readyCasinos = filtered.filter(c => remaining(c) === 0);
       let readyCount = readyCasinos.length;
-
-      // Update Open All button
-      const openAllBtn = document.getElementById("openAllBtn");
-      if (readyCount > 1) {
-        openAllBtn.style.display = "block";
-        openAllBtn.textContent = `🚀 Open All ${readyCount} Ready`;
-      } else {
-        openAllBtn.style.display = "none";
-      }
 
       for (const c of sorted){
         const r = remaining(c);
-        const totalMs = c.cooldownHours * 3600000;
+        const totalMs = (c.cooldownHours || 24) * 3600000;
         const elapsed = totalMs - r;
         const progress = Math.min(100, Math.max(0, (elapsed / totalMs) * 100));
 
         const card = document.createElement("div");
         const statusClass = r ? (r < 3600000 ? "soon" : "later") : "ready";
         card.className = `card ${statusClass}`;
+        card.title = `Click to collect from ${c.name}. Current interval: ${c.cooldownHours}h`;
 
         card.onclick = () => {
           c.lastCollected = Date.now();
@@ -885,7 +942,10 @@
         const bonusText = c.bonusDetails ? ` · ${c.bonusDetails}` : "";
 
         card.innerHTML = `
-          <h3>${c.name}</h3>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <h3>${c.name}</h3>
+            ${c.needsVPN ? '<span style="background: #ff5c5c; color: white; font-size: 8px; padding: 2px 6px; border-radius: 4px; font-weight: 800;">VPN REQUIRED</span>' : ''}
+          </div>
           ${c.bonusAmount ? `<div class="bonus-amt">${c.bonusAmount}</div>` : ""}
           <div class="status-badge ${badgeClass}">
             ${statusText}
@@ -898,7 +958,7 @@
             <span style="opacity: 0.7;">${c.lastCollected ? `Last: ${new Date(c.lastCollected).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}` : 'Never'}</span>
           </div>
           ${c.notes ? `<div class="card-notes">${c.notes}</div>` : ""}
-          <a href="discord://discord.com/channels/1206686161175052338/1349602720780390423" class="discord-link" onclick="event.stopPropagation();">
+          <a href="discord://discord.com/channels/1206686161175052338/1349602720780390423" class="discord-link" onclick="event.stopPropagation();" title="View live bonus drops on Discord">
             <span>💬 Live Drops</span>
           </a>
         `;
@@ -923,51 +983,6 @@
       }
     }
 
-    function openAllReady() {
-      const ready = state.filter(c => !c.hidden && remaining(c) === 0);
-      if (confirm(`Open all ${ready.length} ready casinos? (Note: Your browser might block multiple popups)`)) {
-        ready.forEach((c, index) => {
-          setTimeout(() => {
-            c.lastCollected = Date.now();
-            window.open(c.url, "_blank");
-            if (index === ready.length - 1) {
-              save();
-              render();
-            }
-          }, index * 600); // 600ms delay between opens to help bypass blockers
-        });
-      }
-    }
-
-    let lastNotified = {};
-    const notificationSound = new Audio("./assets/audio/810164__mokasza__awesome-bubble-pop.mp3");
-
-    function checkNotifications() {
-      if (Notification.permission !== "granted") return;
-      
-      let playSound = false;
-
-      state.forEach(c => {
-        if (!c.hidden && remaining(c) === 0) {
-          if (!lastNotified[c.name]) {
-            new Notification("Bonus Ready!", {
-              body: `${c.name} is ready to collect!`,
-              icon: "https://www.google.com/s2/favicons?domain=" + new URL(c.url).hostname
-            });
-            lastNotified[c.name] = true;
-            playSound = true;
-          }
-        } else {
-          lastNotified[c.name] = false;
-        }
-      });
-
-      if (playSound && globalSettings.soundEnabled) {
-        notificationSound.volume = globalSettings.notificationVolume;
-        notificationSound.play().catch(e => console.log("Audio play failed:", e));
-      }
-    }
-
     function openSettings() {
       document.getElementById("settingsModal").style.display = "flex";
       renderSettingsTable();
@@ -976,46 +991,6 @@
     function closeSettings() {
       document.getElementById("settingsModal").style.display = "none";
       render(); // Refresh main view
-    }
-
-    function openSubmitModal() {
-      document.getElementById("submitModal").style.display = "flex";
-    }
-
-    function closeSubmitModal() {
-      document.getElementById("submitModal").style.display = "none";
-    }
-
-    async function submitCasino() {
-      const name = document.getElementById("subName").value.trim();
-      const url = document.getElementById("subUrl").value.trim();
-      
-      if (!name) {
-        alert("Please enter a casino name.");
-        return;
-      }
-
-      try {
-        const response = await fetch('/api/submit-casino', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, url })
-        });
-        
-        if (response.ok) {
-          alert("Casino submitted successfully! Thank you.");
-          document.getElementById("subName").value = "";
-          document.getElementById("subUrl").value = "";
-          closeSubmitModal();
-        } else {
-          throw new Error("Failed to submit");
-        }
-      } catch (err) {
-        // Fallback or development mock
-        console.error(err);
-        alert("Submitted (mock): " + name);
-        closeSubmitModal();
-      }
     }
 
     let pendingConfigCasino = null;
@@ -1164,15 +1139,18 @@
     // Close modal when clicking outside content
     window.onclick = (event) => {
       const settingsModal = document.getElementById("settingsModal");
-      const submitModal = document.getElementById("submitModal");
       if (event.target == settingsModal) closeSettings();
-      if (event.target == submitModal) closeSubmitModal();
     };
 
     // Render paid sites without any cooldown/lastCollected logic.
     function renderPaid(){
       const root = document.getElementById("paidCards");
+      if (!root) return;
       root.innerHTML = "";
+
+      // Sync searchTerm
+      const searchInp = document.getElementById("searchInp");
+      if (searchInp) searchTerm = searchInp.value.toLowerCase();
 
       const filtered = paidSites.filter(s => s.name.toLowerCase().includes(searchTerm));
 
@@ -1196,12 +1174,19 @@
         if (response.ok) {
           const data = await response.json();
           currentUser = data.user;
-          document.getElementById('loginBtn').style.display = 'none';
-          document.getElementById('userProfile').style.display = 'flex';
-          document.getElementById('userName').textContent = currentUser.username;
-          document.getElementById('userAvatar').src = currentUser.avatar 
-            ? `https://cdn.discordapp.com/avatars/${currentUser.discordId}/${currentUser.avatar}.png`
-            : "https://cdn.discordapp.com/embed/avatars/0.png";
+          const loginBtn = document.getElementById('loginBtn');
+          const userProfile = document.getElementById('userProfile');
+          if (loginBtn) loginBtn.style.display = 'none';
+          if (userProfile) userProfile.style.display = 'flex';
+          
+          const userName = document.getElementById('userName');
+          const userAvatar = document.getElementById('userAvatar');
+          if (userName) userName.textContent = currentUser.username;
+          if (userAvatar) {
+            userAvatar.src = currentUser.avatar 
+              ? `https://cdn.discordapp.com/avatars/${currentUser.discordId}/${currentUser.avatar}.png`
+              : "https://cdn.discordapp.com/embed/avatars/0.png";
+          }
           
           // Sync backend data to local if backend has data
           if (currentUser.casinoSettings && currentUser.casinoSettings.length > 0) {
@@ -1211,6 +1196,7 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
             localStorage.setItem(CONFIG_KEY, JSON.stringify(globalSettings));
             render();
+            renderPaid();
           }
         }
       } catch (err) {
@@ -1219,13 +1205,25 @@
     }
 
     // bootstrap
-    load();
-    checkAuth();
-    render();
-    renderPaid();
+    function bootstrap() {
+      try {
+        load();
+        checkAuth().finally(() => {
+          render();
+          renderPaid();
+        });
+      } catch (e) {
+        console.error("Bootstrap failed:", e);
+        // Fallback render
+        render();
+        renderPaid();
+      }
+    }
+
+    bootstrap();
+    
     setInterval(()=>{
       render();
-      // paid sites are static; re-rendering is harmless
       renderPaid();
     }, 60000);
 
@@ -1237,17 +1235,6 @@
           .catch(err => console.log('SW failed', err));
       });
     }
-  </script>
-
-  <!-- Discord Live Drops Widget -->
-  <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-    new Crate({
-      server: '1206686161175052338',
-      channel: '1349602720780390423',
-      glyph: ['https://cdn.prod.website-files.com/6257adef93867e3d03940e41/625e4f2007d05e58c704f601_Discord-LogoColor.png', '40px'],
-      location: ['bottom', 'right'],
-      defer: true
-    })
   </script>
 </body>
 </html>
